@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Package as PackageType, PackageStatus } from "@/types/package";
 import { PackageCard } from "./PackageCard";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -61,10 +61,13 @@ export function PackagesList({ initialPackages }: PackagesListProps) {
         <Input
           placeholder="Search by recipient or tracking number..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
           className="max-w-sm"
         />
-        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as PackageStatus | "all")}>
+        <Select 
+          value={statusFilter} 
+          onValueChange={(value: PackageStatus | "all") => setStatusFilter(value)}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>

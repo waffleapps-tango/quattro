@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, Bell, Package, Loader2, Copy } from "lucide-react";
 import { Package as PackageType, PackageStatus, PACKAGE_STATUS_CONFIG, PackageIconName } from "@/types/package";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
+import { format } from "date-fns";
 
 const iconMap: Record<PackageIconName, typeof Package> = {
   Package,
@@ -22,7 +23,6 @@ interface PackageCardProps {
 
 export function PackageCard({ pkg, onStatusUpdate, isLoading }: PackageCardProps) {
   const [isUpdating, setIsUpdating] = useState(false);
-  const { toast } = useToast();
 
   const getStatusBadge = (status: PackageStatus) => {
     const config = PACKAGE_STATUS_CONFIG[status];
@@ -40,15 +40,12 @@ export function PackageCard({ pkg, onStatusUpdate, isLoading }: PackageCardProps
     setIsUpdating(true);
     try {
       await onStatusUpdate(pkg.id, newStatus);
-      toast({
-        title: "Status Updated",
+      toast.success("Status Updated", {
         description: `Package status has been updated to ${PACKAGE_STATUS_CONFIG[newStatus].text}`,
       });
     } catch (error) {
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "Failed to update package status",
-        variant: "destructive",
       });
     } finally {
       setIsUpdating(false);
@@ -58,15 +55,12 @@ export function PackageCard({ pkg, onStatusUpdate, isLoading }: PackageCardProps
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast({
-        title: "Copied",
+      toast.success("Copied", {
         description: "Text copied to clipboard",
       });
     } catch (error) {
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "Failed to copy text",
-        variant: "destructive",
       });
     }
   };
@@ -100,7 +94,7 @@ export function PackageCard({ pkg, onStatusUpdate, isLoading }: PackageCardProps
             </Button>
           </div>
           <p className="text-sm text-gray-500">
-            Arrival: {new Date(pkg.arrivalDate).toLocaleDateString()}
+            Arrival: {format(new Date(pkg.arrivalDate), "dd.MM.yyyy")}
           </p>
           <div className="flex gap-2 mt-4">
             {pkg.status === "arrived" && (
