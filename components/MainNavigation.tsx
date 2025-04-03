@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const routes = [
   {
@@ -53,20 +54,25 @@ export function MainNavigation() {
           isCollapsed ? "w-16" : "w-64"
         )}
       >
-        <div className="flex items-center justify-between p-4 border-b">
-          {!isCollapsed && <span className="font-semibold">Quattro</span>}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="ml-auto"
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </Button>
+        <div className="flex flex-col border-b">
+          <div className="flex items-center justify-between p-4">
+            {!isCollapsed && <span className="font-semibold">Quattro</span>}
+            <ThemeToggle />
+          </div>
+          <div className="px-4 pb-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="w-full"
+            >
+              {isCollapsed ? (
+                <ChevronRight className="h-4 w-4" />
+              ) : (
+                <ChevronLeft className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
         </div>
         <ScrollArea className="flex-1">
           <nav className="space-y-1 p-2">
@@ -105,8 +111,9 @@ export function MainNavigation() {
         </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between p-4 pt-12 border-b">
               <SheetTitle className="font-semibold">Quattro</SheetTitle>
+              <ThemeToggle />
             </div>
             <ScrollArea className="flex-1">
               <nav className="space-y-1 p-2">
