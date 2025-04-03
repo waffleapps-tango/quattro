@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { TopBar } from "@/components/TopBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -26,11 +27,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen">
+          <div className="flex h-screen">
             <MainNavigation />
-            <main className="flex-1 p-4 md:p-8">
-              {children}
-            </main>
+            <div className="flex-1 flex flex-col">
+              <TopBar />
+              <main className="flex-1 overflow-y-auto p-8">
+                {children}
+              </main>
+            </div>
           </div>
           <Toaster />
         </ThemeProvider>

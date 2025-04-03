@@ -27,7 +27,7 @@ const mockPackages: PackageType[] = [
 
 export default function PackagesPage() {
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto pb-8">
       <h1 className="text-3xl font-bold mb-6">Packages Management</h1>
       <PackagesList initialPackages={mockPackages} />
     </div>

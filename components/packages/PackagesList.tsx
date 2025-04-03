@@ -46,50 +46,46 @@ export function PackagesList({ initialPackages }: PackagesListProps) {
     return matchesSearch && matchesStatus;
   });
 
-  if (error) {
-    return (
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>{error}</AlertDescription>
-      </Alert>
-    );
-  }
-
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4">
-        <Input
-          placeholder="Search by recipient or tracking number..."
-          value={searchQuery}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-          className="max-w-sm"
-        />
-        <Select 
-          value={statusFilter} 
-          onValueChange={(value: PackageStatus | "all") => setStatusFilter(value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="arrived">Arrived</SelectItem>
-            <SelectItem value="notified">Notified</SelectItem>
-            <SelectItem value="picked_up">Picked Up</SelectItem>
-          </SelectContent>
-        </Select>
+    <div className="space-y-4">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-semibold">Packages</h2>
+          <p className="text-muted-foreground">
+            Manage and track packages in the reception.
+          </p>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Input
+            placeholder="Search packages..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-sm"
+          />
+          <Select
+            value={statusFilter}
+            onValueChange={(value) => setStatusFilter(value as PackageStatus | "all")}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="delivered">Delivered</SelectItem>
+              <SelectItem value="collected">Collected</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      {isLoading && (
-        <div className="flex justify-center items-center py-8">
-          <Loader2 className="h-8 w-8 animate-spin" />
+      {isLoading ? (
+        <div className="flex items-center justify-center h-32">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      )}
-
-      {!isLoading && filteredPackages.length === 0 ? (
-        <Alert>
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>No packages found matching your criteria.</AlertDescription>
+      ) : error ? (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
         </Alert>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
