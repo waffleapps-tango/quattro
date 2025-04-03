@@ -64,7 +64,7 @@ export default function LocationsPage() {
       <div className="space-y-6">
         <div>
           <h2 className="text-2xl font-semibold mb-4">Estate Facilities</h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2">
             {estateFacilities.map((facility) => {
               const Icon = facility.icon;
               return (

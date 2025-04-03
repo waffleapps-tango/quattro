@@ -31,8 +31,10 @@ export default function RootLayout({
             <MainNavigation />
             <div className="flex-1 flex flex-col">
               <TopBar />
-              <main className="flex-1 overflow-y-auto p-8">
-                {children}
+              <main className="flex-1 overflow-y-auto">
+                <div className="mx-auto max-w-[1380px] p-8">
+                  {children}
+                </div>
               </main>
             </div>
           </div>
