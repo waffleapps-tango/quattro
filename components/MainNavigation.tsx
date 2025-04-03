@@ -15,6 +15,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  MapPin,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -28,6 +29,11 @@ const routes = [
     title: "Packages",
     href: "/packages",
     icon: Package,
+  },
+  {
+    title: "Locations",
+    href: "/locations",
+    icon: MapPin,
   },
   {
     title: "Users",
