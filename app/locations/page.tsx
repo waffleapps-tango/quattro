@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2, Utensils, GraduationCap, Stethoscope, Dumbbell, ShoppingCart, School } from "lucide-react";
+import { Utensils, GraduationCap, Stethoscope, Dumbbell, ShoppingCart, School } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Locations | Quattro",
