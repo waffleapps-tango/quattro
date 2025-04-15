@@ -26,7 +26,7 @@ export function TopBar() {
   const { signOut } = useClerk();
 
   return (
-    <div className="flex h-16 items-center justify-between border-b bg-background px-4">
+    <div className="flex h-[86px] items-center justify-between border-b bg-background px-4">
       <div className="flex items-center gap-4">
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
