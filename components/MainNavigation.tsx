@@ -51,7 +51,7 @@ export function MainNavigation() {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col h-screen border-r bg-background transition-all duration-300",
+        "hidden md:flex flex-col h-full border-r bg-background transition-all duration-300",
         isCollapsed ? "w-16" : "w-64"
       )}
     >
@@ -62,6 +62,7 @@ export function MainNavigation() {
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hidden md:flex"
           >
             {isCollapsed ? (
               <ChevronRight className="h-4 w-4" />
