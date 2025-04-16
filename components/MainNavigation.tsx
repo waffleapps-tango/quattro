@@ -15,13 +15,22 @@ import {
   ChevronRight,
   MapPin,
 } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 
-const routes = [
+const publicRoutes = [
   {
     title: "Home",
     href: "/",
     icon: Home,
   },
+  {
+    title: "Settings",
+    href: "/settings",
+    icon: Settings,
+  },
+];
+
+const protectedRoutes = [
   {
     title: "Packages",
     href: "/packages",
@@ -37,16 +46,13 @@ const routes = [
     href: "/users",
     icon: Users,
   },
-  {
-    title: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
 ];
 
 export function MainNavigation() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user } = useUser();
+  const routes = user ? [...publicRoutes, ...protectedRoutes] : publicRoutes;
 
   return (
     <div
