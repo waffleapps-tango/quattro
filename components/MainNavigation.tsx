@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
+  Shield,
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
@@ -48,11 +49,23 @@ const protectedRoutes = [
   },
 ];
 
+const adminRoutes = [
+  {
+    title: "Admin",
+    href: "/admin",
+    icon: Shield,
+  },
+];
+
 export function MainNavigation() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useUser();
-  const routes = user ? [...publicRoutes, ...protectedRoutes] : publicRoutes;
+  const routes = user 
+    ? user.publicMetadata.role === "admin"
+      ? [...publicRoutes, ...protectedRoutes, ...adminRoutes]
+      : [...publicRoutes, ...protectedRoutes]
+    : publicRoutes;
 
   return (
     <div
