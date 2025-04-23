@@ -10,13 +10,19 @@ import { Plus } from "lucide-react";
 
 
 export default async function PostsPage() {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  const postCount = await prisma.post.count()
 
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Community Posts</h1>
+        <h1 className="text-2xl font-bold">Community Posts ({postCount})</h1>
 
         <Button>
           <Plus className="mr-2 h-4 w-4" />
@@ -38,7 +44,7 @@ export default async function PostsPage() {
 
       <div className="grid gap-4">
         {posts.map((post) => (
-          <Link key={post.id} href={`/posts/${post.id}`}>
+          <Link key={post.id} href={`/posts/${post.slug}`}>
             <Card className="hover:bg-accent transition-colors">
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>

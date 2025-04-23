@@ -1,29 +1,22 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
-import { ArrowLeft, Edit, Trash } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
+import prisma from "@/lib/prisma";
 
-// Mock data - replace with actual data fetching
-const mockPosts = [
-  {
-    id: "1",
-    title: "Welcome to Quattro",
-    content: "This is the first post in our community. Feel free to introduce yourself!",
-    author: "Admin",
-    createdAt: new Date().toISOString(),
-  },
-];
+type PostPageParams = {
+  params: Promise<{
+    slug: string;
+  }>;
+}
 
-export default function PostPage() {
-  const { id } = useParams();
-  const { user } = useUser();
-  const post = mockPosts.find((p) => p.id === id);
+
+export default async function PostPage({ params }: PostPageParams) {
+  const { slug } = await params;
+  const post = await prisma.post.findUnique({
+    where: { slug: slug },
+  });
 
   if (!post) {
     return (
@@ -40,18 +33,6 @@ export default function PostPage() {
       </div>
     );
   }
-
-  const isAuthor = user?.fullName === post.author;
-
-  const handleEdit = () => {
-    // TODO: Implement edit functionality
-    toast.info("Edit functionality coming soon!");
-  };
-
-  const handleDelete = () => {
-    // TODO: Implement delete functionality
-    toast.info("Delete functionality coming soon!");
-  };
 
   return (
     <div className="container mx-auto py-8">
@@ -70,19 +51,9 @@ export default function PostPage() {
             <div>
               <CardTitle>{post.title}</CardTitle>
               <div className="text-sm text-muted-foreground mt-2">
-                By {post.author} • {format(new Date(post.createdAt), "PPP")}
+                By post.author • {format(new Date(post.createdAt), "PPP")}
               </div>
             </div>
-            {isAuthor && (
-              <div className="flex gap-2">
-                <Button variant="ghost" size="icon" onClick={handleEdit}>
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon" onClick={handleDelete}>
-                  <Trash className="h-4 w-4" />
-                </Button>
-              </div>
-            )}
           </div>
         </CardHeader>
         <CardContent>
