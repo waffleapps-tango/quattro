@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,14 +16,26 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
 import { createPost } from "@/actions/actions";
+import { useActionState } from "react";
+
+type PostState = {
+  message: string;
+  success?: boolean;
+};
 
 export function CreatePostForm() {
   const [open, setOpen] = useState(false);
-  const [state, formAction] = useActionState(createPost,  {
-    title: "",
-    content: "",
-  } );
+  const [state, formAction, pending] = useActionState<PostState, FormData>(createPost, {
+    message: "",
+  });
 
+  useEffect(() => {
+    console.log("State:", state);
+
+    if (state.success && !pending) {
+      setOpen(false);
+    }
+  }, [state, pending]);
 
 
   return (
@@ -45,6 +57,7 @@ export function CreatePostForm() {
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <label htmlFor="title" className="text-sm font-medium">
+                {state.message}
                 Title
               </label>
               <Input
@@ -72,12 +85,12 @@ export function CreatePostForm() {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              disabled={isLoading}
+              disabled={pending}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Creating..." : "Create Post"}
+            <Button type="submit" disabled={pending}>
+              {pending ? "Creating..." : "Create Post"}
             </Button>
           </DialogFooter>
         </form>
