@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import { EditPostForm } from "@/components/posts/EditPostForm";
 
 type PostPageParams = {
   params: Promise<{
@@ -53,6 +54,7 @@ export default async function PostPage({ params }: PostPageParams) {
               <div className="text-sm text-muted-foreground mt-2">
                 By post.author • {format(new Date(post.createdAt), "PPP")}
               </div>
+              <EditPostForm post={post} />
             </div>
           </div>
         </CardHeader>
