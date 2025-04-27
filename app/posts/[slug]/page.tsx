@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { EditPostForm } from "@/components/posts/EditPostForm";
+import { DeletePostButton } from "@/components/posts/DeletePostButton";
 
 type PostPageParams = {
   params: Promise<{
@@ -50,11 +51,14 @@ export default async function PostPage({ params }: PostPageParams) {
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle>{post.title}</CardTitle>
+              <CardTitle>{ post.title }</CardTitle>
               <div className="text-sm text-muted-foreground mt-2">
-                By post.author • {format(new Date(post.createdAt), "PPP")}
+                By post.author • { format( new Date( post.createdAt ), "PPP" ) }
               </div>
-              <EditPostForm post={post} />
+              <div className="flex gap-2">
+                <EditPostForm post={ post }/>
+                <DeletePostButton postId={ post.id }/>
+              </div>
             </div>
           </div>
         </CardHeader>

@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
-import { redirect } from "next/navigation";
 
 const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -97,19 +96,21 @@ export async function updatePost(
   }
 }
 
-export async function deletePost(id: string) {
+export async function deletePost(postId: string) {
   try {
     await prisma.post.delete({
       where: {
-        id,
+        id: postId,
       },
     });
 
     revalidatePath("/posts");
-    redirect(`/posts`);
+    return {
+      message: "Post deleted successfully",
+      success: true,
+    };
   } catch (error) {
     console.log(error);
-
     return {
       message: "Failed to delete post",
       success: false,
