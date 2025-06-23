@@ -17,7 +17,7 @@ type PostPageParams = {
 export default async function PostPage({ params }: PostPageParams) {
   const { slug } = await params;
   const post = await prisma.post.findUnique({
-    where: { slug: slug },
+    where: { slug },
   });
 
   if (!post) {
