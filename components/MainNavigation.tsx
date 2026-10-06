@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Package,
   Home,
-  Users,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -43,11 +42,6 @@ const protectedRoutes = [
     icon: MapPin,
   },
   {
-    title: "Users",
-    href: "/users",
-    icon: Users,
-  },
-  {
     title: "Posts",
     href: "/posts",
     icon: MessageSquare,
@@ -66,8 +60,21 @@ export function MainNavigation() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useUser();
-  const routes = user 
-    ? user.publicMetadata.role === "admin"
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      setRole(null);
+      return;
+    }
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data: { role: string | null }) => setRole(data.role))
+      .catch(() => setRole(null));
+  }, [user]);
+
+  const routes = user
+    ? role === "ADMIN" || role === "MANAGER"
       ? [...publicRoutes, ...protectedRoutes, ...adminRoutes]
       : [...publicRoutes, ...protectedRoutes]
     : publicRoutes;
