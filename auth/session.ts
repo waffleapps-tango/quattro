@@ -1,7 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { UnauthorizedError } from "@/domain/errors";
-import type { Membership, Role, User } from "@/lib/generated/prisma";
+import { Prisma, type Membership, type Role, type User } from "@/lib/generated/prisma";
 
 export type SessionUser = User & { memberships: Membership[] };
 
@@ -15,7 +15,13 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   });
   if (existing) return existing;
 
-  const clerkUser = await currentUser();
+  let clerkUser;
+  try {
+    clerkUser = await currentUser();
+  } catch (error) {
+    console.error("Clerk currentUser() failed while resolving session", error);
+    return null;
+  }
   const email = clerkUser?.emailAddresses[0]?.emailAddress;
   if (!email) return null;
 
@@ -29,11 +35,14 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
       data: { clerkUserId },
       include: { memberships: true },
     });
-  } catch {
-    return await prisma.user.create({
-      data: { clerkUserId, email },
-      include: { memberships: true },
-    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      return await prisma.user.create({
+        data: { clerkUserId, email },
+        include: { memberships: true },
+      });
+    }
+    throw error;
   }
 }
 
