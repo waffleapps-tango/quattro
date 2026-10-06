@@ -42,3 +42,6 @@ next-env.d.ts
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# superpowers subagent-driven-development scratch workspace
+/.superpowers/
