@@ -1,37 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# quattro
 
-## Getting Started
+Community management system for housing communities: resident, receptionist,
+manager, and admin roles over a multi-tenant Community → Building →
+Apartment hierarchy, with package reception/pickup as the first feature.
 
-First, run the development server:
+## Requirements
+
+- Node.js 20+
+- Docker (for local Postgres), or your own Postgres 16 instance
+- A Clerk account with Google OAuth enabled (https://dashboard.clerk.com)
+
+## Setup
 
 ```bash
+npm install
+cp .env.example .env
+# fill in .env: DATABASE_URL (see docker-compose.yml) and the Clerk keys
+docker compose up -d postgres
+npm run db:migrate
+npm run db:seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — start the Next.js dev server
+- `npm run build` / `npm run start` — production build/serve
+- `npm test` — run the Vitest suite (needs the Postgres container running)
+- `npm run db:migrate` — apply Prisma migrations
+- `npm run db:seed` — seed a dev community, buildings, apartments, users, and packages
 
-## Learn More
+## Architecture
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# quattro
+See `docs/superpowers/specs/2026-10-06-foundation-tenant-packages-design.md`
+for the current design (tenant model, authorization, package flow) and
+what's deliberately deferred to later stages (invitations, announcements,
+issues).
