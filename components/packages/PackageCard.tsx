@@ -3,135 +3,104 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Bell, Package, Loader2, Copy } from "lucide-react";
-import { Package as PackageType, PackageStatus, PACKAGE_STATUS_CONFIG, PackageIconName } from "@/types/package";
+import { CheckCircle2, Loader2, Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { markPickedUpAction } from "@/actions/packages";
+import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
 
-const iconMap: Record<PackageIconName, typeof Package> = {
-  Package,
-  Bell,
-  CheckCircle2,
+type PackageWithRelations = Package & {
+  apartment: Apartment;
+  building: Building;
+  recipient: User | null;
 };
 
-interface PackageCardProps {
-  pkg: PackageType;
-  onStatusUpdate: (id: string, newStatus: PackageStatus) => Promise<void>;
-  isLoading: boolean;
-}
+const STATUS_LABEL: Record<Package["status"], string> = {
+  RECEIVED: "Przyjęta",
+  READY_FOR_PICKUP: "Do odbioru",
+  PICKED_UP: "Odebrana",
+};
 
-export function PackageCard({ pkg, onStatusUpdate, isLoading }: PackageCardProps) {
+export function PackageCard({
+  pkg,
+  canMarkPickedUp,
+}: {
+  pkg: PackageWithRelations;
+  canMarkPickedUp: boolean;
+}) {
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const getStatusBadge = (status: PackageStatus) => {
-    const config = PACKAGE_STATUS_CONFIG[status];
-    const Icon = iconMap[config.icon];
-
-    return (
-      <Badge className={`${config.color} text-white`}>
-        <Icon className="w-4 h-4 mr-1" />
-        {config.text}
-      </Badge>
-    );
-  };
-
-  const handleStatusUpdate = async (newStatus: PackageStatus) => {
+  const handlePickup = async () => {
     setIsUpdating(true);
     try {
-      await onStatusUpdate(pkg.id, newStatus);
-      toast.success("Status Updated", {
-        description: `Package status has been updated to ${PACKAGE_STATUS_CONFIG[newStatus].text}`,
-      });
-    } catch (error) {
-      toast.error("Error", {
-        description: "Failed to update package status",
-      });
+      const result = await markPickedUpAction(pkg.id);
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
     } finally {
       setIsUpdating(false);
     }
   };
 
   const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("Copied", {
-        description: "Text copied to clipboard",
-      });
-    } catch (error) {
-      toast.error("Error", {
-        description: "Failed to copy text",
-      });
-    }
+    await navigator.clipboard.writeText(text);
+    toast.success("Skopiowano");
   };
 
   return (
     <Card className="relative">
-      {isLoading && (
+      {isUpdating && (
         <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       )}
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>{pkg.recipientName}</span>
-          {getStatusBadge(pkg.status)}
+          <span>
+            {pkg.building.name} / {pkg.apartment.number}
+          </span>
+          <Badge>{STATUS_LABEL[pkg.status]}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              Tracking: {pkg.trackingNumber}
-            </p>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => copyToClipboard(pkg.trackingNumber)}
-              className="h-6 w-6"
-            >
-              <Copy className="h-4 w-4" />
-            </Button>
-          </div>
-          <p className="text-sm text-gray-500">
-            Arrival: {format(new Date(pkg.arrivalDate), "dd.MM.yyyy")}
+          {pkg.trackingNumber && (
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-muted-foreground">
+                Numer: {pkg.trackingNumber}
+              </p>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => copyToClipboard(pkg.trackingNumber!)}
+                className="h-6 w-6"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+          {pkg.courier && (
+            <p className="text-sm text-muted-foreground">Kurier: {pkg.courier}</p>
+          )}
+          <p className="text-sm text-muted-foreground">
+            Przyjęta: {format(new Date(pkg.receivedAt), "dd.MM.yyyy HH:mm")}
           </p>
-          <div className="flex gap-2 mt-4">
-            {pkg.status === "arrived" && (
-              <Button
-                size="sm"
-                onClick={() => handleStatusUpdate("notified")}
-                disabled={isUpdating}
-              >
-                {isUpdating ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Updating...
-                  </>
-                ) : (
-                  "Mark as Notified"
-                )}
-              </Button>
-            )}
-            {pkg.status === "notified" && (
-              <Button
-                size="sm"
-                onClick={() => handleStatusUpdate("picked_up")}
-                disabled={isUpdating}
-              >
-                {isUpdating ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Updating...
-                  </>
-                ) : (
-                  "Mark as Picked Up"
-                )}
-              </Button>
-            )}
-          </div>
+          {pkg.recipient && (
+            <p className="text-sm text-muted-foreground">
+              Odbiorca: {pkg.recipient.email}
+            </p>
+          )}
+          {canMarkPickedUp && pkg.status !== "PICKED_UP" && (
+            <Button size="sm" onClick={handlePickup} disabled={isUpdating} className="mt-2">
+              <CheckCircle2 className="mr-2 h-4 w-4" />
+              {isUpdating ? "Zapisywanie..." : "Wydaj"}
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>
   );
-} 
+}

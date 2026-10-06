@@ -1,35 +1,64 @@
-import { Package as PackageType } from "@/types/package";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/auth/session";
+import { listPackagesForViewer } from "@/domain/packages";
+import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { PackagesList } from "@/components/packages/PackagesList";
+import { Role, type Apartment } from "@/lib/generated/prisma";
 
-const mockPackages: PackageType[] = [
-  {
-    id: "1",
-    recipientName: "John Doe",
-    trackingNumber: "TRK123456",
-    status: "arrived",
-    arrivalDate: "2024-03-20",
-  },
-  {
-    id: "2",
-    recipientName: "Jane Smith",
-    trackingNumber: "TRK789012",
-    status: "notified",
-    arrivalDate: "2024-03-19",
-  },
-  {
-    id: "3",
-    recipientName: "Mike Johnson",
-    trackingNumber: "TRK345678",
-    status: "picked_up",
-    arrivalDate: "2024-03-18",
-  },
-];
+export default async function PackagesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const user = await getCurrentUser();
+  if (!user) redirect("/sign-in");
 
-export default function PackagesPage() {
+  // ponytail: picks the first membership's community. Fine while this
+  // deployment serves a single community; a community switcher is needed
+  // once a user can belong to more than one.
+  const membership = user.memberships[0];
+  if (!membership) {
+    return (
+      <div className="container mx-auto pb-8">
+        <h1 className="text-3xl font-bold mb-6">Paczki</h1>
+        <p className="text-muted-foreground">
+          Nie masz jeszcze dostępu. Poproś administratora o zaproszenie.
+        </p>
+      </div>
+    );
+  }
+
+  const { q } = await searchParams;
+  const packages = await listPackagesForViewer(user, membership.communityId, { search: q });
+
+  const STAFF_ROLES: Role[] = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
+  const isStaff = STAFF_ROLES.includes(membership.role);
+
+  const buildings = isStaff
+    ? await listBuildingsForCommunity(membership.communityId)
+    : [];
+
+  const apartmentLists = await Promise.all(
+    buildings.map((building) => listApartmentsForBuilding(building.id)),
+  );
+  const apartmentsByBuilding = buildings.reduce<Record<string, Apartment[]>>(
+    (acc, building, i) => {
+      acc[building.id] = apartmentLists[i];
+      return acc;
+    },
+    {},
+  );
+
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="text-3xl font-bold mb-6">Packages Management</h1>
-      <PackagesList initialPackages={mockPackages} />
+      <h1 className="text-3xl font-bold mb-6">Paczki</h1>
+      <PackagesList
+        packages={packages}
+        communityId={membership.communityId}
+        buildings={buildings}
+        apartmentsByBuilding={apartmentsByBuilding}
+        isStaff={isStaff}
+      />
     </div>
   );
-} 
+}
