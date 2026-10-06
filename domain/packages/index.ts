@@ -4,7 +4,7 @@ import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, UnauthorizedError } from "@/domain/errors";
 import { PackageStatus, Role, type Prisma } from "@/lib/generated/prisma";
 
-const STAFF_ROLES = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
+const STAFF_ROLES: Role[] = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
 
 export async function createPackage(
   actor: SessionUser,
