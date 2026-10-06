@@ -1,153 +1,50 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getCurrentUser, requireMembership } from "@/auth/session";
+import { listMembershipsForCommunity } from "@/domain/memberships";
+import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
+import { MembershipsTable } from "@/components/admin/MembershipsTable";
+import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
+import { Role, type Apartment } from "@/lib/generated/prisma";
+import { UnauthorizedError } from "@/domain/errors";
 
-import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { toast } from "sonner";
+export default async function AdminPage() {
+  const user = await getCurrentUser();
+  if (!user) redirect("/sign-in");
 
-type User = {
-  id: string;
-  email: string;
-  firstName: string | null;
-  lastName: string | null;
-  role: string;
-};
+  const membership = user.memberships[0];
+  if (!membership) redirect("/");
 
-export default function AdminPage() {
-  const { user, isLoaded } = useUser();
-  const router = useRouter();
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (isLoaded && !user) {
-      router.push("/sign-in");
-      return;
-    }
-
-    if (isLoaded && user && user.publicMetadata.role !== "admin") {
-      router.push("/");
-      return;
-    }
-
-    // TODO: Replace with actual API call
-    const fetchUsers = async () => {
-      try {
-        // Mock data for now
-        const mockUsers: User[] = [
-          {
-            id: "1",
-            email: "user1@example.com",
-            firstName: "John",
-            lastName: "Doe",
-            role: "user",
-          },
-          {
-            id: "2",
-            email: "user2@example.com",
-            firstName: "Jane",
-            lastName: "Smith",
-            role: "manager",
-          },
-        ];
-        setUsers(mockUsers);
-      } catch (error) {
-        toast.error("Failed to fetch users");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [isLoaded, user, router]);
-
-  const handleRoleChange = async (userId: string, newRole: string) => {
-    try {
-      // TODO: Replace with actual API call
-      toast.success(`Role updated to ${newRole}`);
-      setUsers(users.map(user => 
-        user.id === userId ? { ...user, role: newRole } : user
-      ));
-    } catch (error) {
-      toast.error("Failed to update role");
-    }
-  };
-
-  if (!isLoaded || isLoading) {
-    return <div>Loading...</div>;
+  try {
+    requireMembership(user, membership.communityId, [Role.ADMIN, Role.MANAGER]);
+  } catch (error) {
+    if (error instanceof UnauthorizedError) redirect("/");
+    throw error;
   }
+
+  const memberships = await listMembershipsForCommunity(user, membership.communityId);
+  const buildings = await listBuildingsForCommunity(membership.communityId);
+  const apartmentLists = await Promise.all(
+    buildings.map((building) => listApartmentsForBuilding(building.id)),
+  );
+  const apartmentsByBuilding = buildings.reduce<Record<string, Apartment[]>>(
+    (acc, building, i) => {
+      acc[building.id] = apartmentLists[i];
+      return acc;
+    },
+    {},
+  );
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">User Management</h1>
+        <h1 className="text-2xl font-bold">Zarządzanie członkami</h1>
+        <CreateMembershipForm
+          communityId={membership.communityId}
+          buildings={buildings}
+          apartmentsByBuilding={apartmentsByBuilding}
+        />
       </div>
-      
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>
-                  {user.firstName} {user.lastName}
-                </TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <Select
-                    value={user.role}
-                    onValueChange={(value) => handleRoleChange(user.id, value)}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="manager">Manager</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      // TODO: Implement user details view
-                      toast.info("View user details");
-                    }}
-                  >
-                    View Details
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <MembershipsTable memberships={memberships} />
     </div>
   );
-} 
+}
