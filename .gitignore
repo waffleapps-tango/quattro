@@ -45,3 +45,6 @@ next-env.d.ts
 
 # superpowers subagent-driven-development scratch workspace
 /.superpowers/
+
+# sqlite (replaced by local postgres, see docker-compose.yml)
+/prisma/dev.db
