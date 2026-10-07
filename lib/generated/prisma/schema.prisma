@@ -20,3 +20,144 @@ model Post {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
+
+enum Role {
+  RESIDENT
+  RECEPTIONIST
+  MANAGER
+  ADMIN
+}
+
+enum PackageStatus {
+  RECEIVED
+  READY_FOR_PICKUP
+  PICKED_UP
+}
+
+model User {
+  id          String   @id @default(cuid())
+  clerkUserId String   @unique
+  email       String   @unique
+  firstName   String?
+  lastName    String?
+  createdAt   DateTime @default(now())
+
+  memberships       Membership[]
+  recipientPackages Package[]    @relation("PackageRecipient")
+  receivedPackages  Package[]    @relation("PackageReceivedBy")
+  pickedUpPackages  Package[]    @relation("PackagePickedUpBy")
+  auditLogs         AuditLog[]
+}
+
+model Community {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  buildings   Building[]
+  memberships Membership[]
+  packages    Package[]
+  auditLogs   AuditLog[]
+}
+
+model Building {
+  id          String   @id @default(cuid())
+  communityId String
+  name        String
+  address     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  community   Community    @relation(fields: [communityId], references: [id])
+  apartments  Apartment[]
+  memberships Membership[]
+  packages    Package[]
+
+  @@index([communityId])
+}
+
+model Apartment {
+  id         String   @id @default(cuid())
+  buildingId String
+  number     String
+  floor      Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  building    Building     @relation(fields: [buildingId], references: [id])
+  memberships Membership[]
+  packages    Package[]
+
+  @@unique([buildingId, number])
+}
+
+model Membership {
+  id          String   @id @default(cuid())
+  userId      String
+  communityId String
+  buildingId  String?
+  apartmentId String?
+  role        Role
+  createdAt   DateTime @default(now())
+
+  user      User       @relation(fields: [userId], references: [id])
+  community Community  @relation(fields: [communityId], references: [id])
+  building  Building?  @relation(fields: [buildingId], references: [id])
+  apartment Apartment? @relation(fields: [apartmentId], references: [id])
+
+  @@unique([userId, communityId])
+  @@index([communityId])
+  @@index([userId])
+}
+
+model Package {
+  id              String  @id @default(cuid())
+  communityId     String
+  buildingId      String
+  apartmentId     String
+  recipientUserId String?
+
+  trackingNumber String?
+  courier        String?
+  status         PackageStatus @default(RECEIVED)
+
+  receivedAt   DateTime  @default(now())
+  receivedById String
+  pickedUpAt   DateTime?
+  pickedUpById String?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  community  Community @relation(fields: [communityId], references: [id])
+  building   Building  @relation(fields: [buildingId], references: [id])
+  apartment  Apartment @relation(fields: [apartmentId], references: [id])
+  recipient  User?     @relation("PackageRecipient", fields: [recipientUserId], references: [id])
+  receivedBy User      @relation("PackageReceivedBy", fields: [receivedById], references: [id])
+  pickedUpBy User?     @relation("PackagePickedUpBy", fields: [pickedUpById], references: [id])
+
+  @@index([communityId, status])
+  @@index([apartmentId])
+  @@index([trackingNumber])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  communityId String
+  userId      String?
+  action      String
+  entity      String
+  entityId    String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  community Community @relation(fields: [communityId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id])
+
+  @@index([communityId, createdAt])
+  @@index([entity, entityId])
+}

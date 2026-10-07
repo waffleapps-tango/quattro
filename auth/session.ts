@@ -11,7 +11,7 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
 
   const existing = await prisma.user.findUnique({
     where: { clerkUserId },
-    include: { memberships: true },
+    include: { memberships: { orderBy: { createdAt: "asc" } } },
   });
   if (existing) return existing;
 
@@ -33,13 +33,13 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
     return await prisma.user.update({
       where: { email },
       data: { clerkUserId },
-      include: { memberships: true },
+      include: { memberships: { orderBy: { createdAt: "asc" } } },
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
       return await prisma.user.create({
         data: { clerkUserId, email },
-        include: { memberships: true },
+        include: { memberships: { orderBy: { createdAt: "asc" } } },
       });
     }
     throw error;

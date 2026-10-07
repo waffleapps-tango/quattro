@@ -107,7 +107,7 @@ model Membership {
   building  Building?  @relation(fields: [buildingId], references: [id])
   apartment Apartment? @relation(fields: [apartmentId], references: [id])
 
-  @@unique([userId, communityId, apartmentId])
+  @@unique([userId, communityId])
   @@index([communityId])
   @@index([userId])
 }
