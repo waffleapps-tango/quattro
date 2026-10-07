@@ -9,7 +9,10 @@
     "lint": "next lint",
     "test": "vitest run",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "dev:gcp": "concurrently -k \"cloud-sql-proxy quattro-510922:europe-central2:quattro-db --port 5433\" \"dotenv -e .env.gcp -- next dev\"",
+    "db:migrate:gcp": "dotenv -e .env.gcp -- prisma migrate deploy",
+    "db:seed:gcp": "dotenv -e .env.gcp -- tsx prisma/seed.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -45,6 +48,8 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^10.0.5",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "prisma": "^6.6.0",
