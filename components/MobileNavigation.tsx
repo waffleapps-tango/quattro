@@ -1,12 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Package,
   Home,
-  Users,
   Settings,
   MapPin,
   Shield,
@@ -37,11 +37,6 @@ const protectedRoutes = [
     href: "/locations",
     icon: MapPin,
   },
-  {
-    title: "Users",
-    href: "/users",
-    icon: Users,
-  },
 ];
 
 const adminRoutes = [
@@ -55,8 +50,21 @@ const adminRoutes = [
 export function MobileNavigation() {
   const pathname = usePathname();
   const { user } = useUser();
-  const routes = user 
-    ? user.publicMetadata.role === "admin"
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      setRole(null);
+      return;
+    }
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data: { role: string | null }) => setRole(data.role))
+      .catch(() => setRole(null));
+  }, [user]);
+
+  const routes = user
+    ? role === "ADMIN" || role === "MANAGER"
       ? [...publicRoutes, ...protectedRoutes, ...adminRoutes]
       : [...publicRoutes, ...protectedRoutes]
     : publicRoutes;
