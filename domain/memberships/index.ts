@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { requireMembership, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
-import { NotFoundError } from "@/domain/errors";
+import { NotFoundError, TenantMismatchError } from "@/domain/errors";
 import { Role } from "@/lib/generated/prisma";
 
 export async function listMembershipsForCommunity(
@@ -30,6 +30,29 @@ export async function createMembership(
   requireMembership(actor, input.communityId, [Role.ADMIN, Role.MANAGER]);
 
   return prisma.$transaction(async (tx) => {
+    if (input.apartmentId) {
+      const apartment = await tx.apartment.findUnique({
+        where: { id: input.apartmentId },
+        include: { building: true },
+      });
+      if (
+        !apartment ||
+        apartment.building.communityId !== input.communityId ||
+        (input.buildingId && apartment.buildingId !== input.buildingId)
+      ) {
+        throw new TenantMismatchError(
+          `Apartment ${input.apartmentId} does not belong to community ${input.communityId}`,
+        );
+      }
+    } else if (input.buildingId) {
+      const building = await tx.building.findUnique({ where: { id: input.buildingId } });
+      if (!building || building.communityId !== input.communityId) {
+        throw new TenantMismatchError(
+          `Building ${input.buildingId} does not belong to community ${input.communityId}`,
+        );
+      }
+    }
+
     const user =
       (await tx.user.findUnique({ where: { email: input.email } })) ??
       (await tx.user.create({

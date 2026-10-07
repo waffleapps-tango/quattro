@@ -37,6 +37,7 @@ export function CreatePackageForm({
 }) {
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState(buildings[0]?.id ?? "");
+  const [apartmentId, setApartmentId] = useState("");
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     createPackageAction,
     { message: "", success: false },
@@ -45,6 +46,10 @@ export function CreatePackageForm({
   useEffect(() => {
     if (state.success && !pending) setOpen(false);
   }, [state, pending]);
+
+  useEffect(() => {
+    setApartmentId("");
+  }, [buildingId]);
 
   const apartments = apartmentsByBuilding[buildingId] ?? [];
 
@@ -88,7 +93,10 @@ export function CreatePackageForm({
             </div>
             <div className="space-y-2">
               <Label htmlFor="apartmentId">Mieszkanie</Label>
-              <Select name="apartmentId">
+              <Select
+                value={apartmentId}
+                onValueChange={setApartmentId}
+              >
                 <SelectTrigger id="apartmentId">
                   <SelectValue placeholder="Wybierz mieszkanie" />
                 </SelectTrigger>
@@ -100,6 +108,7 @@ export function CreatePackageForm({
                   ))}
                 </SelectContent>
               </Select>
+              <input type="hidden" name="apartmentId" value={apartmentId} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="trackingNumber">Numer przesyłki</Label>

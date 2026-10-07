@@ -37,6 +37,7 @@ export function CreateMembershipForm({
 }) {
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState<string>("");
+  const [apartmentId, setApartmentId] = useState("");
   const [role, setRole] = useState<Role>(Role.RESIDENT);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     createMembershipAction,
@@ -46,6 +47,10 @@ export function CreateMembershipForm({
   useEffect(() => {
     if (state.success && !pending) setOpen(false);
   }, [state, pending]);
+
+  useEffect(() => {
+    setApartmentId("");
+  }, [buildingId]);
 
   const apartments = buildingId ? apartmentsByBuilding[buildingId] ?? [] : [];
 
@@ -104,7 +109,10 @@ export function CreateMembershipForm({
             </div>
             <div className="space-y-2">
               <Label htmlFor="apartmentId">Mieszkanie (opcjonalnie)</Label>
-              <Select name="apartmentId">
+              <Select
+                value={apartmentId}
+                onValueChange={setApartmentId}
+              >
                 <SelectTrigger id="apartmentId">
                   <SelectValue placeholder="Brak" />
                 </SelectTrigger>
@@ -116,6 +124,7 @@ export function CreateMembershipForm({
                   ))}
                 </SelectContent>
               </Select>
+              <input type="hidden" name="apartmentId" value={apartmentId} />
             </div>
           </div>
           {state.message && !state.success && (

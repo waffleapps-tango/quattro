@@ -14,8 +14,8 @@ afterEach(async () => {
 
 describe("spec §31 critical business rules", () => {
   it("a resident cannot see another resident's package", async () => {
-    const { community, building } = await createCommunityWithBuildingAndApartment();
-    const apartmentA = (await createCommunityWithBuildingAndApartment()).apartment;
+    const { community, building, apartment: apartmentA } =
+      await createCommunityWithBuildingAndApartment();
     const receptionist = await createUserWithMembership({
       communityId: community.id,
       buildingId: building.id,

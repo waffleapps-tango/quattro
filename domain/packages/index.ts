@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { requireMembership, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
-import { NotFoundError, UnauthorizedError } from "@/domain/errors";
+import { NotFoundError, TenantMismatchError, UnauthorizedError } from "@/domain/errors";
 import { PackageStatus, Role, type Prisma } from "@/lib/generated/prisma";
 
 const STAFF_ROLES: Role[] = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
@@ -21,6 +21,20 @@ export async function createPackage(
   requireMembership(actor, input.communityId, STAFF_ROLES);
 
   return prisma.$transaction(async (tx) => {
+    const apartment = await tx.apartment.findUnique({
+      where: { id: input.apartmentId },
+      include: { building: true },
+    });
+    if (
+      !apartment ||
+      apartment.buildingId !== input.buildingId ||
+      apartment.building.communityId !== input.communityId
+    ) {
+      throw new TenantMismatchError(
+        `Apartment ${input.apartmentId} does not belong to building ${input.buildingId} in community ${input.communityId}`,
+      );
+    }
+
     const pkg = await tx.package.create({
       data: {
         communityId: input.communityId,

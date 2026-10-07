@@ -8,7 +8,7 @@ import {
   updateMembershipRole,
   removeMembership,
 } from "@/domain/memberships";
-import { UnauthorizedError, NotFoundError } from "@/domain/errors";
+import { UnauthorizedError, NotFoundError, TenantMismatchError } from "@/domain/errors";
 import { Role } from "@/lib/generated/prisma";
 
 const createMembershipSchema = z.object({
@@ -47,6 +47,9 @@ export async function createMembershipAction(
   } catch (error) {
     if (error instanceof UnauthorizedError) {
       return { message: "You don't have permission to invite members", success: false };
+    }
+    if (error instanceof TenantMismatchError) {
+      return { message: "Selected apartment/building doesn't belong to this community", success: false };
     }
     console.error(error);
     return { message: "Failed to create membership", success: false };
