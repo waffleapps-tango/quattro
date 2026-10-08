@@ -25,6 +25,13 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   const email = clerkUser?.emailAddresses[0]?.emailAddress;
   if (!email) return null;
 
+  return linkClerkUser(clerkUserId, email);
+}
+
+export async function linkClerkUser(
+  clerkUserId: string,
+  email: string,
+): Promise<SessionUser> {
   // ponytail: upsert-by-email on first login has a race if the same person
   // logs in twice concurrently before this resolves. Fine for MVP traffic;
   // if it becomes real, move this to a DB-level upsert with a unique
