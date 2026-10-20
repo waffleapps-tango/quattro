@@ -44,6 +44,8 @@ export function CreateReportForm({
   const [categoryKey, setCategoryKey] = useState("");
   const [type, setType] = useState<ReportType | "">("");
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [urgent, setUrgent] = useState(false);
   const [parkingSpaceId, setParkingSpaceId] = useState("");
   const [storageUnitId, setStorageUnitId] = useState("");
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
@@ -60,6 +62,8 @@ export function CreateReportForm({
       setCategoryKey("");
       setType("");
       setTitle("");
+      setDescription("");
+      setUrgent(false);
     }
   }, [state, pending]);
 
@@ -212,13 +216,26 @@ export function CreateReportForm({
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">Opis</Label>
-              <Textarea id="description" name="description" maxLength={2000} rows={4} />
+              <Textarea
+                id="description"
+                name="description"
+                value={description}
+                maxLength={2000}
+                rows={4}
+                onChange={(e) => setDescription(e.target.value)}
+              />
               {state.fieldErrors?.description && (
                 <p className="text-sm text-destructive">Opisz sprawę</p>
               )}
             </div>
             <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" name="urgent" className="h-4 w-4" />
+              <input
+                type="checkbox"
+                name="urgent"
+                className="h-4 w-4"
+                checked={urgent}
+                onChange={(e) => setUrgent(e.target.checked)}
+              />
               Pilne (zalanie, awaria windy, zablokowana droga pożarowa)
             </label>
           </div>
