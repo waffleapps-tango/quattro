@@ -201,6 +201,19 @@ describe("listReports", () => {
     expect(result.map((r) => r.id).sort()).toEqual([own.id, pub.id].sort());
   });
 
+  it("masks other authors' identity for residents but not for staff", async () => {
+    const own = await createReport(resident, publicInput());
+    const theirs = await createReport(neighbour, publicInput());
+
+    const asResident = await listReports(resident, community.id);
+    const asStaff = await listReports(receptionist, community.id);
+
+    const byId = (list: typeof asResident, id: string) => list.find((r) => r.id === id)!;
+    expect(byId(asResident, theirs.id).author).toEqual({ firstName: null, lastName: null, email: "" });
+    expect(byId(asResident, own.id).author.email).toBe(resident.email);
+    expect(byId(asStaff, theirs.id).author.email).toBe(neighbour.email);
+  });
+
   it("lets a receptionist see PRIVATE reports too", async () => {
     await createReport(resident, privateInput());
     await createReport(neighbour, publicInput());
@@ -239,6 +252,13 @@ describe("getReport", () => {
     await expect(getReport(resident, report.id)).rejects.toThrow(NotFoundError);
   });
 
+  it("masks another author's identity on a PUBLIC report for residents only", async () => {
+    const report = await createReport(neighbour, publicInput());
+    expect((await getReport(resident, report.id)).author.email).toBe("");
+    expect((await getReport(neighbour, report.id)).author.email).toBe(neighbour.email);
+    expect((await getReport(receptionist, report.id)).author.email).toBe(neighbour.email);
+  });
+
   it("returns a PRIVATE report to its author and to staff", async () => {
     const report = await createReport(resident, privateInput());
     expect((await getReport(resident, report.id)).id).toBe(report.id);
@@ -247,6 +267,30 @@ describe("getReport", () => {
 });
 
 describe("changeStatus", () => {
+  it("lets exactly one of two concurrent decisions win", async () => {
+    const request = await createReport(resident, {
+      communityId: community.id,
+      categoryKey: "balcony",
+      type: "REQUEST",
+      title: "Markiza",
+      description: "Wniosek o zgodę",
+    });
+
+    const results = await Promise.allSettled([
+      changeStatus(manager, request.id, "APPROVED"),
+      changeStatus(manager, request.id, "REJECTED"),
+    ]);
+
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    const rejected = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0].reason).toBeInstanceOf(InvalidTransitionError);
+    const audit = await prisma.auditLog.findMany({
+      where: { entity: "Report", entityId: request.id, action: "REPORT_STATUS_CHANGED" },
+    });
+    expect(audit).toHaveLength(1);
+  });
+
   it("moves a defect through its flow, sets resolvedAt and audits each change", async () => {
     const report = await createReport(resident, publicInput());
 

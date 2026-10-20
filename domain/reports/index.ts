@@ -10,8 +10,8 @@ import {
 } from "@/domain/errors";
 import {
   ReportVisibility,
+  Prisma,
   Role,
-  type Prisma,
   type ReportStatus,
   type ReportType,
 } from "@/lib/generated/prisma";
@@ -23,7 +23,7 @@ const APPROVER_ROLES: Role[] = [Role.MANAGER, Role.ADMIN];
 const FINAL_STATUSES: ReportStatus[] = ["RESOLVED", "APPROVED", "REJECTED", "CLOSED"];
 
 const reportInclude = {
-  author: true,
+  author: { select: { firstName: true, lastName: true, email: true } },
   apartment: true,
   building: true,
   parkingSpace: true,
@@ -31,6 +31,12 @@ const reportInclude = {
 } satisfies Prisma.ReportInclude;
 
 export type ReportListItem = Prisma.ReportGetPayload<{ include: typeof reportInclude }>;
+
+// Residents must not receive other authors' identity (it would ship in the RSC payload).
+function maskAuthor<T extends ReportListItem>(report: T, actor: SessionUser, isStaff: boolean): T {
+  if (isStaff || report.authorId === actor.id) return report;
+  return { ...report, author: { firstName: null, lastName: null, email: "" } };
+}
 
 function membershipIn(actor: SessionUser, communityId: string) {
   const membership = actor.memberships.find((m) => m.communityId === communityId);
@@ -168,11 +174,13 @@ export async function listReports(
   if (filters.category) and.push({ category: filters.category });
   if (filters.urgent) and.push({ urgent: true });
 
-  return prisma.report.findMany({
+  const reports = await prisma.report.findMany({
     where: { communityId, AND: and },
     include: reportInclude,
     orderBy: [{ urgent: "desc" }, { createdAt: "desc" }],
   });
+  const isStaff = STAFF_ROLES.includes(membership.role);
+  return reports.map((r) => maskAuthor(r, actor, isStaff));
 }
 
 export async function getReport(actor: SessionUser, reportId: string): Promise<ReportListItem> {
@@ -187,7 +195,7 @@ export async function getReport(actor: SessionUser, reportId: string): Promise<R
   if (!isStaff && report.visibility === "PRIVATE" && report.authorId !== actor.id) {
     throw new NotFoundError(`Report ${reportId} not found`);
   }
-  return report;
+  return maskAuthor(report, actor, isStaff);
 }
 
 export async function changeStatus(
@@ -208,13 +216,23 @@ export async function changeStatus(
   }
 
   return prisma.$transaction(async (tx) => {
-    const updated = await tx.report.update({
-      where: { id: reportId },
-      data: {
-        status,
-        resolvedAt: FINAL_STATUSES.includes(status) ? new Date() : null,
-      },
-    });
+    // Compare-and-set on the status we validated against, so a concurrent change loses.
+    const updated = await tx.report
+      .update({
+        where: { id: reportId, status: report.status },
+        data: {
+          status,
+          resolvedAt: FINAL_STATUSES.includes(status) ? new Date() : null,
+        },
+      })
+      .catch((error) => {
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+          throw new InvalidTransitionError(
+            `${report.type} report is no longer ${report.status}; cannot go to ${status}`,
+          );
+        }
+        throw error;
+      });
 
     await writeAuditLog(tx, {
       communityId: report.communityId,
