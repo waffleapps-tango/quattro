@@ -13,6 +13,7 @@ import {
   Megaphone,
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
+import { PendingIndicator } from "@/components/system/PendingIndicator";
 
 const publicRoutes = [
   {
@@ -92,6 +93,7 @@ export function MobileNavigation() {
           >
             <Icon className="h-4 w-4" />
             <span>{route.title}</span>
+            <PendingIndicator />
           </Link>
         );
       })}

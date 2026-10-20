@@ -16,6 +16,7 @@ import {
   Shield, MessageSquare, Megaphone,
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
+import { PendingIndicator } from "@/components/system/PendingIndicator";
 
 const publicRoutes = [
   {
@@ -126,6 +127,7 @@ export function MainNavigation() {
               >
                 <Icon className="h-4 w-4" />
                 <span aria-hidden={isCollapsed} className={cn("whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>{route.title}</span>
+                {!isCollapsed && <PendingIndicator />}
               </Link>
             );
           })}
