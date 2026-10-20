@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,8 +25,11 @@ import {
 } from "@/components/ui/select";
 import { createReportAction } from "@/actions/reports";
 import { CATEGORIES, getCategory } from "@/domain/reports/catalog";
-import { TYPE_LABEL } from "@/domain/reports/labels";
 import type { ParkingSpace, ReportType, StorageUnit } from "@/lib/generated/prisma";
+
+// Category keys are dynamic (validated by i18n/catalog-messages.test.ts); one literal stands in for the typed key.
+type CatLabelKey = "categories.other.label";
+type CatSuggKey = "categories.other.suggestions";
 
 type ActionState = { message: string; success: boolean; fieldErrors?: Record<string, string> };
 
@@ -40,6 +44,7 @@ export function CreateReportForm({
   parkingSpaces: ParkingSpace[];
   storageUnits: StorageUnit[];
 }) {
+  const t = useTranslations("reports");
   const [open, setOpen] = useState(false);
   const [categoryKey, setCategoryKey] = useState("");
   const [type, setType] = useState<ReportType | "">("");
@@ -79,14 +84,14 @@ export function CreateReportForm({
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Nowe zgłoszenie
+          {t("new")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Nowe zgłoszenie</DialogTitle>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
-            Wybierz kategorię i opisz sprawę. Zgłoszenia z kategorii „Moje…” widzisz tylko Ty i zarząd.
+            {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
@@ -97,65 +102,65 @@ export function CreateReportForm({
           <input type="hidden" name="storageUnitId" value={category?.subject === "storage" ? storageUnitId : ""} />
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="category">Kategoria</Label>
+              <Label htmlFor="category">{t("category")}</Label>
               <Select value={categoryKey} onValueChange={setCategoryKey}>
                 <SelectTrigger id="category">
-                  <SelectValue placeholder="Wybierz kategorię" />
+                  <SelectValue placeholder={t("categoryPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((c) => (
                     <SelectItem key={c.key} value={c.key}>
-                      {c.label}
-                      {c.visibility === "PRIVATE" ? " (prywatne)" : ""}
+                      {c.visibility === "PRIVATE"
+                        ? t("privateSuffix", { label: t(`categories.${c.key}.label` as CatLabelKey) })
+                        : t(`categories.${c.key}.label` as CatLabelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               {state.fieldErrors?.categoryKey && (
-                <p className="text-sm text-destructive">Wybierz kategorię</p>
+                <p className="text-sm text-destructive">{t("categoryRequired")}</p>
               )}
             </div>
 
             {category && category.types.length > 1 && (
               <div className="space-y-2">
-                <Label htmlFor="type">Rodzaj</Label>
+                <Label htmlFor="type">{t("kind")}</Label>
                 <Select value={type} onValueChange={(v) => setType(v as ReportType)}>
                   <SelectTrigger id="type">
-                    <SelectValue placeholder="Wybierz rodzaj" />
+                    <SelectValue placeholder={t("kindPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {category.types.map((t) => (
-                      <SelectItem key={t} value={t}>
-                        {TYPE_LABEL[t]}
+                    {category.types.map((ty) => (
+                      <SelectItem key={ty} value={ty}>
+                        {t(`type.${ty}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {state.fieldErrors?.type && (
-                  <p className="text-sm text-destructive">Wybierz rodzaj</p>
+                  <p className="text-sm text-destructive">{t("kindRequired")}</p>
                 )}
               </div>
             )}
 
             {category?.subject === "parking" && (
               <div className="space-y-2">
-                <Label htmlFor="parking">Miejsce parkingowe</Label>
+                <Label htmlFor="parking">{t("parking")}</Label>
                 <Select value={parkingSpaceId} onValueChange={setParkingSpaceId}>
                   <SelectTrigger id="parking">
-                    <SelectValue placeholder="Wybierz miejsce" />
+                    <SelectValue placeholder={t("parkingPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {parkingSpaces.map((s) => (
                       <SelectItem key={s.id} value={s.id}>
-                        {s.number}
-                        {s.level ? ` (${s.level})` : ""}
+                        {s.level ? t("parkingLevel", { number: s.number, level: s.level }) : s.number}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {parkingSpaces.length === 0 && (
                   <p className="text-sm text-destructive">
-                    Nie masz przypisanego miejsca parkingowego. Skontaktuj się z administratorem.
+                    {t("noParking")}
                   </p>
                 )}
               </div>
@@ -163,10 +168,10 @@ export function CreateReportForm({
 
             {category?.subject === "storage" && (
               <div className="space-y-2">
-                <Label htmlFor="storage">Komórka lokatorska</Label>
+                <Label htmlFor="storage">{t("storage")}</Label>
                 <Select value={storageUnitId} onValueChange={setStorageUnitId}>
                   <SelectTrigger id="storage">
-                    <SelectValue placeholder="Wybierz komórkę" />
+                    <SelectValue placeholder={t("storagePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {storageUnits.map((u) => (
@@ -178,7 +183,7 @@ export function CreateReportForm({
                 </Select>
                 {storageUnits.length === 0 && (
                   <p className="text-sm text-destructive">
-                    Nie masz przypisanej komórki. Skontaktuj się z administratorem.
+                    {t("noStorage")}
                   </p>
                 )}
               </div>
@@ -186,7 +191,7 @@ export function CreateReportForm({
 
             {category && (
               <div className="flex flex-wrap gap-1">
-                {category.suggestions.map((s) => (
+                {(t.raw(`categories.${category.key}.suggestions` as CatSuggKey) as string[]).map((s) => (
                   <Button
                     key={s}
                     type="button"
@@ -202,7 +207,7 @@ export function CreateReportForm({
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="title">Tytuł</Label>
+              <Label htmlFor="title">{t("titleLabel")}</Label>
               <Input
                 id="title"
                 name="title"
@@ -211,11 +216,11 @@ export function CreateReportForm({
                 onChange={(e) => setTitle(e.target.value)}
               />
               {state.fieldErrors?.title && (
-                <p className="text-sm text-destructive">Podaj tytuł</p>
+                <p className="text-sm text-destructive">{t("titleRequired")}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Opis</Label>
+              <Label htmlFor="description">{t("description")}</Label>
               <Textarea
                 id="description"
                 name="description"
@@ -225,7 +230,7 @@ export function CreateReportForm({
                 onChange={(e) => setDescription(e.target.value)}
               />
               {state.fieldErrors?.description && (
-                <p className="text-sm text-destructive">Opisz sprawę</p>
+                <p className="text-sm text-destructive">{t("descriptionRequired")}</p>
               )}
             </div>
             <label className="flex items-center gap-2 text-sm">
@@ -236,7 +241,7 @@ export function CreateReportForm({
                 checked={urgent}
                 onChange={(e) => setUrgent(e.target.checked)}
               />
-              Pilne (zalanie, awaria windy, zablokowana droga pożarowa)
+              {t("urgent")}
             </label>
           </div>
           {state.message && !state.success && (
@@ -244,10 +249,10 @@ export function CreateReportForm({
           )}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
-              Anuluj
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Wysyłanie..." : "Wyślij"}
+              {pending ? t("sending") : t("send")}
             </Button>
           </DialogFooter>
         </form>

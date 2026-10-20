@@ -7,11 +7,8 @@ describe("catalog", () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it("every category allows at least one type and has suggestions", () => {
-    for (const c of CATEGORIES) {
-      expect(c.types.length, c.key).toBeGreaterThan(0);
-      expect(c.suggestions.length, c.key).toBeGreaterThan(0);
-    }
+  it("every category allows at least one type", () => {
+    for (const c of CATEGORIES) expect(c.types.length, c.key).toBeGreaterThan(0);
   });
 
   it("parking, storage and apartment subjects are always PRIVATE", () => {

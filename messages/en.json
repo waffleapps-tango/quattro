@@ -12,7 +12,9 @@
   },
   "meta": {
     "description": "Packages and reports for your neighborhood.",
-    "settings": "Settings"
+    "settings": "Settings",
+    "packages": "Packages",
+    "reports": "Reports"
   },
   "settings": {
     "title": "Settings",
@@ -107,5 +109,440 @@
     "noOpenReports": "No open reports",
     "viewReports": "View reports",
     "newReport": "New report"
+  },
+  "errors": {
+    "notSignedIn": "You are not signed in",
+    "fieldRequired": "This field is required",
+    "fillRequired": "Fill in the required fields"
+  },
+  "packages": {
+    "title": "Packages",
+    "subtitleStaff": "Manage packages at the front desk.",
+    "subtitleResident": "Your packages.",
+    "searchPlaceholder": "Search (number, apartment, email)...",
+    "noResults": "Nothing found",
+    "noResultsHint": "Change your search phrase.",
+    "empty": "No packages",
+    "emptyStaff": "Register the first package with the “Add package” button.",
+    "emptyResident": "When a package arrives, you will see it here.",
+    "add": "Add package",
+    "dialogTitle": "Register a package",
+    "dialogDescription": "Choose an apartment and enter the package details.",
+    "building": "Building",
+    "buildingPlaceholder": "Choose a building",
+    "apartment": "Apartment",
+    "apartmentPlaceholder": "Choose an apartment",
+    "apartmentRequired": "Choose an apartment",
+    "apartmentRequiredNoApartments": "Choose an apartment (this building has no apartments)",
+    "trackingNumber": "Tracking number",
+    "courier": "Courier",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "save": "Save",
+    "status": {
+      "RECEIVED": "Received",
+      "READY_FOR_PICKUP": "Ready for pickup",
+      "PICKED_UP": "Picked up"
+    },
+    "copied": "Copied",
+    "numberLabel": "Number: {value}",
+    "courierLabel": "Courier: {value}",
+    "receivedAt": "Received: {date}",
+    "recipientLabel": "Recipient: {value}",
+    "pickUp": "Hand over",
+    "actions": {
+      "created": "Package registered",
+      "noPermissionCreate": "You do not have permission to register packages",
+      "apartmentMismatch": "The selected apartment does not belong to the selected building",
+      "createFailed": "Could not register the package",
+      "pickedUp": "Package marked as picked up",
+      "notFound": "Package not found",
+      "noPermission": "You do not have permission for this action",
+      "updateFailed": "Could not update the package"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitleStaff": "All community reports.",
+    "subtitleResident": "Report defects, questions and ideas.",
+    "new": "New report",
+    "dialogTitle": "New report",
+    "dialogDescription": "Choose a category and describe the matter. Reports in “My…” categories are visible only to you and management.",
+    "category": "Category",
+    "categoryPlaceholder": "Choose a category",
+    "categoryRequired": "Choose a category",
+    "privateSuffix": "{label} (private)",
+    "kind": "Type",
+    "kindPlaceholder": "Choose a type",
+    "kindRequired": "Choose a type",
+    "parking": "Parking space",
+    "parkingPlaceholder": "Choose a space",
+    "noParking": "You have no parking space assigned. Contact the administrator.",
+    "storage": "Storage unit",
+    "storagePlaceholder": "Choose a unit",
+    "noStorage": "You have no storage unit assigned. Contact the administrator.",
+    "titleLabel": "Title",
+    "titleRequired": "Enter a title",
+    "description": "Description",
+    "descriptionRequired": "Describe the matter",
+    "urgent": "Urgent (flooding, elevator failure, blocked fire lane)",
+    "cancel": "Cancel",
+    "sending": "Sending...",
+    "send": "Send",
+    "type": {
+      "DEFECT": "Defect",
+      "REQUEST": "Request",
+      "NOTICE": "Notice",
+      "QUESTION": "Question",
+      "IDEA": "Idea",
+      "COMPLAINT": "Complaint"
+    },
+    "status": {
+      "NEW": "New",
+      "IN_PROGRESS": "In progress",
+      "RESOLVED": "Resolved",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "CLOSED": "Closed"
+    },
+    "privateBadge": "Private",
+    "urgentBadge": "Urgent",
+    "reportedBy": "Reported by: {name}",
+    "placeApartment": "apt. {number}",
+    "placeParking": "parking {number}",
+    "placeStorage": "storage {number}",
+    "parkingLevel": "{number} ({level})",
+    "filterVisibility": "All",
+    "filterPublic": "Public",
+    "filterPrivate": "Private",
+    "filterStatus": "Any status",
+    "filterCategory": "Any category",
+    "filterUrgent": "Urgent and other",
+    "filterUrgentOnly": "Urgent only",
+    "viewBoard": "Community board",
+    "viewMine": "My reports",
+    "empty": "No reports",
+    "emptyStaff": "Change the filters to see more.",
+    "emptyMine": "You have no reports yet.",
+    "emptyBoard": "Nothing here yet. Report the first problem.",
+    "categories": {
+      "technical": {
+        "label": "Technical defects and common areas",
+        "suggestions": [
+          "Elevator breakdown",
+          "Lighting not working in the stairwell",
+          "Damaged entrance door or intercom",
+          "Broken garage gate",
+          "Damaged windows in common areas",
+          "Cracked walls, plaster falling off",
+          "Leaking roof",
+          "Flooded hallway or basement",
+          "Damaged electrical installation",
+          "Water or sewage system fault",
+          "Heating problem",
+          "Ventilation failure",
+          "Damaged flooring",
+          "Damaged handrail",
+          "Broken mailbox",
+          "Bike or stroller room fault",
+          "Damaged drying room",
+          "Damaged floor markings",
+          "Missing information boards",
+          "Damaged bench or shelter",
+          "Damaged facade or hole in the pavement",
+          "Contractor work not done or done poorly"
+        ]
+      },
+      "media": {
+        "label": "Utilities and shared installations",
+        "suggestions": [
+          "No hot water",
+          "No heating",
+          "Leaking installation",
+          "Sewage system failure",
+          "Clogged drain grate",
+          "Water pressure problem in a common area",
+          "Lighting failure",
+          "Fire protection system fault",
+          "Damaged meters in common areas",
+          "Photovoltaic system failure"
+        ]
+      },
+      "cleanliness": {
+        "label": "Cleanliness and order",
+        "suggestions": [
+          "Dirty stairwell",
+          "Elevator not cleaned",
+          "Overflowing trash bins",
+          "Mess in the waste shelter",
+          "Bulky waste in a prohibited place",
+          "Accumulated trash",
+          "Dirt in the garage",
+          "Animal waste",
+          "Dirty sidewalks",
+          "Common areas not being cleaned",
+          "Unpleasant smell in the stairwell or basement",
+          "Overflowing recycling containers",
+          "Illegal waste dump"
+        ]
+      },
+      "grounds": {
+        "label": "Grounds and greenery",
+        "suggestions": [
+          "Damaged lawn",
+          "Dry or diseased trees",
+          "Broken branches",
+          "Damaged shrubs",
+          "Grass not mown",
+          "Hedge needs trimming",
+          "Damaged irrigation system",
+          "Ruined flower beds",
+          "Fallen leaves piling up",
+          "New plantings needed",
+          "Damaged street furniture",
+          "Slippery sidewalk",
+          "Snow not cleared from sidewalk or parking",
+          "Icicles on the roof"
+        ]
+      },
+      "parking-shared": {
+        "label": "Parking and garage (shared)",
+        "suggestions": [
+          "Unauthorized parking",
+          "Blocked entrance or exit",
+          "Damaged garage gate",
+          "Garage lighting not working",
+          "Damaged garage ventilation",
+          "Fluid leak from a vehicle",
+          "Damaged markings",
+          "Fire lanes blocked",
+          "Damaged parking surface",
+          "Problem with the shared EV charger"
+        ]
+      },
+      "playground": {
+        "label": "Playground and recreation",
+        "suggestions": [
+          "Damaged swing",
+          "Broken slide",
+          "Damaged playground fence",
+          "Unsafe surface",
+          "Ruined bench",
+          "Damaged ping-pong table",
+          "Ruined sports equipment",
+          "Littered recreation area",
+          "Lighting not working",
+          "Playground needs more equipment"
+        ]
+      },
+      "security": {
+        "label": "Security and access (shared)",
+        "suggestions": [
+          "Intercom not working",
+          "Damaged lock or door closer",
+          "Access control not working",
+          "Damaged surveillance camera",
+          "Outdoor lighting not working",
+          "Technical room doors left open",
+          "Damaged estate fence",
+          "Damaged gate",
+          "Barrier malfunctioning",
+          "Suspicious damage to infrastructure",
+          "Blocked emergency exit",
+          "Damaged parcel locker"
+        ]
+      },
+      "pests": {
+        "label": "Pests and animals",
+        "suggestions": [
+          "Rats or mice",
+          "Wasps or hornets",
+          "Cockroaches in common areas",
+          "Stray animal",
+          "Dead animal on the estate grounds"
+        ]
+      },
+      "ideas": {
+        "label": "Residents' ideas",
+        "suggestions": [
+          "New bench",
+          "Bike racks",
+          "More greenery",
+          "Bike repair station"
+        ]
+      },
+      "other": {
+        "label": "Other issue",
+        "suggestions": [
+          "Report another issue"
+        ]
+      },
+      "own-apartment": {
+        "label": "My apartment",
+        "suggestions": [
+          "Apartment flooding",
+          "Leak from the apartment above",
+          "Damp or water stains on walls",
+          "Cracks in walls or ceiling",
+          "Heating problem in the unit",
+          "No hot or cold water",
+          "Sewage problem",
+          "Faulty ventilation",
+          "Suspected failure of a shared installation",
+          "Noise from building installations",
+          "Damaged window or balcony door",
+          "Radiator or valve problem",
+          "Meter reading problem",
+          "Fault requiring the administrator's assessment"
+        ]
+      },
+      "own-parking": {
+        "label": "My parking space",
+        "suggestions": [
+          "Space occupied without permission",
+          "Space repeatedly blocked",
+          "Damaged space marking",
+          "Fluid leak on the parking space",
+          "Damaged surface under the space",
+          "Problem accessing the space",
+          "Damaged infrastructure near the space",
+          "EV charger problem",
+          "Damage caused by another vehicle",
+          "Request to explain the rules for using the space",
+          "Request to install a parking lock",
+          "Request to install a charging point",
+          "Problem with the remote or garage access"
+        ]
+      },
+      "own-storage": {
+        "label": "My storage unit",
+        "suggestions": [
+          "Storage unit flooding",
+          "Damp or mold",
+          "Damaged lock or door",
+          "Access problem",
+          "Damaged lighting",
+          "Pests",
+          "Unpleasant smell",
+          "Belongings damaged due to a common area failure",
+          "Ventilation problem",
+          "Break-in or attempted break-in"
+        ]
+      },
+      "access": {
+        "label": "Access to the building and devices",
+        "suggestions": [
+          "Garage remote not working",
+          "Access card problem",
+          "Individual entry code not working",
+          "Intercom in the unit not working",
+          "Problem with the gate-opening app",
+          "Lost remote or card",
+          "Request for an additional remote",
+          "Request to deactivate a lost card",
+          "Problem collecting a parcel from the estate locker",
+          "Problem accessing the bike or stroller room"
+        ]
+      },
+      "billing": {
+        "label": "Billing and fees",
+        "suggestions": [
+          "Incorrect heating billing",
+          "Incorrect water billing",
+          "Doubts about the advance payment charged",
+          "Wrong meter reading",
+          "Request to correct a statement",
+          "Question about the unit's balance",
+          "Incorrect garage fee",
+          "Notice of a change in the number of residents",
+          "Change of correspondence details",
+          "Request for a duplicate billing document",
+          "Question about utility settlement after selling the unit",
+          "Question about the renovation fund",
+          "Request for community documents or the house rules"
+        ]
+      },
+      "balcony": {
+        "label": "Balcony, terrace and exterior elements",
+        "suggestions": [
+          "Leak on the balcony or terrace",
+          "Damaged railing",
+          "Cracks in the balcony floor",
+          "Water stains on the facade near the balcony",
+          "Water drainage problem",
+          "Damaged flashings",
+          "Loose element that could fall",
+          "Question about air conditioner installation rules",
+          "Request for permission to install an awning",
+          "Request for permission to enclose the balcony",
+          "Request to install an antenna or other device on the facade"
+        ]
+      },
+      "renovation": {
+        "label": "Renovation of my apartment",
+        "suggestions": [
+          "Notice of planned renovation",
+          "Notice of noisy work",
+          "Request for renovation rules",
+          "Request to protect the elevator during renovation",
+          "Notice of building material delivery",
+          "Request for access to valves or meters",
+          "Request for permission to alter a common area",
+          "Damage to a common area during renovation",
+          "Completion of work requiring coordination"
+        ]
+      },
+      "moving": {
+        "label": "Moving and changes to the unit",
+        "suggestions": [
+          "Notice of moving",
+          "Elevator reservation for moving",
+          "Request to protect common areas",
+          "Notice of large furniture delivery",
+          "Update of owner details",
+          "Update of contact details",
+          "Change of unit occupant",
+          "Notice of sale or rental of the unit",
+          "Request for information on the unit handover procedure"
+        ]
+      },
+      "neighbours": {
+        "label": "Noise and neighbor nuisances",
+        "suggestions": [
+          "Noise at night",
+          "Loud renovation work",
+          "Violation of the house rules",
+          "Smoking in the stairwell",
+          "Improper use of common areas",
+          "Items left in the hallway",
+          "Disruptive behavior in common areas",
+          "Improper waste storage",
+          "Problem with animals in a shared area"
+        ]
+      },
+      "admin": {
+        "label": "Question for the administrator",
+        "suggestions": [
+          "Question for the administrator",
+          "Request for intervention",
+          "Report of incorrect contact details",
+          "Problem with the resident app",
+          "Request for information about planned renovation"
+        ]
+      }
+    },
+    "actions": {
+      "sent": "Report sent",
+      "invalid": "Check the report details",
+      "cannotFile": "You cannot file this report",
+      "spaceMismatch": "This space is not assigned to your apartment",
+      "sendFailed": "Could not send the report",
+      "invalidStatus": "Invalid status",
+      "statusChanged": "Status changed",
+      "notFound": "Report not found",
+      "noPermission": "You do not have permission for this change",
+      "invalidTransition": "This status change is not possible",
+      "statusFailed": "Could not change the status"
+    }
   }
 }

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, Loader2, Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { format } from "date-fns";
+import { useFormatter, useTranslations } from "next-intl";
 import { markPickedUpAction } from "@/actions/packages";
 import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
 
@@ -16,12 +16,6 @@ type PackageWithRelations = Package & {
   recipient: User | null;
 };
 
-const STATUS_LABEL: Record<Package["status"], string> = {
-  RECEIVED: "Przyjęta",
-  READY_FOR_PICKUP: "Do odbioru",
-  PICKED_UP: "Odebrana",
-};
-
 export function PackageCard({
   pkg,
   canMarkPickedUp,
@@ -29,6 +23,8 @@ export function PackageCard({
   pkg: PackageWithRelations;
   canMarkPickedUp: boolean;
 }) {
+  const t = useTranslations("packages");
+  const format = useFormatter();
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handlePickup = async () => {
@@ -47,7 +43,7 @@ export function PackageCard({
 
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text);
-    toast.success("Skopiowano");
+    toast.success(t("copied"));
   };
 
   return (
@@ -62,7 +58,7 @@ export function PackageCard({
           <span>
             {pkg.building.name} / {pkg.apartment.number}
           </span>
-          <Badge>{STATUS_LABEL[pkg.status]}</Badge>
+          <Badge>{t(`status.${pkg.status}`)}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -70,7 +66,7 @@ export function PackageCard({
           {pkg.trackingNumber && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
-                Numer: {pkg.trackingNumber}
+                {t("numberLabel", { value: pkg.trackingNumber })}
               </p>
               <Button
                 variant="ghost"
@@ -83,20 +79,28 @@ export function PackageCard({
             </div>
           )}
           {pkg.courier && (
-            <p className="text-sm text-muted-foreground">Kurier: {pkg.courier}</p>
+            <p className="text-sm text-muted-foreground">{t("courierLabel", { value: pkg.courier })}</p>
           )}
           <p className="text-sm text-muted-foreground">
-            Przyjęta: {format(new Date(pkg.receivedAt), "dd.MM.yyyy HH:mm")}
+            {t("receivedAt", {
+              date: format.dateTime(new Date(pkg.receivedAt), {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            })}
           </p>
           {pkg.recipient && (
             <p className="text-sm text-muted-foreground">
-              Odbiorca: {pkg.recipient.email}
+              {t("recipientLabel", { value: pkg.recipient.email })}
             </p>
           )}
           {canMarkPickedUp && pkg.status !== "PICKED_UP" && (
             <Button size="sm" onClick={handlePickup} disabled={isUpdating} className="mt-2">
               <CheckCircle2 className="mr-2 h-4 w-4" />
-              {isUpdating ? "Zapisywanie..." : "Wydaj"}
+              {isUpdating ? t("saving") : t("pickUp")}
             </Button>
           )}
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -35,6 +36,7 @@ export function CreatePackageForm({
   buildings: Building[];
   apartmentsByBuilding: Record<string, Apartment[]>;
 }) {
+  const t = useTranslations("packages");
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState(buildings[0]?.id ?? "");
   const [apartmentId, setApartmentId] = useState("");
@@ -58,28 +60,28 @@ export function CreatePackageForm({
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Dodaj paczkę
+          {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Zarejestruj paczkę</DialogTitle>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
-            Wybierz mieszkanie i wpisz dane paczki.
+            {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
           <input type="hidden" name="communityId" value={communityId} />
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="buildingId">Budynek</Label>
+              <Label htmlFor="buildingId">{t("building")}</Label>
               <Select
                 name="buildingId"
                 value={buildingId}
                 onValueChange={setBuildingId}
               >
                 <SelectTrigger id="buildingId">
-                  <SelectValue placeholder="Wybierz budynek" />
+                  <SelectValue placeholder={t("buildingPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {buildings.map((building) => (
@@ -92,13 +94,13 @@ export function CreatePackageForm({
               <input type="hidden" name="buildingId" value={buildingId} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="apartmentId">Mieszkanie</Label>
+              <Label htmlFor="apartmentId">{t("apartment")}</Label>
               <Select
                 value={apartmentId}
                 onValueChange={setApartmentId}
               >
                 <SelectTrigger id="apartmentId">
-                  <SelectValue placeholder="Wybierz mieszkanie" />
+                  <SelectValue placeholder={t("apartmentPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {apartments.map((apartment) => (
@@ -111,17 +113,18 @@ export function CreatePackageForm({
               <input type="hidden" name="apartmentId" value={apartmentId} />
               {state.fieldErrors?.apartmentId && (
                 <p className="text-sm text-destructive">
-                  Wybierz mieszkanie
-                  {apartments.length === 0 && " (ten budynek nie ma mieszkań)"}
+                  {apartments.length === 0
+                    ? t("apartmentRequiredNoApartments")
+                    : t("apartmentRequired")}
                 </p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="trackingNumber">Numer przesyłki</Label>
+              <Label htmlFor="trackingNumber">{t("trackingNumber")}</Label>
               <Input id="trackingNumber" name="trackingNumber" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="courier">Kurier</Label>
+              <Label htmlFor="courier">{t("courier")}</Label>
               <Input id="courier" name="courier" />
             </div>
           </div>
@@ -130,10 +133,10 @@ export function CreatePackageForm({
           )}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
-              Anuluj
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Zapisywanie..." : "Zapisz"}
+              {pending ? t("saving") : t("save")}
             </Button>
           </DialogFooter>
         </form>

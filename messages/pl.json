@@ -12,7 +12,9 @@
   },
   "meta": {
     "description": "Paczki i zgłoszenia dla Twojego osiedla.",
-    "settings": "Ustawienia"
+    "settings": "Ustawienia",
+    "packages": "Paczki",
+    "reports": "Zgłoszenia"
   },
   "settings": {
     "title": "Ustawienia",
@@ -107,5 +109,440 @@
     "noOpenReports": "Brak otwartych zgłoszeń",
     "viewReports": "Zobacz zgłoszenia",
     "newReport": "Nowe zgłoszenie"
+  },
+  "errors": {
+    "notSignedIn": "Nie jesteś zalogowany",
+    "fieldRequired": "To pole jest wymagane",
+    "fillRequired": "Uzupełnij wymagane pola"
+  },
+  "packages": {
+    "title": "Paczki",
+    "subtitleStaff": "Zarządzaj paczkami w recepcji.",
+    "subtitleResident": "Twoje paczki.",
+    "searchPlaceholder": "Szukaj (numer, mieszkanie, email)...",
+    "noResults": "Nic nie znaleziono",
+    "noResultsHint": "Zmień frazę wyszukiwania.",
+    "empty": "Brak paczek",
+    "emptyStaff": "Zarejestruj pierwszą paczkę przyciskiem „Dodaj paczkę”.",
+    "emptyResident": "Gdy przyjdzie paczka, zobaczysz ją tutaj.",
+    "add": "Dodaj paczkę",
+    "dialogTitle": "Zarejestruj paczkę",
+    "dialogDescription": "Wybierz mieszkanie i wpisz dane paczki.",
+    "building": "Budynek",
+    "buildingPlaceholder": "Wybierz budynek",
+    "apartment": "Mieszkanie",
+    "apartmentPlaceholder": "Wybierz mieszkanie",
+    "apartmentRequired": "Wybierz mieszkanie",
+    "apartmentRequiredNoApartments": "Wybierz mieszkanie (ten budynek nie ma mieszkań)",
+    "trackingNumber": "Numer przesyłki",
+    "courier": "Kurier",
+    "cancel": "Anuluj",
+    "saving": "Zapisywanie...",
+    "save": "Zapisz",
+    "status": {
+      "RECEIVED": "Przyjęta",
+      "READY_FOR_PICKUP": "Do odbioru",
+      "PICKED_UP": "Odebrana"
+    },
+    "copied": "Skopiowano",
+    "numberLabel": "Numer: {value}",
+    "courierLabel": "Kurier: {value}",
+    "receivedAt": "Przyjęta: {date}",
+    "recipientLabel": "Odbiorca: {value}",
+    "pickUp": "Wydaj",
+    "actions": {
+      "created": "Paczka zarejestrowana",
+      "noPermissionCreate": "Nie masz uprawnień do rejestrowania paczek",
+      "apartmentMismatch": "Wybrane mieszkanie nie należy do wybranego budynku",
+      "createFailed": "Nie udało się zarejestrować paczki",
+      "pickedUp": "Paczka oznaczona jako odebrana",
+      "notFound": "Nie znaleziono paczki",
+      "noPermission": "Nie masz uprawnień do tej operacji",
+      "updateFailed": "Nie udało się zaktualizować paczki"
+    }
+  },
+  "reports": {
+    "title": "Zgłoszenia",
+    "subtitleStaff": "Wszystkie zgłoszenia wspólnoty.",
+    "subtitleResident": "Zgłaszaj usterki, pytania i pomysły.",
+    "new": "Nowe zgłoszenie",
+    "dialogTitle": "Nowe zgłoszenie",
+    "dialogDescription": "Wybierz kategorię i opisz sprawę. Zgłoszenia z kategorii „Moje…” widzisz tylko Ty i zarząd.",
+    "category": "Kategoria",
+    "categoryPlaceholder": "Wybierz kategorię",
+    "categoryRequired": "Wybierz kategorię",
+    "privateSuffix": "{label} (prywatne)",
+    "kind": "Rodzaj",
+    "kindPlaceholder": "Wybierz rodzaj",
+    "kindRequired": "Wybierz rodzaj",
+    "parking": "Miejsce parkingowe",
+    "parkingPlaceholder": "Wybierz miejsce",
+    "noParking": "Nie masz przypisanego miejsca parkingowego. Skontaktuj się z administratorem.",
+    "storage": "Komórka lokatorska",
+    "storagePlaceholder": "Wybierz komórkę",
+    "noStorage": "Nie masz przypisanej komórki. Skontaktuj się z administratorem.",
+    "titleLabel": "Tytuł",
+    "titleRequired": "Podaj tytuł",
+    "description": "Opis",
+    "descriptionRequired": "Opisz sprawę",
+    "urgent": "Pilne (zalanie, awaria windy, zablokowana droga pożarowa)",
+    "cancel": "Anuluj",
+    "sending": "Wysyłanie...",
+    "send": "Wyślij",
+    "type": {
+      "DEFECT": "Usterka",
+      "REQUEST": "Wniosek",
+      "NOTICE": "Powiadomienie",
+      "QUESTION": "Pytanie",
+      "IDEA": "Pomysł",
+      "COMPLAINT": "Skarga"
+    },
+    "status": {
+      "NEW": "Nowe",
+      "IN_PROGRESS": "W trakcie",
+      "RESOLVED": "Załatwione",
+      "APPROVED": "Zatwierdzone",
+      "REJECTED": "Odrzucone",
+      "CLOSED": "Zamknięte"
+    },
+    "privateBadge": "Prywatne",
+    "urgentBadge": "Pilne",
+    "reportedBy": "Zgłosił: {name}",
+    "placeApartment": "m. {number}",
+    "placeParking": "parking {number}",
+    "placeStorage": "komórka {number}",
+    "parkingLevel": "{number} ({level})",
+    "filterVisibility": "Wszystkie",
+    "filterPublic": "Publiczne",
+    "filterPrivate": "Prywatne",
+    "filterStatus": "Dowolny status",
+    "filterCategory": "Dowolna kategoria",
+    "filterUrgent": "Pilne i inne",
+    "filterUrgentOnly": "Tylko pilne",
+    "viewBoard": "Tablica osiedla",
+    "viewMine": "Moje zgłoszenia",
+    "empty": "Brak zgłoszeń",
+    "emptyStaff": "Zmień filtry, aby zobaczyć więcej.",
+    "emptyMine": "Nie masz jeszcze zgłoszeń.",
+    "emptyBoard": "Nic tu jeszcze nie ma. Zgłoś pierwszy problem.",
+    "categories": {
+      "technical": {
+        "label": "Usterki techniczne i części wspólne",
+        "suggestions": [
+          "Awaria windy",
+          "Niedziałające oświetlenie na klatce schodowej",
+          "Uszkodzone drzwi wejściowe lub domofon",
+          "Zepsuta brama garażowa",
+          "Uszkodzone okna na częściach wspólnych",
+          "Pęknięcia ścian, odpadający tynk",
+          "Przeciekający dach",
+          "Zalanie korytarza lub piwnicy",
+          "Uszkodzona instalacja elektryczna",
+          "Usterka instalacji wodnej lub kanalizacyjnej",
+          "Problem z ogrzewaniem",
+          "Awaria wentylacji",
+          "Uszkodzona posadzka",
+          "Uszkodzona poręcz",
+          "Zniszczona skrzynka pocztowa",
+          "Usterka rowerowni lub wózkowni",
+          "Uszkodzona suszarnia",
+          "Uszkodzone oznaczenia pięter",
+          "Brak tablic informacyjnych",
+          "Uszkodzona ławka lub wiata",
+          "Uszkodzona elewacja lub dziura w chodniku",
+          "Niewykonana lub niedokładna usługa wykonawcy"
+        ]
+      },
+      "media": {
+        "label": "Media i instalacje wspólne",
+        "suggestions": [
+          "Brak ciepłej wody",
+          "Brak ogrzewania",
+          "Nieszczelność instalacji",
+          "Awaria kanalizacji",
+          "Niedrożna kratka odpływowa",
+          "Problem z ciśnieniem wody w części wspólnej",
+          "Awaria oświetlenia",
+          "Usterka instalacji przeciwpożarowej",
+          "Uszkodzone liczniki w częściach wspólnych",
+          "Awaria instalacji fotowoltaicznej"
+        ]
+      },
+      "cleanliness": {
+        "label": "Czystość i porządek",
+        "suggestions": [
+          "Brudna klatka schodowa",
+          "Nieposprzątana winda",
+          "Przepełnione kosze na śmieci",
+          "Nieporządek w altanie śmietnikowej",
+          "Gabaryty w niedozwolonym miejscu",
+          "Zalegające śmieci",
+          "Zanieczyszczenia w garażu",
+          "Odchody zwierząt",
+          "Zabrudzone chodniki",
+          "Brak sprzątania części wspólnych",
+          "Nieprzyjemny zapach na klatce lub w piwnicy",
+          "Przepełnione pojemniki do segregacji",
+          "Nielegalne składowisko odpadów"
+        ]
+      },
+      "grounds": {
+        "label": "Teren i zieleń",
+        "suggestions": [
+          "Uszkodzony trawnik",
+          "Suche lub chore drzewa",
+          "Złamane gałęzie",
+          "Uszkodzone krzewy",
+          "Brak koszenia trawy",
+          "Potrzeba przycięcia żywopłotu",
+          "Uszkodzony system nawadniania",
+          "Zniszczone rabaty",
+          "Zalegające liście",
+          "Potrzeba nowych nasadzeń",
+          "Uszkodzone elementy małej architektury",
+          "Śliski chodnik",
+          "Nieodśnieżony chodnik lub parking",
+          "Sople na dachu"
+        ]
+      },
+      "parking-shared": {
+        "label": "Parking i garaż (wspólne)",
+        "suggestions": [
+          "Nieuprawnione parkowanie",
+          "Zastawiony wjazd lub wyjazd",
+          "Uszkodzona brama garażowa",
+          "Niedziałające oświetlenie garażu",
+          "Uszkodzona wentylacja garażu",
+          "Wyciek płynów z pojazdu",
+          "Uszkodzone oznakowanie",
+          "Zajęte drogi pożarowe",
+          "Uszkodzona nawierzchnia parkingu",
+          "Problem ze wspólną ładowarką samochodu elektrycznego"
+        ]
+      },
+      "playground": {
+        "label": "Plac zabaw i rekreacja",
+        "suggestions": [
+          "Uszkodzona huśtawka",
+          "Zepsuta zjeżdżalnia",
+          "Uszkodzone ogrodzenie placu zabaw",
+          "Niebezpieczna nawierzchnia",
+          "Zniszczona ławka",
+          "Uszkodzony stół do ping-ponga",
+          "Zniszczone urządzenia sportowe",
+          "Zaśmiecona strefa rekreacyjna",
+          "Niedziałające oświetlenie",
+          "Potrzeba doposażenia placu zabaw"
+        ]
+      },
+      "security": {
+        "label": "Bezpieczeństwo i dostęp (wspólne)",
+        "suggestions": [
+          "Niedziałający domofon",
+          "Uszkodzony zamek lub samozamykacz",
+          "Niedziałająca kontrola dostępu",
+          "Uszkodzona kamera monitoringu",
+          "Niedziałające oświetlenie zewnętrzne",
+          "Otwarte drzwi do pomieszczeń technicznych",
+          "Uszkodzone ogrodzenie osiedla",
+          "Uszkodzona furtka",
+          "Nieprawidłowo działający szlaban",
+          "Podejrzane uszkodzenia infrastruktury",
+          "Zastawione wyjście ewakuacyjne",
+          "Uszkodzony paczkomat"
+        ]
+      },
+      "pests": {
+        "label": "Szkodniki i zwierzęta",
+        "suggestions": [
+          "Szczury lub myszy",
+          "Osy lub szerszenie",
+          "Karaluchy w częściach wspólnych",
+          "Bezpańskie zwierzę",
+          "Martwe zwierzę na terenie osiedla"
+        ]
+      },
+      "ideas": {
+        "label": "Pomysły mieszkańców",
+        "suggestions": [
+          "Nowa ławka",
+          "Stojaki rowerowe",
+          "Więcej zieleni",
+          "Stacja naprawy rowerów"
+        ]
+      },
+      "other": {
+        "label": "Inny problem",
+        "suggestions": [
+          "Zgłoszenie innego problemu"
+        ]
+      },
+      "own-apartment": {
+        "label": "Moje mieszkanie",
+        "suggestions": [
+          "Zalanie mieszkania",
+          "Przeciek z mieszkania powyżej",
+          "Wilgoć lub zacieki na ścianach",
+          "Pęknięcia ścian lub sufitu",
+          "Problem z ogrzewaniem w lokalu",
+          "Brak ciepłej lub zimnej wody",
+          "Problem z kanalizacją",
+          "Nieprawidłowa wentylacja",
+          "Podejrzenie awarii instalacji wspólnej",
+          "Hałas dochodzący z instalacji budynku",
+          "Uszkodzenie okna lub drzwi balkonowych",
+          "Problem z grzejnikiem lub zaworem",
+          "Problem z odczytem licznika",
+          "Usterka wymagająca oceny administratora"
+        ]
+      },
+      "own-parking": {
+        "label": "Moje miejsce parkingowe",
+        "suggestions": [
+          "Nieuprawnione zajęcie miejsca",
+          "Regularne zastawianie miejsca",
+          "Uszkodzenie oznaczenia miejsca",
+          "Wyciek płynów na miejscu parkingowym",
+          "Uszkodzenie nawierzchni pod miejscem",
+          "Problem z dostępem do miejsca",
+          "Uszkodzenie infrastruktury w pobliżu miejsca",
+          "Problem z ładowarką EV",
+          "Uszkodzenie przez inny pojazd",
+          "Prośba o wyjaśnienie zasad korzystania z miejsca",
+          "Wniosek o montaż blokady parkingowej",
+          "Wniosek o montaż punktu ładowania",
+          "Problem z pilotem lub dostępem do garażu"
+        ]
+      },
+      "own-storage": {
+        "label": "Moja komórka lokatorska",
+        "suggestions": [
+          "Zalanie komórki",
+          "Wilgoć lub pleśń",
+          "Uszkodzony zamek lub drzwi",
+          "Problem z dostępem",
+          "Uszkodzone oświetlenie",
+          "Szkodniki",
+          "Nieprzyjemny zapach",
+          "Uszkodzenie rzeczy wskutek awarii części wspólnej",
+          "Problem z wentylacją",
+          "Włamanie lub próba włamania"
+        ]
+      },
+      "access": {
+        "label": "Dostęp do budynku i urządzeń",
+        "suggestions": [
+          "Niedziałający pilot do garażu",
+          "Problem z kartą dostępu",
+          "Nie działa indywidualny kod wejściowy",
+          "Niedziałający domofon w lokalu",
+          "Problem z aplikacją do otwierania bramy",
+          "Zgubiony pilot lub karta",
+          "Prośba o wydanie dodatkowego pilota",
+          "Prośba o dezaktywację zgubionej karty",
+          "Problem z odbiorem przesyłki z paczkomatu osiedlowego",
+          "Problem z dostępem do rowerowni lub wózkowni"
+        ]
+      },
+      "billing": {
+        "label": "Rozliczenia i opłaty",
+        "suggestions": [
+          "Nieprawidłowe rozliczenie ogrzewania",
+          "Nieprawidłowe rozliczenie wody",
+          "Wątpliwości dotyczące naliczonej zaliczki",
+          "Błędny stan licznika",
+          "Prośba o korektę rozliczenia",
+          "Pytanie o saldo lokalu",
+          "Nieprawidłowe naliczenie opłaty za garaż",
+          "Zgłoszenie zmiany liczby mieszkańców",
+          "Zmiana danych do korespondencji",
+          "Prośba o duplikat dokumentu rozliczeniowego",
+          "Pytanie o rozliczenie mediów po sprzedaży lokalu",
+          "Pytanie o fundusz remontowy",
+          "Prośba o dokumenty wspólnoty lub regulamin"
+        ]
+      },
+      "balcony": {
+        "label": "Balkon, taras i elementy zewnętrzne",
+        "suggestions": [
+          "Przeciek na balkonie lub tarasie",
+          "Uszkodzenie balustrady",
+          "Pęknięcia posadzki balkonowej",
+          "Zacieki na elewacji przy balkonie",
+          "Problem z odpływem wody",
+          "Uszkodzenie obróbek blacharskich",
+          "Poluzowany element mogący spaść",
+          "Pytanie o zasady montażu klimatyzacji",
+          "Wniosek o zgodę na montaż markizy",
+          "Wniosek o zgodę na osłonę balkonu",
+          "Wniosek o montaż anteny lub innego urządzenia na elewacji"
+        ]
+      },
+      "renovation": {
+        "label": "Remont mojego mieszkania",
+        "suggestions": [
+          "Zgłoszenie planowanego remontu",
+          "Zgłoszenie prac głośnych",
+          "Prośba o zasady prowadzenia remontu",
+          "Wniosek o zabezpieczenie windy na czas remontu",
+          "Zgłoszenie transportu materiałów budowlanych",
+          "Prośba o dostęp do zaworów lub liczników",
+          "Wniosek o zgodę na ingerencję w część wspólną",
+          "Uszkodzenie części wspólnej podczas remontu",
+          "Zakończenie prac wymagających uzgodnienia"
+        ]
+      },
+      "moving": {
+        "label": "Przeprowadzka i zmiany dotyczące lokalu",
+        "suggestions": [
+          "Zgłoszenie przeprowadzki",
+          "Rezerwacja windy na przeprowadzkę",
+          "Prośba o zabezpieczenie części wspólnych",
+          "Zgłoszenie dostawy dużych mebli",
+          "Aktualizacja danych właściciela",
+          "Aktualizacja danych kontaktowych",
+          "Zmiana użytkownika lokalu",
+          "Zgłoszenie sprzedaży lub wynajmu lokalu",
+          "Prośba o informacje o procedurze przekazania lokalu"
+        ]
+      },
+      "neighbours": {
+        "label": "Hałas i uciążliwości sąsiedzkie",
+        "suggestions": [
+          "Hałas w godzinach nocnych",
+          "Głośne prace remontowe",
+          "Nieprzestrzeganie regulaminu porządku domowego",
+          "Palenie na klatce schodowej",
+          "Nieprawidłowe korzystanie z części wspólnych",
+          "Przedmioty pozostawione na korytarzu",
+          "Uciążliwe zachowanie w częściach wspólnych",
+          "Nieprawidłowe składowanie odpadów",
+          "Problem dotyczący zwierząt na terenie wspólnym"
+        ]
+      },
+      "admin": {
+        "label": "Pytanie do administratora",
+        "suggestions": [
+          "Pytanie do administratora",
+          "Prośba o interwencję",
+          "Zgłoszenie błędnych danych kontaktowych",
+          "Problem z aplikacją mieszkańca",
+          "Prośba o informację o planowanym remoncie"
+        ]
+      }
+    },
+    "actions": {
+      "sent": "Zgłoszenie wysłane",
+      "invalid": "Sprawdź dane zgłoszenia",
+      "cannotFile": "Nie możesz złożyć tego zgłoszenia",
+      "spaceMismatch": "To miejsce nie jest przypisane do Twojego mieszkania",
+      "sendFailed": "Nie udało się wysłać zgłoszenia",
+      "invalidStatus": "Nieprawidłowy status",
+      "statusChanged": "Status zmieniony",
+      "notFound": "Nie znaleziono zgłoszenia",
+      "noPermission": "Nie masz uprawnień do tej zmiany",
+      "invalidTransition": "Ta zmiana statusu nie jest możliwa",
+      "statusFailed": "Nie udało się zmienić statusu"
+    }
   }
 }

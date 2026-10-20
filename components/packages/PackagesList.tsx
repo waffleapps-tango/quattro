@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { PackageCard } from "./PackageCard";
 import { CreatePackageForm } from "./CreatePackageForm";
 import { Package as PackageIcon } from "lucide-react";
@@ -28,6 +29,7 @@ export function PackagesList({
   apartmentsByBuilding: Record<string, Apartment[]>;
   isStaff: boolean;
 }) {
+  const t = useTranslations("packages");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchValue, setSearchValue] = useState(searchParams.get("q") ?? "");
@@ -47,16 +49,16 @@ export function PackagesList({
     <div className="space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-semibold">Paczki</h2>
+          <h2 className="text-2xl font-semibold">{t("title")}</h2>
           <p className="text-muted-foreground">
-            {isStaff ? "Zarządzaj paczkami w recepcji." : "Twoje paczki."}
+            {isStaff ? t("subtitleStaff") : t("subtitleResident")}
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
           {isStaff && (
             <form onSubmit={handleSearchSubmit}>
               <Input
-                placeholder="Szukaj (numer, mieszkanie, email)..."
+                placeholder={t("searchPlaceholder")}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 className="max-w-sm"
@@ -77,17 +79,15 @@ export function PackagesList({
         searchParams.get("q") ? (
           <EmptyState
             icon={PackageIcon}
-            title="Nic nie znaleziono"
-            description="Zmień frazę wyszukiwania."
+            title={t("noResults")}
+            description={t("noResultsHint")}
           />
         ) : (
           <EmptyState
             icon={PackageIcon}
-            title="Brak paczek"
+            title={t("empty")}
             description={
-              isStaff
-                ? "Zarejestruj pierwszą paczkę przyciskiem „Dodaj paczkę”."
-                : "Gdy przyjdzie paczka, zobaczysz ją tutaj."
+              isStaff ? t("emptyStaff") : t("emptyResident")
             }
           />
         )

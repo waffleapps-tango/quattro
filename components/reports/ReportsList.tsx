@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { ReportCard } from "./ReportCard";
 import { CreateReportForm } from "./CreateReportForm";
 import { Megaphone } from "lucide-react";
@@ -15,11 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CATEGORIES } from "@/domain/reports/catalog";
-import { STATUS_LABEL } from "@/domain/reports/labels";
 import type { ReportListItem } from "@/domain/reports";
-import type { ParkingSpace, StorageUnit } from "@/lib/generated/prisma";
+import type { ReportStatus, ParkingSpace, StorageUnit } from "@/lib/generated/prisma";
 
 const ALL = "all";
+const STATUSES: ReportStatus[] = ["NEW", "IN_PROGRESS", "RESOLVED", "APPROVED", "REJECTED", "CLOSED"];
 
 export function ReportsList({
   reports,
@@ -38,6 +39,7 @@ export function ReportsList({
   parkingSpaces: ParkingSpace[];
   storageUnits: StorageUnit[];
 }) {
+  const t = useTranslations("reports");
   const router = useRouter();
   const searchParams = useSearchParams();
   const view = searchParams.get("view") === "mine" ? "mine" : "board";
@@ -73,9 +75,9 @@ export function ReportsList({
     <div className="space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-semibold">Zgłoszenia</h2>
+          <h2 className="text-2xl font-semibold">{t("title")}</h2>
           <p className="text-muted-foreground">
-            {isStaff ? "Wszystkie zgłoszenia wspólnoty." : "Zgłaszaj usterki, pytania i pomysły."}
+            {isStaff ? t("subtitleStaff") : t("subtitleResident")}
           </p>
         </div>
         <CreateReportForm
@@ -88,29 +90,32 @@ export function ReportsList({
 
       {isStaff ? (
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-          {filterSelect("visibility", "Wszystkie", [
-            { value: "PUBLIC", label: "Publiczne" },
-            { value: "PRIVATE", label: "Prywatne" },
+          {filterSelect("visibility", t("filterVisibility"), [
+            { value: "PUBLIC", label: t("filterPublic") },
+            { value: "PRIVATE", label: t("filterPrivate") },
           ])}
           {filterSelect(
             "status",
-            "Dowolny status",
-            Object.entries(STATUS_LABEL).map(([value, label]) => ({ value, label })),
+            t("filterStatus"),
+            STATUSES.map((value) => ({ value, label: t(`status.${value}`) })),
           )}
           {filterSelect(
             "category",
-            "Dowolna kategoria",
-            CATEGORIES.map((c) => ({ value: c.key, label: c.label })),
+            t("filterCategory"),
+            CATEGORIES.map((c) => ({
+              value: c.key,
+              label: t(`categories.${c.key}.label` as "categories.other.label"),
+            })),
           )}
-          {filterSelect("urgent", "Pilne i inne", [{ value: "1", label: "Tylko pilne" }])}
+          {filterSelect("urgent", t("filterUrgent"), [{ value: "1", label: t("filterUrgentOnly") }])}
         </div>
       ) : (
         <div className="flex gap-2">
           <Button asChild variant={view === "board" ? "default" : "outline"} size="sm">
-            <Link href="/reports?view=board">Tablica osiedla</Link>
+            <Link href="/reports?view=board">{t("viewBoard")}</Link>
           </Button>
           <Button asChild variant={view === "mine" ? "default" : "outline"} size="sm">
-            <Link href="/reports?view=mine">Moje zgłoszenia</Link>
+            <Link href="/reports?view=mine">{t("viewMine")}</Link>
           </Button>
         </div>
       )}
@@ -118,13 +123,13 @@ export function ReportsList({
       {reports.length === 0 ? (
         <EmptyState
           icon={Megaphone}
-          title="Brak zgłoszeń"
+          title={t("empty")}
           description={
             isStaff
-              ? "Zmień filtry, aby zobaczyć więcej."
+              ? t("emptyStaff")
               : view === "mine"
-                ? "Nie masz jeszcze zgłoszeń."
-                : "Nic tu jeszcze nie ma. Zgłoś pierwszy problem."
+                ? t("emptyMine")
+                : t("emptyBoard")
           }
         />
       ) : (

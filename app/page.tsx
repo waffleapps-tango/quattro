@@ -4,7 +4,6 @@ import { Megaphone, Package } from "lucide-react";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listReports } from "@/domain/reports";
-import { STATUS_LABEL } from "@/domain/reports/labels";
 import { summarizeDashboard } from "@/domain/dashboard/summary";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EmptyState } from "@/components/system/EmptyState";
@@ -16,6 +15,7 @@ import { Role } from "@/lib/generated/prisma";
 export default async function Home() {
   const t = await getTranslations("dashboard");
   const tc = await getTranslations("common");
+  const tr = await getTranslations("reports");
   const user = await getCurrentUser();
 
   if (!user) {
@@ -132,7 +132,7 @@ export default async function Home() {
                   s.myOpenReports.map((r) => (
                     <div key={r.id} className="flex items-center justify-between gap-2 text-sm">
                       <span className="font-medium">{r.title}</span>
-                      <Badge>{STATUS_LABEL[r.status]}</Badge>
+                      <Badge>{tr(`status.${r.status}`)}</Badge>
                     </div>
                   ))
                 )}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { getCurrentUser } from "@/auth/session";
@@ -7,13 +7,17 @@ import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/c
 import { PackagesList } from "@/components/packages/PackagesList";
 import { Role, type Apartment } from "@/lib/generated/prisma";
 
-export const metadata: Metadata = { title: "Paczki" };
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+  return { title: t("packages") };
+}
 
 export default async function PackagesPage({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
+  const t = await getTranslations("packages");
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
@@ -46,7 +50,7 @@ export default async function PackagesPage({
 
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="text-3xl font-bold mb-6">Paczki</h1>
+      <h1 className="text-3xl font-bold mb-6">{t("title")}</h1>
       <PackagesList
         packages={packages}
         communityId={membership.communityId}

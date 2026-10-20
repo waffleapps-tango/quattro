@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { getCurrentUser } from "@/auth/session";
@@ -18,13 +18,17 @@ type SearchParams = {
   urgent?: string;
 };
 
-export const metadata: Metadata = { title: "Zgłoszenia" };
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+  return { title: t("reports") };
+}
 
 export default async function ReportsPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
+  const t = await getTranslations("reports");
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
@@ -60,7 +64,7 @@ export default async function ReportsPage({
 
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="text-3xl font-bold mb-6">Zgłoszenia</h1>
+      <h1 className="text-3xl font-bold mb-6">{t("title")}</h1>
       <ReportsList
         reports={reports}
         communityId={membership.communityId}

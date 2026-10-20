@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { format } from "date-fns";
+import { useFormatter, useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { changeReportStatusAction } from "@/actions/reports";
 import { getCategory } from "@/domain/reports/catalog";
-import { STATUS_LABEL, TYPE_LABEL } from "@/domain/reports/labels";
 import { nextStatuses } from "@/domain/reports/transitions";
 import type { ReportListItem } from "@/domain/reports";
 import type { ReportStatus } from "@/lib/generated/prisma";
@@ -25,6 +24,8 @@ export function ReportCard({
   canApprove: boolean;
   showAuthor: boolean;
 }) {
+  const t = useTranslations("reports");
+  const format = useFormatter();
   const [isUpdating, setIsUpdating] = useState(false);
 
   const actions = canChangeStatus
@@ -46,9 +47,9 @@ export function ReportCard({
 
   const place = [
     report.building?.name,
-    report.apartment && `m. ${report.apartment.number}`,
-    report.parkingSpace && `parking ${report.parkingSpace.number}`,
-    report.storageUnit && `komórka ${report.storageUnit.number}`,
+    report.apartment && t("placeApartment", { number: report.apartment.number }),
+    report.parkingSpace && t("placeParking", { number: report.parkingSpace.number }),
+    report.storageUnit && t("placeStorage", { number: report.storageUnit.number }),
   ].filter(Boolean);
 
   return (
@@ -61,13 +62,15 @@ export function ReportCard({
       <CardHeader>
         <CardTitle className="flex items-start justify-between gap-2">
           <span>{report.title}</span>
-          <Badge>{STATUS_LABEL[report.status]}</Badge>
+          <Badge>{t(`status.${report.status}`)}</Badge>
         </CardTitle>
         <div className="flex flex-wrap gap-1">
-          <Badge variant="outline">{TYPE_LABEL[report.type]}</Badge>
-          <Badge variant="outline">{getCategory(report.category)?.label ?? report.category}</Badge>
-          {report.visibility === "PRIVATE" && <Badge variant="secondary">Prywatne</Badge>}
-          {report.urgent && <Badge variant="destructive">Pilne</Badge>}
+          <Badge variant="outline">{t(`type.${report.type}`)}</Badge>
+          <Badge variant="outline">{getCategory(report.category)
+              ? t(`categories.${report.category}.label` as "categories.other.label")
+              : report.category}</Badge>
+          {report.visibility === "PRIVATE" && <Badge variant="secondary">{t("privateBadge")}</Badge>}
+          {report.urgent && <Badge variant="destructive">{t("urgentBadge")}</Badge>}
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -77,11 +80,17 @@ export function ReportCard({
         )}
         {showAuthor && (
           <p className="text-sm text-muted-foreground">
-            Zgłosił: {report.author.firstName ?? report.author.email}
+            {t("reportedBy", { name: report.author.firstName ?? report.author.email })}
           </p>
         )}
         <p className="text-sm text-muted-foreground">
-          {format(new Date(report.createdAt), "dd.MM.yyyy HH:mm")}
+          {format.dateTime(new Date(report.createdAt), {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </p>
         {actions.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-1">
@@ -93,7 +102,7 @@ export function ReportCard({
                 disabled={isUpdating}
                 onClick={() => handleChange(status)}
               >
-                {STATUS_LABEL[status]}
+                {t(`status.${status}`)}
               </Button>
             ))}
           </div>
