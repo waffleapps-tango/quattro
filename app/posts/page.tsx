@@ -1,17 +1,21 @@
-import type { Metadata } from "next";
+import { getFormatter, getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { format } from "date-fns";
 
 import { MessageSquare } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
 
-export const metadata: Metadata = { title: "Posty" };
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+  return { title: t("posts") };
+}
 
 export default async function PostsPage() {
+  const t = await getTranslations("posts");
+  const format = await getFormatter();
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
@@ -23,7 +27,7 @@ export default async function PostsPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Posty społeczności ({postCount})</h1>
+        <h1 className="text-2xl font-bold">{t("heading", { count: postCount })}</h1>
         <CreatePostForm />
       </div>
 
@@ -42,8 +46,8 @@ export default async function PostsPage() {
       {posts.length === 0 && (
         <EmptyState
           icon={MessageSquare}
-          title="Brak postów"
-          description="Dodaj pierwszy post dla społeczności."
+          title={t("empty")}
+          description={t("emptyHint")}
         />
       )}
       <div className="grid gap-4">
@@ -53,7 +57,7 @@ export default async function PostsPage() {
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
                 <div className="text-sm text-muted-foreground">
-                  {format(new Date(post.createdAt), "dd.MM.yyyy")}
+                  {format.dateTime(new Date(post.createdAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
                 </div>
               </CardHeader>
               <CardContent>

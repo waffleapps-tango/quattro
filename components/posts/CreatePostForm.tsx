@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
 import { createPost } from "@/actions/actions";
 import { useActionState } from "react";
+import { useTranslations } from "next-intl";
 
 type PostState = {
   message: string;
@@ -23,14 +24,13 @@ type PostState = {
 };
 
 export function CreatePostForm() {
+  const t = useTranslations("posts");
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<PostState, FormData>(createPost, {
     message: "",
   });
 
   useEffect(() => {
-    console.log("State:", state);
-
     if (state.success && !pending) {
       setOpen(false);
     }
@@ -42,43 +42,45 @@ export function CreatePostForm() {
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Dodaj post
+          {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nowy post</DialogTitle>
+          <DialogTitle>{t("newTitle")}</DialogTitle>
           <DialogDescription>
-            Podziel się przemyśleniami ze społecznością.
+            {t("newDescription")}
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <label htmlFor="title" className="text-sm font-medium">
-                {state.message}
-                Tytuł
+                {t("titleLabel")}
               </label>
               <Input
                 id="title"
                 name="title"
-                placeholder="Wpisz tytuł posta"
+                placeholder={t("titlePlaceholder")}
                 required
               />
             </div>
             <div className="space-y-2">
               <label htmlFor="content" className="text-sm font-medium">
-                Treść
+                {t("contentLabel")}
               </label>
               <Textarea
                 id="content"
                 name="content"
-                placeholder="Napisz treść posta"
+                placeholder={t("contentPlaceholder")}
                 required
                 rows={5}
               />
             </div>
           </div>
+          {state.message && !state.success && (
+            <p className="text-sm text-destructive mb-2">{state.message}</p>
+          )}
           <DialogFooter>
             <Button
               type="button"
@@ -86,10 +88,10 @@ export function CreatePostForm() {
               onClick={() => setOpen(false)}
               disabled={pending}
             >
-              Anuluj
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Dodawanie..." : "Dodaj post"}
+              {pending ? t("adding") : t("add")}
             </Button>
           </DialogFooter>
         </form>

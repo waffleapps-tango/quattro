@@ -14,7 +14,14 @@
     "description": "Packages and reports for your neighborhood.",
     "settings": "Settings",
     "packages": "Packages",
-    "reports": "Reports"
+    "reports": "Reports",
+    "posts": "Posts",
+    "admin": "Administration",
+    "locations": "Locations",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "postNotFound": "Post not found",
+    "locationsDescription": "Discover the estate's amenities and interesting places nearby"
   },
   "settings": {
     "title": "Settings",
@@ -113,7 +120,8 @@
   "errors": {
     "notSignedIn": "You are not signed in",
     "fieldRequired": "This field is required",
-    "fillRequired": "Fill in the required fields"
+    "fillRequired": "Fill in the required fields",
+    "invalidForm": "Invalid form data"
   },
   "packages": {
     "title": "Packages",
@@ -544,5 +552,129 @@
       "invalidTransition": "This status change is not possible",
       "statusFailed": "Could not change the status"
     }
+  },
+  "posts": {
+    "heading": "Community posts ({count})",
+    "empty": "No posts",
+    "emptyHint": "Add the first post for the community.",
+    "add": "Add post",
+    "newTitle": "New post",
+    "newDescription": "Share your thoughts with the community.",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Enter the post title",
+    "contentLabel": "Content",
+    "contentPlaceholder": "Write the post content",
+    "cancel": "Cancel",
+    "adding": "Adding...",
+    "editTitle": "Edit post",
+    "editDescription": "Update the post content.",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "back": "Back to posts",
+    "deleteTitle": "Are you sure?",
+    "deleteDescription": "This cannot be undone. The post will be permanently deleted.",
+    "deleting": "Deleting...",
+    "delete": "Delete",
+    "actions": {
+      "created": "Post added",
+      "createFailed": "Could not add the post",
+      "updated": "Post updated",
+      "updateFailed": "Could not update the post",
+      "deleted": "Post deleted",
+      "deleteFailed": "Could not delete the post"
+    }
+  },
+  "admin": {
+    "title": "Member management",
+    "role": {
+      "RESIDENT": "Resident",
+      "RECEPTIONIST": "Receptionist",
+      "MANAGER": "Manager",
+      "ADMIN": "Administrator"
+    },
+    "add": "Add member",
+    "dialogTitle": "Add community member",
+    "dialogDescription": "Manual role assignment (no e-mail/QR invitation yet — next stage).",
+    "email": "Email",
+    "roleLabel": "Role",
+    "building": "Building (optional)",
+    "apartment": "Apartment (optional)",
+    "none": "None",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "save": "Save",
+    "empty": "No members",
+    "emptyHint": "Add the first member with the button above.",
+    "colEmail": "Email",
+    "colBuilding": "Building",
+    "colApartment": "Apartment",
+    "colRole": "Role",
+    "colActions": "Actions",
+    "remove": "Remove",
+    "actions": {
+      "created": "Member added",
+      "createFailed": "Could not add the member",
+      "createForbidden": "You are not allowed to add members",
+      "tenantMismatch": "The selected apartment or building does not belong to this community",
+      "roleChanged": "Role changed",
+      "roleFailed": "Could not change the role",
+      "roleForbidden": "You are not allowed to change roles",
+      "notFound": "Member not found",
+      "removed": "Member removed",
+      "removeFailed": "Could not remove the member",
+      "removeForbidden": "You are not allowed to remove members"
+    }
+  },
+  "locations": {
+    "title": "Locations",
+    "subtitle": "Discover the estate's amenities and interesting places nearby.",
+    "estateHeading": "Estate amenities",
+    "nearbyHeading": "Nearby",
+    "categoryDistance": "{category} • {distance} away",
+    "distance": "{km} km",
+    "estate": {
+      "kindergarten": {
+        "name": "Kindergarten",
+        "description": "Modern kindergarten with an experienced staff",
+        "category": "Education"
+      },
+      "sushi": {
+        "name": "Sushi restaurant",
+        "description": "Authentic Japanese cuisine",
+        "category": "Dining"
+      },
+      "medical": {
+        "name": "Medical center",
+        "description": "Family doctors and specialists",
+        "category": "Health"
+      },
+      "gym": {
+        "name": "Gym",
+        "description": "Gym open around the clock with modern equipment",
+        "category": "Sport"
+      }
+    },
+    "nearby": {
+      "mall": {
+        "name": "Shopping mall",
+        "description": "Large shopping mall with many stores",
+        "category": "Shopping"
+      },
+      "school": {
+        "name": "Primary school",
+        "description": "Public primary school with excellent reviews",
+        "category": "Education"
+      }
+    }
+  },
+  "auth": {
+    "signInTitle": "Welcome back",
+    "signInSubtitle": "Sign in to continue",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create an account",
+    "signUpTitle": "Create an account",
+    "signUpSubtitle": "Sign up to start using Quattro",
+    "haveAccount": "Already have an account?",
+    "signInLink": "Sign in"
   }
 }

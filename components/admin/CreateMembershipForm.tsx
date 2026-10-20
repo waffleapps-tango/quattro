@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 import { createMembershipAction } from "@/actions/memberships";
-import { ROLE_LABEL } from "./roleLabels";
+import { useTranslations } from "next-intl";
 import { Role, type Building, type Apartment } from "@/lib/generated/prisma";
 
 type ActionState = { message: string; success: boolean };
@@ -36,6 +36,7 @@ export function CreateMembershipForm({
   buildings: Building[];
   apartmentsByBuilding: Record<string, Apartment[]>;
 }) {
+  const t = useTranslations("admin");
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState<string>("");
   const [apartmentId, setApartmentId] = useState("");
@@ -60,43 +61,43 @@ export function CreateMembershipForm({
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Dodaj członka
+          {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Dodaj członka wspólnoty</DialogTitle>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
-            Ręczne przypisanie roli (bez zaproszenia e-mail/QR — etap kolejny).
+            {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
           <input type="hidden" name="communityId" value={communityId} />
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("email")}</Label>
               <Input id="email" name="email" type="email" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role">Rola</Label>
+              <Label htmlFor="role">{t("roleLabel")}</Label>
               <Select name="role" value={role} onValueChange={(v) => setRole(v as Role)}>
                 <SelectTrigger id="role">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={Role.RESIDENT}>{ROLE_LABEL.RESIDENT}</SelectItem>
-                  <SelectItem value={Role.RECEPTIONIST}>{ROLE_LABEL.RECEPTIONIST}</SelectItem>
-                  <SelectItem value={Role.MANAGER}>{ROLE_LABEL.MANAGER}</SelectItem>
-                  <SelectItem value={Role.ADMIN}>{ROLE_LABEL.ADMIN}</SelectItem>
+                  <SelectItem value={Role.RESIDENT}>{t("role.RESIDENT")}</SelectItem>
+                  <SelectItem value={Role.RECEPTIONIST}>{t("role.RECEPTIONIST")}</SelectItem>
+                  <SelectItem value={Role.MANAGER}>{t("role.MANAGER")}</SelectItem>
+                  <SelectItem value={Role.ADMIN}>{t("role.ADMIN")}</SelectItem>
                 </SelectContent>
               </Select>
               <input type="hidden" name="role" value={role} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="buildingId">Budynek (opcjonalnie)</Label>
+              <Label htmlFor="buildingId">{t("building")}</Label>
               <Select value={buildingId} onValueChange={setBuildingId}>
                 <SelectTrigger id="buildingId">
-                  <SelectValue placeholder="Brak" />
+                  <SelectValue placeholder={t("none")} />
                 </SelectTrigger>
                 <SelectContent>
                   {buildings.map((building) => (
@@ -109,13 +110,13 @@ export function CreateMembershipForm({
               <input type="hidden" name="buildingId" value={buildingId} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="apartmentId">Mieszkanie (opcjonalnie)</Label>
+              <Label htmlFor="apartmentId">{t("apartment")}</Label>
               <Select
                 value={apartmentId}
                 onValueChange={setApartmentId}
               >
                 <SelectTrigger id="apartmentId">
-                  <SelectValue placeholder="Brak" />
+                  <SelectValue placeholder={t("none")} />
                 </SelectTrigger>
                 <SelectContent>
                   {apartments.map((apartment) => (
@@ -133,10 +134,10 @@ export function CreateMembershipForm({
           )}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
-              Anuluj
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Zapisywanie..." : "Zapisz"}
+              {pending ? t("saving") : t("save")}
             </Button>
           </DialogFooter>
         </form>

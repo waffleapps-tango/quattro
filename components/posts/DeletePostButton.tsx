@@ -17,12 +17,14 @@ import {
 import { Trash } from "lucide-react";
 import { deletePost } from "@/actions/actions";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 type DeletePostButtonProps = {
   postId: string;
 };
 
 export function DeletePostButton({ postId }: DeletePostButtonProps) {
+  const t = useTranslations("posts");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -47,19 +49,19 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Na pewno?</AlertDialogTitle>
+          <AlertDialogTitle>{t("deleteTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Tej operacji nie można cofnąć. Post zostanie usunięty na stałe.
+            {t("deleteDescription")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Anuluj</AlertDialogCancel>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isPending}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
-            {isPending ? "Usuwanie..." : "Usuń"}
+            {isPending ? t("deleting") : t("delete")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

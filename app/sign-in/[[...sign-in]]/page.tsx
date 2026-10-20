@@ -1,16 +1,20 @@
-import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Logowanie" };
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+  return { title: t("signIn") };
+}
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const t = await getTranslations("auth");
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background p-4">
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-semibold">Witaj ponownie</h1>
+        <h1 className="text-2xl font-semibold">{t("signInTitle")}</h1>
         <p className="text-muted-foreground">
-          Zaloguj się, aby kontynuować
+          {t("signInSubtitle")}
         </p>
       </div>
       <SignIn
@@ -23,12 +27,12 @@ export default function SignInPage() {
         }}
       />
       <p className="text-sm text-muted-foreground">
-        Nie masz konta?{" "}
+        {t("noAccount")}{" "}
         <Link
           href="/sign-up"
           className="text-primary hover:underline"
         >
-          Załóż konto
+          {t("createAccount")}
         </Link>
       </p>
     </div>

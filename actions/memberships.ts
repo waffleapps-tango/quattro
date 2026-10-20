@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/auth/session";
 import {
@@ -25,8 +26,10 @@ export async function createMembershipAction(
   _prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  const t = await getTranslations("admin.actions");
+  const te = await getTranslations("errors");
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
+  if (!actor) return { message: te("notSignedIn"), success: false };
 
   const validated = createMembershipSchema.safeParse({
     communityId: formData.get("communityId"),
@@ -37,22 +40,22 @@ export async function createMembershipAction(
   });
 
   if (!validated.success) {
-    return { message: "Nieprawidłowe dane formularza", success: false };
+    return { message: te("invalidForm"), success: false };
   }
 
   try {
     await createMembership(actor, validated.data);
     revalidatePath("/admin");
-    return { message: "Członek dodany", success: true };
+    return { message: t("created"), success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) {
-      return { message: "Nie masz uprawnień do dodawania członków", success: false };
+      return { message: t("createForbidden"), success: false };
     }
     if (error instanceof TenantMismatchError) {
-      return { message: "Wybrane mieszkanie lub budynek nie należy do tej wspólnoty", success: false };
+      return { message: t("tenantMismatch"), success: false };
     }
     console.error(error);
-    return { message: "Nie udało się dodać członka", success: false };
+    return { message: t("createFailed"), success: false };
   }
 }
 
@@ -60,41 +63,45 @@ export async function updateMembershipRoleAction(
   membershipId: string,
   newRole: Role,
 ): Promise<ActionState> {
+  const t = await getTranslations("admin.actions");
+  const te = await getTranslations("errors");
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
+  if (!actor) return { message: te("notSignedIn"), success: false };
 
   try {
     await updateMembershipRole(actor, membershipId, newRole);
     revalidatePath("/admin");
-    return { message: "Rola zmieniona", success: true };
+    return { message: t("roleChanged"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return { message: "Nie znaleziono członka", success: false };
+      return { message: t("notFound"), success: false };
     }
     if (error instanceof UnauthorizedError) {
-      return { message: "Nie masz uprawnień do zmiany ról", success: false };
+      return { message: t("roleForbidden"), success: false };
     }
     console.error(error);
-    return { message: "Nie udało się zmienić roli", success: false };
+    return { message: t("roleFailed"), success: false };
   }
 }
 
 export async function removeMembershipAction(membershipId: string): Promise<ActionState> {
+  const t = await getTranslations("admin.actions");
+  const te = await getTranslations("errors");
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
+  if (!actor) return { message: te("notSignedIn"), success: false };
 
   try {
     await removeMembership(actor, membershipId);
     revalidatePath("/admin");
-    return { message: "Członek usunięty", success: true };
+    return { message: t("removed"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return { message: "Nie znaleziono członka", success: false };
+      return { message: t("notFound"), success: false };
     }
     if (error instanceof UnauthorizedError) {
-      return { message: "Nie masz uprawnień do usuwania członków", success: false };
+      return { message: t("removeForbidden"), success: false };
     }
     console.error(error);
-    return { message: "Nie udało się usunąć członka", success: false };
+    return { message: t("removeFailed"), success: false };
   }
 }

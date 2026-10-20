@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { format } from "date-fns";
+import { getFormatter, getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,12 +18,15 @@ type PostPageParams = {
 
 export async function generateMetadata({ params }: PostPageParams): Promise<Metadata> {
   const { slug } = await params;
+  const t = await getTranslations("meta");
   const post = await prisma.post.findUnique({ where: { slug }, select: { title: true } });
-  return { title: post?.title ?? "Nie znaleziono posta" };
+  return { title: post?.title ?? t("postNotFound") };
 }
 
 export default async function PostPage({ params }: PostPageParams) {
   const { slug } = await params;
+  const t = await getTranslations("posts");
+  const format = await getFormatter();
   const post = await prisma.post.findUnique({
     where: { slug },
   });
@@ -36,7 +39,7 @@ export default async function PostPage({ params }: PostPageParams) {
         <Link href="/posts">
           <Button variant="ghost" className="mb-4">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Wróć do postów
+            {t("back")}
           </Button>
         </Link>
       </div>
@@ -47,7 +50,7 @@ export default async function PostPage({ params }: PostPageParams) {
             <div>
               <CardTitle>{ post.title }</CardTitle>
               <div className="text-sm text-muted-foreground mt-2">
-                {format(new Date(post.createdAt), "dd.MM.yyyy")}
+                {format.dateTime(new Date(post.createdAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
               </div>
               <div className="flex gap-2">
                 <EditPostForm post={ post }/>

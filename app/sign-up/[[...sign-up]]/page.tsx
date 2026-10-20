@@ -1,16 +1,20 @@
-import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Rejestracja" };
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+  return { title: t("signUp") };
+}
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  const t = await getTranslations("auth");
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background p-4">
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-semibold">Załóż konto</h1>
+        <h1 className="text-2xl font-semibold">{t("signUpTitle")}</h1>
         <p className="text-muted-foreground">
-          Zarejestruj się, aby zacząć korzystać z Quattro
+          {t("signUpSubtitle")}
         </p>
       </div>
       <SignUp
@@ -23,12 +27,12 @@ export default function SignUpPage() {
         }}
       />
       <p className="text-sm text-muted-foreground">
-        Masz już konto?{" "}
+        {t("haveAccount")}{" "}
         <Link
           href="/sign-in"
           className="text-primary hover:underline"
         >
-          Zaloguj się
+          {t("signInLink")}
         </Link>
       </p>
     </div>

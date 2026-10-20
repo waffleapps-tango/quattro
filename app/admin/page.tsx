@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { AccessDenied } from "@/components/system/AccessDenied";
@@ -10,9 +10,13 @@ import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
 import { Role, type Apartment } from "@/lib/generated/prisma";
 import { UnauthorizedError } from "@/domain/errors";
 
-export const metadata: Metadata = { title: "Administracja" };
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+  return { title: t("admin") };
+}
 
 export default async function AdminPage() {
+  const t = await getTranslations("admin");
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
@@ -42,7 +46,7 @@ export default async function AdminPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Zarządzanie członkami</h1>
+        <h1 className="text-2xl font-bold">{t("title")}</h1>
         <CreateMembershipForm
           communityId={membership.communityId}
           buildings={buildings}

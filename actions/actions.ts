@@ -3,16 +3,19 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
+import { getTranslations } from "next-intl/server";
 
 const postSchema = z.object({
-  title: z.string().min(1, "Tytuł jest wymagany"),
-  content: z.string().min(1, "Treść jest wymagana"),
+  title: z.string().min(1),
+  content: z.string().min(1),
 });
 
 export async function createPost(
   prevState: { message: string },
   formData: FormData,
 ) {
+  const t = await getTranslations("posts.actions");
+  const te = await getTranslations("errors");
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
@@ -20,7 +23,7 @@ export async function createPost(
 
   if (!validatedFields.success) {
     return {
-      message: "Nieprawidłowe dane formularza",
+      message: te("invalidForm"),
       success: false,
     };
   }
@@ -39,7 +42,7 @@ export async function createPost(
 
     revalidatePath("/posts");
     return {
-      message: "Post dodany",
+      message: t("created"),
       success: true,
       post,
     };
@@ -47,7 +50,7 @@ export async function createPost(
     console.log(error);
 
     return {
-      message: "Nie udało się dodać posta",
+      message: t("createFailed"),
       success: false,
     };
   }
@@ -57,6 +60,8 @@ export async function updatePost(
   prevState: { message: string },
   formData: FormData,
 ) {
+  const t = await getTranslations("posts.actions");
+  const te = await getTranslations("errors");
   const postId = formData.get("id") as string;
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
@@ -65,7 +70,7 @@ export async function updatePost(
 
   if (!validatedFields.success) {
     return {
-      message: "Nieprawidłowe dane formularza",
+      message: te("invalidForm"),
       success: false,
     };
   }
@@ -83,20 +88,21 @@ export async function updatePost(
     revalidatePath("/posts");
     revalidatePath(`/posts/${post.slug}`);
     return {
-      message: "Post zaktualizowany",
+      message: t("updated"),
       success: true,
     };
   } catch (error) {
     console.log(error);
 
     return {
-      message: "Nie udało się zaktualizować posta",
+      message: t("updateFailed"),
       success: false,
     };
   }
 }
 
 export async function deletePost(postId: string) {
+  const t = await getTranslations("posts.actions");
   try {
     await prisma.post.delete({
       where: {
@@ -106,13 +112,13 @@ export async function deletePost(postId: string) {
 
     revalidatePath("/posts");
     return {
-      message: "Post usunięty",
+      message: t("deleted"),
       success: true,
     };
   } catch (error) {
     console.log(error);
     return {
-      message: "Nie udało się usunąć posta",
+      message: t("deleteFailed"),
       success: false,
     };
   }

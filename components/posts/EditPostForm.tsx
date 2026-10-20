@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Edit } from "lucide-react";
 import { updatePost } from "@/actions/actions";
 import { useActionState } from "react";
+import { useTranslations } from "next-intl";
 
 type PostState = {
   message: string;
@@ -31,6 +32,7 @@ type EditPostFormProps = {
 };
 
 export function EditPostForm({ post }: EditPostFormProps) {
+  const t = useTranslations("posts");
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<PostState, FormData>(updatePost, {
     message: "",
@@ -51,9 +53,9 @@ export function EditPostForm({ post }: EditPostFormProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edytuj post</DialogTitle>
+          <DialogTitle>{t("editTitle")}</DialogTitle>
           <DialogDescription>
-            Zaktualizuj treść posta.
+            {t("editDescription")}
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
@@ -61,30 +63,33 @@ export function EditPostForm({ post }: EditPostFormProps) {
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <label htmlFor="title" className="text-sm font-medium">
-                Tytuł
+                {t("titleLabel")}
               </label>
               <Input
                 id="title"
                 name="title"
                 defaultValue={post.title}
-                placeholder="Wpisz tytuł posta"
+                placeholder={t("titlePlaceholder")}
                 required
               />
             </div>
             <div className="space-y-2">
               <label htmlFor="content" className="text-sm font-medium">
-                Treść
+                {t("contentLabel")}
               </label>
               <Textarea
                 id="content"
                 name="content"
                 defaultValue={post.content}
-                placeholder="Napisz treść posta"
+                placeholder={t("contentPlaceholder")}
                 required
                 rows={5}
               />
             </div>
           </div>
+          {state.message && !state.success && (
+            <p className="text-sm text-destructive mb-2">{state.message}</p>
+          )}
           <DialogFooter>
             <Button
               type="button"
@@ -92,10 +97,10 @@ export function EditPostForm({ post }: EditPostFormProps) {
               onClick={() => setOpen(false)}
               disabled={pending}
             >
-              Anuluj
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Zapisywanie..." : "Zapisz zmiany"}
+              {pending ? t("saving") : t("saveChanges")}
             </Button>
           </DialogFooter>
         </form>

@@ -14,7 +14,14 @@
     "description": "Paczki i zgłoszenia dla Twojego osiedla.",
     "settings": "Ustawienia",
     "packages": "Paczki",
-    "reports": "Zgłoszenia"
+    "reports": "Zgłoszenia",
+    "posts": "Posty",
+    "admin": "Administracja",
+    "locations": "Lokalizacje",
+    "signIn": "Logowanie",
+    "signUp": "Rejestracja",
+    "postNotFound": "Nie znaleziono posta",
+    "locationsDescription": "Odkryj udogodnienia osiedla i ciekawe miejsca w okolicy"
   },
   "settings": {
     "title": "Ustawienia",
@@ -113,7 +120,8 @@
   "errors": {
     "notSignedIn": "Nie jesteś zalogowany",
     "fieldRequired": "To pole jest wymagane",
-    "fillRequired": "Uzupełnij wymagane pola"
+    "fillRequired": "Uzupełnij wymagane pola",
+    "invalidForm": "Nieprawidłowe dane formularza"
   },
   "packages": {
     "title": "Paczki",
@@ -544,5 +552,129 @@
       "invalidTransition": "Ta zmiana statusu nie jest możliwa",
       "statusFailed": "Nie udało się zmienić statusu"
     }
+  },
+  "posts": {
+    "heading": "Posty społeczności ({count})",
+    "empty": "Brak postów",
+    "emptyHint": "Dodaj pierwszy post dla społeczności.",
+    "add": "Dodaj post",
+    "newTitle": "Nowy post",
+    "newDescription": "Podziel się przemyśleniami ze społecznością.",
+    "titleLabel": "Tytuł",
+    "titlePlaceholder": "Wpisz tytuł posta",
+    "contentLabel": "Treść",
+    "contentPlaceholder": "Napisz treść posta",
+    "cancel": "Anuluj",
+    "adding": "Dodawanie...",
+    "editTitle": "Edytuj post",
+    "editDescription": "Zaktualizuj treść posta.",
+    "saving": "Zapisywanie...",
+    "saveChanges": "Zapisz zmiany",
+    "back": "Wróć do postów",
+    "deleteTitle": "Na pewno?",
+    "deleteDescription": "Tej operacji nie można cofnąć. Post zostanie usunięty na stałe.",
+    "deleting": "Usuwanie...",
+    "delete": "Usuń",
+    "actions": {
+      "created": "Post dodany",
+      "createFailed": "Nie udało się dodać posta",
+      "updated": "Post zaktualizowany",
+      "updateFailed": "Nie udało się zaktualizować posta",
+      "deleted": "Post usunięty",
+      "deleteFailed": "Nie udało się usunąć posta"
+    }
+  },
+  "admin": {
+    "title": "Zarządzanie członkami",
+    "role": {
+      "RESIDENT": "Mieszkaniec",
+      "RECEPTIONIST": "Recepcja",
+      "MANAGER": "Zarządca",
+      "ADMIN": "Administrator"
+    },
+    "add": "Dodaj członka",
+    "dialogTitle": "Dodaj członka wspólnoty",
+    "dialogDescription": "Ręczne przypisanie roli (bez zaproszenia e-mail/QR — etap kolejny).",
+    "email": "Email",
+    "roleLabel": "Rola",
+    "building": "Budynek (opcjonalnie)",
+    "apartment": "Mieszkanie (opcjonalnie)",
+    "none": "Brak",
+    "cancel": "Anuluj",
+    "saving": "Zapisywanie...",
+    "save": "Zapisz",
+    "empty": "Brak członków",
+    "emptyHint": "Dodaj pierwszego członka przyciskiem powyżej.",
+    "colEmail": "Email",
+    "colBuilding": "Budynek",
+    "colApartment": "Mieszkanie",
+    "colRole": "Rola",
+    "colActions": "Akcje",
+    "remove": "Usuń",
+    "actions": {
+      "created": "Członek dodany",
+      "createFailed": "Nie udało się dodać członka",
+      "createForbidden": "Nie masz uprawnień do dodawania członków",
+      "tenantMismatch": "Wybrane mieszkanie lub budynek nie należy do tej wspólnoty",
+      "roleChanged": "Rola zmieniona",
+      "roleFailed": "Nie udało się zmienić roli",
+      "roleForbidden": "Nie masz uprawnień do zmiany ról",
+      "notFound": "Nie znaleziono członka",
+      "removed": "Członek usunięty",
+      "removeFailed": "Nie udało się usunąć członka",
+      "removeForbidden": "Nie masz uprawnień do usuwania członków"
+    }
+  },
+  "locations": {
+    "title": "Lokalizacje",
+    "subtitle": "Odkryj udogodnienia na osiedlu i ciekawe miejsca w okolicy.",
+    "estateHeading": "Udogodnienia osiedla",
+    "nearbyHeading": "W okolicy",
+    "categoryDistance": "{category} • {distance} stąd",
+    "distance": "{km} km",
+    "estate": {
+      "kindergarten": {
+        "name": "Przedszkole",
+        "description": "Nowoczesne przedszkole z doświadczoną kadrą",
+        "category": "Edukacja"
+      },
+      "sushi": {
+        "name": "Restauracja sushi",
+        "description": "Autentyczna kuchnia japońska",
+        "category": "Gastronomia"
+      },
+      "medical": {
+        "name": "Centrum medyczne",
+        "description": "Lekarze rodzinni i specjaliści",
+        "category": "Zdrowie"
+      },
+      "gym": {
+        "name": "Siłownia",
+        "description": "Siłownia czynna całą dobę z nowoczesnym sprzętem",
+        "category": "Sport"
+      }
+    },
+    "nearby": {
+      "mall": {
+        "name": "Centrum handlowe",
+        "description": "Duże centrum handlowe z wieloma sklepami",
+        "category": "Zakupy"
+      },
+      "school": {
+        "name": "Szkoła podstawowa",
+        "description": "Publiczna szkoła podstawowa z doskonałymi opiniami",
+        "category": "Edukacja"
+      }
+    }
+  },
+  "auth": {
+    "signInTitle": "Witaj ponownie",
+    "signInSubtitle": "Zaloguj się, aby kontynuować",
+    "noAccount": "Nie masz konta?",
+    "createAccount": "Załóż konto",
+    "signUpTitle": "Załóż konto",
+    "signUpSubtitle": "Zarejestruj się, aby zacząć korzystać z Quattro",
+    "haveAccount": "Masz już konto?",
+    "signInLink": "Zaloguj się"
   }
 }

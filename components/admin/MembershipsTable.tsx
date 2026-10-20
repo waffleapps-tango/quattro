@@ -21,7 +21,7 @@ import { Users } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { toast } from "sonner";
 import { updateMembershipRoleAction, removeMembershipAction } from "@/actions/memberships";
-import { ROLE_LABEL } from "./roleLabels";
+import { useTranslations } from "next-intl";
 import { Role, type Membership, type User, type Building, type Apartment } from "@/lib/generated/prisma";
 
 type MembershipRow = Membership & {
@@ -31,6 +31,7 @@ type MembershipRow = Membership & {
 };
 
 export function MembershipsTable({ memberships }: { memberships: MembershipRow[] }) {
+  const t = useTranslations("admin");
   const [pendingId, setPendingId] = useState<string | null>(null);
 
   const handleRoleChange = async (membershipId: string, newRole: Role) => {
@@ -53,8 +54,8 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
     return (
       <EmptyState
         icon={Users}
-        title="Brak członków"
-        description="Dodaj pierwszego członka przyciskiem powyżej."
+        title={t("empty")}
+        description={t("emptyHint")}
       />
     );
   }
@@ -64,11 +65,11 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Email</TableHead>
-            <TableHead>Budynek</TableHead>
-            <TableHead>Mieszkanie</TableHead>
-            <TableHead>Rola</TableHead>
-            <TableHead>Akcje</TableHead>
+            <TableHead>{t("colEmail")}</TableHead>
+            <TableHead>{t("colBuilding")}</TableHead>
+            <TableHead>{t("colApartment")}</TableHead>
+            <TableHead>{t("colRole")}</TableHead>
+            <TableHead>{t("colActions")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -87,10 +88,10 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={Role.RESIDENT}>{ROLE_LABEL.RESIDENT}</SelectItem>
-                    <SelectItem value={Role.RECEPTIONIST}>{ROLE_LABEL.RECEPTIONIST}</SelectItem>
-                    <SelectItem value={Role.MANAGER}>{ROLE_LABEL.MANAGER}</SelectItem>
-                    <SelectItem value={Role.ADMIN}>{ROLE_LABEL.ADMIN}</SelectItem>
+                    <SelectItem value={Role.RESIDENT}>{t("role.RESIDENT")}</SelectItem>
+                    <SelectItem value={Role.RECEPTIONIST}>{t("role.RECEPTIONIST")}</SelectItem>
+                    <SelectItem value={Role.MANAGER}>{t("role.MANAGER")}</SelectItem>
+                    <SelectItem value={Role.ADMIN}>{t("role.ADMIN")}</SelectItem>
                   </SelectContent>
                 </Select>
               </TableCell>
@@ -101,7 +102,7 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
                   disabled={pendingId === membership.id}
                   onClick={() => handleRemove(membership.id)}
                 >
-                  Usuń
+                  {t("remove")}
                 </Button>
               </TableCell>
             </TableRow>
