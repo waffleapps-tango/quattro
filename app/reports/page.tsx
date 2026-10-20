@@ -44,7 +44,7 @@ export default async function ReportsPage({
 
   const sp = await searchParams;
   const asEnum = <T extends string>(values: Record<string, T>, v?: string) =>
-    v && v in values ? (v as T) : undefined;
+    v && Object.values(values).includes(v as T) ? (v as T) : undefined;
 
   const reports = await listReports(
     user,
