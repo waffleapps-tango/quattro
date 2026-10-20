@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,27 +13,27 @@ import { centerOf, useThemeSwitch } from "./useThemeSwitch";
 
 const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
 const RADIUS = 124;
-const THEME_LABEL: Record<string, string> = { light: "Jasny", dark: "Ciemny", system: "Systemowy" };
 
 function MiniApp() {
+  const t = useTranslations("settings.mini");
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="font-semibold">Quattro</div>
-        <Badge>3 nowe</Badge>
+        <Badge>{t("badge")}</Badge>
       </div>
       <div className="rounded-lg border bg-card p-3 text-card-foreground">
-        <div className="text-sm font-medium">Paczka dla mieszk. 12</div>
-        <div className="text-xs text-muted-foreground">DHL · dotarła dzisiaj</div>
+        <div className="text-sm font-medium">{t("package")}</div>
+        <div className="text-xs text-muted-foreground">{t("carrier")}</div>
         <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
           <div className="h-full w-2/3 rounded-full bg-primary" />
         </div>
       </div>
-      <Input placeholder="Szukaj paczek…" readOnly tabIndex={-1} />
+      <Input placeholder={t("search")} readOnly tabIndex={-1} />
       <div className="flex items-center gap-2">
-        <Button size="sm" tabIndex={-1}>Zarejestruj</Button>
-        <Button size="sm" variant="secondary" tabIndex={-1}>Filtruj</Button>
-        <Button size="sm" variant="ghost" tabIndex={-1}>Anuluj</Button>
+        <Button size="sm" tabIndex={-1}>{t("register")}</Button>
+        <Button size="sm" variant="secondary" tabIndex={-1}>{t("filter")}</Button>
+        <Button size="sm" variant="ghost" tabIndex={-1}>{t("cancel")}</Button>
         <Switch checked className="ml-auto" aria-hidden tabIndex={-1} />
       </div>
     </div>
@@ -40,7 +41,9 @@ function MiniApp() {
 }
 
 export function ThemePicker() {
+  const t = useTranslations("settings");
   const { theme, resolved, set } = useThemeSwitch();
+  const modeLabel = t(`themes.${theme as "light" | "dark" | "system"}`);
   const [palette, setPalette] = useState<PaletteId>("default");
   const [hover, setHover] = useState<PaletteId | null>(null);
   const [open, setOpen] = useState(false);
@@ -63,7 +66,7 @@ export function ThemePicker() {
   return (
     <div className="grid items-center gap-6 md:grid-cols-[340px_1fr]">
       <div className="mx-auto flex flex-col items-center gap-2">
-        <div className="relative size-[340px]" role="radiogroup" aria-label="Paleta kolorów">
+        <div className="relative size-[340px]" role="radiogroup" aria-label={t("picker.palette")}>
           <span aria-hidden className="absolute inset-[22px] rounded-full border border-dashed border-border" />
           {PALETTES.map(({ id, label: name, swatch }, i) => {
             const a = (360 / PALETTES.length) * i - 90;
@@ -100,14 +103,14 @@ export function ThemePicker() {
           })}
           <button
             type="button"
-            aria-label={`Tryb: ${THEME_LABEL[theme]}. Kliknij, aby zmienić`}
+            aria-label={t("picker.mode", { mode: modeLabel })}
             onClick={(e) =>
               set(theme === "light" ? "dark" : theme === "dark" ? "system" : "light", centerOf(e.currentTarget))
             }
             className="absolute left-1/2 top-1/2 flex size-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-full border bg-card text-card-foreground shadow-md transition-transform duration-150 active:scale-[0.97]"
           >
             <Icon className="size-6" />
-            <span className="text-xs text-muted-foreground">{THEME_LABEL[theme]}</span>
+            <span className="text-xs text-muted-foreground">{modeLabel}</span>
           </button>
         </div>
         <div className="h-5 text-sm font-medium">{label}</div>
@@ -118,7 +121,7 @@ export function ThemePicker() {
         className="rounded-xl border bg-background p-5 text-foreground shadow-sm transition-colors duration-200 [&_*]:transition-colors [&_*]:duration-200"
       >
         <div className="mb-3 text-xs uppercase tracking-wide text-muted-foreground">
-          {hover && hover !== palette ? "Podgląd" : "Obecna"} · {label}
+          {hover && hover !== palette ? t("picker.preview") : t("picker.current")} · {label}
         </div>
         <MiniApp />
       </div>

@@ -4,6 +4,52 @@
     "loading": "Ładowanie…"
   },
   "meta": {
-    "description": "Paczki i zgłoszenia dla Twojego osiedla."
+    "description": "Paczki i zgłoszenia dla Twojego osiedla.",
+    "settings": "Ustawienia"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "description": "Zarządzaj ustawieniami i preferencjami aplikacji.",
+    "metaDescription": "Zarządzaj ustawieniami aplikacji",
+    "appearance": {
+      "title": "Wygląd",
+      "description": "Dostosuj wygląd Quattro na swoim urządzeniu",
+      "theme": "Motyw",
+      "themePlaceholder": "Wybierz motyw"
+    },
+    "themes": {
+      "light": "Jasny",
+      "dark": "Ciemny",
+      "system": "Systemowy"
+    },
+    "notifications": {
+      "title": "Powiadomienia",
+      "description": "Skonfiguruj sposób otrzymywania powiadomień",
+      "email": "Powiadomienia e-mail"
+    },
+    "language": {
+      "title": "Język",
+      "description": "Wybierz preferowany język",
+      "label": "Język",
+      "placeholder": "Wybierz język"
+    },
+    "languageError": "Nie udało się zmienić języka",
+    "save": "Zapisz zmiany",
+    "saved": "Ustawienia zapisane",
+    "picker": {
+      "palette": "Paleta kolorów",
+      "mode": "Tryb: {mode}. Kliknij, aby zmienić",
+      "preview": "Podgląd",
+      "current": "Obecna"
+    },
+    "mini": {
+      "badge": "3 nowe",
+      "package": "Paczka dla mieszk. 12",
+      "carrier": "DHL · dotarła dzisiaj",
+      "search": "Szukaj paczek…",
+      "register": "Zarejestruj",
+      "filter": "Filtruj",
+      "cancel": "Anuluj"
+    }
   }
 }

@@ -4,6 +4,52 @@
     "loading": "Loading…"
   },
   "meta": {
-    "description": "Packages and reports for your neighborhood."
+    "description": "Packages and reports for your neighborhood.",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage the app settings and preferences.",
+    "metaDescription": "Manage app settings",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize how Quattro looks on your device",
+      "theme": "Theme",
+      "themePlaceholder": "Choose a theme"
+    },
+    "themes": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Configure how you receive notifications",
+      "email": "Email notifications"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose your preferred language",
+      "label": "Language",
+      "placeholder": "Choose a language"
+    },
+    "languageError": "Could not change the language",
+    "save": "Save changes",
+    "saved": "Settings saved",
+    "picker": {
+      "palette": "Color palette",
+      "mode": "Mode: {mode}. Click to change",
+      "preview": "Preview",
+      "current": "Current"
+    },
+    "mini": {
+      "badge": "3 new",
+      "package": "Package for apt. 12",
+      "carrier": "DHL · arrived today",
+      "search": "Search packages…",
+      "register": "Register",
+      "filter": "Filter",
+      "cancel": "Cancel"
+    }
   }
 }

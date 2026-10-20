@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,13 +10,24 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { setLocaleAction } from "@/actions/locale";
 import { ThemePicker } from "./ThemePicker";
 
 export function SettingsForm() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [notifications, setNotifications] = useState(true);
-  const [language, setLanguage] = useState("en");
+  const t = useTranslations("settings");
+  const locale = useLocale();
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+
+  const changeLocale = (value: string) =>
+    startTransition(async () => {
+      const res = await setLocaleAction(value);
+      if (!res.success) return void toast.error(t("languageError"));
+      router.refresh();
+    });
 
   useEffect(() => {
     setMounted(true);
@@ -22,7 +35,7 @@ export function SettingsForm() {
 
   const handleSave = () => {
     // In a real app, you would save these settings to your backend
-    toast.success("Ustawienia zapisane");
+    toast.success(t("saved"));
   };
 
   if (!mounted) {
@@ -33,22 +46,20 @@ export function SettingsForm() {
     <div className="grid gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>Wygląd</CardTitle>
-          <CardDescription>
-            Dostosuj wygląd Quattro na swoim urządzeniu
-          </CardDescription>
+          <CardTitle>{t("appearance.title")}</CardTitle>
+          <CardDescription>{t("appearance.description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="theme">Motyw</Label>
+            <Label htmlFor="theme">{t("appearance.theme")}</Label>
             <Select value={theme} onValueChange={setTheme}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Wybierz motyw" />
+                <SelectValue placeholder={t("appearance.themePlaceholder")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">Jasny</SelectItem>
-                <SelectItem value="dark">Ciemny</SelectItem>
-                <SelectItem value="system">Systemowy</SelectItem>
+                <SelectItem value="light">{t("themes.light")}</SelectItem>
+                <SelectItem value="dark">{t("themes.dark")}</SelectItem>
+                <SelectItem value="system">{t("themes.system")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -58,14 +69,12 @@ export function SettingsForm() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Powiadomienia</CardTitle>
-          <CardDescription>
-            Skonfiguruj sposób otrzymywania powiadomień
-          </CardDescription>
+          <CardTitle>{t("notifications.title")}</CardTitle>
+          <CardDescription>{t("notifications.description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="notifications">Powiadomienia e-mail</Label>
+            <Label htmlFor="notifications">{t("notifications.email")}</Label>
             <Switch
               id="notifications"
               checked={notifications}
@@ -77,23 +86,19 @@ export function SettingsForm() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Język</CardTitle>
-          <CardDescription>
-            Wybierz preferowany język
-          </CardDescription>
+          <CardTitle>{t("language.title")}</CardTitle>
+          <CardDescription>{t("language.description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="language">Język</Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Wybierz język" />
+            <Label htmlFor="language">{t("language.label")}</Label>
+            <Select value={locale} onValueChange={changeLocale} disabled={pending}>
+              <SelectTrigger id="language" className="w-[180px]">
+                <SelectValue placeholder={t("language.placeholder")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="en">Angielski</SelectItem>
-                <SelectItem value="es">Hiszpański</SelectItem>
-                <SelectItem value="fr">Francuski</SelectItem>
-                <SelectItem value="de">Niemiecki</SelectItem>
+                <SelectItem value="pl">Polski</SelectItem>
+                <SelectItem value="en">English</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -101,7 +106,7 @@ export function SettingsForm() {
       </Card>
 
       <div className="flex justify-end">
-        <Button onClick={handleSave}>Zapisz zmiany</Button>
+        <Button onClick={handleSave}>{t("save")}</Button>
       </div>
     </div>
   );
