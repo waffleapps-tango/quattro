@@ -48,6 +48,7 @@ model User {
   receivedPackages  Package[]    @relation("PackageReceivedBy")
   pickedUpPackages  Package[]    @relation("PackagePickedUpBy")
   auditLogs         AuditLog[]
+  reports           Report[]
 }
 
 model Community {
@@ -57,10 +58,13 @@ model Community {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  buildings   Building[]
-  memberships Membership[]
-  packages    Package[]
-  auditLogs   AuditLog[]
+  buildings     Building[]
+  memberships   Membership[]
+  packages      Package[]
+  auditLogs     AuditLog[]
+  parkingSpaces ParkingSpace[]
+  storageUnits  StorageUnit[]
+  reports       Report[]
 }
 
 model Building {
@@ -71,10 +75,13 @@ model Building {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  community   Community    @relation(fields: [communityId], references: [id])
-  apartments  Apartment[]
-  memberships Membership[]
-  packages    Package[]
+  community     Community      @relation(fields: [communityId], references: [id])
+  apartments    Apartment[]
+  memberships   Membership[]
+  packages      Package[]
+  parkingSpaces ParkingSpace[]
+  storageUnits  StorageUnit[]
+  reports       Report[]
 
   @@index([communityId])
 }
@@ -87,9 +94,12 @@ model Apartment {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  building    Building     @relation(fields: [buildingId], references: [id])
-  memberships Membership[]
-  packages    Package[]
+  building      Building       @relation(fields: [buildingId], references: [id])
+  memberships   Membership[]
+  packages      Package[]
+  parkingSpaces ParkingSpace[]
+  storageUnits  StorageUnit[]
+  reports       Report[]
 
   @@unique([buildingId, number])
 }
@@ -144,6 +154,97 @@ model Package {
   @@index([communityId, status])
   @@index([apartmentId])
   @@index([trackingNumber])
+}
+
+enum ReportType {
+  DEFECT
+  REQUEST
+  NOTICE
+  QUESTION
+  IDEA
+  COMPLAINT
+}
+
+enum ReportVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum ReportStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  APPROVED
+  REJECTED
+  CLOSED
+}
+
+model ParkingSpace {
+  id           String   @id @default(cuid())
+  communityId  String
+  buildingId   String?
+  apartmentId  String?
+  number       String
+  level        String?
+  hasEvCharger Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  community Community  @relation(fields: [communityId], references: [id])
+  building  Building?  @relation(fields: [buildingId], references: [id])
+  apartment Apartment? @relation(fields: [apartmentId], references: [id])
+  reports   Report[]
+
+  @@unique([communityId, number])
+  @@index([apartmentId])
+}
+
+model StorageUnit {
+  id          String   @id @default(cuid())
+  communityId String
+  buildingId  String
+  apartmentId String?
+  number      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  community Community  @relation(fields: [communityId], references: [id])
+  building  Building   @relation(fields: [buildingId], references: [id])
+  apartment Apartment? @relation(fields: [apartmentId], references: [id])
+  reports   Report[]
+
+  @@unique([buildingId, number])
+  @@index([apartmentId])
+}
+
+model Report {
+  id             String           @id @default(cuid())
+  communityId    String
+  buildingId     String?
+  apartmentId    String?
+  parkingSpaceId String?
+  storageUnitId  String?
+  authorId       String
+  category       String
+  type           ReportType
+  visibility     ReportVisibility
+  title          String
+  description    String
+  status         ReportStatus     @default(NEW)
+  urgent         Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  resolvedAt     DateTime?
+
+  community    Community     @relation(fields: [communityId], references: [id])
+  building     Building?     @relation(fields: [buildingId], references: [id])
+  apartment    Apartment?    @relation(fields: [apartmentId], references: [id])
+  parkingSpace ParkingSpace? @relation(fields: [parkingSpaceId], references: [id])
+  storageUnit  StorageUnit?  @relation(fields: [storageUnitId], references: [id])
+  author       User          @relation(fields: [authorId], references: [id])
+
+  @@index([communityId, visibility, status])
+  @@index([authorId])
 }
 
 model AuditLog {

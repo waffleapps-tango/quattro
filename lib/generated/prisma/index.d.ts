@@ -49,6 +49,21 @@ export type Membership = $Result.DefaultSelection<Prisma.$MembershipPayload>
  */
 export type Package = $Result.DefaultSelection<Prisma.$PackagePayload>
 /**
+ * Model ParkingSpace
+ * 
+ */
+export type ParkingSpace = $Result.DefaultSelection<Prisma.$ParkingSpacePayload>
+/**
+ * Model StorageUnit
+ * 
+ */
+export type StorageUnit = $Result.DefaultSelection<Prisma.$StorageUnitPayload>
+/**
+ * Model Report
+ * 
+ */
+export type Report = $Result.DefaultSelection<Prisma.$ReportPayload>
+/**
  * Model AuditLog
  * 
  */
@@ -76,6 +91,38 @@ export const PackageStatus: {
 
 export type PackageStatus = (typeof PackageStatus)[keyof typeof PackageStatus]
 
+
+export const ReportType: {
+  DEFECT: 'DEFECT',
+  REQUEST: 'REQUEST',
+  NOTICE: 'NOTICE',
+  QUESTION: 'QUESTION',
+  IDEA: 'IDEA',
+  COMPLAINT: 'COMPLAINT'
+};
+
+export type ReportType = (typeof ReportType)[keyof typeof ReportType]
+
+
+export const ReportVisibility: {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+};
+
+export type ReportVisibility = (typeof ReportVisibility)[keyof typeof ReportVisibility]
+
+
+export const ReportStatus: {
+  NEW: 'NEW',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  CLOSED: 'CLOSED'
+};
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -85,6 +132,18 @@ export const Role: typeof $Enums.Role
 export type PackageStatus = $Enums.PackageStatus
 
 export const PackageStatus: typeof $Enums.PackageStatus
+
+export type ReportType = $Enums.ReportType
+
+export const ReportType: typeof $Enums.ReportType
+
+export type ReportVisibility = $Enums.ReportVisibility
+
+export const ReportVisibility: typeof $Enums.ReportVisibility
+
+export type ReportStatus = $Enums.ReportStatus
+
+export const ReportStatus: typeof $Enums.ReportStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -273,6 +332,36 @@ export class PrismaClient<
     * ```
     */
   get package(): Prisma.PackageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.parkingSpace`: Exposes CRUD operations for the **ParkingSpace** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ParkingSpaces
+    * const parkingSpaces = await prisma.parkingSpace.findMany()
+    * ```
+    */
+  get parkingSpace(): Prisma.ParkingSpaceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.storageUnit`: Exposes CRUD operations for the **StorageUnit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StorageUnits
+    * const storageUnits = await prisma.storageUnit.findMany()
+    * ```
+    */
+  get storageUnit(): Prisma.StorageUnitDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.report`: Exposes CRUD operations for the **Report** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reports
+    * const reports = await prisma.report.findMany()
+    * ```
+    */
+  get report(): Prisma.ReportDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.auditLog`: Exposes CRUD operations for the **AuditLog** model.
@@ -731,6 +820,9 @@ export namespace Prisma {
     Apartment: 'Apartment',
     Membership: 'Membership',
     Package: 'Package',
+    ParkingSpace: 'ParkingSpace',
+    StorageUnit: 'StorageUnit',
+    Report: 'Report',
     AuditLog: 'AuditLog'
   };
 
@@ -750,7 +842,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "user" | "community" | "building" | "apartment" | "membership" | "package" | "auditLog"
+      modelProps: "post" | "user" | "community" | "building" | "apartment" | "membership" | "package" | "parkingSpace" | "storageUnit" | "report" | "auditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1272,6 +1364,228 @@ export namespace Prisma {
           }
         }
       }
+      ParkingSpace: {
+        payload: Prisma.$ParkingSpacePayload<ExtArgs>
+        fields: Prisma.ParkingSpaceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ParkingSpaceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ParkingSpaceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>
+          }
+          findFirst: {
+            args: Prisma.ParkingSpaceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ParkingSpaceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>
+          }
+          findMany: {
+            args: Prisma.ParkingSpaceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>[]
+          }
+          create: {
+            args: Prisma.ParkingSpaceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>
+          }
+          createMany: {
+            args: Prisma.ParkingSpaceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ParkingSpaceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>[]
+          }
+          delete: {
+            args: Prisma.ParkingSpaceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>
+          }
+          update: {
+            args: Prisma.ParkingSpaceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>
+          }
+          deleteMany: {
+            args: Prisma.ParkingSpaceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ParkingSpaceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ParkingSpaceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>[]
+          }
+          upsert: {
+            args: Prisma.ParkingSpaceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParkingSpacePayload>
+          }
+          aggregate: {
+            args: Prisma.ParkingSpaceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateParkingSpace>
+          }
+          groupBy: {
+            args: Prisma.ParkingSpaceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ParkingSpaceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ParkingSpaceCountArgs<ExtArgs>
+            result: $Utils.Optional<ParkingSpaceCountAggregateOutputType> | number
+          }
+        }
+      }
+      StorageUnit: {
+        payload: Prisma.$StorageUnitPayload<ExtArgs>
+        fields: Prisma.StorageUnitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StorageUnitFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StorageUnitFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>
+          }
+          findFirst: {
+            args: Prisma.StorageUnitFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StorageUnitFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>
+          }
+          findMany: {
+            args: Prisma.StorageUnitFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>[]
+          }
+          create: {
+            args: Prisma.StorageUnitCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>
+          }
+          createMany: {
+            args: Prisma.StorageUnitCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StorageUnitCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>[]
+          }
+          delete: {
+            args: Prisma.StorageUnitDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>
+          }
+          update: {
+            args: Prisma.StorageUnitUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>
+          }
+          deleteMany: {
+            args: Prisma.StorageUnitDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StorageUnitUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StorageUnitUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>[]
+          }
+          upsert: {
+            args: Prisma.StorageUnitUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageUnitPayload>
+          }
+          aggregate: {
+            args: Prisma.StorageUnitAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStorageUnit>
+          }
+          groupBy: {
+            args: Prisma.StorageUnitGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StorageUnitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StorageUnitCountArgs<ExtArgs>
+            result: $Utils.Optional<StorageUnitCountAggregateOutputType> | number
+          }
+        }
+      }
+      Report: {
+        payload: Prisma.$ReportPayload<ExtArgs>
+        fields: Prisma.ReportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>
+          }
+          findFirst: {
+            args: Prisma.ReportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>
+          }
+          findMany: {
+            args: Prisma.ReportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>[]
+          }
+          create: {
+            args: Prisma.ReportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>
+          }
+          createMany: {
+            args: Prisma.ReportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>[]
+          }
+          delete: {
+            args: Prisma.ReportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>
+          }
+          update: {
+            args: Prisma.ReportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReportUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportPayload>
+          }
+          aggregate: {
+            args: Prisma.ReportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReport>
+          }
+          groupBy: {
+            args: Prisma.ReportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReportCountArgs<ExtArgs>
+            result: $Utils.Optional<ReportCountAggregateOutputType> | number
+          }
+        }
+      }
       AuditLog: {
         payload: Prisma.$AuditLogPayload<ExtArgs>
         fields: Prisma.AuditLogFieldRefs
@@ -1449,6 +1763,9 @@ export namespace Prisma {
     apartment?: ApartmentOmit
     membership?: MembershipOmit
     package?: PackageOmit
+    parkingSpace?: ParkingSpaceOmit
+    storageUnit?: StorageUnitOmit
+    report?: ReportOmit
     auditLog?: AuditLogOmit
   }
 
@@ -1535,6 +1852,7 @@ export namespace Prisma {
     receivedPackages: number
     pickedUpPackages: number
     auditLogs: number
+    reports: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1543,6 +1861,7 @@ export namespace Prisma {
     receivedPackages?: boolean | UserCountOutputTypeCountReceivedPackagesArgs
     pickedUpPackages?: boolean | UserCountOutputTypeCountPickedUpPackagesArgs
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+    reports?: boolean | UserCountOutputTypeCountReportsArgs
   }
 
   // Custom InputTypes
@@ -1591,6 +1910,13 @@ export namespace Prisma {
     where?: AuditLogWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+  }
+
 
   /**
    * Count Type CommunityCountOutputType
@@ -1601,6 +1927,9 @@ export namespace Prisma {
     memberships: number
     packages: number
     auditLogs: number
+    parkingSpaces: number
+    storageUnits: number
+    reports: number
   }
 
   export type CommunityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1608,6 +1937,9 @@ export namespace Prisma {
     memberships?: boolean | CommunityCountOutputTypeCountMembershipsArgs
     packages?: boolean | CommunityCountOutputTypeCountPackagesArgs
     auditLogs?: boolean | CommunityCountOutputTypeCountAuditLogsArgs
+    parkingSpaces?: boolean | CommunityCountOutputTypeCountParkingSpacesArgs
+    storageUnits?: boolean | CommunityCountOutputTypeCountStorageUnitsArgs
+    reports?: boolean | CommunityCountOutputTypeCountReportsArgs
   }
 
   // Custom InputTypes
@@ -1649,6 +1981,27 @@ export namespace Prisma {
     where?: AuditLogWhereInput
   }
 
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountParkingSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParkingSpaceWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountStorageUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageUnitWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+  }
+
 
   /**
    * Count Type BuildingCountOutputType
@@ -1658,12 +2011,18 @@ export namespace Prisma {
     apartments: number
     memberships: number
     packages: number
+    parkingSpaces: number
+    storageUnits: number
+    reports: number
   }
 
   export type BuildingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     apartments?: boolean | BuildingCountOutputTypeCountApartmentsArgs
     memberships?: boolean | BuildingCountOutputTypeCountMembershipsArgs
     packages?: boolean | BuildingCountOutputTypeCountPackagesArgs
+    parkingSpaces?: boolean | BuildingCountOutputTypeCountParkingSpacesArgs
+    storageUnits?: boolean | BuildingCountOutputTypeCountStorageUnitsArgs
+    reports?: boolean | BuildingCountOutputTypeCountReportsArgs
   }
 
   // Custom InputTypes
@@ -1698,6 +2057,27 @@ export namespace Prisma {
     where?: PackageWhereInput
   }
 
+  /**
+   * BuildingCountOutputType without action
+   */
+  export type BuildingCountOutputTypeCountParkingSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParkingSpaceWhereInput
+  }
+
+  /**
+   * BuildingCountOutputType without action
+   */
+  export type BuildingCountOutputTypeCountStorageUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageUnitWhereInput
+  }
+
+  /**
+   * BuildingCountOutputType without action
+   */
+  export type BuildingCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+  }
+
 
   /**
    * Count Type ApartmentCountOutputType
@@ -1706,11 +2086,17 @@ export namespace Prisma {
   export type ApartmentCountOutputType = {
     memberships: number
     packages: number
+    parkingSpaces: number
+    storageUnits: number
+    reports: number
   }
 
   export type ApartmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | ApartmentCountOutputTypeCountMembershipsArgs
     packages?: boolean | ApartmentCountOutputTypeCountPackagesArgs
+    parkingSpaces?: boolean | ApartmentCountOutputTypeCountParkingSpacesArgs
+    storageUnits?: boolean | ApartmentCountOutputTypeCountStorageUnitsArgs
+    reports?: boolean | ApartmentCountOutputTypeCountReportsArgs
   }
 
   // Custom InputTypes
@@ -1736,6 +2122,89 @@ export namespace Prisma {
    */
   export type ApartmentCountOutputTypeCountPackagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PackageWhereInput
+  }
+
+  /**
+   * ApartmentCountOutputType without action
+   */
+  export type ApartmentCountOutputTypeCountParkingSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParkingSpaceWhereInput
+  }
+
+  /**
+   * ApartmentCountOutputType without action
+   */
+  export type ApartmentCountOutputTypeCountStorageUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageUnitWhereInput
+  }
+
+  /**
+   * ApartmentCountOutputType without action
+   */
+  export type ApartmentCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+  }
+
+
+  /**
+   * Count Type ParkingSpaceCountOutputType
+   */
+
+  export type ParkingSpaceCountOutputType = {
+    reports: number
+  }
+
+  export type ParkingSpaceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reports?: boolean | ParkingSpaceCountOutputTypeCountReportsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ParkingSpaceCountOutputType without action
+   */
+  export type ParkingSpaceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpaceCountOutputType
+     */
+    select?: ParkingSpaceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ParkingSpaceCountOutputType without action
+   */
+  export type ParkingSpaceCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+  }
+
+
+  /**
+   * Count Type StorageUnitCountOutputType
+   */
+
+  export type StorageUnitCountOutputType = {
+    reports: number
+  }
+
+  export type StorageUnitCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reports?: boolean | StorageUnitCountOutputTypeCountReportsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StorageUnitCountOutputType without action
+   */
+  export type StorageUnitCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnitCountOutputType
+     */
+    select?: StorageUnitCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StorageUnitCountOutputType without action
+   */
+  export type StorageUnitCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
   }
 
 
@@ -2941,6 +3410,7 @@ export namespace Prisma {
     receivedPackages?: boolean | User$receivedPackagesArgs<ExtArgs>
     pickedUpPackages?: boolean | User$pickedUpPackagesArgs<ExtArgs>
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    reports?: boolean | User$reportsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2978,6 +3448,7 @@ export namespace Prisma {
     receivedPackages?: boolean | User$receivedPackagesArgs<ExtArgs>
     pickedUpPackages?: boolean | User$pickedUpPackagesArgs<ExtArgs>
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    reports?: boolean | User$reportsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2991,6 +3462,7 @@ export namespace Prisma {
       receivedPackages: Prisma.$PackagePayload<ExtArgs>[]
       pickedUpPackages: Prisma.$PackagePayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      reports: Prisma.$ReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3398,6 +3870,7 @@ export namespace Prisma {
     receivedPackages<T extends User$receivedPackagesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedPackagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pickedUpPackages<T extends User$pickedUpPackagesArgs<ExtArgs> = {}>(args?: Subset<T, User$pickedUpPackagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reports<T extends User$reportsArgs<ExtArgs> = {}>(args?: Subset<T, User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3941,6 +4414,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.reports
+   */
+  export type User$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4127,6 +4624,9 @@ export namespace Prisma {
     memberships?: boolean | Community$membershipsArgs<ExtArgs>
     packages?: boolean | Community$packagesArgs<ExtArgs>
     auditLogs?: boolean | Community$auditLogsArgs<ExtArgs>
+    parkingSpaces?: boolean | Community$parkingSpacesArgs<ExtArgs>
+    storageUnits?: boolean | Community$storageUnitsArgs<ExtArgs>
+    reports?: boolean | Community$reportsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["community"]>
 
@@ -4160,6 +4660,9 @@ export namespace Prisma {
     memberships?: boolean | Community$membershipsArgs<ExtArgs>
     packages?: boolean | Community$packagesArgs<ExtArgs>
     auditLogs?: boolean | Community$auditLogsArgs<ExtArgs>
+    parkingSpaces?: boolean | Community$parkingSpacesArgs<ExtArgs>
+    storageUnits?: boolean | Community$storageUnitsArgs<ExtArgs>
+    reports?: boolean | Community$reportsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommunityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4172,6 +4675,9 @@ export namespace Prisma {
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
       packages: Prisma.$PackagePayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      parkingSpaces: Prisma.$ParkingSpacePayload<ExtArgs>[]
+      storageUnits: Prisma.$StorageUnitPayload<ExtArgs>[]
+      reports: Prisma.$ReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4577,6 +5083,9 @@ export namespace Prisma {
     memberships<T extends Community$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Community$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages<T extends Community$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Community$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Community$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Community$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parkingSpaces<T extends Community$parkingSpacesArgs<ExtArgs> = {}>(args?: Subset<T, Community$parkingSpacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    storageUnits<T extends Community$storageUnitsArgs<ExtArgs> = {}>(args?: Subset<T, Community$storageUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reports<T extends Community$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Community$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5095,6 +5604,78 @@ export namespace Prisma {
   }
 
   /**
+   * Community.parkingSpaces
+   */
+  export type Community$parkingSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    where?: ParkingSpaceWhereInput
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    cursor?: ParkingSpaceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParkingSpaceScalarFieldEnum | ParkingSpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Community.storageUnits
+   */
+  export type Community$storageUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    where?: StorageUnitWhereInput
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    cursor?: StorageUnitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageUnitScalarFieldEnum | StorageUnitScalarFieldEnum[]
+  }
+
+  /**
+   * Community.reports
+   */
+  export type Community$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
    * Community without action
    */
   export type CommunityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5289,6 +5870,9 @@ export namespace Prisma {
     apartments?: boolean | Building$apartmentsArgs<ExtArgs>
     memberships?: boolean | Building$membershipsArgs<ExtArgs>
     packages?: boolean | Building$packagesArgs<ExtArgs>
+    parkingSpaces?: boolean | Building$parkingSpacesArgs<ExtArgs>
+    storageUnits?: boolean | Building$storageUnitsArgs<ExtArgs>
+    reports?: boolean | Building$reportsArgs<ExtArgs>
     _count?: boolean | BuildingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["building"]>
 
@@ -5327,6 +5911,9 @@ export namespace Prisma {
     apartments?: boolean | Building$apartmentsArgs<ExtArgs>
     memberships?: boolean | Building$membershipsArgs<ExtArgs>
     packages?: boolean | Building$packagesArgs<ExtArgs>
+    parkingSpaces?: boolean | Building$parkingSpacesArgs<ExtArgs>
+    storageUnits?: boolean | Building$storageUnitsArgs<ExtArgs>
+    reports?: boolean | Building$reportsArgs<ExtArgs>
     _count?: boolean | BuildingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BuildingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5343,6 +5930,9 @@ export namespace Prisma {
       apartments: Prisma.$ApartmentPayload<ExtArgs>[]
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
       packages: Prisma.$PackagePayload<ExtArgs>[]
+      parkingSpaces: Prisma.$ParkingSpacePayload<ExtArgs>[]
+      storageUnits: Prisma.$StorageUnitPayload<ExtArgs>[]
+      reports: Prisma.$ReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5749,6 +6339,9 @@ export namespace Prisma {
     apartments<T extends Building$apartmentsArgs<ExtArgs> = {}>(args?: Subset<T, Building$apartmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     memberships<T extends Building$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Building$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages<T extends Building$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Building$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parkingSpaces<T extends Building$parkingSpacesArgs<ExtArgs> = {}>(args?: Subset<T, Building$parkingSpacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    storageUnits<T extends Building$storageUnitsArgs<ExtArgs> = {}>(args?: Subset<T, Building$storageUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reports<T extends Building$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Building$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6252,6 +6845,78 @@ export namespace Prisma {
   }
 
   /**
+   * Building.parkingSpaces
+   */
+  export type Building$parkingSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    where?: ParkingSpaceWhereInput
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    cursor?: ParkingSpaceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParkingSpaceScalarFieldEnum | ParkingSpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Building.storageUnits
+   */
+  export type Building$storageUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    where?: StorageUnitWhereInput
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    cursor?: StorageUnitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageUnitScalarFieldEnum | StorageUnitScalarFieldEnum[]
+  }
+
+  /**
+   * Building.reports
+   */
+  export type Building$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
    * Building without action
    */
   export type BuildingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6479,6 +7144,9 @@ export namespace Prisma {
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     memberships?: boolean | Apartment$membershipsArgs<ExtArgs>
     packages?: boolean | Apartment$packagesArgs<ExtArgs>
+    parkingSpaces?: boolean | Apartment$parkingSpacesArgs<ExtArgs>
+    storageUnits?: boolean | Apartment$storageUnitsArgs<ExtArgs>
+    reports?: boolean | Apartment$reportsArgs<ExtArgs>
     _count?: boolean | ApartmentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["apartment"]>
 
@@ -6516,6 +7184,9 @@ export namespace Prisma {
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     memberships?: boolean | Apartment$membershipsArgs<ExtArgs>
     packages?: boolean | Apartment$packagesArgs<ExtArgs>
+    parkingSpaces?: boolean | Apartment$parkingSpacesArgs<ExtArgs>
+    storageUnits?: boolean | Apartment$storageUnitsArgs<ExtArgs>
+    reports?: boolean | Apartment$reportsArgs<ExtArgs>
     _count?: boolean | ApartmentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ApartmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6531,6 +7202,9 @@ export namespace Prisma {
       building: Prisma.$BuildingPayload<ExtArgs>
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
       packages: Prisma.$PackagePayload<ExtArgs>[]
+      parkingSpaces: Prisma.$ParkingSpacePayload<ExtArgs>[]
+      storageUnits: Prisma.$StorageUnitPayload<ExtArgs>[]
+      reports: Prisma.$ReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6936,6 +7610,9 @@ export namespace Prisma {
     building<T extends BuildingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BuildingDefaultArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     memberships<T extends Apartment$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages<T extends Apartment$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parkingSpaces<T extends Apartment$parkingSpacesArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$parkingSpacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    storageUnits<T extends Apartment$storageUnitsArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$storageUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reports<T extends Apartment$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7412,6 +8089,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PackageScalarFieldEnum | PackageScalarFieldEnum[]
+  }
+
+  /**
+   * Apartment.parkingSpaces
+   */
+  export type Apartment$parkingSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    where?: ParkingSpaceWhereInput
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    cursor?: ParkingSpaceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParkingSpaceScalarFieldEnum | ParkingSpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Apartment.storageUnits
+   */
+  export type Apartment$storageUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    where?: StorageUnitWhereInput
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    cursor?: StorageUnitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorageUnitScalarFieldEnum | StorageUnitScalarFieldEnum[]
+  }
+
+  /**
+   * Apartment.reports
+   */
+  export type Apartment$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
   }
 
   /**
@@ -9846,6 +10595,3679 @@ export namespace Prisma {
 
 
   /**
+   * Model ParkingSpace
+   */
+
+  export type AggregateParkingSpace = {
+    _count: ParkingSpaceCountAggregateOutputType | null
+    _min: ParkingSpaceMinAggregateOutputType | null
+    _max: ParkingSpaceMaxAggregateOutputType | null
+  }
+
+  export type ParkingSpaceMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    buildingId: string | null
+    apartmentId: string | null
+    number: string | null
+    level: string | null
+    hasEvCharger: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ParkingSpaceMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    buildingId: string | null
+    apartmentId: string | null
+    number: string | null
+    level: string | null
+    hasEvCharger: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ParkingSpaceCountAggregateOutputType = {
+    id: number
+    communityId: number
+    buildingId: number
+    apartmentId: number
+    number: number
+    level: number
+    hasEvCharger: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ParkingSpaceMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    number?: true
+    level?: true
+    hasEvCharger?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ParkingSpaceMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    number?: true
+    level?: true
+    hasEvCharger?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ParkingSpaceCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    number?: true
+    level?: true
+    hasEvCharger?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ParkingSpaceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ParkingSpace to aggregate.
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParkingSpaces to fetch.
+     */
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ParkingSpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParkingSpaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParkingSpaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ParkingSpaces
+    **/
+    _count?: true | ParkingSpaceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ParkingSpaceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ParkingSpaceMaxAggregateInputType
+  }
+
+  export type GetParkingSpaceAggregateType<T extends ParkingSpaceAggregateArgs> = {
+        [P in keyof T & keyof AggregateParkingSpace]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateParkingSpace[P]>
+      : GetScalarType<T[P], AggregateParkingSpace[P]>
+  }
+
+
+
+
+  export type ParkingSpaceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParkingSpaceWhereInput
+    orderBy?: ParkingSpaceOrderByWithAggregationInput | ParkingSpaceOrderByWithAggregationInput[]
+    by: ParkingSpaceScalarFieldEnum[] | ParkingSpaceScalarFieldEnum
+    having?: ParkingSpaceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ParkingSpaceCountAggregateInputType | true
+    _min?: ParkingSpaceMinAggregateInputType
+    _max?: ParkingSpaceMaxAggregateInputType
+  }
+
+  export type ParkingSpaceGroupByOutputType = {
+    id: string
+    communityId: string
+    buildingId: string | null
+    apartmentId: string | null
+    number: string
+    level: string | null
+    hasEvCharger: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ParkingSpaceCountAggregateOutputType | null
+    _min: ParkingSpaceMinAggregateOutputType | null
+    _max: ParkingSpaceMaxAggregateOutputType | null
+  }
+
+  type GetParkingSpaceGroupByPayload<T extends ParkingSpaceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ParkingSpaceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ParkingSpaceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ParkingSpaceGroupByOutputType[P]>
+            : GetScalarType<T[P], ParkingSpaceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ParkingSpaceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    level?: boolean
+    hasEvCharger?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | ParkingSpace$buildingArgs<ExtArgs>
+    apartment?: boolean | ParkingSpace$apartmentArgs<ExtArgs>
+    reports?: boolean | ParkingSpace$reportsArgs<ExtArgs>
+    _count?: boolean | ParkingSpaceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["parkingSpace"]>
+
+  export type ParkingSpaceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    level?: boolean
+    hasEvCharger?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | ParkingSpace$buildingArgs<ExtArgs>
+    apartment?: boolean | ParkingSpace$apartmentArgs<ExtArgs>
+  }, ExtArgs["result"]["parkingSpace"]>
+
+  export type ParkingSpaceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    level?: boolean
+    hasEvCharger?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | ParkingSpace$buildingArgs<ExtArgs>
+    apartment?: boolean | ParkingSpace$apartmentArgs<ExtArgs>
+  }, ExtArgs["result"]["parkingSpace"]>
+
+  export type ParkingSpaceSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    level?: boolean
+    hasEvCharger?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ParkingSpaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "buildingId" | "apartmentId" | "number" | "level" | "hasEvCharger" | "createdAt" | "updatedAt", ExtArgs["result"]["parkingSpace"]>
+  export type ParkingSpaceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | ParkingSpace$buildingArgs<ExtArgs>
+    apartment?: boolean | ParkingSpace$apartmentArgs<ExtArgs>
+    reports?: boolean | ParkingSpace$reportsArgs<ExtArgs>
+    _count?: boolean | ParkingSpaceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ParkingSpaceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | ParkingSpace$buildingArgs<ExtArgs>
+    apartment?: boolean | ParkingSpace$apartmentArgs<ExtArgs>
+  }
+  export type ParkingSpaceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | ParkingSpace$buildingArgs<ExtArgs>
+    apartment?: boolean | ParkingSpace$apartmentArgs<ExtArgs>
+  }
+
+  export type $ParkingSpacePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ParkingSpace"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+      building: Prisma.$BuildingPayload<ExtArgs> | null
+      apartment: Prisma.$ApartmentPayload<ExtArgs> | null
+      reports: Prisma.$ReportPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      buildingId: string | null
+      apartmentId: string | null
+      number: string
+      level: string | null
+      hasEvCharger: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["parkingSpace"]>
+    composites: {}
+  }
+
+  type ParkingSpaceGetPayload<S extends boolean | null | undefined | ParkingSpaceDefaultArgs> = $Result.GetResult<Prisma.$ParkingSpacePayload, S>
+
+  type ParkingSpaceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ParkingSpaceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ParkingSpaceCountAggregateInputType | true
+    }
+
+  export interface ParkingSpaceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ParkingSpace'], meta: { name: 'ParkingSpace' } }
+    /**
+     * Find zero or one ParkingSpace that matches the filter.
+     * @param {ParkingSpaceFindUniqueArgs} args - Arguments to find a ParkingSpace
+     * @example
+     * // Get one ParkingSpace
+     * const parkingSpace = await prisma.parkingSpace.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ParkingSpaceFindUniqueArgs>(args: SelectSubset<T, ParkingSpaceFindUniqueArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ParkingSpace that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ParkingSpaceFindUniqueOrThrowArgs} args - Arguments to find a ParkingSpace
+     * @example
+     * // Get one ParkingSpace
+     * const parkingSpace = await prisma.parkingSpace.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ParkingSpaceFindUniqueOrThrowArgs>(args: SelectSubset<T, ParkingSpaceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ParkingSpace that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceFindFirstArgs} args - Arguments to find a ParkingSpace
+     * @example
+     * // Get one ParkingSpace
+     * const parkingSpace = await prisma.parkingSpace.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ParkingSpaceFindFirstArgs>(args?: SelectSubset<T, ParkingSpaceFindFirstArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ParkingSpace that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceFindFirstOrThrowArgs} args - Arguments to find a ParkingSpace
+     * @example
+     * // Get one ParkingSpace
+     * const parkingSpace = await prisma.parkingSpace.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ParkingSpaceFindFirstOrThrowArgs>(args?: SelectSubset<T, ParkingSpaceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ParkingSpaces that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ParkingSpaces
+     * const parkingSpaces = await prisma.parkingSpace.findMany()
+     * 
+     * // Get first 10 ParkingSpaces
+     * const parkingSpaces = await prisma.parkingSpace.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const parkingSpaceWithIdOnly = await prisma.parkingSpace.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ParkingSpaceFindManyArgs>(args?: SelectSubset<T, ParkingSpaceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ParkingSpace.
+     * @param {ParkingSpaceCreateArgs} args - Arguments to create a ParkingSpace.
+     * @example
+     * // Create one ParkingSpace
+     * const ParkingSpace = await prisma.parkingSpace.create({
+     *   data: {
+     *     // ... data to create a ParkingSpace
+     *   }
+     * })
+     * 
+     */
+    create<T extends ParkingSpaceCreateArgs>(args: SelectSubset<T, ParkingSpaceCreateArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ParkingSpaces.
+     * @param {ParkingSpaceCreateManyArgs} args - Arguments to create many ParkingSpaces.
+     * @example
+     * // Create many ParkingSpaces
+     * const parkingSpace = await prisma.parkingSpace.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ParkingSpaceCreateManyArgs>(args?: SelectSubset<T, ParkingSpaceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ParkingSpaces and returns the data saved in the database.
+     * @param {ParkingSpaceCreateManyAndReturnArgs} args - Arguments to create many ParkingSpaces.
+     * @example
+     * // Create many ParkingSpaces
+     * const parkingSpace = await prisma.parkingSpace.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ParkingSpaces and only return the `id`
+     * const parkingSpaceWithIdOnly = await prisma.parkingSpace.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ParkingSpaceCreateManyAndReturnArgs>(args?: SelectSubset<T, ParkingSpaceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ParkingSpace.
+     * @param {ParkingSpaceDeleteArgs} args - Arguments to delete one ParkingSpace.
+     * @example
+     * // Delete one ParkingSpace
+     * const ParkingSpace = await prisma.parkingSpace.delete({
+     *   where: {
+     *     // ... filter to delete one ParkingSpace
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ParkingSpaceDeleteArgs>(args: SelectSubset<T, ParkingSpaceDeleteArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ParkingSpace.
+     * @param {ParkingSpaceUpdateArgs} args - Arguments to update one ParkingSpace.
+     * @example
+     * // Update one ParkingSpace
+     * const parkingSpace = await prisma.parkingSpace.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ParkingSpaceUpdateArgs>(args: SelectSubset<T, ParkingSpaceUpdateArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ParkingSpaces.
+     * @param {ParkingSpaceDeleteManyArgs} args - Arguments to filter ParkingSpaces to delete.
+     * @example
+     * // Delete a few ParkingSpaces
+     * const { count } = await prisma.parkingSpace.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ParkingSpaceDeleteManyArgs>(args?: SelectSubset<T, ParkingSpaceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ParkingSpaces.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ParkingSpaces
+     * const parkingSpace = await prisma.parkingSpace.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ParkingSpaceUpdateManyArgs>(args: SelectSubset<T, ParkingSpaceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ParkingSpaces and returns the data updated in the database.
+     * @param {ParkingSpaceUpdateManyAndReturnArgs} args - Arguments to update many ParkingSpaces.
+     * @example
+     * // Update many ParkingSpaces
+     * const parkingSpace = await prisma.parkingSpace.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ParkingSpaces and only return the `id`
+     * const parkingSpaceWithIdOnly = await prisma.parkingSpace.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ParkingSpaceUpdateManyAndReturnArgs>(args: SelectSubset<T, ParkingSpaceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ParkingSpace.
+     * @param {ParkingSpaceUpsertArgs} args - Arguments to update or create a ParkingSpace.
+     * @example
+     * // Update or create a ParkingSpace
+     * const parkingSpace = await prisma.parkingSpace.upsert({
+     *   create: {
+     *     // ... data to create a ParkingSpace
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ParkingSpace we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ParkingSpaceUpsertArgs>(args: SelectSubset<T, ParkingSpaceUpsertArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ParkingSpaces.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceCountArgs} args - Arguments to filter ParkingSpaces to count.
+     * @example
+     * // Count the number of ParkingSpaces
+     * const count = await prisma.parkingSpace.count({
+     *   where: {
+     *     // ... the filter for the ParkingSpaces we want to count
+     *   }
+     * })
+    **/
+    count<T extends ParkingSpaceCountArgs>(
+      args?: Subset<T, ParkingSpaceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ParkingSpaceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ParkingSpace.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ParkingSpaceAggregateArgs>(args: Subset<T, ParkingSpaceAggregateArgs>): Prisma.PrismaPromise<GetParkingSpaceAggregateType<T>>
+
+    /**
+     * Group by ParkingSpace.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParkingSpaceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ParkingSpaceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ParkingSpaceGroupByArgs['orderBy'] }
+        : { orderBy?: ParkingSpaceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ParkingSpaceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetParkingSpaceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ParkingSpace model
+   */
+  readonly fields: ParkingSpaceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ParkingSpace.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ParkingSpaceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    building<T extends ParkingSpace$buildingArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpace$buildingArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    apartment<T extends ParkingSpace$apartmentArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpace$apartmentArgs<ExtArgs>>): Prisma__ApartmentClient<$Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reports<T extends ParkingSpace$reportsArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpace$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ParkingSpace model
+   */
+  interface ParkingSpaceFieldRefs {
+    readonly id: FieldRef<"ParkingSpace", 'String'>
+    readonly communityId: FieldRef<"ParkingSpace", 'String'>
+    readonly buildingId: FieldRef<"ParkingSpace", 'String'>
+    readonly apartmentId: FieldRef<"ParkingSpace", 'String'>
+    readonly number: FieldRef<"ParkingSpace", 'String'>
+    readonly level: FieldRef<"ParkingSpace", 'String'>
+    readonly hasEvCharger: FieldRef<"ParkingSpace", 'Boolean'>
+    readonly createdAt: FieldRef<"ParkingSpace", 'DateTime'>
+    readonly updatedAt: FieldRef<"ParkingSpace", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ParkingSpace findUnique
+   */
+  export type ParkingSpaceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which ParkingSpace to fetch.
+     */
+    where: ParkingSpaceWhereUniqueInput
+  }
+
+  /**
+   * ParkingSpace findUniqueOrThrow
+   */
+  export type ParkingSpaceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which ParkingSpace to fetch.
+     */
+    where: ParkingSpaceWhereUniqueInput
+  }
+
+  /**
+   * ParkingSpace findFirst
+   */
+  export type ParkingSpaceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which ParkingSpace to fetch.
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParkingSpaces to fetch.
+     */
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ParkingSpaces.
+     */
+    cursor?: ParkingSpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParkingSpaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParkingSpaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParkingSpaces.
+     */
+    distinct?: ParkingSpaceScalarFieldEnum | ParkingSpaceScalarFieldEnum[]
+  }
+
+  /**
+   * ParkingSpace findFirstOrThrow
+   */
+  export type ParkingSpaceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which ParkingSpace to fetch.
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParkingSpaces to fetch.
+     */
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ParkingSpaces.
+     */
+    cursor?: ParkingSpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParkingSpaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParkingSpaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParkingSpaces.
+     */
+    distinct?: ParkingSpaceScalarFieldEnum | ParkingSpaceScalarFieldEnum[]
+  }
+
+  /**
+   * ParkingSpace findMany
+   */
+  export type ParkingSpaceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which ParkingSpaces to fetch.
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParkingSpaces to fetch.
+     */
+    orderBy?: ParkingSpaceOrderByWithRelationInput | ParkingSpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ParkingSpaces.
+     */
+    cursor?: ParkingSpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParkingSpaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParkingSpaces.
+     */
+    skip?: number
+    distinct?: ParkingSpaceScalarFieldEnum | ParkingSpaceScalarFieldEnum[]
+  }
+
+  /**
+   * ParkingSpace create
+   */
+  export type ParkingSpaceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ParkingSpace.
+     */
+    data: XOR<ParkingSpaceCreateInput, ParkingSpaceUncheckedCreateInput>
+  }
+
+  /**
+   * ParkingSpace createMany
+   */
+  export type ParkingSpaceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ParkingSpaces.
+     */
+    data: ParkingSpaceCreateManyInput | ParkingSpaceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ParkingSpace createManyAndReturn
+   */
+  export type ParkingSpaceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * The data used to create many ParkingSpaces.
+     */
+    data: ParkingSpaceCreateManyInput | ParkingSpaceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ParkingSpace update
+   */
+  export type ParkingSpaceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ParkingSpace.
+     */
+    data: XOR<ParkingSpaceUpdateInput, ParkingSpaceUncheckedUpdateInput>
+    /**
+     * Choose, which ParkingSpace to update.
+     */
+    where: ParkingSpaceWhereUniqueInput
+  }
+
+  /**
+   * ParkingSpace updateMany
+   */
+  export type ParkingSpaceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ParkingSpaces.
+     */
+    data: XOR<ParkingSpaceUpdateManyMutationInput, ParkingSpaceUncheckedUpdateManyInput>
+    /**
+     * Filter which ParkingSpaces to update
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * Limit how many ParkingSpaces to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParkingSpace updateManyAndReturn
+   */
+  export type ParkingSpaceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * The data used to update ParkingSpaces.
+     */
+    data: XOR<ParkingSpaceUpdateManyMutationInput, ParkingSpaceUncheckedUpdateManyInput>
+    /**
+     * Filter which ParkingSpaces to update
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * Limit how many ParkingSpaces to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ParkingSpace upsert
+   */
+  export type ParkingSpaceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ParkingSpace to update in case it exists.
+     */
+    where: ParkingSpaceWhereUniqueInput
+    /**
+     * In case the ParkingSpace found by the `where` argument doesn't exist, create a new ParkingSpace with this data.
+     */
+    create: XOR<ParkingSpaceCreateInput, ParkingSpaceUncheckedCreateInput>
+    /**
+     * In case the ParkingSpace was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ParkingSpaceUpdateInput, ParkingSpaceUncheckedUpdateInput>
+  }
+
+  /**
+   * ParkingSpace delete
+   */
+  export type ParkingSpaceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    /**
+     * Filter which ParkingSpace to delete.
+     */
+    where: ParkingSpaceWhereUniqueInput
+  }
+
+  /**
+   * ParkingSpace deleteMany
+   */
+  export type ParkingSpaceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ParkingSpaces to delete
+     */
+    where?: ParkingSpaceWhereInput
+    /**
+     * Limit how many ParkingSpaces to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParkingSpace.building
+   */
+  export type ParkingSpace$buildingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Building
+     */
+    select?: BuildingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Building
+     */
+    omit?: BuildingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BuildingInclude<ExtArgs> | null
+    where?: BuildingWhereInput
+  }
+
+  /**
+   * ParkingSpace.apartment
+   */
+  export type ParkingSpace$apartmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: ApartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: ApartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentInclude<ExtArgs> | null
+    where?: ApartmentWhereInput
+  }
+
+  /**
+   * ParkingSpace.reports
+   */
+  export type ParkingSpace$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * ParkingSpace without action
+   */
+  export type ParkingSpaceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StorageUnit
+   */
+
+  export type AggregateStorageUnit = {
+    _count: StorageUnitCountAggregateOutputType | null
+    _min: StorageUnitMinAggregateOutputType | null
+    _max: StorageUnitMaxAggregateOutputType | null
+  }
+
+  export type StorageUnitMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    buildingId: string | null
+    apartmentId: string | null
+    number: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StorageUnitMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    buildingId: string | null
+    apartmentId: string | null
+    number: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StorageUnitCountAggregateOutputType = {
+    id: number
+    communityId: number
+    buildingId: number
+    apartmentId: number
+    number: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StorageUnitMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    number?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StorageUnitMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    number?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StorageUnitCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    number?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StorageUnitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorageUnit to aggregate.
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageUnits to fetch.
+     */
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StorageUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StorageUnits
+    **/
+    _count?: true | StorageUnitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StorageUnitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StorageUnitMaxAggregateInputType
+  }
+
+  export type GetStorageUnitAggregateType<T extends StorageUnitAggregateArgs> = {
+        [P in keyof T & keyof AggregateStorageUnit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStorageUnit[P]>
+      : GetScalarType<T[P], AggregateStorageUnit[P]>
+  }
+
+
+
+
+  export type StorageUnitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageUnitWhereInput
+    orderBy?: StorageUnitOrderByWithAggregationInput | StorageUnitOrderByWithAggregationInput[]
+    by: StorageUnitScalarFieldEnum[] | StorageUnitScalarFieldEnum
+    having?: StorageUnitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StorageUnitCountAggregateInputType | true
+    _min?: StorageUnitMinAggregateInputType
+    _max?: StorageUnitMaxAggregateInputType
+  }
+
+  export type StorageUnitGroupByOutputType = {
+    id: string
+    communityId: string
+    buildingId: string
+    apartmentId: string | null
+    number: string
+    createdAt: Date
+    updatedAt: Date
+    _count: StorageUnitCountAggregateOutputType | null
+    _min: StorageUnitMinAggregateOutputType | null
+    _max: StorageUnitMaxAggregateOutputType | null
+  }
+
+  type GetStorageUnitGroupByPayload<T extends StorageUnitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StorageUnitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StorageUnitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StorageUnitGroupByOutputType[P]>
+            : GetScalarType<T[P], StorageUnitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StorageUnitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    apartment?: boolean | StorageUnit$apartmentArgs<ExtArgs>
+    reports?: boolean | StorageUnit$reportsArgs<ExtArgs>
+    _count?: boolean | StorageUnitCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storageUnit"]>
+
+  export type StorageUnitSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    apartment?: boolean | StorageUnit$apartmentArgs<ExtArgs>
+  }, ExtArgs["result"]["storageUnit"]>
+
+  export type StorageUnitSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    apartment?: boolean | StorageUnit$apartmentArgs<ExtArgs>
+  }, ExtArgs["result"]["storageUnit"]>
+
+  export type StorageUnitSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    number?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StorageUnitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "buildingId" | "apartmentId" | "number" | "createdAt" | "updatedAt", ExtArgs["result"]["storageUnit"]>
+  export type StorageUnitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    apartment?: boolean | StorageUnit$apartmentArgs<ExtArgs>
+    reports?: boolean | StorageUnit$reportsArgs<ExtArgs>
+    _count?: boolean | StorageUnitCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StorageUnitIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    apartment?: boolean | StorageUnit$apartmentArgs<ExtArgs>
+  }
+  export type StorageUnitIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    apartment?: boolean | StorageUnit$apartmentArgs<ExtArgs>
+  }
+
+  export type $StorageUnitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StorageUnit"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+      building: Prisma.$BuildingPayload<ExtArgs>
+      apartment: Prisma.$ApartmentPayload<ExtArgs> | null
+      reports: Prisma.$ReportPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      buildingId: string
+      apartmentId: string | null
+      number: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["storageUnit"]>
+    composites: {}
+  }
+
+  type StorageUnitGetPayload<S extends boolean | null | undefined | StorageUnitDefaultArgs> = $Result.GetResult<Prisma.$StorageUnitPayload, S>
+
+  type StorageUnitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StorageUnitFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StorageUnitCountAggregateInputType | true
+    }
+
+  export interface StorageUnitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StorageUnit'], meta: { name: 'StorageUnit' } }
+    /**
+     * Find zero or one StorageUnit that matches the filter.
+     * @param {StorageUnitFindUniqueArgs} args - Arguments to find a StorageUnit
+     * @example
+     * // Get one StorageUnit
+     * const storageUnit = await prisma.storageUnit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StorageUnitFindUniqueArgs>(args: SelectSubset<T, StorageUnitFindUniqueArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StorageUnit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StorageUnitFindUniqueOrThrowArgs} args - Arguments to find a StorageUnit
+     * @example
+     * // Get one StorageUnit
+     * const storageUnit = await prisma.storageUnit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StorageUnitFindUniqueOrThrowArgs>(args: SelectSubset<T, StorageUnitFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StorageUnit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitFindFirstArgs} args - Arguments to find a StorageUnit
+     * @example
+     * // Get one StorageUnit
+     * const storageUnit = await prisma.storageUnit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StorageUnitFindFirstArgs>(args?: SelectSubset<T, StorageUnitFindFirstArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StorageUnit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitFindFirstOrThrowArgs} args - Arguments to find a StorageUnit
+     * @example
+     * // Get one StorageUnit
+     * const storageUnit = await prisma.storageUnit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StorageUnitFindFirstOrThrowArgs>(args?: SelectSubset<T, StorageUnitFindFirstOrThrowArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StorageUnits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StorageUnits
+     * const storageUnits = await prisma.storageUnit.findMany()
+     * 
+     * // Get first 10 StorageUnits
+     * const storageUnits = await prisma.storageUnit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storageUnitWithIdOnly = await prisma.storageUnit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StorageUnitFindManyArgs>(args?: SelectSubset<T, StorageUnitFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StorageUnit.
+     * @param {StorageUnitCreateArgs} args - Arguments to create a StorageUnit.
+     * @example
+     * // Create one StorageUnit
+     * const StorageUnit = await prisma.storageUnit.create({
+     *   data: {
+     *     // ... data to create a StorageUnit
+     *   }
+     * })
+     * 
+     */
+    create<T extends StorageUnitCreateArgs>(args: SelectSubset<T, StorageUnitCreateArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StorageUnits.
+     * @param {StorageUnitCreateManyArgs} args - Arguments to create many StorageUnits.
+     * @example
+     * // Create many StorageUnits
+     * const storageUnit = await prisma.storageUnit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StorageUnitCreateManyArgs>(args?: SelectSubset<T, StorageUnitCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StorageUnits and returns the data saved in the database.
+     * @param {StorageUnitCreateManyAndReturnArgs} args - Arguments to create many StorageUnits.
+     * @example
+     * // Create many StorageUnits
+     * const storageUnit = await prisma.storageUnit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StorageUnits and only return the `id`
+     * const storageUnitWithIdOnly = await prisma.storageUnit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StorageUnitCreateManyAndReturnArgs>(args?: SelectSubset<T, StorageUnitCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StorageUnit.
+     * @param {StorageUnitDeleteArgs} args - Arguments to delete one StorageUnit.
+     * @example
+     * // Delete one StorageUnit
+     * const StorageUnit = await prisma.storageUnit.delete({
+     *   where: {
+     *     // ... filter to delete one StorageUnit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StorageUnitDeleteArgs>(args: SelectSubset<T, StorageUnitDeleteArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StorageUnit.
+     * @param {StorageUnitUpdateArgs} args - Arguments to update one StorageUnit.
+     * @example
+     * // Update one StorageUnit
+     * const storageUnit = await prisma.storageUnit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StorageUnitUpdateArgs>(args: SelectSubset<T, StorageUnitUpdateArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StorageUnits.
+     * @param {StorageUnitDeleteManyArgs} args - Arguments to filter StorageUnits to delete.
+     * @example
+     * // Delete a few StorageUnits
+     * const { count } = await prisma.storageUnit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StorageUnitDeleteManyArgs>(args?: SelectSubset<T, StorageUnitDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorageUnits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StorageUnits
+     * const storageUnit = await prisma.storageUnit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StorageUnitUpdateManyArgs>(args: SelectSubset<T, StorageUnitUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorageUnits and returns the data updated in the database.
+     * @param {StorageUnitUpdateManyAndReturnArgs} args - Arguments to update many StorageUnits.
+     * @example
+     * // Update many StorageUnits
+     * const storageUnit = await prisma.storageUnit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StorageUnits and only return the `id`
+     * const storageUnitWithIdOnly = await prisma.storageUnit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StorageUnitUpdateManyAndReturnArgs>(args: SelectSubset<T, StorageUnitUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StorageUnit.
+     * @param {StorageUnitUpsertArgs} args - Arguments to update or create a StorageUnit.
+     * @example
+     * // Update or create a StorageUnit
+     * const storageUnit = await prisma.storageUnit.upsert({
+     *   create: {
+     *     // ... data to create a StorageUnit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StorageUnit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StorageUnitUpsertArgs>(args: SelectSubset<T, StorageUnitUpsertArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StorageUnits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitCountArgs} args - Arguments to filter StorageUnits to count.
+     * @example
+     * // Count the number of StorageUnits
+     * const count = await prisma.storageUnit.count({
+     *   where: {
+     *     // ... the filter for the StorageUnits we want to count
+     *   }
+     * })
+    **/
+    count<T extends StorageUnitCountArgs>(
+      args?: Subset<T, StorageUnitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StorageUnitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StorageUnit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StorageUnitAggregateArgs>(args: Subset<T, StorageUnitAggregateArgs>): Prisma.PrismaPromise<GetStorageUnitAggregateType<T>>
+
+    /**
+     * Group by StorageUnit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageUnitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StorageUnitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StorageUnitGroupByArgs['orderBy'] }
+        : { orderBy?: StorageUnitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StorageUnitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStorageUnitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StorageUnit model
+   */
+  readonly fields: StorageUnitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StorageUnit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StorageUnitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    building<T extends BuildingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BuildingDefaultArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    apartment<T extends StorageUnit$apartmentArgs<ExtArgs> = {}>(args?: Subset<T, StorageUnit$apartmentArgs<ExtArgs>>): Prisma__ApartmentClient<$Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reports<T extends StorageUnit$reportsArgs<ExtArgs> = {}>(args?: Subset<T, StorageUnit$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StorageUnit model
+   */
+  interface StorageUnitFieldRefs {
+    readonly id: FieldRef<"StorageUnit", 'String'>
+    readonly communityId: FieldRef<"StorageUnit", 'String'>
+    readonly buildingId: FieldRef<"StorageUnit", 'String'>
+    readonly apartmentId: FieldRef<"StorageUnit", 'String'>
+    readonly number: FieldRef<"StorageUnit", 'String'>
+    readonly createdAt: FieldRef<"StorageUnit", 'DateTime'>
+    readonly updatedAt: FieldRef<"StorageUnit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StorageUnit findUnique
+   */
+  export type StorageUnitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageUnit to fetch.
+     */
+    where: StorageUnitWhereUniqueInput
+  }
+
+  /**
+   * StorageUnit findUniqueOrThrow
+   */
+  export type StorageUnitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageUnit to fetch.
+     */
+    where: StorageUnitWhereUniqueInput
+  }
+
+  /**
+   * StorageUnit findFirst
+   */
+  export type StorageUnitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageUnit to fetch.
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageUnits to fetch.
+     */
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorageUnits.
+     */
+    cursor?: StorageUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorageUnits.
+     */
+    distinct?: StorageUnitScalarFieldEnum | StorageUnitScalarFieldEnum[]
+  }
+
+  /**
+   * StorageUnit findFirstOrThrow
+   */
+  export type StorageUnitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageUnit to fetch.
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageUnits to fetch.
+     */
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorageUnits.
+     */
+    cursor?: StorageUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorageUnits.
+     */
+    distinct?: StorageUnitScalarFieldEnum | StorageUnitScalarFieldEnum[]
+  }
+
+  /**
+   * StorageUnit findMany
+   */
+  export type StorageUnitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageUnits to fetch.
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageUnits to fetch.
+     */
+    orderBy?: StorageUnitOrderByWithRelationInput | StorageUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StorageUnits.
+     */
+    cursor?: StorageUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageUnits.
+     */
+    skip?: number
+    distinct?: StorageUnitScalarFieldEnum | StorageUnitScalarFieldEnum[]
+  }
+
+  /**
+   * StorageUnit create
+   */
+  export type StorageUnitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StorageUnit.
+     */
+    data: XOR<StorageUnitCreateInput, StorageUnitUncheckedCreateInput>
+  }
+
+  /**
+   * StorageUnit createMany
+   */
+  export type StorageUnitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StorageUnits.
+     */
+    data: StorageUnitCreateManyInput | StorageUnitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StorageUnit createManyAndReturn
+   */
+  export type StorageUnitCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * The data used to create many StorageUnits.
+     */
+    data: StorageUnitCreateManyInput | StorageUnitCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StorageUnit update
+   */
+  export type StorageUnitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StorageUnit.
+     */
+    data: XOR<StorageUnitUpdateInput, StorageUnitUncheckedUpdateInput>
+    /**
+     * Choose, which StorageUnit to update.
+     */
+    where: StorageUnitWhereUniqueInput
+  }
+
+  /**
+   * StorageUnit updateMany
+   */
+  export type StorageUnitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StorageUnits.
+     */
+    data: XOR<StorageUnitUpdateManyMutationInput, StorageUnitUncheckedUpdateManyInput>
+    /**
+     * Filter which StorageUnits to update
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * Limit how many StorageUnits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorageUnit updateManyAndReturn
+   */
+  export type StorageUnitUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * The data used to update StorageUnits.
+     */
+    data: XOR<StorageUnitUpdateManyMutationInput, StorageUnitUncheckedUpdateManyInput>
+    /**
+     * Filter which StorageUnits to update
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * Limit how many StorageUnits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StorageUnit upsert
+   */
+  export type StorageUnitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StorageUnit to update in case it exists.
+     */
+    where: StorageUnitWhereUniqueInput
+    /**
+     * In case the StorageUnit found by the `where` argument doesn't exist, create a new StorageUnit with this data.
+     */
+    create: XOR<StorageUnitCreateInput, StorageUnitUncheckedCreateInput>
+    /**
+     * In case the StorageUnit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StorageUnitUpdateInput, StorageUnitUncheckedUpdateInput>
+  }
+
+  /**
+   * StorageUnit delete
+   */
+  export type StorageUnitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    /**
+     * Filter which StorageUnit to delete.
+     */
+    where: StorageUnitWhereUniqueInput
+  }
+
+  /**
+   * StorageUnit deleteMany
+   */
+  export type StorageUnitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorageUnits to delete
+     */
+    where?: StorageUnitWhereInput
+    /**
+     * Limit how many StorageUnits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorageUnit.apartment
+   */
+  export type StorageUnit$apartmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: ApartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: ApartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentInclude<ExtArgs> | null
+    where?: ApartmentWhereInput
+  }
+
+  /**
+   * StorageUnit.reports
+   */
+  export type StorageUnit$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * StorageUnit without action
+   */
+  export type StorageUnitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Report
+   */
+
+  export type AggregateReport = {
+    _count: ReportCountAggregateOutputType | null
+    _min: ReportMinAggregateOutputType | null
+    _max: ReportMaxAggregateOutputType | null
+  }
+
+  export type ReportMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    buildingId: string | null
+    apartmentId: string | null
+    parkingSpaceId: string | null
+    storageUnitId: string | null
+    authorId: string | null
+    category: string | null
+    type: $Enums.ReportType | null
+    visibility: $Enums.ReportVisibility | null
+    title: string | null
+    description: string | null
+    status: $Enums.ReportStatus | null
+    urgent: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    resolvedAt: Date | null
+  }
+
+  export type ReportMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    buildingId: string | null
+    apartmentId: string | null
+    parkingSpaceId: string | null
+    storageUnitId: string | null
+    authorId: string | null
+    category: string | null
+    type: $Enums.ReportType | null
+    visibility: $Enums.ReportVisibility | null
+    title: string | null
+    description: string | null
+    status: $Enums.ReportStatus | null
+    urgent: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    resolvedAt: Date | null
+  }
+
+  export type ReportCountAggregateOutputType = {
+    id: number
+    communityId: number
+    buildingId: number
+    apartmentId: number
+    parkingSpaceId: number
+    storageUnitId: number
+    authorId: number
+    category: number
+    type: number
+    visibility: number
+    title: number
+    description: number
+    status: number
+    urgent: number
+    createdAt: number
+    updatedAt: number
+    resolvedAt: number
+    _all: number
+  }
+
+
+  export type ReportMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    parkingSpaceId?: true
+    storageUnitId?: true
+    authorId?: true
+    category?: true
+    type?: true
+    visibility?: true
+    title?: true
+    description?: true
+    status?: true
+    urgent?: true
+    createdAt?: true
+    updatedAt?: true
+    resolvedAt?: true
+  }
+
+  export type ReportMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    parkingSpaceId?: true
+    storageUnitId?: true
+    authorId?: true
+    category?: true
+    type?: true
+    visibility?: true
+    title?: true
+    description?: true
+    status?: true
+    urgent?: true
+    createdAt?: true
+    updatedAt?: true
+    resolvedAt?: true
+  }
+
+  export type ReportCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    buildingId?: true
+    apartmentId?: true
+    parkingSpaceId?: true
+    storageUnitId?: true
+    authorId?: true
+    category?: true
+    type?: true
+    visibility?: true
+    title?: true
+    description?: true
+    status?: true
+    urgent?: true
+    createdAt?: true
+    updatedAt?: true
+    resolvedAt?: true
+    _all?: true
+  }
+
+  export type ReportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Report to aggregate.
+     */
+    where?: ReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reports to fetch.
+     */
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Reports
+    **/
+    _count?: true | ReportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReportMaxAggregateInputType
+  }
+
+  export type GetReportAggregateType<T extends ReportAggregateArgs> = {
+        [P in keyof T & keyof AggregateReport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReport[P]>
+      : GetScalarType<T[P], AggregateReport[P]>
+  }
+
+
+
+
+  export type ReportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithAggregationInput | ReportOrderByWithAggregationInput[]
+    by: ReportScalarFieldEnum[] | ReportScalarFieldEnum
+    having?: ReportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReportCountAggregateInputType | true
+    _min?: ReportMinAggregateInputType
+    _max?: ReportMaxAggregateInputType
+  }
+
+  export type ReportGroupByOutputType = {
+    id: string
+    communityId: string
+    buildingId: string | null
+    apartmentId: string | null
+    parkingSpaceId: string | null
+    storageUnitId: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status: $Enums.ReportStatus
+    urgent: boolean
+    createdAt: Date
+    updatedAt: Date
+    resolvedAt: Date | null
+    _count: ReportCountAggregateOutputType | null
+    _min: ReportMinAggregateOutputType | null
+    _max: ReportMaxAggregateOutputType | null
+  }
+
+  type GetReportGroupByPayload<T extends ReportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReportGroupByOutputType[P]>
+            : GetScalarType<T[P], ReportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    parkingSpaceId?: boolean
+    storageUnitId?: boolean
+    authorId?: boolean
+    category?: boolean
+    type?: boolean
+    visibility?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    urgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | Report$buildingArgs<ExtArgs>
+    apartment?: boolean | Report$apartmentArgs<ExtArgs>
+    parkingSpace?: boolean | Report$parkingSpaceArgs<ExtArgs>
+    storageUnit?: boolean | Report$storageUnitArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["report"]>
+
+  export type ReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    parkingSpaceId?: boolean
+    storageUnitId?: boolean
+    authorId?: boolean
+    category?: boolean
+    type?: boolean
+    visibility?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    urgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | Report$buildingArgs<ExtArgs>
+    apartment?: boolean | Report$apartmentArgs<ExtArgs>
+    parkingSpace?: boolean | Report$parkingSpaceArgs<ExtArgs>
+    storageUnit?: boolean | Report$storageUnitArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["report"]>
+
+  export type ReportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    parkingSpaceId?: boolean
+    storageUnitId?: boolean
+    authorId?: boolean
+    category?: boolean
+    type?: boolean
+    visibility?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    urgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | Report$buildingArgs<ExtArgs>
+    apartment?: boolean | Report$apartmentArgs<ExtArgs>
+    parkingSpace?: boolean | Report$parkingSpaceArgs<ExtArgs>
+    storageUnit?: boolean | Report$storageUnitArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["report"]>
+
+  export type ReportSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    buildingId?: boolean
+    apartmentId?: boolean
+    parkingSpaceId?: boolean
+    storageUnitId?: boolean
+    authorId?: boolean
+    category?: boolean
+    type?: boolean
+    visibility?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    urgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+  }
+
+  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "buildingId" | "apartmentId" | "parkingSpaceId" | "storageUnitId" | "authorId" | "category" | "type" | "visibility" | "title" | "description" | "status" | "urgent" | "createdAt" | "updatedAt" | "resolvedAt", ExtArgs["result"]["report"]>
+  export type ReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | Report$buildingArgs<ExtArgs>
+    apartment?: boolean | Report$apartmentArgs<ExtArgs>
+    parkingSpace?: boolean | Report$parkingSpaceArgs<ExtArgs>
+    storageUnit?: boolean | Report$storageUnitArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | Report$buildingArgs<ExtArgs>
+    apartment?: boolean | Report$apartmentArgs<ExtArgs>
+    parkingSpace?: boolean | Report$parkingSpaceArgs<ExtArgs>
+    storageUnit?: boolean | Report$storageUnitArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    building?: boolean | Report$buildingArgs<ExtArgs>
+    apartment?: boolean | Report$apartmentArgs<ExtArgs>
+    parkingSpace?: boolean | Report$parkingSpaceArgs<ExtArgs>
+    storageUnit?: boolean | Report$storageUnitArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Report"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+      building: Prisma.$BuildingPayload<ExtArgs> | null
+      apartment: Prisma.$ApartmentPayload<ExtArgs> | null
+      parkingSpace: Prisma.$ParkingSpacePayload<ExtArgs> | null
+      storageUnit: Prisma.$StorageUnitPayload<ExtArgs> | null
+      author: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      buildingId: string | null
+      apartmentId: string | null
+      parkingSpaceId: string | null
+      storageUnitId: string | null
+      authorId: string
+      category: string
+      type: $Enums.ReportType
+      visibility: $Enums.ReportVisibility
+      title: string
+      description: string
+      status: $Enums.ReportStatus
+      urgent: boolean
+      createdAt: Date
+      updatedAt: Date
+      resolvedAt: Date | null
+    }, ExtArgs["result"]["report"]>
+    composites: {}
+  }
+
+  type ReportGetPayload<S extends boolean | null | undefined | ReportDefaultArgs> = $Result.GetResult<Prisma.$ReportPayload, S>
+
+  type ReportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReportCountAggregateInputType | true
+    }
+
+  export interface ReportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Report'], meta: { name: 'Report' } }
+    /**
+     * Find zero or one Report that matches the filter.
+     * @param {ReportFindUniqueArgs} args - Arguments to find a Report
+     * @example
+     * // Get one Report
+     * const report = await prisma.report.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReportFindUniqueArgs>(args: SelectSubset<T, ReportFindUniqueArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Report that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReportFindUniqueOrThrowArgs} args - Arguments to find a Report
+     * @example
+     * // Get one Report
+     * const report = await prisma.report.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReportFindUniqueOrThrowArgs>(args: SelectSubset<T, ReportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Report that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportFindFirstArgs} args - Arguments to find a Report
+     * @example
+     * // Get one Report
+     * const report = await prisma.report.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReportFindFirstArgs>(args?: SelectSubset<T, ReportFindFirstArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Report that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportFindFirstOrThrowArgs} args - Arguments to find a Report
+     * @example
+     * // Get one Report
+     * const report = await prisma.report.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReportFindFirstOrThrowArgs>(args?: SelectSubset<T, ReportFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Reports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Reports
+     * const reports = await prisma.report.findMany()
+     * 
+     * // Get first 10 Reports
+     * const reports = await prisma.report.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reportWithIdOnly = await prisma.report.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReportFindManyArgs>(args?: SelectSubset<T, ReportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Report.
+     * @param {ReportCreateArgs} args - Arguments to create a Report.
+     * @example
+     * // Create one Report
+     * const Report = await prisma.report.create({
+     *   data: {
+     *     // ... data to create a Report
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReportCreateArgs>(args: SelectSubset<T, ReportCreateArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Reports.
+     * @param {ReportCreateManyArgs} args - Arguments to create many Reports.
+     * @example
+     * // Create many Reports
+     * const report = await prisma.report.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReportCreateManyArgs>(args?: SelectSubset<T, ReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Reports and returns the data saved in the database.
+     * @param {ReportCreateManyAndReturnArgs} args - Arguments to create many Reports.
+     * @example
+     * // Create many Reports
+     * const report = await prisma.report.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Reports and only return the `id`
+     * const reportWithIdOnly = await prisma.report.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReportCreateManyAndReturnArgs>(args?: SelectSubset<T, ReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Report.
+     * @param {ReportDeleteArgs} args - Arguments to delete one Report.
+     * @example
+     * // Delete one Report
+     * const Report = await prisma.report.delete({
+     *   where: {
+     *     // ... filter to delete one Report
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReportDeleteArgs>(args: SelectSubset<T, ReportDeleteArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Report.
+     * @param {ReportUpdateArgs} args - Arguments to update one Report.
+     * @example
+     * // Update one Report
+     * const report = await prisma.report.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReportUpdateArgs>(args: SelectSubset<T, ReportUpdateArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Reports.
+     * @param {ReportDeleteManyArgs} args - Arguments to filter Reports to delete.
+     * @example
+     * // Delete a few Reports
+     * const { count } = await prisma.report.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReportDeleteManyArgs>(args?: SelectSubset<T, ReportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Reports
+     * const report = await prisma.report.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReportUpdateManyArgs>(args: SelectSubset<T, ReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reports and returns the data updated in the database.
+     * @param {ReportUpdateManyAndReturnArgs} args - Arguments to update many Reports.
+     * @example
+     * // Update many Reports
+     * const report = await prisma.report.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Reports and only return the `id`
+     * const reportWithIdOnly = await prisma.report.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReportUpdateManyAndReturnArgs>(args: SelectSubset<T, ReportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Report.
+     * @param {ReportUpsertArgs} args - Arguments to update or create a Report.
+     * @example
+     * // Update or create a Report
+     * const report = await prisma.report.upsert({
+     *   create: {
+     *     // ... data to create a Report
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Report we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReportUpsertArgs>(args: SelectSubset<T, ReportUpsertArgs<ExtArgs>>): Prisma__ReportClient<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Reports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportCountArgs} args - Arguments to filter Reports to count.
+     * @example
+     * // Count the number of Reports
+     * const count = await prisma.report.count({
+     *   where: {
+     *     // ... the filter for the Reports we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReportCountArgs>(
+      args?: Subset<T, ReportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Report.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReportAggregateArgs>(args: Subset<T, ReportAggregateArgs>): Prisma.PrismaPromise<GetReportAggregateType<T>>
+
+    /**
+     * Group by Report.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReportGroupByArgs['orderBy'] }
+        : { orderBy?: ReportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Report model
+   */
+  readonly fields: ReportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Report.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    building<T extends Report$buildingArgs<ExtArgs> = {}>(args?: Subset<T, Report$buildingArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    apartment<T extends Report$apartmentArgs<ExtArgs> = {}>(args?: Subset<T, Report$apartmentArgs<ExtArgs>>): Prisma__ApartmentClient<$Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    parkingSpace<T extends Report$parkingSpaceArgs<ExtArgs> = {}>(args?: Subset<T, Report$parkingSpaceArgs<ExtArgs>>): Prisma__ParkingSpaceClient<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    storageUnit<T extends Report$storageUnitArgs<ExtArgs> = {}>(args?: Subset<T, Report$storageUnitArgs<ExtArgs>>): Prisma__StorageUnitClient<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Report model
+   */
+  interface ReportFieldRefs {
+    readonly id: FieldRef<"Report", 'String'>
+    readonly communityId: FieldRef<"Report", 'String'>
+    readonly buildingId: FieldRef<"Report", 'String'>
+    readonly apartmentId: FieldRef<"Report", 'String'>
+    readonly parkingSpaceId: FieldRef<"Report", 'String'>
+    readonly storageUnitId: FieldRef<"Report", 'String'>
+    readonly authorId: FieldRef<"Report", 'String'>
+    readonly category: FieldRef<"Report", 'String'>
+    readonly type: FieldRef<"Report", 'ReportType'>
+    readonly visibility: FieldRef<"Report", 'ReportVisibility'>
+    readonly title: FieldRef<"Report", 'String'>
+    readonly description: FieldRef<"Report", 'String'>
+    readonly status: FieldRef<"Report", 'ReportStatus'>
+    readonly urgent: FieldRef<"Report", 'Boolean'>
+    readonly createdAt: FieldRef<"Report", 'DateTime'>
+    readonly updatedAt: FieldRef<"Report", 'DateTime'>
+    readonly resolvedAt: FieldRef<"Report", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Report findUnique
+   */
+  export type ReportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * Filter, which Report to fetch.
+     */
+    where: ReportWhereUniqueInput
+  }
+
+  /**
+   * Report findUniqueOrThrow
+   */
+  export type ReportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * Filter, which Report to fetch.
+     */
+    where: ReportWhereUniqueInput
+  }
+
+  /**
+   * Report findFirst
+   */
+  export type ReportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * Filter, which Report to fetch.
+     */
+    where?: ReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reports to fetch.
+     */
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reports.
+     */
+    cursor?: ReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reports.
+     */
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * Report findFirstOrThrow
+   */
+  export type ReportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * Filter, which Report to fetch.
+     */
+    where?: ReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reports to fetch.
+     */
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reports.
+     */
+    cursor?: ReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reports.
+     */
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * Report findMany
+   */
+  export type ReportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * Filter, which Reports to fetch.
+     */
+    where?: ReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reports to fetch.
+     */
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Reports.
+     */
+    cursor?: ReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reports.
+     */
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * Report create
+   */
+  export type ReportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Report.
+     */
+    data: XOR<ReportCreateInput, ReportUncheckedCreateInput>
+  }
+
+  /**
+   * Report createMany
+   */
+  export type ReportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Reports.
+     */
+    data: ReportCreateManyInput | ReportCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Report createManyAndReturn
+   */
+  export type ReportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * The data used to create many Reports.
+     */
+    data: ReportCreateManyInput | ReportCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Report update
+   */
+  export type ReportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Report.
+     */
+    data: XOR<ReportUpdateInput, ReportUncheckedUpdateInput>
+    /**
+     * Choose, which Report to update.
+     */
+    where: ReportWhereUniqueInput
+  }
+
+  /**
+   * Report updateMany
+   */
+  export type ReportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Reports.
+     */
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyInput>
+    /**
+     * Filter which Reports to update
+     */
+    where?: ReportWhereInput
+    /**
+     * Limit how many Reports to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Report updateManyAndReturn
+   */
+  export type ReportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * The data used to update Reports.
+     */
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyInput>
+    /**
+     * Filter which Reports to update
+     */
+    where?: ReportWhereInput
+    /**
+     * Limit how many Reports to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Report upsert
+   */
+  export type ReportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Report to update in case it exists.
+     */
+    where: ReportWhereUniqueInput
+    /**
+     * In case the Report found by the `where` argument doesn't exist, create a new Report with this data.
+     */
+    create: XOR<ReportCreateInput, ReportUncheckedCreateInput>
+    /**
+     * In case the Report was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReportUpdateInput, ReportUncheckedUpdateInput>
+  }
+
+  /**
+   * Report delete
+   */
+  export type ReportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    /**
+     * Filter which Report to delete.
+     */
+    where: ReportWhereUniqueInput
+  }
+
+  /**
+   * Report deleteMany
+   */
+  export type ReportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reports to delete
+     */
+    where?: ReportWhereInput
+    /**
+     * Limit how many Reports to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Report.building
+   */
+  export type Report$buildingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Building
+     */
+    select?: BuildingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Building
+     */
+    omit?: BuildingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BuildingInclude<ExtArgs> | null
+    where?: BuildingWhereInput
+  }
+
+  /**
+   * Report.apartment
+   */
+  export type Report$apartmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: ApartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: ApartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentInclude<ExtArgs> | null
+    where?: ApartmentWhereInput
+  }
+
+  /**
+   * Report.parkingSpace
+   */
+  export type Report$parkingSpaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpace
+     */
+    select?: ParkingSpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParkingSpace
+     */
+    omit?: ParkingSpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParkingSpaceInclude<ExtArgs> | null
+    where?: ParkingSpaceWhereInput
+  }
+
+  /**
+   * Report.storageUnit
+   */
+  export type Report$storageUnitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageUnit
+     */
+    select?: StorageUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageUnit
+     */
+    omit?: StorageUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageUnitInclude<ExtArgs> | null
+    where?: StorageUnitWhereInput
+  }
+
+  /**
+   * Report without action
+   */
+  export type ReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AuditLog
    */
 
@@ -11073,6 +15495,57 @@ export namespace Prisma {
   export type PackageScalarFieldEnum = (typeof PackageScalarFieldEnum)[keyof typeof PackageScalarFieldEnum]
 
 
+  export const ParkingSpaceScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    buildingId: 'buildingId',
+    apartmentId: 'apartmentId',
+    number: 'number',
+    level: 'level',
+    hasEvCharger: 'hasEvCharger',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ParkingSpaceScalarFieldEnum = (typeof ParkingSpaceScalarFieldEnum)[keyof typeof ParkingSpaceScalarFieldEnum]
+
+
+  export const StorageUnitScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    buildingId: 'buildingId',
+    apartmentId: 'apartmentId',
+    number: 'number',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StorageUnitScalarFieldEnum = (typeof StorageUnitScalarFieldEnum)[keyof typeof StorageUnitScalarFieldEnum]
+
+
+  export const ReportScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    buildingId: 'buildingId',
+    apartmentId: 'apartmentId',
+    parkingSpaceId: 'parkingSpaceId',
+    storageUnitId: 'storageUnitId',
+    authorId: 'authorId',
+    category: 'category',
+    type: 'type',
+    visibility: 'visibility',
+    title: 'title',
+    description: 'description',
+    status: 'status',
+    urgent: 'urgent',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    resolvedAt: 'resolvedAt'
+  };
+
+  export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
   export const AuditLogScalarFieldEnum: {
     id: 'id',
     communityId: 'communityId',
@@ -11211,6 +15684,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ReportType'
+   */
+  export type EnumReportTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportType[]'
+   */
+  export type ListEnumReportTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportVisibility'
+   */
+  export type EnumReportVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportVisibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportVisibility[]'
+   */
+  export type ListEnumReportVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportVisibility[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportStatus'
+   */
+  export type EnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportStatus[]'
+   */
+  export type ListEnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -11318,6 +15833,7 @@ export namespace Prisma {
     receivedPackages?: PackageListRelationFilter
     pickedUpPackages?: PackageListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    reports?: ReportListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11332,6 +15848,7 @@ export namespace Prisma {
     receivedPackages?: PackageOrderByRelationAggregateInput
     pickedUpPackages?: PackageOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
+    reports?: ReportOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11349,6 +15866,7 @@ export namespace Prisma {
     receivedPackages?: PackageListRelationFilter
     pickedUpPackages?: PackageListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    reports?: ReportListRelationFilter
   }, "id" | "clerkUserId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11388,6 +15906,9 @@ export namespace Prisma {
     memberships?: MembershipListRelationFilter
     packages?: PackageListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    parkingSpaces?: ParkingSpaceListRelationFilter
+    storageUnits?: StorageUnitListRelationFilter
+    reports?: ReportListRelationFilter
   }
 
   export type CommunityOrderByWithRelationInput = {
@@ -11400,6 +15921,9 @@ export namespace Prisma {
     memberships?: MembershipOrderByRelationAggregateInput
     packages?: PackageOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
+    parkingSpaces?: ParkingSpaceOrderByRelationAggregateInput
+    storageUnits?: StorageUnitOrderByRelationAggregateInput
+    reports?: ReportOrderByRelationAggregateInput
   }
 
   export type CommunityWhereUniqueInput = Prisma.AtLeast<{
@@ -11415,6 +15939,9 @@ export namespace Prisma {
     memberships?: MembershipListRelationFilter
     packages?: PackageListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    parkingSpaces?: ParkingSpaceListRelationFilter
+    storageUnits?: StorageUnitListRelationFilter
+    reports?: ReportListRelationFilter
   }, "id">
 
   export type CommunityOrderByWithAggregationInput = {
@@ -11453,6 +15980,9 @@ export namespace Prisma {
     apartments?: ApartmentListRelationFilter
     memberships?: MembershipListRelationFilter
     packages?: PackageListRelationFilter
+    parkingSpaces?: ParkingSpaceListRelationFilter
+    storageUnits?: StorageUnitListRelationFilter
+    reports?: ReportListRelationFilter
   }
 
   export type BuildingOrderByWithRelationInput = {
@@ -11466,6 +15996,9 @@ export namespace Prisma {
     apartments?: ApartmentOrderByRelationAggregateInput
     memberships?: MembershipOrderByRelationAggregateInput
     packages?: PackageOrderByRelationAggregateInput
+    parkingSpaces?: ParkingSpaceOrderByRelationAggregateInput
+    storageUnits?: StorageUnitOrderByRelationAggregateInput
+    reports?: ReportOrderByRelationAggregateInput
   }
 
   export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -11482,6 +16015,9 @@ export namespace Prisma {
     apartments?: ApartmentListRelationFilter
     memberships?: MembershipListRelationFilter
     packages?: PackageListRelationFilter
+    parkingSpaces?: ParkingSpaceListRelationFilter
+    storageUnits?: StorageUnitListRelationFilter
+    reports?: ReportListRelationFilter
   }, "id">
 
   export type BuildingOrderByWithAggregationInput = {
@@ -11521,6 +16057,9 @@ export namespace Prisma {
     building?: XOR<BuildingScalarRelationFilter, BuildingWhereInput>
     memberships?: MembershipListRelationFilter
     packages?: PackageListRelationFilter
+    parkingSpaces?: ParkingSpaceListRelationFilter
+    storageUnits?: StorageUnitListRelationFilter
+    reports?: ReportListRelationFilter
   }
 
   export type ApartmentOrderByWithRelationInput = {
@@ -11533,6 +16072,9 @@ export namespace Prisma {
     building?: BuildingOrderByWithRelationInput
     memberships?: MembershipOrderByRelationAggregateInput
     packages?: PackageOrderByRelationAggregateInput
+    parkingSpaces?: ParkingSpaceOrderByRelationAggregateInput
+    storageUnits?: StorageUnitOrderByRelationAggregateInput
+    reports?: ReportOrderByRelationAggregateInput
   }
 
   export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
@@ -11549,6 +16091,9 @@ export namespace Prisma {
     building?: XOR<BuildingScalarRelationFilter, BuildingWhereInput>
     memberships?: MembershipListRelationFilter
     packages?: PackageListRelationFilter
+    parkingSpaces?: ParkingSpaceListRelationFilter
+    storageUnits?: StorageUnitListRelationFilter
+    reports?: ReportListRelationFilter
   }, "id" | "buildingId_number">
 
   export type ApartmentOrderByWithAggregationInput = {
@@ -11772,6 +16317,296 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Package"> | Date | string
   }
 
+  export type ParkingSpaceWhereInput = {
+    AND?: ParkingSpaceWhereInput | ParkingSpaceWhereInput[]
+    OR?: ParkingSpaceWhereInput[]
+    NOT?: ParkingSpaceWhereInput | ParkingSpaceWhereInput[]
+    id?: StringFilter<"ParkingSpace"> | string
+    communityId?: StringFilter<"ParkingSpace"> | string
+    buildingId?: StringNullableFilter<"ParkingSpace"> | string | null
+    apartmentId?: StringNullableFilter<"ParkingSpace"> | string | null
+    number?: StringFilter<"ParkingSpace"> | string
+    level?: StringNullableFilter<"ParkingSpace"> | string | null
+    hasEvCharger?: BoolFilter<"ParkingSpace"> | boolean
+    createdAt?: DateTimeFilter<"ParkingSpace"> | Date | string
+    updatedAt?: DateTimeFilter<"ParkingSpace"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    building?: XOR<BuildingNullableScalarRelationFilter, BuildingWhereInput> | null
+    apartment?: XOR<ApartmentNullableScalarRelationFilter, ApartmentWhereInput> | null
+    reports?: ReportListRelationFilter
+  }
+
+  export type ParkingSpaceOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrderInput | SortOrder
+    apartmentId?: SortOrderInput | SortOrder
+    number?: SortOrder
+    level?: SortOrderInput | SortOrder
+    hasEvCharger?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    community?: CommunityOrderByWithRelationInput
+    building?: BuildingOrderByWithRelationInput
+    apartment?: ApartmentOrderByWithRelationInput
+    reports?: ReportOrderByRelationAggregateInput
+  }
+
+  export type ParkingSpaceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    communityId_number?: ParkingSpaceCommunityIdNumberCompoundUniqueInput
+    AND?: ParkingSpaceWhereInput | ParkingSpaceWhereInput[]
+    OR?: ParkingSpaceWhereInput[]
+    NOT?: ParkingSpaceWhereInput | ParkingSpaceWhereInput[]
+    communityId?: StringFilter<"ParkingSpace"> | string
+    buildingId?: StringNullableFilter<"ParkingSpace"> | string | null
+    apartmentId?: StringNullableFilter<"ParkingSpace"> | string | null
+    number?: StringFilter<"ParkingSpace"> | string
+    level?: StringNullableFilter<"ParkingSpace"> | string | null
+    hasEvCharger?: BoolFilter<"ParkingSpace"> | boolean
+    createdAt?: DateTimeFilter<"ParkingSpace"> | Date | string
+    updatedAt?: DateTimeFilter<"ParkingSpace"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    building?: XOR<BuildingNullableScalarRelationFilter, BuildingWhereInput> | null
+    apartment?: XOR<ApartmentNullableScalarRelationFilter, ApartmentWhereInput> | null
+    reports?: ReportListRelationFilter
+  }, "id" | "communityId_number">
+
+  export type ParkingSpaceOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrderInput | SortOrder
+    apartmentId?: SortOrderInput | SortOrder
+    number?: SortOrder
+    level?: SortOrderInput | SortOrder
+    hasEvCharger?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ParkingSpaceCountOrderByAggregateInput
+    _max?: ParkingSpaceMaxOrderByAggregateInput
+    _min?: ParkingSpaceMinOrderByAggregateInput
+  }
+
+  export type ParkingSpaceScalarWhereWithAggregatesInput = {
+    AND?: ParkingSpaceScalarWhereWithAggregatesInput | ParkingSpaceScalarWhereWithAggregatesInput[]
+    OR?: ParkingSpaceScalarWhereWithAggregatesInput[]
+    NOT?: ParkingSpaceScalarWhereWithAggregatesInput | ParkingSpaceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ParkingSpace"> | string
+    communityId?: StringWithAggregatesFilter<"ParkingSpace"> | string
+    buildingId?: StringNullableWithAggregatesFilter<"ParkingSpace"> | string | null
+    apartmentId?: StringNullableWithAggregatesFilter<"ParkingSpace"> | string | null
+    number?: StringWithAggregatesFilter<"ParkingSpace"> | string
+    level?: StringNullableWithAggregatesFilter<"ParkingSpace"> | string | null
+    hasEvCharger?: BoolWithAggregatesFilter<"ParkingSpace"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ParkingSpace"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ParkingSpace"> | Date | string
+  }
+
+  export type StorageUnitWhereInput = {
+    AND?: StorageUnitWhereInput | StorageUnitWhereInput[]
+    OR?: StorageUnitWhereInput[]
+    NOT?: StorageUnitWhereInput | StorageUnitWhereInput[]
+    id?: StringFilter<"StorageUnit"> | string
+    communityId?: StringFilter<"StorageUnit"> | string
+    buildingId?: StringFilter<"StorageUnit"> | string
+    apartmentId?: StringNullableFilter<"StorageUnit"> | string | null
+    number?: StringFilter<"StorageUnit"> | string
+    createdAt?: DateTimeFilter<"StorageUnit"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageUnit"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    building?: XOR<BuildingScalarRelationFilter, BuildingWhereInput>
+    apartment?: XOR<ApartmentNullableScalarRelationFilter, ApartmentWhereInput> | null
+    reports?: ReportListRelationFilter
+  }
+
+  export type StorageUnitOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrderInput | SortOrder
+    number?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    community?: CommunityOrderByWithRelationInput
+    building?: BuildingOrderByWithRelationInput
+    apartment?: ApartmentOrderByWithRelationInput
+    reports?: ReportOrderByRelationAggregateInput
+  }
+
+  export type StorageUnitWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    buildingId_number?: StorageUnitBuildingIdNumberCompoundUniqueInput
+    AND?: StorageUnitWhereInput | StorageUnitWhereInput[]
+    OR?: StorageUnitWhereInput[]
+    NOT?: StorageUnitWhereInput | StorageUnitWhereInput[]
+    communityId?: StringFilter<"StorageUnit"> | string
+    buildingId?: StringFilter<"StorageUnit"> | string
+    apartmentId?: StringNullableFilter<"StorageUnit"> | string | null
+    number?: StringFilter<"StorageUnit"> | string
+    createdAt?: DateTimeFilter<"StorageUnit"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageUnit"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    building?: XOR<BuildingScalarRelationFilter, BuildingWhereInput>
+    apartment?: XOR<ApartmentNullableScalarRelationFilter, ApartmentWhereInput> | null
+    reports?: ReportListRelationFilter
+  }, "id" | "buildingId_number">
+
+  export type StorageUnitOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrderInput | SortOrder
+    number?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StorageUnitCountOrderByAggregateInput
+    _max?: StorageUnitMaxOrderByAggregateInput
+    _min?: StorageUnitMinOrderByAggregateInput
+  }
+
+  export type StorageUnitScalarWhereWithAggregatesInput = {
+    AND?: StorageUnitScalarWhereWithAggregatesInput | StorageUnitScalarWhereWithAggregatesInput[]
+    OR?: StorageUnitScalarWhereWithAggregatesInput[]
+    NOT?: StorageUnitScalarWhereWithAggregatesInput | StorageUnitScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StorageUnit"> | string
+    communityId?: StringWithAggregatesFilter<"StorageUnit"> | string
+    buildingId?: StringWithAggregatesFilter<"StorageUnit"> | string
+    apartmentId?: StringNullableWithAggregatesFilter<"StorageUnit"> | string | null
+    number?: StringWithAggregatesFilter<"StorageUnit"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"StorageUnit"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StorageUnit"> | Date | string
+  }
+
+  export type ReportWhereInput = {
+    AND?: ReportWhereInput | ReportWhereInput[]
+    OR?: ReportWhereInput[]
+    NOT?: ReportWhereInput | ReportWhereInput[]
+    id?: StringFilter<"Report"> | string
+    communityId?: StringFilter<"Report"> | string
+    buildingId?: StringNullableFilter<"Report"> | string | null
+    apartmentId?: StringNullableFilter<"Report"> | string | null
+    parkingSpaceId?: StringNullableFilter<"Report"> | string | null
+    storageUnitId?: StringNullableFilter<"Report"> | string | null
+    authorId?: StringFilter<"Report"> | string
+    category?: StringFilter<"Report"> | string
+    type?: EnumReportTypeFilter<"Report"> | $Enums.ReportType
+    visibility?: EnumReportVisibilityFilter<"Report"> | $Enums.ReportVisibility
+    title?: StringFilter<"Report"> | string
+    description?: StringFilter<"Report"> | string
+    status?: EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
+    urgent?: BoolFilter<"Report"> | boolean
+    createdAt?: DateTimeFilter<"Report"> | Date | string
+    updatedAt?: DateTimeFilter<"Report"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    building?: XOR<BuildingNullableScalarRelationFilter, BuildingWhereInput> | null
+    apartment?: XOR<ApartmentNullableScalarRelationFilter, ApartmentWhereInput> | null
+    parkingSpace?: XOR<ParkingSpaceNullableScalarRelationFilter, ParkingSpaceWhereInput> | null
+    storageUnit?: XOR<StorageUnitNullableScalarRelationFilter, StorageUnitWhereInput> | null
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ReportOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrderInput | SortOrder
+    apartmentId?: SortOrderInput | SortOrder
+    parkingSpaceId?: SortOrderInput | SortOrder
+    storageUnitId?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    visibility?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    urgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    community?: CommunityOrderByWithRelationInput
+    building?: BuildingOrderByWithRelationInput
+    apartment?: ApartmentOrderByWithRelationInput
+    parkingSpace?: ParkingSpaceOrderByWithRelationInput
+    storageUnit?: StorageUnitOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+  }
+
+  export type ReportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReportWhereInput | ReportWhereInput[]
+    OR?: ReportWhereInput[]
+    NOT?: ReportWhereInput | ReportWhereInput[]
+    communityId?: StringFilter<"Report"> | string
+    buildingId?: StringNullableFilter<"Report"> | string | null
+    apartmentId?: StringNullableFilter<"Report"> | string | null
+    parkingSpaceId?: StringNullableFilter<"Report"> | string | null
+    storageUnitId?: StringNullableFilter<"Report"> | string | null
+    authorId?: StringFilter<"Report"> | string
+    category?: StringFilter<"Report"> | string
+    type?: EnumReportTypeFilter<"Report"> | $Enums.ReportType
+    visibility?: EnumReportVisibilityFilter<"Report"> | $Enums.ReportVisibility
+    title?: StringFilter<"Report"> | string
+    description?: StringFilter<"Report"> | string
+    status?: EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
+    urgent?: BoolFilter<"Report"> | boolean
+    createdAt?: DateTimeFilter<"Report"> | Date | string
+    updatedAt?: DateTimeFilter<"Report"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    building?: XOR<BuildingNullableScalarRelationFilter, BuildingWhereInput> | null
+    apartment?: XOR<ApartmentNullableScalarRelationFilter, ApartmentWhereInput> | null
+    parkingSpace?: XOR<ParkingSpaceNullableScalarRelationFilter, ParkingSpaceWhereInput> | null
+    storageUnit?: XOR<StorageUnitNullableScalarRelationFilter, StorageUnitWhereInput> | null
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ReportOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrderInput | SortOrder
+    apartmentId?: SortOrderInput | SortOrder
+    parkingSpaceId?: SortOrderInput | SortOrder
+    storageUnitId?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    visibility?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    urgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    _count?: ReportCountOrderByAggregateInput
+    _max?: ReportMaxOrderByAggregateInput
+    _min?: ReportMinOrderByAggregateInput
+  }
+
+  export type ReportScalarWhereWithAggregatesInput = {
+    AND?: ReportScalarWhereWithAggregatesInput | ReportScalarWhereWithAggregatesInput[]
+    OR?: ReportScalarWhereWithAggregatesInput[]
+    NOT?: ReportScalarWhereWithAggregatesInput | ReportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Report"> | string
+    communityId?: StringWithAggregatesFilter<"Report"> | string
+    buildingId?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    apartmentId?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    parkingSpaceId?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    storageUnitId?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    authorId?: StringWithAggregatesFilter<"Report"> | string
+    category?: StringWithAggregatesFilter<"Report"> | string
+    type?: EnumReportTypeWithAggregatesFilter<"Report"> | $Enums.ReportType
+    visibility?: EnumReportVisibilityWithAggregatesFilter<"Report"> | $Enums.ReportVisibility
+    title?: StringWithAggregatesFilter<"Report"> | string
+    description?: StringWithAggregatesFilter<"Report"> | string
+    status?: EnumReportStatusWithAggregatesFilter<"Report"> | $Enums.ReportStatus
+    urgent?: BoolWithAggregatesFilter<"Report"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Report"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Report"> | Date | string
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+  }
+
   export type AuditLogWhereInput = {
     AND?: AuditLogWhereInput | AuditLogWhereInput[]
     OR?: AuditLogWhereInput[]
@@ -11927,6 +16762,7 @@ export namespace Prisma {
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11941,6 +16777,7 @@ export namespace Prisma {
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -11955,6 +16792,7 @@ export namespace Prisma {
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11969,6 +16807,7 @@ export namespace Prisma {
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12008,6 +16847,9 @@ export namespace Prisma {
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateInput = {
@@ -12020,6 +16862,9 @@ export namespace Prisma {
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUpdateInput = {
@@ -12032,6 +16877,9 @@ export namespace Prisma {
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateInput = {
@@ -12044,6 +16892,9 @@ export namespace Prisma {
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityCreateManyInput = {
@@ -12080,6 +16931,9 @@ export namespace Prisma {
     apartments?: ApartmentCreateNestedManyWithoutBuildingInput
     memberships?: MembershipCreateNestedManyWithoutBuildingInput
     packages?: PackageCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateInput = {
@@ -12092,6 +16946,9 @@ export namespace Prisma {
     apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
     packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUpdateInput = {
@@ -12104,6 +16961,9 @@ export namespace Prisma {
     apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
     memberships?: MembershipUpdateManyWithoutBuildingNestedInput
     packages?: PackageUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateInput = {
@@ -12116,6 +16976,9 @@ export namespace Prisma {
     apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
     packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingCreateManyInput = {
@@ -12153,6 +17016,9 @@ export namespace Prisma {
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentUncheckedCreateInput = {
@@ -12164,6 +17030,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentUpdateInput = {
@@ -12175,6 +17044,9 @@ export namespace Prisma {
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
   }
 
   export type ApartmentUncheckedUpdateInput = {
@@ -12186,6 +17058,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
   }
 
   export type ApartmentCreateManyInput = {
@@ -12398,6 +17273,296 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParkingSpaceCreateInput = {
+    id?: string
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutParkingSpacesInput
+    building?: BuildingCreateNestedOneWithoutParkingSpacesInput
+    apartment?: ApartmentCreateNestedOneWithoutParkingSpacesInput
+    reports?: ReportCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutParkingSpacesNestedInput
+    building?: BuildingUpdateOneWithoutParkingSpacesNestedInput
+    apartment?: ApartmentUpdateOneWithoutParkingSpacesNestedInput
+    reports?: ReportUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceCreateManyInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ParkingSpaceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParkingSpaceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageUnitCreateInput = {
+    id?: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutStorageUnitsInput
+    building: BuildingCreateNestedOneWithoutStorageUnitsInput
+    apartment?: ApartmentCreateNestedOneWithoutStorageUnitsInput
+    reports?: ReportCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    buildingId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutStorageUnitsNestedInput
+    building?: BuildingUpdateOneRequiredWithoutStorageUnitsNestedInput
+    apartment?: ApartmentUpdateOneWithoutStorageUnitsNestedInput
+    reports?: ReportUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitCreateManyInput = {
+    id?: string
+    communityId: string
+    buildingId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageUnitUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageUnitUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportCreateInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutReportsInput
+    building?: BuildingCreateNestedOneWithoutReportsInput
+    apartment?: ApartmentCreateNestedOneWithoutReportsInput
+    parkingSpace?: ParkingSpaceCreateNestedOneWithoutReportsInput
+    storageUnit?: StorageUnitCreateNestedOneWithoutReportsInput
+    author: UserCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutReportsNestedInput
+    building?: BuildingUpdateOneWithoutReportsNestedInput
+    apartment?: ApartmentUpdateOneWithoutReportsNestedInput
+    parkingSpace?: ParkingSpaceUpdateOneWithoutReportsNestedInput
+    storageUnit?: StorageUnitUpdateOneWithoutReportsNestedInput
+    author?: UserUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportCreateManyInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AuditLogCreateInput = {
@@ -12614,6 +17779,12 @@ export namespace Prisma {
     none?: AuditLogWhereInput
   }
 
+  export type ReportListRelationFilter = {
+    every?: ReportWhereInput
+    some?: ReportWhereInput
+    none?: ReportWhereInput
+  }
+
   export type MembershipOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12623,6 +17794,10 @@ export namespace Prisma {
   }
 
   export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReportOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12677,7 +17852,27 @@ export namespace Prisma {
     none?: BuildingWhereInput
   }
 
+  export type ParkingSpaceListRelationFilter = {
+    every?: ParkingSpaceWhereInput
+    some?: ParkingSpaceWhereInput
+    none?: ParkingSpaceWhereInput
+  }
+
+  export type StorageUnitListRelationFilter = {
+    every?: StorageUnitWhereInput
+    some?: StorageUnitWhereInput
+    none?: StorageUnitWhereInput
+  }
+
   export type BuildingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ParkingSpaceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StorageUnitOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12991,6 +18186,216 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ParkingSpaceCommunityIdNumberCompoundUniqueInput = {
+    communityId: string
+    number: string
+  }
+
+  export type ParkingSpaceCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    number?: SortOrder
+    level?: SortOrder
+    hasEvCharger?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ParkingSpaceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    number?: SortOrder
+    level?: SortOrder
+    hasEvCharger?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ParkingSpaceMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    number?: SortOrder
+    level?: SortOrder
+    hasEvCharger?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type StorageUnitBuildingIdNumberCompoundUniqueInput = {
+    buildingId: string
+    number: string
+  }
+
+  export type StorageUnitCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    number?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageUnitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    number?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageUnitMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    number?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumReportTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportType | EnumReportTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportTypeFilter<$PrismaModel> | $Enums.ReportType
+  }
+
+  export type EnumReportVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportVisibility | EnumReportVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportVisibilityFilter<$PrismaModel> | $Enums.ReportVisibility
+  }
+
+  export type EnumReportStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportStatus | EnumReportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportStatusFilter<$PrismaModel> | $Enums.ReportStatus
+  }
+
+  export type ParkingSpaceNullableScalarRelationFilter = {
+    is?: ParkingSpaceWhereInput | null
+    isNot?: ParkingSpaceWhereInput | null
+  }
+
+  export type StorageUnitNullableScalarRelationFilter = {
+    is?: StorageUnitWhereInput | null
+    isNot?: StorageUnitWhereInput | null
+  }
+
+  export type ReportCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    parkingSpaceId?: SortOrder
+    storageUnitId?: SortOrder
+    authorId?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    visibility?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    urgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type ReportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    parkingSpaceId?: SortOrder
+    storageUnitId?: SortOrder
+    authorId?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    visibility?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    urgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type ReportMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    buildingId?: SortOrder
+    apartmentId?: SortOrder
+    parkingSpaceId?: SortOrder
+    storageUnitId?: SortOrder
+    authorId?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    visibility?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    urgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type EnumReportTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportType | EnumReportTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReportType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportTypeFilter<$PrismaModel>
+    _max?: NestedEnumReportTypeFilter<$PrismaModel>
+  }
+
+  export type EnumReportVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportVisibility | EnumReportVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.ReportVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumReportVisibilityFilter<$PrismaModel>
+  }
+
+  export type EnumReportStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportStatus | EnumReportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReportStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportStatusFilter<$PrismaModel>
+    _max?: NestedEnumReportStatusFilter<$PrismaModel>
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -13119,6 +18524,13 @@ export namespace Prisma {
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
+  export type ReportCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ReportCreateWithoutAuthorInput, ReportUncheckedCreateWithoutAuthorInput> | ReportCreateWithoutAuthorInput[] | ReportUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutAuthorInput | ReportCreateOrConnectWithoutAuthorInput[]
+    createMany?: ReportCreateManyAuthorInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
   export type MembershipUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<MembershipCreateWithoutUserInput, MembershipUncheckedCreateWithoutUserInput> | MembershipCreateWithoutUserInput[] | MembershipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
@@ -13152,6 +18564,13 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     createMany?: AuditLogCreateManyUserInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ReportCreateWithoutAuthorInput, ReportUncheckedCreateWithoutAuthorInput> | ReportCreateWithoutAuthorInput[] | ReportUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutAuthorInput | ReportCreateOrConnectWithoutAuthorInput[]
+    createMany?: ReportCreateManyAuthorInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -13228,6 +18647,20 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
+  export type ReportUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ReportCreateWithoutAuthorInput, ReportUncheckedCreateWithoutAuthorInput> | ReportCreateWithoutAuthorInput[] | ReportUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutAuthorInput | ReportCreateOrConnectWithoutAuthorInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutAuthorInput | ReportUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ReportCreateManyAuthorInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutAuthorInput | ReportUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutAuthorInput | ReportUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type MembershipUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<MembershipCreateWithoutUserInput, MembershipUncheckedCreateWithoutUserInput> | MembershipCreateWithoutUserInput[] | MembershipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
@@ -13298,6 +18731,20 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
+  export type ReportUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ReportCreateWithoutAuthorInput, ReportUncheckedCreateWithoutAuthorInput> | ReportCreateWithoutAuthorInput[] | ReportUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutAuthorInput | ReportCreateOrConnectWithoutAuthorInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutAuthorInput | ReportUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ReportCreateManyAuthorInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutAuthorInput | ReportUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutAuthorInput | ReportUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type BuildingCreateNestedManyWithoutCommunityInput = {
     create?: XOR<BuildingCreateWithoutCommunityInput, BuildingUncheckedCreateWithoutCommunityInput> | BuildingCreateWithoutCommunityInput[] | BuildingUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunityInput | BuildingCreateOrConnectWithoutCommunityInput[]
@@ -13326,6 +18773,27 @@ export namespace Prisma {
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
+  export type ParkingSpaceCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ParkingSpaceCreateWithoutCommunityInput, ParkingSpaceUncheckedCreateWithoutCommunityInput> | ParkingSpaceCreateWithoutCommunityInput[] | ParkingSpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutCommunityInput | ParkingSpaceCreateOrConnectWithoutCommunityInput[]
+    createMany?: ParkingSpaceCreateManyCommunityInputEnvelope
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+  }
+
+  export type StorageUnitCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<StorageUnitCreateWithoutCommunityInput, StorageUnitUncheckedCreateWithoutCommunityInput> | StorageUnitCreateWithoutCommunityInput[] | StorageUnitUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutCommunityInput | StorageUnitCreateOrConnectWithoutCommunityInput[]
+    createMany?: StorageUnitCreateManyCommunityInputEnvelope
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+  }
+
+  export type ReportCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ReportCreateWithoutCommunityInput, ReportUncheckedCreateWithoutCommunityInput> | ReportCreateWithoutCommunityInput[] | ReportUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutCommunityInput | ReportCreateOrConnectWithoutCommunityInput[]
+    createMany?: ReportCreateManyCommunityInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
   export type BuildingUncheckedCreateNestedManyWithoutCommunityInput = {
     create?: XOR<BuildingCreateWithoutCommunityInput, BuildingUncheckedCreateWithoutCommunityInput> | BuildingCreateWithoutCommunityInput[] | BuildingUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunityInput | BuildingCreateOrConnectWithoutCommunityInput[]
@@ -13352,6 +18820,27 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutCommunityInput | AuditLogCreateOrConnectWithoutCommunityInput[]
     createMany?: AuditLogCreateManyCommunityInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ParkingSpaceCreateWithoutCommunityInput, ParkingSpaceUncheckedCreateWithoutCommunityInput> | ParkingSpaceCreateWithoutCommunityInput[] | ParkingSpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutCommunityInput | ParkingSpaceCreateOrConnectWithoutCommunityInput[]
+    createMany?: ParkingSpaceCreateManyCommunityInputEnvelope
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+  }
+
+  export type StorageUnitUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<StorageUnitCreateWithoutCommunityInput, StorageUnitUncheckedCreateWithoutCommunityInput> | StorageUnitCreateWithoutCommunityInput[] | StorageUnitUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutCommunityInput | StorageUnitCreateOrConnectWithoutCommunityInput[]
+    createMany?: StorageUnitCreateManyCommunityInputEnvelope
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ReportCreateWithoutCommunityInput, ReportUncheckedCreateWithoutCommunityInput> | ReportCreateWithoutCommunityInput[] | ReportUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutCommunityInput | ReportCreateOrConnectWithoutCommunityInput[]
+    createMany?: ReportCreateManyCommunityInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
   export type BuildingUpdateManyWithoutCommunityNestedInput = {
@@ -13410,6 +18899,48 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
+  export type ParkingSpaceUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutCommunityInput, ParkingSpaceUncheckedCreateWithoutCommunityInput> | ParkingSpaceCreateWithoutCommunityInput[] | ParkingSpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutCommunityInput | ParkingSpaceCreateOrConnectWithoutCommunityInput[]
+    upsert?: ParkingSpaceUpsertWithWhereUniqueWithoutCommunityInput | ParkingSpaceUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ParkingSpaceCreateManyCommunityInputEnvelope
+    set?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    disconnect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    delete?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    update?: ParkingSpaceUpdateWithWhereUniqueWithoutCommunityInput | ParkingSpaceUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ParkingSpaceUpdateManyWithWhereWithoutCommunityInput | ParkingSpaceUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+  }
+
+  export type StorageUnitUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutCommunityInput, StorageUnitUncheckedCreateWithoutCommunityInput> | StorageUnitCreateWithoutCommunityInput[] | StorageUnitUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutCommunityInput | StorageUnitCreateOrConnectWithoutCommunityInput[]
+    upsert?: StorageUnitUpsertWithWhereUniqueWithoutCommunityInput | StorageUnitUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: StorageUnitCreateManyCommunityInputEnvelope
+    set?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    disconnect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    delete?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    update?: StorageUnitUpdateWithWhereUniqueWithoutCommunityInput | StorageUnitUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: StorageUnitUpdateManyWithWhereWithoutCommunityInput | StorageUnitUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+  }
+
+  export type ReportUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ReportCreateWithoutCommunityInput, ReportUncheckedCreateWithoutCommunityInput> | ReportCreateWithoutCommunityInput[] | ReportUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutCommunityInput | ReportCreateOrConnectWithoutCommunityInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutCommunityInput | ReportUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ReportCreateManyCommunityInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutCommunityInput | ReportUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutCommunityInput | ReportUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type BuildingUncheckedUpdateManyWithoutCommunityNestedInput = {
     create?: XOR<BuildingCreateWithoutCommunityInput, BuildingUncheckedCreateWithoutCommunityInput> | BuildingCreateWithoutCommunityInput[] | BuildingUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunityInput | BuildingCreateOrConnectWithoutCommunityInput[]
@@ -13466,6 +18997,48 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
+  export type ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutCommunityInput, ParkingSpaceUncheckedCreateWithoutCommunityInput> | ParkingSpaceCreateWithoutCommunityInput[] | ParkingSpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutCommunityInput | ParkingSpaceCreateOrConnectWithoutCommunityInput[]
+    upsert?: ParkingSpaceUpsertWithWhereUniqueWithoutCommunityInput | ParkingSpaceUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ParkingSpaceCreateManyCommunityInputEnvelope
+    set?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    disconnect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    delete?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    update?: ParkingSpaceUpdateWithWhereUniqueWithoutCommunityInput | ParkingSpaceUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ParkingSpaceUpdateManyWithWhereWithoutCommunityInput | ParkingSpaceUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+  }
+
+  export type StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutCommunityInput, StorageUnitUncheckedCreateWithoutCommunityInput> | StorageUnitCreateWithoutCommunityInput[] | StorageUnitUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutCommunityInput | StorageUnitCreateOrConnectWithoutCommunityInput[]
+    upsert?: StorageUnitUpsertWithWhereUniqueWithoutCommunityInput | StorageUnitUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: StorageUnitCreateManyCommunityInputEnvelope
+    set?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    disconnect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    delete?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    update?: StorageUnitUpdateWithWhereUniqueWithoutCommunityInput | StorageUnitUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: StorageUnitUpdateManyWithWhereWithoutCommunityInput | StorageUnitUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ReportCreateWithoutCommunityInput, ReportUncheckedCreateWithoutCommunityInput> | ReportCreateWithoutCommunityInput[] | ReportUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutCommunityInput | ReportCreateOrConnectWithoutCommunityInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutCommunityInput | ReportUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ReportCreateManyCommunityInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutCommunityInput | ReportUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutCommunityInput | ReportUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type CommunityCreateNestedOneWithoutBuildingsInput = {
     create?: XOR<CommunityCreateWithoutBuildingsInput, CommunityUncheckedCreateWithoutBuildingsInput>
     connectOrCreate?: CommunityCreateOrConnectWithoutBuildingsInput
@@ -13493,6 +19066,27 @@ export namespace Prisma {
     connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
   }
 
+  export type ParkingSpaceCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<ParkingSpaceCreateWithoutBuildingInput, ParkingSpaceUncheckedCreateWithoutBuildingInput> | ParkingSpaceCreateWithoutBuildingInput[] | ParkingSpaceUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutBuildingInput | ParkingSpaceCreateOrConnectWithoutBuildingInput[]
+    createMany?: ParkingSpaceCreateManyBuildingInputEnvelope
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+  }
+
+  export type StorageUnitCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<StorageUnitCreateWithoutBuildingInput, StorageUnitUncheckedCreateWithoutBuildingInput> | StorageUnitCreateWithoutBuildingInput[] | StorageUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutBuildingInput | StorageUnitCreateOrConnectWithoutBuildingInput[]
+    createMany?: StorageUnitCreateManyBuildingInputEnvelope
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+  }
+
+  export type ReportCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<ReportCreateWithoutBuildingInput, ReportUncheckedCreateWithoutBuildingInput> | ReportCreateWithoutBuildingInput[] | ReportUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutBuildingInput | ReportCreateOrConnectWithoutBuildingInput[]
+    createMany?: ReportCreateManyBuildingInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
   export type ApartmentUncheckedCreateNestedManyWithoutBuildingInput = {
     create?: XOR<ApartmentCreateWithoutBuildingInput, ApartmentUncheckedCreateWithoutBuildingInput> | ApartmentCreateWithoutBuildingInput[] | ApartmentUncheckedCreateWithoutBuildingInput[]
     connectOrCreate?: ApartmentCreateOrConnectWithoutBuildingInput | ApartmentCreateOrConnectWithoutBuildingInput[]
@@ -13512,6 +19106,27 @@ export namespace Prisma {
     connectOrCreate?: PackageCreateOrConnectWithoutBuildingInput | PackageCreateOrConnectWithoutBuildingInput[]
     createMany?: PackageCreateManyBuildingInputEnvelope
     connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+  }
+
+  export type ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<ParkingSpaceCreateWithoutBuildingInput, ParkingSpaceUncheckedCreateWithoutBuildingInput> | ParkingSpaceCreateWithoutBuildingInput[] | ParkingSpaceUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutBuildingInput | ParkingSpaceCreateOrConnectWithoutBuildingInput[]
+    createMany?: ParkingSpaceCreateManyBuildingInputEnvelope
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+  }
+
+  export type StorageUnitUncheckedCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<StorageUnitCreateWithoutBuildingInput, StorageUnitUncheckedCreateWithoutBuildingInput> | StorageUnitCreateWithoutBuildingInput[] | StorageUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutBuildingInput | StorageUnitCreateOrConnectWithoutBuildingInput[]
+    createMany?: StorageUnitCreateManyBuildingInputEnvelope
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<ReportCreateWithoutBuildingInput, ReportUncheckedCreateWithoutBuildingInput> | ReportCreateWithoutBuildingInput[] | ReportUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutBuildingInput | ReportCreateOrConnectWithoutBuildingInput[]
+    createMany?: ReportCreateManyBuildingInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
   export type CommunityUpdateOneRequiredWithoutBuildingsNestedInput = {
@@ -13564,6 +19179,48 @@ export namespace Prisma {
     deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
   }
 
+  export type ParkingSpaceUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutBuildingInput, ParkingSpaceUncheckedCreateWithoutBuildingInput> | ParkingSpaceCreateWithoutBuildingInput[] | ParkingSpaceUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutBuildingInput | ParkingSpaceCreateOrConnectWithoutBuildingInput[]
+    upsert?: ParkingSpaceUpsertWithWhereUniqueWithoutBuildingInput | ParkingSpaceUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: ParkingSpaceCreateManyBuildingInputEnvelope
+    set?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    disconnect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    delete?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    update?: ParkingSpaceUpdateWithWhereUniqueWithoutBuildingInput | ParkingSpaceUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: ParkingSpaceUpdateManyWithWhereWithoutBuildingInput | ParkingSpaceUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+  }
+
+  export type StorageUnitUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutBuildingInput, StorageUnitUncheckedCreateWithoutBuildingInput> | StorageUnitCreateWithoutBuildingInput[] | StorageUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutBuildingInput | StorageUnitCreateOrConnectWithoutBuildingInput[]
+    upsert?: StorageUnitUpsertWithWhereUniqueWithoutBuildingInput | StorageUnitUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: StorageUnitCreateManyBuildingInputEnvelope
+    set?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    disconnect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    delete?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    update?: StorageUnitUpdateWithWhereUniqueWithoutBuildingInput | StorageUnitUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: StorageUnitUpdateManyWithWhereWithoutBuildingInput | StorageUnitUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+  }
+
+  export type ReportUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<ReportCreateWithoutBuildingInput, ReportUncheckedCreateWithoutBuildingInput> | ReportCreateWithoutBuildingInput[] | ReportUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutBuildingInput | ReportCreateOrConnectWithoutBuildingInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutBuildingInput | ReportUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: ReportCreateManyBuildingInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutBuildingInput | ReportUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutBuildingInput | ReportUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type ApartmentUncheckedUpdateManyWithoutBuildingNestedInput = {
     create?: XOR<ApartmentCreateWithoutBuildingInput, ApartmentUncheckedCreateWithoutBuildingInput> | ApartmentCreateWithoutBuildingInput[] | ApartmentUncheckedCreateWithoutBuildingInput[]
     connectOrCreate?: ApartmentCreateOrConnectWithoutBuildingInput | ApartmentCreateOrConnectWithoutBuildingInput[]
@@ -13606,6 +19263,48 @@ export namespace Prisma {
     deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
   }
 
+  export type ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutBuildingInput, ParkingSpaceUncheckedCreateWithoutBuildingInput> | ParkingSpaceCreateWithoutBuildingInput[] | ParkingSpaceUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutBuildingInput | ParkingSpaceCreateOrConnectWithoutBuildingInput[]
+    upsert?: ParkingSpaceUpsertWithWhereUniqueWithoutBuildingInput | ParkingSpaceUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: ParkingSpaceCreateManyBuildingInputEnvelope
+    set?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    disconnect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    delete?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    update?: ParkingSpaceUpdateWithWhereUniqueWithoutBuildingInput | ParkingSpaceUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: ParkingSpaceUpdateManyWithWhereWithoutBuildingInput | ParkingSpaceUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+  }
+
+  export type StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutBuildingInput, StorageUnitUncheckedCreateWithoutBuildingInput> | StorageUnitCreateWithoutBuildingInput[] | StorageUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutBuildingInput | StorageUnitCreateOrConnectWithoutBuildingInput[]
+    upsert?: StorageUnitUpsertWithWhereUniqueWithoutBuildingInput | StorageUnitUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: StorageUnitCreateManyBuildingInputEnvelope
+    set?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    disconnect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    delete?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    update?: StorageUnitUpdateWithWhereUniqueWithoutBuildingInput | StorageUnitUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: StorageUnitUpdateManyWithWhereWithoutBuildingInput | StorageUnitUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<ReportCreateWithoutBuildingInput, ReportUncheckedCreateWithoutBuildingInput> | ReportCreateWithoutBuildingInput[] | ReportUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutBuildingInput | ReportCreateOrConnectWithoutBuildingInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutBuildingInput | ReportUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: ReportCreateManyBuildingInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutBuildingInput | ReportUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutBuildingInput | ReportUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type BuildingCreateNestedOneWithoutApartmentsInput = {
     create?: XOR<BuildingCreateWithoutApartmentsInput, BuildingUncheckedCreateWithoutApartmentsInput>
     connectOrCreate?: BuildingCreateOrConnectWithoutApartmentsInput
@@ -13626,6 +19325,27 @@ export namespace Prisma {
     connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
   }
 
+  export type ParkingSpaceCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<ParkingSpaceCreateWithoutApartmentInput, ParkingSpaceUncheckedCreateWithoutApartmentInput> | ParkingSpaceCreateWithoutApartmentInput[] | ParkingSpaceUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutApartmentInput | ParkingSpaceCreateOrConnectWithoutApartmentInput[]
+    createMany?: ParkingSpaceCreateManyApartmentInputEnvelope
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+  }
+
+  export type StorageUnitCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<StorageUnitCreateWithoutApartmentInput, StorageUnitUncheckedCreateWithoutApartmentInput> | StorageUnitCreateWithoutApartmentInput[] | StorageUnitUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutApartmentInput | StorageUnitCreateOrConnectWithoutApartmentInput[]
+    createMany?: StorageUnitCreateManyApartmentInputEnvelope
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+  }
+
+  export type ReportCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<ReportCreateWithoutApartmentInput, ReportUncheckedCreateWithoutApartmentInput> | ReportCreateWithoutApartmentInput[] | ReportUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutApartmentInput | ReportCreateOrConnectWithoutApartmentInput[]
+    createMany?: ReportCreateManyApartmentInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
   export type MembershipUncheckedCreateNestedManyWithoutApartmentInput = {
     create?: XOR<MembershipCreateWithoutApartmentInput, MembershipUncheckedCreateWithoutApartmentInput> | MembershipCreateWithoutApartmentInput[] | MembershipUncheckedCreateWithoutApartmentInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutApartmentInput | MembershipCreateOrConnectWithoutApartmentInput[]
@@ -13638,6 +19358,27 @@ export namespace Prisma {
     connectOrCreate?: PackageCreateOrConnectWithoutApartmentInput | PackageCreateOrConnectWithoutApartmentInput[]
     createMany?: PackageCreateManyApartmentInputEnvelope
     connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+  }
+
+  export type ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<ParkingSpaceCreateWithoutApartmentInput, ParkingSpaceUncheckedCreateWithoutApartmentInput> | ParkingSpaceCreateWithoutApartmentInput[] | ParkingSpaceUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutApartmentInput | ParkingSpaceCreateOrConnectWithoutApartmentInput[]
+    createMany?: ParkingSpaceCreateManyApartmentInputEnvelope
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+  }
+
+  export type StorageUnitUncheckedCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<StorageUnitCreateWithoutApartmentInput, StorageUnitUncheckedCreateWithoutApartmentInput> | StorageUnitCreateWithoutApartmentInput[] | StorageUnitUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutApartmentInput | StorageUnitCreateOrConnectWithoutApartmentInput[]
+    createMany?: StorageUnitCreateManyApartmentInputEnvelope
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<ReportCreateWithoutApartmentInput, ReportUncheckedCreateWithoutApartmentInput> | ReportCreateWithoutApartmentInput[] | ReportUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutApartmentInput | ReportCreateOrConnectWithoutApartmentInput[]
+    createMany?: ReportCreateManyApartmentInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -13684,6 +19425,48 @@ export namespace Prisma {
     deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
   }
 
+  export type ParkingSpaceUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutApartmentInput, ParkingSpaceUncheckedCreateWithoutApartmentInput> | ParkingSpaceCreateWithoutApartmentInput[] | ParkingSpaceUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutApartmentInput | ParkingSpaceCreateOrConnectWithoutApartmentInput[]
+    upsert?: ParkingSpaceUpsertWithWhereUniqueWithoutApartmentInput | ParkingSpaceUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: ParkingSpaceCreateManyApartmentInputEnvelope
+    set?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    disconnect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    delete?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    update?: ParkingSpaceUpdateWithWhereUniqueWithoutApartmentInput | ParkingSpaceUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: ParkingSpaceUpdateManyWithWhereWithoutApartmentInput | ParkingSpaceUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+  }
+
+  export type StorageUnitUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutApartmentInput, StorageUnitUncheckedCreateWithoutApartmentInput> | StorageUnitCreateWithoutApartmentInput[] | StorageUnitUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutApartmentInput | StorageUnitCreateOrConnectWithoutApartmentInput[]
+    upsert?: StorageUnitUpsertWithWhereUniqueWithoutApartmentInput | StorageUnitUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: StorageUnitCreateManyApartmentInputEnvelope
+    set?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    disconnect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    delete?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    update?: StorageUnitUpdateWithWhereUniqueWithoutApartmentInput | StorageUnitUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: StorageUnitUpdateManyWithWhereWithoutApartmentInput | StorageUnitUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+  }
+
+  export type ReportUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<ReportCreateWithoutApartmentInput, ReportUncheckedCreateWithoutApartmentInput> | ReportCreateWithoutApartmentInput[] | ReportUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutApartmentInput | ReportCreateOrConnectWithoutApartmentInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutApartmentInput | ReportUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: ReportCreateManyApartmentInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutApartmentInput | ReportUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutApartmentInput | ReportUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
   export type MembershipUncheckedUpdateManyWithoutApartmentNestedInput = {
     create?: XOR<MembershipCreateWithoutApartmentInput, MembershipUncheckedCreateWithoutApartmentInput> | MembershipCreateWithoutApartmentInput[] | MembershipUncheckedCreateWithoutApartmentInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutApartmentInput | MembershipCreateOrConnectWithoutApartmentInput[]
@@ -13710,6 +19493,48 @@ export namespace Prisma {
     update?: PackageUpdateWithWhereUniqueWithoutApartmentInput | PackageUpdateWithWhereUniqueWithoutApartmentInput[]
     updateMany?: PackageUpdateManyWithWhereWithoutApartmentInput | PackageUpdateManyWithWhereWithoutApartmentInput[]
     deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
+  }
+
+  export type ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutApartmentInput, ParkingSpaceUncheckedCreateWithoutApartmentInput> | ParkingSpaceCreateWithoutApartmentInput[] | ParkingSpaceUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutApartmentInput | ParkingSpaceCreateOrConnectWithoutApartmentInput[]
+    upsert?: ParkingSpaceUpsertWithWhereUniqueWithoutApartmentInput | ParkingSpaceUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: ParkingSpaceCreateManyApartmentInputEnvelope
+    set?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    disconnect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    delete?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    connect?: ParkingSpaceWhereUniqueInput | ParkingSpaceWhereUniqueInput[]
+    update?: ParkingSpaceUpdateWithWhereUniqueWithoutApartmentInput | ParkingSpaceUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: ParkingSpaceUpdateManyWithWhereWithoutApartmentInput | ParkingSpaceUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+  }
+
+  export type StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutApartmentInput, StorageUnitUncheckedCreateWithoutApartmentInput> | StorageUnitCreateWithoutApartmentInput[] | StorageUnitUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutApartmentInput | StorageUnitCreateOrConnectWithoutApartmentInput[]
+    upsert?: StorageUnitUpsertWithWhereUniqueWithoutApartmentInput | StorageUnitUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: StorageUnitCreateManyApartmentInputEnvelope
+    set?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    disconnect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    delete?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    connect?: StorageUnitWhereUniqueInput | StorageUnitWhereUniqueInput[]
+    update?: StorageUnitUpdateWithWhereUniqueWithoutApartmentInput | StorageUnitUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: StorageUnitUpdateManyWithWhereWithoutApartmentInput | StorageUnitUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<ReportCreateWithoutApartmentInput, ReportUncheckedCreateWithoutApartmentInput> | ReportCreateWithoutApartmentInput[] | ReportUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutApartmentInput | ReportCreateOrConnectWithoutApartmentInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutApartmentInput | ReportUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: ReportCreateManyApartmentInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutApartmentInput | ReportUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutApartmentInput | ReportUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutMembershipsInput = {
@@ -13870,6 +19695,288 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPickedUpPackagesInput, UserUpdateWithoutPickedUpPackagesInput>, UserUncheckedUpdateWithoutPickedUpPackagesInput>
+  }
+
+  export type CommunityCreateNestedOneWithoutParkingSpacesInput = {
+    create?: XOR<CommunityCreateWithoutParkingSpacesInput, CommunityUncheckedCreateWithoutParkingSpacesInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutParkingSpacesInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type BuildingCreateNestedOneWithoutParkingSpacesInput = {
+    create?: XOR<BuildingCreateWithoutParkingSpacesInput, BuildingUncheckedCreateWithoutParkingSpacesInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutParkingSpacesInput
+    connect?: BuildingWhereUniqueInput
+  }
+
+  export type ApartmentCreateNestedOneWithoutParkingSpacesInput = {
+    create?: XOR<ApartmentCreateWithoutParkingSpacesInput, ApartmentUncheckedCreateWithoutParkingSpacesInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutParkingSpacesInput
+    connect?: ApartmentWhereUniqueInput
+  }
+
+  export type ReportCreateNestedManyWithoutParkingSpaceInput = {
+    create?: XOR<ReportCreateWithoutParkingSpaceInput, ReportUncheckedCreateWithoutParkingSpaceInput> | ReportCreateWithoutParkingSpaceInput[] | ReportUncheckedCreateWithoutParkingSpaceInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutParkingSpaceInput | ReportCreateOrConnectWithoutParkingSpaceInput[]
+    createMany?: ReportCreateManyParkingSpaceInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutParkingSpaceInput = {
+    create?: XOR<ReportCreateWithoutParkingSpaceInput, ReportUncheckedCreateWithoutParkingSpaceInput> | ReportCreateWithoutParkingSpaceInput[] | ReportUncheckedCreateWithoutParkingSpaceInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutParkingSpaceInput | ReportCreateOrConnectWithoutParkingSpaceInput[]
+    createMany?: ReportCreateManyParkingSpaceInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type CommunityUpdateOneRequiredWithoutParkingSpacesNestedInput = {
+    create?: XOR<CommunityCreateWithoutParkingSpacesInput, CommunityUncheckedCreateWithoutParkingSpacesInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutParkingSpacesInput
+    upsert?: CommunityUpsertWithoutParkingSpacesInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutParkingSpacesInput, CommunityUpdateWithoutParkingSpacesInput>, CommunityUncheckedUpdateWithoutParkingSpacesInput>
+  }
+
+  export type BuildingUpdateOneWithoutParkingSpacesNestedInput = {
+    create?: XOR<BuildingCreateWithoutParkingSpacesInput, BuildingUncheckedCreateWithoutParkingSpacesInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutParkingSpacesInput
+    upsert?: BuildingUpsertWithoutParkingSpacesInput
+    disconnect?: BuildingWhereInput | boolean
+    delete?: BuildingWhereInput | boolean
+    connect?: BuildingWhereUniqueInput
+    update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutParkingSpacesInput, BuildingUpdateWithoutParkingSpacesInput>, BuildingUncheckedUpdateWithoutParkingSpacesInput>
+  }
+
+  export type ApartmentUpdateOneWithoutParkingSpacesNestedInput = {
+    create?: XOR<ApartmentCreateWithoutParkingSpacesInput, ApartmentUncheckedCreateWithoutParkingSpacesInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutParkingSpacesInput
+    upsert?: ApartmentUpsertWithoutParkingSpacesInput
+    disconnect?: ApartmentWhereInput | boolean
+    delete?: ApartmentWhereInput | boolean
+    connect?: ApartmentWhereUniqueInput
+    update?: XOR<XOR<ApartmentUpdateToOneWithWhereWithoutParkingSpacesInput, ApartmentUpdateWithoutParkingSpacesInput>, ApartmentUncheckedUpdateWithoutParkingSpacesInput>
+  }
+
+  export type ReportUpdateManyWithoutParkingSpaceNestedInput = {
+    create?: XOR<ReportCreateWithoutParkingSpaceInput, ReportUncheckedCreateWithoutParkingSpaceInput> | ReportCreateWithoutParkingSpaceInput[] | ReportUncheckedCreateWithoutParkingSpaceInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutParkingSpaceInput | ReportCreateOrConnectWithoutParkingSpaceInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutParkingSpaceInput | ReportUpsertWithWhereUniqueWithoutParkingSpaceInput[]
+    createMany?: ReportCreateManyParkingSpaceInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutParkingSpaceInput | ReportUpdateWithWhereUniqueWithoutParkingSpaceInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutParkingSpaceInput | ReportUpdateManyWithWhereWithoutParkingSpaceInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutParkingSpaceNestedInput = {
+    create?: XOR<ReportCreateWithoutParkingSpaceInput, ReportUncheckedCreateWithoutParkingSpaceInput> | ReportCreateWithoutParkingSpaceInput[] | ReportUncheckedCreateWithoutParkingSpaceInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutParkingSpaceInput | ReportCreateOrConnectWithoutParkingSpaceInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutParkingSpaceInput | ReportUpsertWithWhereUniqueWithoutParkingSpaceInput[]
+    createMany?: ReportCreateManyParkingSpaceInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutParkingSpaceInput | ReportUpdateWithWhereUniqueWithoutParkingSpaceInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutParkingSpaceInput | ReportUpdateManyWithWhereWithoutParkingSpaceInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type CommunityCreateNestedOneWithoutStorageUnitsInput = {
+    create?: XOR<CommunityCreateWithoutStorageUnitsInput, CommunityUncheckedCreateWithoutStorageUnitsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutStorageUnitsInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type BuildingCreateNestedOneWithoutStorageUnitsInput = {
+    create?: XOR<BuildingCreateWithoutStorageUnitsInput, BuildingUncheckedCreateWithoutStorageUnitsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutStorageUnitsInput
+    connect?: BuildingWhereUniqueInput
+  }
+
+  export type ApartmentCreateNestedOneWithoutStorageUnitsInput = {
+    create?: XOR<ApartmentCreateWithoutStorageUnitsInput, ApartmentUncheckedCreateWithoutStorageUnitsInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutStorageUnitsInput
+    connect?: ApartmentWhereUniqueInput
+  }
+
+  export type ReportCreateNestedManyWithoutStorageUnitInput = {
+    create?: XOR<ReportCreateWithoutStorageUnitInput, ReportUncheckedCreateWithoutStorageUnitInput> | ReportCreateWithoutStorageUnitInput[] | ReportUncheckedCreateWithoutStorageUnitInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutStorageUnitInput | ReportCreateOrConnectWithoutStorageUnitInput[]
+    createMany?: ReportCreateManyStorageUnitInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutStorageUnitInput = {
+    create?: XOR<ReportCreateWithoutStorageUnitInput, ReportUncheckedCreateWithoutStorageUnitInput> | ReportCreateWithoutStorageUnitInput[] | ReportUncheckedCreateWithoutStorageUnitInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutStorageUnitInput | ReportCreateOrConnectWithoutStorageUnitInput[]
+    createMany?: ReportCreateManyStorageUnitInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type CommunityUpdateOneRequiredWithoutStorageUnitsNestedInput = {
+    create?: XOR<CommunityCreateWithoutStorageUnitsInput, CommunityUncheckedCreateWithoutStorageUnitsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutStorageUnitsInput
+    upsert?: CommunityUpsertWithoutStorageUnitsInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutStorageUnitsInput, CommunityUpdateWithoutStorageUnitsInput>, CommunityUncheckedUpdateWithoutStorageUnitsInput>
+  }
+
+  export type BuildingUpdateOneRequiredWithoutStorageUnitsNestedInput = {
+    create?: XOR<BuildingCreateWithoutStorageUnitsInput, BuildingUncheckedCreateWithoutStorageUnitsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutStorageUnitsInput
+    upsert?: BuildingUpsertWithoutStorageUnitsInput
+    connect?: BuildingWhereUniqueInput
+    update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutStorageUnitsInput, BuildingUpdateWithoutStorageUnitsInput>, BuildingUncheckedUpdateWithoutStorageUnitsInput>
+  }
+
+  export type ApartmentUpdateOneWithoutStorageUnitsNestedInput = {
+    create?: XOR<ApartmentCreateWithoutStorageUnitsInput, ApartmentUncheckedCreateWithoutStorageUnitsInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutStorageUnitsInput
+    upsert?: ApartmentUpsertWithoutStorageUnitsInput
+    disconnect?: ApartmentWhereInput | boolean
+    delete?: ApartmentWhereInput | boolean
+    connect?: ApartmentWhereUniqueInput
+    update?: XOR<XOR<ApartmentUpdateToOneWithWhereWithoutStorageUnitsInput, ApartmentUpdateWithoutStorageUnitsInput>, ApartmentUncheckedUpdateWithoutStorageUnitsInput>
+  }
+
+  export type ReportUpdateManyWithoutStorageUnitNestedInput = {
+    create?: XOR<ReportCreateWithoutStorageUnitInput, ReportUncheckedCreateWithoutStorageUnitInput> | ReportCreateWithoutStorageUnitInput[] | ReportUncheckedCreateWithoutStorageUnitInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutStorageUnitInput | ReportCreateOrConnectWithoutStorageUnitInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutStorageUnitInput | ReportUpsertWithWhereUniqueWithoutStorageUnitInput[]
+    createMany?: ReportCreateManyStorageUnitInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutStorageUnitInput | ReportUpdateWithWhereUniqueWithoutStorageUnitInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutStorageUnitInput | ReportUpdateManyWithWhereWithoutStorageUnitInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutStorageUnitNestedInput = {
+    create?: XOR<ReportCreateWithoutStorageUnitInput, ReportUncheckedCreateWithoutStorageUnitInput> | ReportCreateWithoutStorageUnitInput[] | ReportUncheckedCreateWithoutStorageUnitInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutStorageUnitInput | ReportCreateOrConnectWithoutStorageUnitInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutStorageUnitInput | ReportUpsertWithWhereUniqueWithoutStorageUnitInput[]
+    createMany?: ReportCreateManyStorageUnitInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutStorageUnitInput | ReportUpdateWithWhereUniqueWithoutStorageUnitInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutStorageUnitInput | ReportUpdateManyWithWhereWithoutStorageUnitInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type CommunityCreateNestedOneWithoutReportsInput = {
+    create?: XOR<CommunityCreateWithoutReportsInput, CommunityUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutReportsInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type BuildingCreateNestedOneWithoutReportsInput = {
+    create?: XOR<BuildingCreateWithoutReportsInput, BuildingUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutReportsInput
+    connect?: BuildingWhereUniqueInput
+  }
+
+  export type ApartmentCreateNestedOneWithoutReportsInput = {
+    create?: XOR<ApartmentCreateWithoutReportsInput, ApartmentUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutReportsInput
+    connect?: ApartmentWhereUniqueInput
+  }
+
+  export type ParkingSpaceCreateNestedOneWithoutReportsInput = {
+    create?: XOR<ParkingSpaceCreateWithoutReportsInput, ParkingSpaceUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutReportsInput
+    connect?: ParkingSpaceWhereUniqueInput
+  }
+
+  export type StorageUnitCreateNestedOneWithoutReportsInput = {
+    create?: XOR<StorageUnitCreateWithoutReportsInput, StorageUnitUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutReportsInput
+    connect?: StorageUnitWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReportsInput = {
+    create?: XOR<UserCreateWithoutReportsInput, UserUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReportsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumReportTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ReportType
+  }
+
+  export type EnumReportVisibilityFieldUpdateOperationsInput = {
+    set?: $Enums.ReportVisibility
+  }
+
+  export type EnumReportStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ReportStatus
+  }
+
+  export type CommunityUpdateOneRequiredWithoutReportsNestedInput = {
+    create?: XOR<CommunityCreateWithoutReportsInput, CommunityUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutReportsInput
+    upsert?: CommunityUpsertWithoutReportsInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutReportsInput, CommunityUpdateWithoutReportsInput>, CommunityUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type BuildingUpdateOneWithoutReportsNestedInput = {
+    create?: XOR<BuildingCreateWithoutReportsInput, BuildingUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutReportsInput
+    upsert?: BuildingUpsertWithoutReportsInput
+    disconnect?: BuildingWhereInput | boolean
+    delete?: BuildingWhereInput | boolean
+    connect?: BuildingWhereUniqueInput
+    update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutReportsInput, BuildingUpdateWithoutReportsInput>, BuildingUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type ApartmentUpdateOneWithoutReportsNestedInput = {
+    create?: XOR<ApartmentCreateWithoutReportsInput, ApartmentUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutReportsInput
+    upsert?: ApartmentUpsertWithoutReportsInput
+    disconnect?: ApartmentWhereInput | boolean
+    delete?: ApartmentWhereInput | boolean
+    connect?: ApartmentWhereUniqueInput
+    update?: XOR<XOR<ApartmentUpdateToOneWithWhereWithoutReportsInput, ApartmentUpdateWithoutReportsInput>, ApartmentUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type ParkingSpaceUpdateOneWithoutReportsNestedInput = {
+    create?: XOR<ParkingSpaceCreateWithoutReportsInput, ParkingSpaceUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: ParkingSpaceCreateOrConnectWithoutReportsInput
+    upsert?: ParkingSpaceUpsertWithoutReportsInput
+    disconnect?: ParkingSpaceWhereInput | boolean
+    delete?: ParkingSpaceWhereInput | boolean
+    connect?: ParkingSpaceWhereUniqueInput
+    update?: XOR<XOR<ParkingSpaceUpdateToOneWithWhereWithoutReportsInput, ParkingSpaceUpdateWithoutReportsInput>, ParkingSpaceUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type StorageUnitUpdateOneWithoutReportsNestedInput = {
+    create?: XOR<StorageUnitCreateWithoutReportsInput, StorageUnitUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: StorageUnitCreateOrConnectWithoutReportsInput
+    upsert?: StorageUnitUpsertWithoutReportsInput
+    disconnect?: StorageUnitWhereInput | boolean
+    delete?: StorageUnitWhereInput | boolean
+    connect?: StorageUnitWhereUniqueInput
+    update?: XOR<XOR<StorageUnitUpdateToOneWithWhereWithoutReportsInput, StorageUnitUpdateWithoutReportsInput>, StorageUnitUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReportsNestedInput = {
+    create?: XOR<UserCreateWithoutReportsInput, UserUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReportsInput
+    upsert?: UserUpsertWithoutReportsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReportsInput, UserUpdateWithoutReportsInput>, UserUncheckedUpdateWithoutReportsInput>
   }
 
   export type CommunityCreateNestedOneWithoutAuditLogsInput = {
@@ -14109,6 +20216,70 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumReportTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportType | EnumReportTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportTypeFilter<$PrismaModel> | $Enums.ReportType
+  }
+
+  export type NestedEnumReportVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportVisibility | EnumReportVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportVisibilityFilter<$PrismaModel> | $Enums.ReportVisibility
+  }
+
+  export type NestedEnumReportStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportStatus | EnumReportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportStatusFilter<$PrismaModel> | $Enums.ReportStatus
+  }
+
+  export type NestedEnumReportTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportType | EnumReportTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportType[] | ListEnumReportTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReportType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportTypeFilter<$PrismaModel>
+    _max?: NestedEnumReportTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumReportVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportVisibility | EnumReportVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportVisibility[] | ListEnumReportVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.ReportVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumReportVisibilityFilter<$PrismaModel>
+  }
+
+  export type NestedEnumReportStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportStatus | EnumReportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportStatus[] | ListEnumReportStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReportStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportStatusFilter<$PrismaModel>
+    _max?: NestedEnumReportStatusFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -14323,6 +20494,54 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReportCreateWithoutAuthorInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutReportsInput
+    building?: BuildingCreateNestedOneWithoutReportsInput
+    apartment?: ApartmentCreateNestedOneWithoutReportsInput
+    parkingSpace?: ParkingSpaceCreateNestedOneWithoutReportsInput
+    storageUnit?: StorageUnitCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportCreateOrConnectWithoutAuthorInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutAuthorInput, ReportUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ReportCreateManyAuthorInputEnvelope = {
+    data: ReportCreateManyAuthorInput | ReportCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MembershipUpsertWithWhereUniqueWithoutUserInput = {
     where: MembershipWhereUniqueInput
     update: XOR<MembershipUpdateWithoutUserInput, MembershipUncheckedUpdateWithoutUserInput>
@@ -14451,6 +20670,45 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
+  export type ReportUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutAuthorInput, ReportUncheckedUpdateWithoutAuthorInput>
+    create: XOR<ReportCreateWithoutAuthorInput, ReportUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutAuthorInput, ReportUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutAuthorInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type ReportScalarWhereInput = {
+    AND?: ReportScalarWhereInput | ReportScalarWhereInput[]
+    OR?: ReportScalarWhereInput[]
+    NOT?: ReportScalarWhereInput | ReportScalarWhereInput[]
+    id?: StringFilter<"Report"> | string
+    communityId?: StringFilter<"Report"> | string
+    buildingId?: StringNullableFilter<"Report"> | string | null
+    apartmentId?: StringNullableFilter<"Report"> | string | null
+    parkingSpaceId?: StringNullableFilter<"Report"> | string | null
+    storageUnitId?: StringNullableFilter<"Report"> | string | null
+    authorId?: StringFilter<"Report"> | string
+    category?: StringFilter<"Report"> | string
+    type?: EnumReportTypeFilter<"Report"> | $Enums.ReportType
+    visibility?: EnumReportVisibilityFilter<"Report"> | $Enums.ReportVisibility
+    title?: StringFilter<"Report"> | string
+    description?: StringFilter<"Report"> | string
+    status?: EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
+    urgent?: BoolFilter<"Report"> | boolean
+    createdAt?: DateTimeFilter<"Report"> | Date | string
+    updatedAt?: DateTimeFilter<"Report"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+  }
+
   export type BuildingCreateWithoutCommunityInput = {
     id?: string
     name: string
@@ -14460,6 +20718,9 @@ export namespace Prisma {
     apartments?: ApartmentCreateNestedManyWithoutBuildingInput
     memberships?: MembershipCreateNestedManyWithoutBuildingInput
     packages?: PackageCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutCommunityInput = {
@@ -14471,6 +20732,9 @@ export namespace Prisma {
     apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
     packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutCommunityInput = {
@@ -14585,6 +20849,118 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ParkingSpaceCreateWithoutCommunityInput = {
+    id?: string
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    building?: BuildingCreateNestedOneWithoutParkingSpacesInput
+    apartment?: ApartmentCreateNestedOneWithoutParkingSpacesInput
+    reports?: ReportCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceCreateOrConnectWithoutCommunityInput = {
+    where: ParkingSpaceWhereUniqueInput
+    create: XOR<ParkingSpaceCreateWithoutCommunityInput, ParkingSpaceUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ParkingSpaceCreateManyCommunityInputEnvelope = {
+    data: ParkingSpaceCreateManyCommunityInput | ParkingSpaceCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorageUnitCreateWithoutCommunityInput = {
+    id?: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    building: BuildingCreateNestedOneWithoutStorageUnitsInput
+    apartment?: ApartmentCreateNestedOneWithoutStorageUnitsInput
+    reports?: ReportCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    buildingId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitCreateOrConnectWithoutCommunityInput = {
+    where: StorageUnitWhereUniqueInput
+    create: XOR<StorageUnitCreateWithoutCommunityInput, StorageUnitUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type StorageUnitCreateManyCommunityInputEnvelope = {
+    data: StorageUnitCreateManyCommunityInput | StorageUnitCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReportCreateWithoutCommunityInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    building?: BuildingCreateNestedOneWithoutReportsInput
+    apartment?: ApartmentCreateNestedOneWithoutReportsInput
+    parkingSpace?: ParkingSpaceCreateNestedOneWithoutReportsInput
+    storageUnit?: StorageUnitCreateNestedOneWithoutReportsInput
+    author: UserCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportCreateOrConnectWithoutCommunityInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutCommunityInput, ReportUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ReportCreateManyCommunityInputEnvelope = {
+    data: ReportCreateManyCommunityInput | ReportCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BuildingUpsertWithWhereUniqueWithoutCommunityInput = {
     where: BuildingWhereUniqueInput
     update: XOR<BuildingUpdateWithoutCommunityInput, BuildingUncheckedUpdateWithoutCommunityInput>
@@ -14661,6 +21037,82 @@ export namespace Prisma {
     data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutCommunityInput>
   }
 
+  export type ParkingSpaceUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: ParkingSpaceWhereUniqueInput
+    update: XOR<ParkingSpaceUpdateWithoutCommunityInput, ParkingSpaceUncheckedUpdateWithoutCommunityInput>
+    create: XOR<ParkingSpaceCreateWithoutCommunityInput, ParkingSpaceUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ParkingSpaceUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: ParkingSpaceWhereUniqueInput
+    data: XOR<ParkingSpaceUpdateWithoutCommunityInput, ParkingSpaceUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type ParkingSpaceUpdateManyWithWhereWithoutCommunityInput = {
+    where: ParkingSpaceScalarWhereInput
+    data: XOR<ParkingSpaceUpdateManyMutationInput, ParkingSpaceUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type ParkingSpaceScalarWhereInput = {
+    AND?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+    OR?: ParkingSpaceScalarWhereInput[]
+    NOT?: ParkingSpaceScalarWhereInput | ParkingSpaceScalarWhereInput[]
+    id?: StringFilter<"ParkingSpace"> | string
+    communityId?: StringFilter<"ParkingSpace"> | string
+    buildingId?: StringNullableFilter<"ParkingSpace"> | string | null
+    apartmentId?: StringNullableFilter<"ParkingSpace"> | string | null
+    number?: StringFilter<"ParkingSpace"> | string
+    level?: StringNullableFilter<"ParkingSpace"> | string | null
+    hasEvCharger?: BoolFilter<"ParkingSpace"> | boolean
+    createdAt?: DateTimeFilter<"ParkingSpace"> | Date | string
+    updatedAt?: DateTimeFilter<"ParkingSpace"> | Date | string
+  }
+
+  export type StorageUnitUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: StorageUnitWhereUniqueInput
+    update: XOR<StorageUnitUpdateWithoutCommunityInput, StorageUnitUncheckedUpdateWithoutCommunityInput>
+    create: XOR<StorageUnitCreateWithoutCommunityInput, StorageUnitUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type StorageUnitUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: StorageUnitWhereUniqueInput
+    data: XOR<StorageUnitUpdateWithoutCommunityInput, StorageUnitUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type StorageUnitUpdateManyWithWhereWithoutCommunityInput = {
+    where: StorageUnitScalarWhereInput
+    data: XOR<StorageUnitUpdateManyMutationInput, StorageUnitUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type StorageUnitScalarWhereInput = {
+    AND?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+    OR?: StorageUnitScalarWhereInput[]
+    NOT?: StorageUnitScalarWhereInput | StorageUnitScalarWhereInput[]
+    id?: StringFilter<"StorageUnit"> | string
+    communityId?: StringFilter<"StorageUnit"> | string
+    buildingId?: StringFilter<"StorageUnit"> | string
+    apartmentId?: StringNullableFilter<"StorageUnit"> | string | null
+    number?: StringFilter<"StorageUnit"> | string
+    createdAt?: DateTimeFilter<"StorageUnit"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageUnit"> | Date | string
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutCommunityInput, ReportUncheckedUpdateWithoutCommunityInput>
+    create: XOR<ReportCreateWithoutCommunityInput, ReportUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutCommunityInput, ReportUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutCommunityInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutCommunityInput>
+  }
+
   export type CommunityCreateWithoutBuildingsInput = {
     id?: string
     name: string
@@ -14670,6 +21122,9 @@ export namespace Prisma {
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutBuildingsInput = {
@@ -14681,6 +21136,9 @@ export namespace Prisma {
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutBuildingsInput = {
@@ -14696,6 +21154,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentUncheckedCreateWithoutBuildingInput = {
@@ -14706,6 +21167,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentCreateOrConnectWithoutBuildingInput = {
@@ -14790,6 +21254,118 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ParkingSpaceCreateWithoutBuildingInput = {
+    id?: string
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutParkingSpacesInput
+    apartment?: ApartmentCreateNestedOneWithoutParkingSpacesInput
+    reports?: ReportCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceUncheckedCreateWithoutBuildingInput = {
+    id?: string
+    communityId: string
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceCreateOrConnectWithoutBuildingInput = {
+    where: ParkingSpaceWhereUniqueInput
+    create: XOR<ParkingSpaceCreateWithoutBuildingInput, ParkingSpaceUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type ParkingSpaceCreateManyBuildingInputEnvelope = {
+    data: ParkingSpaceCreateManyBuildingInput | ParkingSpaceCreateManyBuildingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorageUnitCreateWithoutBuildingInput = {
+    id?: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutStorageUnitsInput
+    apartment?: ApartmentCreateNestedOneWithoutStorageUnitsInput
+    reports?: ReportCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitUncheckedCreateWithoutBuildingInput = {
+    id?: string
+    communityId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitCreateOrConnectWithoutBuildingInput = {
+    where: StorageUnitWhereUniqueInput
+    create: XOR<StorageUnitCreateWithoutBuildingInput, StorageUnitUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type StorageUnitCreateManyBuildingInputEnvelope = {
+    data: StorageUnitCreateManyBuildingInput | StorageUnitCreateManyBuildingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReportCreateWithoutBuildingInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutReportsInput
+    apartment?: ApartmentCreateNestedOneWithoutReportsInput
+    parkingSpace?: ParkingSpaceCreateNestedOneWithoutReportsInput
+    storageUnit?: StorageUnitCreateNestedOneWithoutReportsInput
+    author: UserCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutBuildingInput = {
+    id?: string
+    communityId: string
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportCreateOrConnectWithoutBuildingInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutBuildingInput, ReportUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type ReportCreateManyBuildingInputEnvelope = {
+    data: ReportCreateManyBuildingInput | ReportCreateManyBuildingInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CommunityUpsertWithoutBuildingsInput = {
     update: XOR<CommunityUpdateWithoutBuildingsInput, CommunityUncheckedUpdateWithoutBuildingsInput>
     create: XOR<CommunityCreateWithoutBuildingsInput, CommunityUncheckedCreateWithoutBuildingsInput>
@@ -14810,6 +21386,9 @@ export namespace Prisma {
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutBuildingsInput = {
@@ -14821,6 +21400,9 @@ export namespace Prisma {
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type ApartmentUpsertWithWhereUniqueWithoutBuildingInput = {
@@ -14883,6 +21465,54 @@ export namespace Prisma {
     data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyWithoutBuildingInput>
   }
 
+  export type ParkingSpaceUpsertWithWhereUniqueWithoutBuildingInput = {
+    where: ParkingSpaceWhereUniqueInput
+    update: XOR<ParkingSpaceUpdateWithoutBuildingInput, ParkingSpaceUncheckedUpdateWithoutBuildingInput>
+    create: XOR<ParkingSpaceCreateWithoutBuildingInput, ParkingSpaceUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type ParkingSpaceUpdateWithWhereUniqueWithoutBuildingInput = {
+    where: ParkingSpaceWhereUniqueInput
+    data: XOR<ParkingSpaceUpdateWithoutBuildingInput, ParkingSpaceUncheckedUpdateWithoutBuildingInput>
+  }
+
+  export type ParkingSpaceUpdateManyWithWhereWithoutBuildingInput = {
+    where: ParkingSpaceScalarWhereInput
+    data: XOR<ParkingSpaceUpdateManyMutationInput, ParkingSpaceUncheckedUpdateManyWithoutBuildingInput>
+  }
+
+  export type StorageUnitUpsertWithWhereUniqueWithoutBuildingInput = {
+    where: StorageUnitWhereUniqueInput
+    update: XOR<StorageUnitUpdateWithoutBuildingInput, StorageUnitUncheckedUpdateWithoutBuildingInput>
+    create: XOR<StorageUnitCreateWithoutBuildingInput, StorageUnitUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type StorageUnitUpdateWithWhereUniqueWithoutBuildingInput = {
+    where: StorageUnitWhereUniqueInput
+    data: XOR<StorageUnitUpdateWithoutBuildingInput, StorageUnitUncheckedUpdateWithoutBuildingInput>
+  }
+
+  export type StorageUnitUpdateManyWithWhereWithoutBuildingInput = {
+    where: StorageUnitScalarWhereInput
+    data: XOR<StorageUnitUpdateManyMutationInput, StorageUnitUncheckedUpdateManyWithoutBuildingInput>
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutBuildingInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutBuildingInput, ReportUncheckedUpdateWithoutBuildingInput>
+    create: XOR<ReportCreateWithoutBuildingInput, ReportUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutBuildingInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutBuildingInput, ReportUncheckedUpdateWithoutBuildingInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutBuildingInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutBuildingInput>
+  }
+
   export type BuildingCreateWithoutApartmentsInput = {
     id?: string
     name: string
@@ -14892,6 +21522,9 @@ export namespace Prisma {
     community: CommunityCreateNestedOneWithoutBuildingsInput
     memberships?: MembershipCreateNestedManyWithoutBuildingInput
     packages?: PackageCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutApartmentsInput = {
@@ -14903,6 +21536,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
     packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutApartmentsInput = {
@@ -14982,6 +21618,118 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ParkingSpaceCreateWithoutApartmentInput = {
+    id?: string
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutParkingSpacesInput
+    building?: BuildingCreateNestedOneWithoutParkingSpacesInput
+    reports?: ReportCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceUncheckedCreateWithoutApartmentInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutParkingSpaceInput
+  }
+
+  export type ParkingSpaceCreateOrConnectWithoutApartmentInput = {
+    where: ParkingSpaceWhereUniqueInput
+    create: XOR<ParkingSpaceCreateWithoutApartmentInput, ParkingSpaceUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type ParkingSpaceCreateManyApartmentInputEnvelope = {
+    data: ParkingSpaceCreateManyApartmentInput | ParkingSpaceCreateManyApartmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorageUnitCreateWithoutApartmentInput = {
+    id?: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutStorageUnitsInput
+    building: BuildingCreateNestedOneWithoutStorageUnitsInput
+    reports?: ReportCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitUncheckedCreateWithoutApartmentInput = {
+    id?: string
+    communityId: string
+    buildingId: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutStorageUnitInput
+  }
+
+  export type StorageUnitCreateOrConnectWithoutApartmentInput = {
+    where: StorageUnitWhereUniqueInput
+    create: XOR<StorageUnitCreateWithoutApartmentInput, StorageUnitUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type StorageUnitCreateManyApartmentInputEnvelope = {
+    data: StorageUnitCreateManyApartmentInput | StorageUnitCreateManyApartmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReportCreateWithoutApartmentInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutReportsInput
+    building?: BuildingCreateNestedOneWithoutReportsInput
+    parkingSpace?: ParkingSpaceCreateNestedOneWithoutReportsInput
+    storageUnit?: StorageUnitCreateNestedOneWithoutReportsInput
+    author: UserCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutApartmentInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportCreateOrConnectWithoutApartmentInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutApartmentInput, ReportUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type ReportCreateManyApartmentInputEnvelope = {
+    data: ReportCreateManyApartmentInput | ReportCreateManyApartmentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BuildingUpsertWithoutApartmentsInput = {
     update: XOR<BuildingUpdateWithoutApartmentsInput, BuildingUncheckedUpdateWithoutApartmentsInput>
     create: XOR<BuildingCreateWithoutApartmentsInput, BuildingUncheckedCreateWithoutApartmentsInput>
@@ -15002,6 +21750,9 @@ export namespace Prisma {
     community?: CommunityUpdateOneRequiredWithoutBuildingsNestedInput
     memberships?: MembershipUpdateManyWithoutBuildingNestedInput
     packages?: PackageUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutApartmentsInput = {
@@ -15013,6 +21764,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
     packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type MembershipUpsertWithWhereUniqueWithoutApartmentInput = {
@@ -15047,6 +21801,54 @@ export namespace Prisma {
     data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyWithoutApartmentInput>
   }
 
+  export type ParkingSpaceUpsertWithWhereUniqueWithoutApartmentInput = {
+    where: ParkingSpaceWhereUniqueInput
+    update: XOR<ParkingSpaceUpdateWithoutApartmentInput, ParkingSpaceUncheckedUpdateWithoutApartmentInput>
+    create: XOR<ParkingSpaceCreateWithoutApartmentInput, ParkingSpaceUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type ParkingSpaceUpdateWithWhereUniqueWithoutApartmentInput = {
+    where: ParkingSpaceWhereUniqueInput
+    data: XOR<ParkingSpaceUpdateWithoutApartmentInput, ParkingSpaceUncheckedUpdateWithoutApartmentInput>
+  }
+
+  export type ParkingSpaceUpdateManyWithWhereWithoutApartmentInput = {
+    where: ParkingSpaceScalarWhereInput
+    data: XOR<ParkingSpaceUpdateManyMutationInput, ParkingSpaceUncheckedUpdateManyWithoutApartmentInput>
+  }
+
+  export type StorageUnitUpsertWithWhereUniqueWithoutApartmentInput = {
+    where: StorageUnitWhereUniqueInput
+    update: XOR<StorageUnitUpdateWithoutApartmentInput, StorageUnitUncheckedUpdateWithoutApartmentInput>
+    create: XOR<StorageUnitCreateWithoutApartmentInput, StorageUnitUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type StorageUnitUpdateWithWhereUniqueWithoutApartmentInput = {
+    where: StorageUnitWhereUniqueInput
+    data: XOR<StorageUnitUpdateWithoutApartmentInput, StorageUnitUncheckedUpdateWithoutApartmentInput>
+  }
+
+  export type StorageUnitUpdateManyWithWhereWithoutApartmentInput = {
+    where: StorageUnitScalarWhereInput
+    data: XOR<StorageUnitUpdateManyMutationInput, StorageUnitUncheckedUpdateManyWithoutApartmentInput>
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutApartmentInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutApartmentInput, ReportUncheckedUpdateWithoutApartmentInput>
+    create: XOR<ReportCreateWithoutApartmentInput, ReportUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutApartmentInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutApartmentInput, ReportUncheckedUpdateWithoutApartmentInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutApartmentInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutApartmentInput>
+  }
+
   export type UserCreateWithoutMembershipsInput = {
     id?: string
     clerkUserId: string
@@ -15058,6 +21860,7 @@ export namespace Prisma {
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutMembershipsInput = {
@@ -15071,6 +21874,7 @@ export namespace Prisma {
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutMembershipsInput = {
@@ -15087,6 +21891,9 @@ export namespace Prisma {
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutMembershipsInput = {
@@ -15098,6 +21905,9 @@ export namespace Prisma {
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutMembershipsInput = {
@@ -15114,6 +21924,9 @@ export namespace Prisma {
     community: CommunityCreateNestedOneWithoutBuildingsInput
     apartments?: ApartmentCreateNestedManyWithoutBuildingInput
     packages?: PackageCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutMembershipsInput = {
@@ -15125,6 +21938,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
     packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutMembershipsInput = {
@@ -15140,6 +21956,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentUncheckedCreateWithoutMembershipsInput = {
@@ -15150,6 +21969,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentCreateOrConnectWithoutMembershipsInput = {
@@ -15179,6 +22001,7 @@ export namespace Prisma {
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMembershipsInput = {
@@ -15192,6 +22015,7 @@ export namespace Prisma {
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CommunityUpsertWithoutMembershipsInput = {
@@ -15214,6 +22038,9 @@ export namespace Prisma {
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutMembershipsInput = {
@@ -15225,6 +22052,9 @@ export namespace Prisma {
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutMembershipsInput = {
@@ -15247,6 +22077,9 @@ export namespace Prisma {
     community?: CommunityUpdateOneRequiredWithoutBuildingsNestedInput
     apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
     packages?: PackageUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutMembershipsInput = {
@@ -15258,6 +22091,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
     packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type ApartmentUpsertWithoutMembershipsInput = {
@@ -15279,6 +22115,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
   }
 
   export type ApartmentUncheckedUpdateWithoutMembershipsInput = {
@@ -15289,6 +22128,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
   }
 
   export type CommunityCreateWithoutPackagesInput = {
@@ -15300,6 +22142,9 @@ export namespace Prisma {
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutPackagesInput = {
@@ -15311,6 +22156,9 @@ export namespace Prisma {
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutPackagesInput = {
@@ -15327,6 +22175,9 @@ export namespace Prisma {
     community: CommunityCreateNestedOneWithoutBuildingsInput
     apartments?: ApartmentCreateNestedManyWithoutBuildingInput
     memberships?: MembershipCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutPackagesInput = {
@@ -15338,6 +22189,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutPackagesInput = {
@@ -15353,6 +22207,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentUncheckedCreateWithoutPackagesInput = {
@@ -15363,6 +22220,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
   }
 
   export type ApartmentCreateOrConnectWithoutPackagesInput = {
@@ -15381,6 +22241,7 @@ export namespace Prisma {
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutRecipientPackagesInput = {
@@ -15394,6 +22255,7 @@ export namespace Prisma {
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutRecipientPackagesInput = {
@@ -15412,6 +22274,7 @@ export namespace Prisma {
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutReceivedPackagesInput = {
@@ -15425,6 +22288,7 @@ export namespace Prisma {
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutReceivedPackagesInput = {
@@ -15443,6 +22307,7 @@ export namespace Prisma {
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutPickedUpPackagesInput = {
@@ -15456,6 +22321,7 @@ export namespace Prisma {
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutPickedUpPackagesInput = {
@@ -15483,6 +22349,9 @@ export namespace Prisma {
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutPackagesInput = {
@@ -15494,6 +22363,9 @@ export namespace Prisma {
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutPackagesInput = {
@@ -15516,6 +22388,9 @@ export namespace Prisma {
     community?: CommunityUpdateOneRequiredWithoutBuildingsNestedInput
     apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
     memberships?: MembershipUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutPackagesInput = {
@@ -15527,6 +22402,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type ApartmentUpsertWithoutPackagesInput = {
@@ -15548,6 +22426,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
   }
 
   export type ApartmentUncheckedUpdateWithoutPackagesInput = {
@@ -15558,6 +22439,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
   }
 
   export type UserUpsertWithoutRecipientPackagesInput = {
@@ -15582,6 +22466,7 @@ export namespace Prisma {
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecipientPackagesInput = {
@@ -15595,6 +22480,7 @@ export namespace Prisma {
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUpsertWithoutReceivedPackagesInput = {
@@ -15619,6 +22505,7 @@ export namespace Prisma {
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceivedPackagesInput = {
@@ -15632,6 +22519,7 @@ export namespace Prisma {
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUpsertWithoutPickedUpPackagesInput = {
@@ -15656,6 +22544,7 @@ export namespace Prisma {
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPickedUpPackagesInput = {
@@ -15669,6 +22558,963 @@ export namespace Prisma {
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type CommunityCreateWithoutParkingSpacesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    packages?: PackageCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutParkingSpacesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutParkingSpacesInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutParkingSpacesInput, CommunityUncheckedCreateWithoutParkingSpacesInput>
+  }
+
+  export type BuildingCreateWithoutParkingSpacesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutBuildingsInput
+    apartments?: ApartmentCreateNestedManyWithoutBuildingInput
+    memberships?: MembershipCreateNestedManyWithoutBuildingInput
+    packages?: PackageCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingUncheckedCreateWithoutParkingSpacesInput = {
+    id?: string
+    communityId: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
+    packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingCreateOrConnectWithoutParkingSpacesInput = {
+    where: BuildingWhereUniqueInput
+    create: XOR<BuildingCreateWithoutParkingSpacesInput, BuildingUncheckedCreateWithoutParkingSpacesInput>
+  }
+
+  export type ApartmentCreateWithoutParkingSpacesInput = {
+    id?: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    building: BuildingCreateNestedOneWithoutApartmentsInput
+    memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    packages?: PackageCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentUncheckedCreateWithoutParkingSpacesInput = {
+    id?: string
+    buildingId: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentCreateOrConnectWithoutParkingSpacesInput = {
+    where: ApartmentWhereUniqueInput
+    create: XOR<ApartmentCreateWithoutParkingSpacesInput, ApartmentUncheckedCreateWithoutParkingSpacesInput>
+  }
+
+  export type ReportCreateWithoutParkingSpaceInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutReportsInput
+    building?: BuildingCreateNestedOneWithoutReportsInput
+    apartment?: ApartmentCreateNestedOneWithoutReportsInput
+    storageUnit?: StorageUnitCreateNestedOneWithoutReportsInput
+    author: UserCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutParkingSpaceInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportCreateOrConnectWithoutParkingSpaceInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutParkingSpaceInput, ReportUncheckedCreateWithoutParkingSpaceInput>
+  }
+
+  export type ReportCreateManyParkingSpaceInputEnvelope = {
+    data: ReportCreateManyParkingSpaceInput | ReportCreateManyParkingSpaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityUpsertWithoutParkingSpacesInput = {
+    update: XOR<CommunityUpdateWithoutParkingSpacesInput, CommunityUncheckedUpdateWithoutParkingSpacesInput>
+    create: XOR<CommunityCreateWithoutParkingSpacesInput, CommunityUncheckedCreateWithoutParkingSpacesInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutParkingSpacesInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutParkingSpacesInput, CommunityUncheckedUpdateWithoutParkingSpacesInput>
+  }
+
+  export type CommunityUpdateWithoutParkingSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutParkingSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type BuildingUpsertWithoutParkingSpacesInput = {
+    update: XOR<BuildingUpdateWithoutParkingSpacesInput, BuildingUncheckedUpdateWithoutParkingSpacesInput>
+    create: XOR<BuildingCreateWithoutParkingSpacesInput, BuildingUncheckedCreateWithoutParkingSpacesInput>
+    where?: BuildingWhereInput
+  }
+
+  export type BuildingUpdateToOneWithWhereWithoutParkingSpacesInput = {
+    where?: BuildingWhereInput
+    data: XOR<BuildingUpdateWithoutParkingSpacesInput, BuildingUncheckedUpdateWithoutParkingSpacesInput>
+  }
+
+  export type BuildingUpdateWithoutParkingSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutBuildingsNestedInput
+    apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
+    memberships?: MembershipUpdateManyWithoutBuildingNestedInput
+    packages?: PackageUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type BuildingUncheckedUpdateWithoutParkingSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type ApartmentUpsertWithoutParkingSpacesInput = {
+    update: XOR<ApartmentUpdateWithoutParkingSpacesInput, ApartmentUncheckedUpdateWithoutParkingSpacesInput>
+    create: XOR<ApartmentCreateWithoutParkingSpacesInput, ApartmentUncheckedCreateWithoutParkingSpacesInput>
+    where?: ApartmentWhereInput
+  }
+
+  export type ApartmentUpdateToOneWithWhereWithoutParkingSpacesInput = {
+    where?: ApartmentWhereInput
+    data: XOR<ApartmentUpdateWithoutParkingSpacesInput, ApartmentUncheckedUpdateWithoutParkingSpacesInput>
+  }
+
+  export type ApartmentUpdateWithoutParkingSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
+    memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ApartmentUncheckedUpdateWithoutParkingSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutParkingSpaceInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutParkingSpaceInput, ReportUncheckedUpdateWithoutParkingSpaceInput>
+    create: XOR<ReportCreateWithoutParkingSpaceInput, ReportUncheckedCreateWithoutParkingSpaceInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutParkingSpaceInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutParkingSpaceInput, ReportUncheckedUpdateWithoutParkingSpaceInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutParkingSpaceInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutParkingSpaceInput>
+  }
+
+  export type CommunityCreateWithoutStorageUnitsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    packages?: PackageCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutStorageUnitsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutStorageUnitsInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutStorageUnitsInput, CommunityUncheckedCreateWithoutStorageUnitsInput>
+  }
+
+  export type BuildingCreateWithoutStorageUnitsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutBuildingsInput
+    apartments?: ApartmentCreateNestedManyWithoutBuildingInput
+    memberships?: MembershipCreateNestedManyWithoutBuildingInput
+    packages?: PackageCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    reports?: ReportCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingUncheckedCreateWithoutStorageUnitsInput = {
+    id?: string
+    communityId: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
+    packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    reports?: ReportUncheckedCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingCreateOrConnectWithoutStorageUnitsInput = {
+    where: BuildingWhereUniqueInput
+    create: XOR<BuildingCreateWithoutStorageUnitsInput, BuildingUncheckedCreateWithoutStorageUnitsInput>
+  }
+
+  export type ApartmentCreateWithoutStorageUnitsInput = {
+    id?: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    building: BuildingCreateNestedOneWithoutApartmentsInput
+    memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    packages?: PackageCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentUncheckedCreateWithoutStorageUnitsInput = {
+    id?: string
+    buildingId: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentCreateOrConnectWithoutStorageUnitsInput = {
+    where: ApartmentWhereUniqueInput
+    create: XOR<ApartmentCreateWithoutStorageUnitsInput, ApartmentUncheckedCreateWithoutStorageUnitsInput>
+  }
+
+  export type ReportCreateWithoutStorageUnitInput = {
+    id?: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutReportsInput
+    building?: BuildingCreateNestedOneWithoutReportsInput
+    apartment?: ApartmentCreateNestedOneWithoutReportsInput
+    parkingSpace?: ParkingSpaceCreateNestedOneWithoutReportsInput
+    author: UserCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutStorageUnitInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportCreateOrConnectWithoutStorageUnitInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutStorageUnitInput, ReportUncheckedCreateWithoutStorageUnitInput>
+  }
+
+  export type ReportCreateManyStorageUnitInputEnvelope = {
+    data: ReportCreateManyStorageUnitInput | ReportCreateManyStorageUnitInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityUpsertWithoutStorageUnitsInput = {
+    update: XOR<CommunityUpdateWithoutStorageUnitsInput, CommunityUncheckedUpdateWithoutStorageUnitsInput>
+    create: XOR<CommunityCreateWithoutStorageUnitsInput, CommunityUncheckedCreateWithoutStorageUnitsInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutStorageUnitsInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutStorageUnitsInput, CommunityUncheckedUpdateWithoutStorageUnitsInput>
+  }
+
+  export type CommunityUpdateWithoutStorageUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutStorageUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type BuildingUpsertWithoutStorageUnitsInput = {
+    update: XOR<BuildingUpdateWithoutStorageUnitsInput, BuildingUncheckedUpdateWithoutStorageUnitsInput>
+    create: XOR<BuildingCreateWithoutStorageUnitsInput, BuildingUncheckedCreateWithoutStorageUnitsInput>
+    where?: BuildingWhereInput
+  }
+
+  export type BuildingUpdateToOneWithWhereWithoutStorageUnitsInput = {
+    where?: BuildingWhereInput
+    data: XOR<BuildingUpdateWithoutStorageUnitsInput, BuildingUncheckedUpdateWithoutStorageUnitsInput>
+  }
+
+  export type BuildingUpdateWithoutStorageUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutBuildingsNestedInput
+    apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
+    memberships?: MembershipUpdateManyWithoutBuildingNestedInput
+    packages?: PackageUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type BuildingUncheckedUpdateWithoutStorageUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type ApartmentUpsertWithoutStorageUnitsInput = {
+    update: XOR<ApartmentUpdateWithoutStorageUnitsInput, ApartmentUncheckedUpdateWithoutStorageUnitsInput>
+    create: XOR<ApartmentCreateWithoutStorageUnitsInput, ApartmentUncheckedCreateWithoutStorageUnitsInput>
+    where?: ApartmentWhereInput
+  }
+
+  export type ApartmentUpdateToOneWithWhereWithoutStorageUnitsInput = {
+    where?: ApartmentWhereInput
+    data: XOR<ApartmentUpdateWithoutStorageUnitsInput, ApartmentUncheckedUpdateWithoutStorageUnitsInput>
+  }
+
+  export type ApartmentUpdateWithoutStorageUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
+    memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ApartmentUncheckedUpdateWithoutStorageUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutStorageUnitInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutStorageUnitInput, ReportUncheckedUpdateWithoutStorageUnitInput>
+    create: XOR<ReportCreateWithoutStorageUnitInput, ReportUncheckedCreateWithoutStorageUnitInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutStorageUnitInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutStorageUnitInput, ReportUncheckedUpdateWithoutStorageUnitInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutStorageUnitInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutStorageUnitInput>
+  }
+
+  export type CommunityCreateWithoutReportsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    packages?: PackageCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutReportsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutReportsInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutReportsInput, CommunityUncheckedCreateWithoutReportsInput>
+  }
+
+  export type BuildingCreateWithoutReportsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutBuildingsInput
+    apartments?: ApartmentCreateNestedManyWithoutBuildingInput
+    memberships?: MembershipCreateNestedManyWithoutBuildingInput
+    packages?: PackageCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingUncheckedCreateWithoutReportsInput = {
+    id?: string
+    communityId: string
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    apartments?: ApartmentUncheckedCreateNestedManyWithoutBuildingInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutBuildingInput
+    packages?: PackageUncheckedCreateNestedManyWithoutBuildingInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutBuildingInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingCreateOrConnectWithoutReportsInput = {
+    where: BuildingWhereUniqueInput
+    create: XOR<BuildingCreateWithoutReportsInput, BuildingUncheckedCreateWithoutReportsInput>
+  }
+
+  export type ApartmentCreateWithoutReportsInput = {
+    id?: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    building: BuildingCreateNestedOneWithoutApartmentsInput
+    memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    packages?: PackageCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentUncheckedCreateWithoutReportsInput = {
+    id?: string
+    buildingId: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentCreateOrConnectWithoutReportsInput = {
+    where: ApartmentWhereUniqueInput
+    create: XOR<ApartmentCreateWithoutReportsInput, ApartmentUncheckedCreateWithoutReportsInput>
+  }
+
+  export type ParkingSpaceCreateWithoutReportsInput = {
+    id?: string
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutParkingSpacesInput
+    building?: BuildingCreateNestedOneWithoutParkingSpacesInput
+    apartment?: ApartmentCreateNestedOneWithoutParkingSpacesInput
+  }
+
+  export type ParkingSpaceUncheckedCreateWithoutReportsInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ParkingSpaceCreateOrConnectWithoutReportsInput = {
+    where: ParkingSpaceWhereUniqueInput
+    create: XOR<ParkingSpaceCreateWithoutReportsInput, ParkingSpaceUncheckedCreateWithoutReportsInput>
+  }
+
+  export type StorageUnitCreateWithoutReportsInput = {
+    id?: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutStorageUnitsInput
+    building: BuildingCreateNestedOneWithoutStorageUnitsInput
+    apartment?: ApartmentCreateNestedOneWithoutStorageUnitsInput
+  }
+
+  export type StorageUnitUncheckedCreateWithoutReportsInput = {
+    id?: string
+    communityId: string
+    buildingId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageUnitCreateOrConnectWithoutReportsInput = {
+    where: StorageUnitWhereUniqueInput
+    create: XOR<StorageUnitCreateWithoutReportsInput, StorageUnitUncheckedCreateWithoutReportsInput>
+  }
+
+  export type UserCreateWithoutReportsInput = {
+    id?: string
+    clerkUserId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    memberships?: MembershipCreateNestedManyWithoutUserInput
+    recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
+    receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
+    pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReportsInput = {
+    id?: string
+    clerkUserId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
+    receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
+    pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReportsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReportsInput, UserUncheckedCreateWithoutReportsInput>
+  }
+
+  export type CommunityUpsertWithoutReportsInput = {
+    update: XOR<CommunityUpdateWithoutReportsInput, CommunityUncheckedUpdateWithoutReportsInput>
+    create: XOR<CommunityCreateWithoutReportsInput, CommunityUncheckedCreateWithoutReportsInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutReportsInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutReportsInput, CommunityUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type CommunityUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type BuildingUpsertWithoutReportsInput = {
+    update: XOR<BuildingUpdateWithoutReportsInput, BuildingUncheckedUpdateWithoutReportsInput>
+    create: XOR<BuildingCreateWithoutReportsInput, BuildingUncheckedCreateWithoutReportsInput>
+    where?: BuildingWhereInput
+  }
+
+  export type BuildingUpdateToOneWithWhereWithoutReportsInput = {
+    where?: BuildingWhereInput
+    data: XOR<BuildingUpdateWithoutReportsInput, BuildingUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type BuildingUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutBuildingsNestedInput
+    apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
+    memberships?: MembershipUpdateManyWithoutBuildingNestedInput
+    packages?: PackageUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type BuildingUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type ApartmentUpsertWithoutReportsInput = {
+    update: XOR<ApartmentUpdateWithoutReportsInput, ApartmentUncheckedUpdateWithoutReportsInput>
+    create: XOR<ApartmentCreateWithoutReportsInput, ApartmentUncheckedCreateWithoutReportsInput>
+    where?: ApartmentWhereInput
+  }
+
+  export type ApartmentUpdateToOneWithWhereWithoutReportsInput = {
+    where?: ApartmentWhereInput
+    data: XOR<ApartmentUpdateWithoutReportsInput, ApartmentUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type ApartmentUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
+    memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ApartmentUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ParkingSpaceUpsertWithoutReportsInput = {
+    update: XOR<ParkingSpaceUpdateWithoutReportsInput, ParkingSpaceUncheckedUpdateWithoutReportsInput>
+    create: XOR<ParkingSpaceCreateWithoutReportsInput, ParkingSpaceUncheckedCreateWithoutReportsInput>
+    where?: ParkingSpaceWhereInput
+  }
+
+  export type ParkingSpaceUpdateToOneWithWhereWithoutReportsInput = {
+    where?: ParkingSpaceWhereInput
+    data: XOR<ParkingSpaceUpdateWithoutReportsInput, ParkingSpaceUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type ParkingSpaceUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutParkingSpacesNestedInput
+    building?: BuildingUpdateOneWithoutParkingSpacesNestedInput
+    apartment?: ApartmentUpdateOneWithoutParkingSpacesNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageUnitUpsertWithoutReportsInput = {
+    update: XOR<StorageUnitUpdateWithoutReportsInput, StorageUnitUncheckedUpdateWithoutReportsInput>
+    create: XOR<StorageUnitCreateWithoutReportsInput, StorageUnitUncheckedCreateWithoutReportsInput>
+    where?: StorageUnitWhereInput
+  }
+
+  export type StorageUnitUpdateToOneWithWhereWithoutReportsInput = {
+    where?: StorageUnitWhereInput
+    data: XOR<StorageUnitUpdateWithoutReportsInput, StorageUnitUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type StorageUnitUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutStorageUnitsNestedInput
+    building?: BuildingUpdateOneRequiredWithoutStorageUnitsNestedInput
+    apartment?: ApartmentUpdateOneWithoutStorageUnitsNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutReportsInput = {
+    update: XOR<UserUpdateWithoutReportsInput, UserUncheckedUpdateWithoutReportsInput>
+    create: XOR<UserCreateWithoutReportsInput, UserUncheckedCreateWithoutReportsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReportsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReportsInput, UserUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type UserUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUpdateManyWithoutUserNestedInput
+    recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
+    receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
+    pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
+    receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
+    pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityCreateWithoutAuditLogsInput = {
@@ -15680,6 +23526,9 @@ export namespace Prisma {
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutAuditLogsInput = {
@@ -15691,6 +23540,9 @@ export namespace Prisma {
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutAuditLogsInput = {
@@ -15709,6 +23561,7 @@ export namespace Prisma {
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -15722,6 +23575,7 @@ export namespace Prisma {
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -15749,6 +23603,9 @@ export namespace Prisma {
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutAuditLogsInput = {
@@ -15760,6 +23617,9 @@ export namespace Prisma {
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type UserUpsertWithoutAuditLogsInput = {
@@ -15784,6 +23644,7 @@ export namespace Prisma {
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -15797,6 +23658,7 @@ export namespace Prisma {
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type MembershipCreateManyUserInput = {
@@ -15867,6 +23729,25 @@ export namespace Prisma {
     entityId: string
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
+  }
+
+  export type ReportCreateManyAuthorInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
   export type MembershipUpdateWithoutUserInput = {
@@ -16079,6 +23960,63 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReportUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutReportsNestedInput
+    building?: BuildingUpdateOneWithoutReportsNestedInput
+    apartment?: ApartmentUpdateOneWithoutReportsNestedInput
+    parkingSpace?: ParkingSpaceUpdateOneWithoutReportsNestedInput
+    storageUnit?: StorageUnitUpdateOneWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type BuildingCreateManyCommunityInput = {
     id?: string
     name: string
@@ -16123,6 +24061,45 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ParkingSpaceCreateManyCommunityInput = {
+    id?: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageUnitCreateManyCommunityInput = {
+    id?: string
+    buildingId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportCreateManyCommunityInput = {
+    id?: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
   export type BuildingUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -16132,6 +24109,9 @@ export namespace Prisma {
     apartments?: ApartmentUpdateManyWithoutBuildingNestedInput
     memberships?: MembershipUpdateManyWithoutBuildingNestedInput
     packages?: PackageUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutCommunityInput = {
@@ -16143,6 +24123,9 @@ export namespace Prisma {
     apartments?: ApartmentUncheckedUpdateManyWithoutBuildingNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutBuildingNestedInput
     packages?: PackageUncheckedUpdateManyWithoutBuildingNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutBuildingNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutBuildingNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateManyWithoutCommunityInput = {
@@ -16261,6 +24244,127 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ParkingSpaceUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneWithoutParkingSpacesNestedInput
+    apartment?: ApartmentUpdateOneWithoutParkingSpacesNestedInput
+    reports?: ReportUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageUnitUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneRequiredWithoutStorageUnitsNestedInput
+    apartment?: ApartmentUpdateOneWithoutStorageUnitsNestedInput
+    reports?: ReportUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    building?: BuildingUpdateOneWithoutReportsNestedInput
+    apartment?: ApartmentUpdateOneWithoutReportsNestedInput
+    parkingSpace?: ParkingSpaceUpdateOneWithoutReportsNestedInput
+    storageUnit?: StorageUnitUpdateOneWithoutReportsNestedInput
+    author?: UserUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type ApartmentCreateManyBuildingInput = {
     id?: string
     number: string
@@ -16295,6 +24399,45 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ParkingSpaceCreateManyBuildingInput = {
+    id?: string
+    communityId: string
+    apartmentId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageUnitCreateManyBuildingInput = {
+    id?: string
+    communityId: string
+    apartmentId?: string | null
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportCreateManyBuildingInput = {
+    id?: string
+    communityId: string
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
   export type ApartmentUpdateWithoutBuildingInput = {
     id?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
@@ -16303,6 +24446,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
   }
 
   export type ApartmentUncheckedUpdateWithoutBuildingInput = {
@@ -16313,6 +24459,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
   }
 
   export type ApartmentUncheckedUpdateManyWithoutBuildingInput = {
@@ -16401,6 +24550,127 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ParkingSpaceUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutParkingSpacesNestedInput
+    apartment?: ApartmentUpdateOneWithoutParkingSpacesNestedInput
+    reports?: ReportUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateManyWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageUnitUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutStorageUnitsNestedInput
+    apartment?: ApartmentUpdateOneWithoutStorageUnitsNestedInput
+    reports?: ReportUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateManyWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutReportsNestedInput
+    apartment?: ApartmentUpdateOneWithoutReportsNestedInput
+    parkingSpace?: ParkingSpaceUpdateOneWithoutReportsNestedInput
+    storageUnit?: StorageUnitUpdateOneWithoutReportsNestedInput
+    author?: UserUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type MembershipCreateManyApartmentInput = {
     id?: string
     userId: string
@@ -16425,6 +24695,45 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ParkingSpaceCreateManyApartmentInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    number: string
+    level?: string | null
+    hasEvCharger?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageUnitCreateManyApartmentInput = {
+    id?: string
+    communityId: string
+    buildingId: string
+    number: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportCreateManyApartmentInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    parkingSpaceId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
   export type MembershipUpdateWithoutApartmentInput = {
@@ -16503,6 +24812,279 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParkingSpaceUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutParkingSpacesNestedInput
+    building?: BuildingUpdateOneWithoutParkingSpacesNestedInput
+    reports?: ReportUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutParkingSpaceNestedInput
+  }
+
+  export type ParkingSpaceUncheckedUpdateManyWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    level?: NullableStringFieldUpdateOperationsInput | string | null
+    hasEvCharger?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageUnitUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutStorageUnitsNestedInput
+    building?: BuildingUpdateOneRequiredWithoutStorageUnitsNestedInput
+    reports?: ReportUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutStorageUnitNestedInput
+  }
+
+  export type StorageUnitUncheckedUpdateManyWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutReportsNestedInput
+    building?: BuildingUpdateOneWithoutReportsNestedInput
+    parkingSpace?: ParkingSpaceUpdateOneWithoutReportsNestedInput
+    storageUnit?: StorageUnitUpdateOneWithoutReportsNestedInput
+    author?: UserUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportCreateManyParkingSpaceInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    storageUnitId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportUpdateWithoutParkingSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutReportsNestedInput
+    building?: BuildingUpdateOneWithoutReportsNestedInput
+    apartment?: ApartmentUpdateOneWithoutReportsNestedInput
+    storageUnit?: StorageUnitUpdateOneWithoutReportsNestedInput
+    author?: UserUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutParkingSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyWithoutParkingSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageUnitId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportCreateManyStorageUnitInput = {
+    id?: string
+    communityId: string
+    buildingId?: string | null
+    apartmentId?: string | null
+    parkingSpaceId?: string | null
+    authorId: string
+    category: string
+    type: $Enums.ReportType
+    visibility: $Enums.ReportVisibility
+    title: string
+    description: string
+    status?: $Enums.ReportStatus
+    urgent?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type ReportUpdateWithoutStorageUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutReportsNestedInput
+    building?: BuildingUpdateOneWithoutReportsNestedInput
+    apartment?: ApartmentUpdateOneWithoutReportsNestedInput
+    parkingSpace?: ParkingSpaceUpdateOneWithoutReportsNestedInput
+    author?: UserUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutStorageUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReportUncheckedUpdateManyWithoutStorageUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    buildingId?: NullableStringFieldUpdateOperationsInput | string | null
+    apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    visibility?: EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    urgent?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

@@ -18,3 +18,17 @@ export class TenantMismatchError extends Error {
     this.name = "TenantMismatchError";
   }
 }
+
+export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
+export class InvalidTransitionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidTransitionError";
+  }
+}

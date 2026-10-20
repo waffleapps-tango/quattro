@@ -5,7 +5,9 @@ export type AuditAction =
   | "PACKAGE_PICKED_UP"
   | "MEMBERSHIP_CREATED"
   | "USER_ROLE_CHANGED"
-  | "USER_REMOVED";
+  | "USER_REMOVED"
+  | "REPORT_CREATED"
+  | "REPORT_STATUS_CHANGED";
 
 export async function writeAuditLog(
   tx: Prisma.TransactionClient,
