@@ -107,6 +107,68 @@ async function main() {
     },
   });
 
+  // Parking spaces and storage units for building A's apartments; one shared space.
+  await Promise.all(
+    apartmentsByBuilding[0].slice(0, 3).flatMap((apartment, i) => [
+      prisma.parkingSpace.create({
+        data: {
+          communityId: community.id,
+          buildingId: buildings[0].id,
+          apartmentId: apartment.id,
+          number: `P-${i + 1}`,
+          level: "-1",
+          hasEvCharger: i === 1,
+        },
+      }),
+      prisma.storageUnit.create({
+        data: {
+          communityId: community.id,
+          buildingId: buildings[0].id,
+          apartmentId: apartment.id,
+          number: `K-${i + 1}`,
+        },
+      }),
+    ]),
+  );
+  await prisma.parkingSpace.create({
+    data: { communityId: community.id, number: "P-S1", level: "naziemny" },
+  });
+
+  await prisma.report.createMany({
+    data: [
+      {
+        communityId: community.id,
+        authorId: residents[0].id,
+        category: "technical",
+        type: "DEFECT",
+        visibility: "PUBLIC",
+        title: "Awaria windy",
+        description: "Winda w budynku A stoi na 3 piętrze.",
+        urgent: true,
+      },
+      {
+        communityId: community.id,
+        authorId: residents[1].id,
+        category: "ideas",
+        type: "IDEA",
+        visibility: "PUBLIC",
+        title: "Stojaki rowerowe",
+        description: "Przydałyby się stojaki przed budynkiem B.",
+      },
+      {
+        communityId: community.id,
+        buildingId: buildings[0].id,
+        apartmentId: apartmentsByBuilding[0][0].id,
+        authorId: residents[0].id,
+        category: "own-apartment",
+        type: "DEFECT",
+        visibility: "PRIVATE",
+        title: "Wilgoć lub zacieki na ścianach",
+        description: "Zacieki w łazience przy suficie.",
+      },
+    ],
+  });
+
   console.log(`Seeded community ${community.id} with ${buildings.length} buildings.`);
 }
 
