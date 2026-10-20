@@ -26,7 +26,7 @@ export async function createMembershipAction(
   formData: FormData,
 ): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   const validated = createMembershipSchema.safeParse({
     communityId: formData.get("communityId"),
@@ -37,22 +37,22 @@ export async function createMembershipAction(
   });
 
   if (!validated.success) {
-    return { message: "Invalid form data", success: false };
+    return { message: "Nieprawidłowe dane formularza", success: false };
   }
 
   try {
     await createMembership(actor, validated.data);
     revalidatePath("/admin");
-    return { message: "Membership created", success: true };
+    return { message: "Członek dodany", success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) {
-      return { message: "You don't have permission to invite members", success: false };
+      return { message: "Nie masz uprawnień do dodawania członków", success: false };
     }
     if (error instanceof TenantMismatchError) {
-      return { message: "Selected apartment/building doesn't belong to this community", success: false };
+      return { message: "Wybrane mieszkanie lub budynek nie należy do tej wspólnoty", success: false };
     }
     console.error(error);
-    return { message: "Failed to create membership", success: false };
+    return { message: "Nie udało się dodać członka", success: false };
   }
 }
 
@@ -61,40 +61,40 @@ export async function updateMembershipRoleAction(
   newRole: Role,
 ): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   try {
     await updateMembershipRole(actor, membershipId, newRole);
     revalidatePath("/admin");
-    return { message: "Role updated", success: true };
+    return { message: "Rola zmieniona", success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return { message: "Membership not found", success: false };
+      return { message: "Nie znaleziono członka", success: false };
     }
     if (error instanceof UnauthorizedError) {
-      return { message: "You don't have permission to change roles", success: false };
+      return { message: "Nie masz uprawnień do zmiany ról", success: false };
     }
     console.error(error);
-    return { message: "Failed to update role", success: false };
+    return { message: "Nie udało się zmienić roli", success: false };
   }
 }
 
 export async function removeMembershipAction(membershipId: string): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   try {
     await removeMembership(actor, membershipId);
     revalidatePath("/admin");
-    return { message: "Membership removed", success: true };
+    return { message: "Członek usunięty", success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return { message: "Membership not found", success: false };
+      return { message: "Nie znaleziono członka", success: false };
     }
     if (error instanceof UnauthorizedError) {
-      return { message: "You don't have permission to remove members", success: false };
+      return { message: "Nie masz uprawnień do usuwania członków", success: false };
     }
     console.error(error);
-    return { message: "Failed to remove membership", success: false };
+    return { message: "Nie udało się usunąć członka", success: false };
   }
 }

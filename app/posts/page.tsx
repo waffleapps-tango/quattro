@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,8 @@ import { format } from "date-fns";
 
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
+
+export const metadata: Metadata = { title: "Posty" };
 
 export default async function PostsPage() {
   const posts = await prisma.post.findMany({
@@ -18,7 +21,7 @@ export default async function PostsPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Community Posts ({postCount})</h1>
+        <h1 className="text-2xl font-bold">Posty społeczności ({postCount})</h1>
         <CreatePostForm />
       </div>
 

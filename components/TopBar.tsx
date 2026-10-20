@@ -42,7 +42,7 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         {user ? (
           <>
-            <span className="text-sm text-muted-foreground">Hello, {user.firstName}</span>
+            <span className="text-sm text-muted-foreground">Cześć, {user.firstName}</span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -67,16 +67,18 @@ export function TopBar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <span>Profil</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Ustawienia</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span>Wyloguj się</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -84,10 +86,10 @@ export function TopBar() {
         ) : (
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild>
-              <Link href="/sign-in">Sign in</Link>
+              <Link href="/sign-in">Zaloguj się</Link>
             </Button>
             <Button asChild>
-              <Link href="/sign-up">Sign up</Link>
+              <Link href="/sign-up">Załóż konto</Link>
             </Button>
           </div>
         )}

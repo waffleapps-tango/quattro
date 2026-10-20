@@ -5,8 +5,8 @@ import prisma from "@/lib/prisma";
 import { z } from "zod";
 
 const postSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  content: z.string().min(1, "Content is required"),
+  title: z.string().min(1, "Tytuł jest wymagany"),
+  content: z.string().min(1, "Treść jest wymagana"),
 });
 
 export async function createPost(
@@ -20,7 +20,7 @@ export async function createPost(
 
   if (!validatedFields.success) {
     return {
-      message: "Invalid form data",
+      message: "Nieprawidłowe dane formularza",
       success: false,
     };
   }
@@ -39,7 +39,7 @@ export async function createPost(
 
     revalidatePath("/posts");
     return {
-      message: "Post created successfully",
+      message: "Post dodany",
       success: true,
       post,
     };
@@ -47,7 +47,7 @@ export async function createPost(
     console.log(error);
 
     return {
-      message: "Failed to create post",
+      message: "Nie udało się dodać posta",
       success: false,
     };
   }
@@ -65,7 +65,7 @@ export async function updatePost(
 
   if (!validatedFields.success) {
     return {
-      message: "Invalid form data",
+      message: "Nieprawidłowe dane formularza",
       success: false,
     };
   }
@@ -83,14 +83,14 @@ export async function updatePost(
     revalidatePath("/posts");
     revalidatePath(`/posts/${post.slug}`);
     return {
-      message: "Post updated successfully",
+      message: "Post zaktualizowany",
       success: true,
     };
   } catch (error) {
     console.log(error);
 
     return {
-      message: "Failed to update post",
+      message: "Nie udało się zaktualizować posta",
       success: false,
     };
   }
@@ -106,13 +106,13 @@ export async function deletePost(postId: string) {
 
     revalidatePath("/posts");
     return {
-      message: "Post deleted successfully",
+      message: "Post usunięty",
       success: true,
     };
   } catch (error) {
     console.log(error);
     return {
-      message: "Failed to delete post",
+      message: "Nie udało się usunąć posta",
       success: false,
     };
   }

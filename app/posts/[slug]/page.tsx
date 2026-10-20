@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
@@ -14,6 +15,12 @@ type PostPageParams = {
 }
 
 
+export async function generateMetadata({ params }: PostPageParams): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await prisma.post.findUnique({ where: { slug }, select: { title: true } });
+  return { title: post?.title ?? "Nie znaleziono posta" };
+}
+
 export default async function PostPage({ params }: PostPageParams) {
   const { slug } = await params;
   const post = await prisma.post.findUnique({
@@ -24,11 +31,11 @@ export default async function PostPage({ params }: PostPageParams) {
     return (
       <div className="container mx-auto py-8">
         <div className="flex flex-col items-center justify-center space-y-4">
-          <h1 className="text-2xl font-bold">Post not found</h1>
+          <h1 className="text-2xl font-bold">Nie znaleziono posta</h1>
           <Link href="/posts">
             <Button variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Posts
+              Wróć do postów
             </Button>
           </Link>
         </div>
@@ -42,7 +49,7 @@ export default async function PostPage({ params }: PostPageParams) {
         <Link href="/posts">
           <Button variant="ghost" className="mb-4">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Posts
+            Wróć do postów
           </Button>
         </Link>
       </div>
@@ -53,7 +60,7 @@ export default async function PostPage({ params }: PostPageParams) {
             <div>
               <CardTitle>{ post.title }</CardTitle>
               <div className="text-sm text-muted-foreground mt-2">
-                By post.author • { format( new Date( post.createdAt ), "PPP" ) }
+                Autor: post.author • { format( new Date( post.createdAt ), "PPP" ) }
               </div>
               <div className="flex gap-2">
                 <EditPostForm post={ post }/>

@@ -19,12 +19,12 @@ import { useUser } from "@clerk/nextjs";
 
 const publicRoutes = [
   {
-    title: "Home",
+    title: "Strona główna",
     href: "/",
     icon: Home,
   },
   {
-    title: "Settings",
+    title: "Ustawienia",
     href: "/settings",
     icon: Settings,
   },
@@ -32,22 +32,22 @@ const publicRoutes = [
 
 const protectedRoutes = [
   {
-    title: "Packages",
+    title: "Paczki",
     href: "/packages",
     icon: Package,
   },
   {
-    title: "Reports",
+    title: "Zgłoszenia",
     href: "/reports",
     icon: Megaphone,
   },
   {
-    title: "Locations",
+    title: "Lokalizacje",
     href: "/locations",
     icon: MapPin,
   },
   {
-    title: "Posts",
+    title: "Posty",
     href: "/posts",
     icon: MessageSquare,
   },
@@ -55,7 +55,7 @@ const protectedRoutes = [
 
 const adminRoutes = [
   {
-    title: "Admin",
+    title: "Administracja",
     href: "/admin",
     icon: Shield,
   },

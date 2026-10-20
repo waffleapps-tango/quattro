@@ -51,9 +51,9 @@ export function EditPostForm({ post }: EditPostFormProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Post</DialogTitle>
+          <DialogTitle>Edytuj post</DialogTitle>
           <DialogDescription>
-            Update your post content.
+            Zaktualizuj treść posta.
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
@@ -61,25 +61,25 @@ export function EditPostForm({ post }: EditPostFormProps) {
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <label htmlFor="title" className="text-sm font-medium">
-                Title
+                Tytuł
               </label>
               <Input
                 id="title"
                 name="title"
                 defaultValue={post.title}
-                placeholder="Enter post title"
+                placeholder="Wpisz tytuł posta"
                 required
               />
             </div>
             <div className="space-y-2">
               <label htmlFor="content" className="text-sm font-medium">
-                Content
+                Treść
               </label>
               <Textarea
                 id="content"
                 name="content"
                 defaultValue={post.content}
-                placeholder="Write your post content"
+                placeholder="Napisz treść posta"
                 required
                 rows={5}
               />
@@ -92,10 +92,10 @@ export function EditPostForm({ post }: EditPostFormProps) {
               onClick={() => setOpen(false)}
               disabled={pending}
             >
-              Cancel
+              Anuluj
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Updating..." : "Update Post"}
+              {pending ? "Zapisywanie..." : "Zapisz zmiany"}
             </Button>
           </DialogFooter>
         </form>

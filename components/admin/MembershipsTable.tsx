@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { updateMembershipRoleAction, removeMembershipAction } from "@/actions/memberships";
+import { ROLE_LABEL } from "./roleLabels";
 import { Role, type Membership, type User, type Building, type Apartment } from "@/lib/generated/prisma";
 
 type MembershipRow = Membership & {
@@ -74,10 +75,10 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={Role.RESIDENT}>Resident</SelectItem>
-                    <SelectItem value={Role.RECEPTIONIST}>Receptionist</SelectItem>
-                    <SelectItem value={Role.MANAGER}>Manager</SelectItem>
-                    <SelectItem value={Role.ADMIN}>Admin</SelectItem>
+                    <SelectItem value={Role.RESIDENT}>{ROLE_LABEL.RESIDENT}</SelectItem>
+                    <SelectItem value={Role.RECEPTIONIST}>{ROLE_LABEL.RECEPTIONIST}</SelectItem>
+                    <SelectItem value={Role.MANAGER}>{ROLE_LABEL.MANAGER}</SelectItem>
+                    <SelectItem value={Role.ADMIN}>{ROLE_LABEL.ADMIN}</SelectItem>
                   </SelectContent>
                 </Select>
               </TableCell>

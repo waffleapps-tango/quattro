@@ -42,14 +42,14 @@ export function CreatePostForm() {
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Create Post
+          Dodaj post
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Post</DialogTitle>
+          <DialogTitle>Nowy post</DialogTitle>
           <DialogDescription>
-            Share your thoughts with the community.
+            Podziel się przemyśleniami ze społecznością.
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
@@ -57,23 +57,23 @@ export function CreatePostForm() {
             <div className="space-y-2">
               <label htmlFor="title" className="text-sm font-medium">
                 {state.message}
-                Title
+                Tytuł
               </label>
               <Input
                 id="title"
                 name="title"
-                placeholder="Enter post title"
+                placeholder="Wpisz tytuł posta"
                 required
               />
             </div>
             <div className="space-y-2">
               <label htmlFor="content" className="text-sm font-medium">
-                Content
+                Treść
               </label>
               <Textarea
                 id="content"
                 name="content"
-                placeholder="Write your post content"
+                placeholder="Napisz treść posta"
                 required
                 rows={5}
               />
@@ -86,10 +86,10 @@ export function CreatePostForm() {
               onClick={() => setOpen(false)}
               disabled={pending}
             >
-              Cancel
+              Anuluj
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? "Creating..." : "Create Post"}
+              {pending ? "Dodawanie..." : "Dodaj post"}
             </Button>
           </DialogFooter>
         </form>

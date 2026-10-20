@@ -12,26 +12,27 @@ import { centerOf, useThemeSwitch } from "./useThemeSwitch";
 
 const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
 const RADIUS = 124;
+const THEME_LABEL: Record<string, string> = { light: "Jasny", dark: "Ciemny", system: "Systemowy" };
 
 function MiniApp() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="font-semibold">Quattro</div>
-        <Badge>3 new</Badge>
+        <Badge>3 nowe</Badge>
       </div>
       <div className="rounded-lg border bg-card p-3 text-card-foreground">
-        <div className="text-sm font-medium">Parcel for apt. 12</div>
-        <div className="text-xs text-muted-foreground">DHL · arrived today</div>
+        <div className="text-sm font-medium">Paczka dla mieszk. 12</div>
+        <div className="text-xs text-muted-foreground">DHL · dotarła dzisiaj</div>
         <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
           <div className="h-full w-2/3 rounded-full bg-primary" />
         </div>
       </div>
-      <Input placeholder="Search parcels…" readOnly tabIndex={-1} />
+      <Input placeholder="Szukaj paczek…" readOnly tabIndex={-1} />
       <div className="flex items-center gap-2">
-        <Button size="sm" tabIndex={-1}>Register</Button>
-        <Button size="sm" variant="secondary" tabIndex={-1}>Filter</Button>
-        <Button size="sm" variant="ghost" tabIndex={-1}>Cancel</Button>
+        <Button size="sm" tabIndex={-1}>Zarejestruj</Button>
+        <Button size="sm" variant="secondary" tabIndex={-1}>Filtruj</Button>
+        <Button size="sm" variant="ghost" tabIndex={-1}>Anuluj</Button>
         <Switch checked className="ml-auto" aria-hidden tabIndex={-1} />
       </div>
     </div>
@@ -62,7 +63,7 @@ export function ThemePicker() {
   return (
     <div className="grid items-center gap-6 md:grid-cols-[340px_1fr]">
       <div className="mx-auto flex flex-col items-center gap-2">
-        <div className="relative size-[340px]" role="radiogroup" aria-label="Color palette">
+        <div className="relative size-[340px]" role="radiogroup" aria-label="Paleta kolorów">
           <span aria-hidden className="absolute inset-[22px] rounded-full border border-dashed border-border" />
           {PALETTES.map(({ id, label: name, swatch }, i) => {
             const a = (360 / PALETTES.length) * i - 90;
@@ -99,14 +100,14 @@ export function ThemePicker() {
           })}
           <button
             type="button"
-            aria-label={`Mode: ${theme}. Click to change`}
+            aria-label={`Tryb: ${THEME_LABEL[theme]}. Kliknij, aby zmienić`}
             onClick={(e) =>
               set(theme === "light" ? "dark" : theme === "dark" ? "system" : "light", centerOf(e.currentTarget))
             }
             className="absolute left-1/2 top-1/2 flex size-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-full border bg-card text-card-foreground shadow-md transition-transform duration-150 active:scale-[0.97]"
           >
             <Icon className="size-6" />
-            <span className="text-xs capitalize text-muted-foreground">{theme}</span>
+            <span className="text-xs text-muted-foreground">{THEME_LABEL[theme]}</span>
           </button>
         </div>
         <div className="h-5 text-sm font-medium">{label}</div>
@@ -117,7 +118,7 @@ export function ThemePicker() {
         className="rounded-xl border bg-background p-5 text-foreground shadow-sm transition-colors duration-200 [&_*]:transition-colors [&_*]:duration-200"
       >
         <div className="mb-3 text-xs uppercase tracking-wide text-muted-foreground">
-          {hover && hover !== palette ? "Preview" : "Current"} · {label}
+          {hover && hover !== palette ? "Podgląd" : "Obecna"} · {label}
         </div>
         <MiniApp />
       </div>

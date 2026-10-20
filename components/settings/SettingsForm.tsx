@@ -22,7 +22,7 @@ export function SettingsForm() {
 
   const handleSave = () => {
     // In a real app, you would save these settings to your backend
-    toast.success("Settings saved successfully");
+    toast.success("Ustawienia zapisane");
   };
 
   if (!mounted) {
@@ -33,22 +33,22 @@ export function SettingsForm() {
     <div className="grid gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>Appearance</CardTitle>
+          <CardTitle>Wygląd</CardTitle>
           <CardDescription>
-            Customize how Quattro looks on your device
+            Dostosuj wygląd Quattro na swoim urządzeniu
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="theme">Theme</Label>
+            <Label htmlFor="theme">Motyw</Label>
             <Select value={theme} onValueChange={setTheme}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select theme" />
+                <SelectValue placeholder="Wybierz motyw" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                <SelectItem value="light">Jasny</SelectItem>
+                <SelectItem value="dark">Ciemny</SelectItem>
+                <SelectItem value="system">Systemowy</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -58,14 +58,14 @@ export function SettingsForm() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Notifications</CardTitle>
+          <CardTitle>Powiadomienia</CardTitle>
           <CardDescription>
-            Configure how you receive notifications
+            Skonfiguruj sposób otrzymywania powiadomień
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="notifications">Email Notifications</Label>
+            <Label htmlFor="notifications">Powiadomienia e-mail</Label>
             <Switch
               id="notifications"
               checked={notifications}
@@ -77,23 +77,23 @@ export function SettingsForm() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Language</CardTitle>
+          <CardTitle>Język</CardTitle>
           <CardDescription>
-            Choose your preferred language
+            Wybierz preferowany język
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="language">Language</Label>
+            <Label htmlFor="language">Język</Label>
             <Select value={language} onValueChange={setLanguage}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select language" />
+                <SelectValue placeholder="Wybierz język" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="es">Spanish</SelectItem>
-                <SelectItem value="fr">French</SelectItem>
-                <SelectItem value="de">German</SelectItem>
+                <SelectItem value="en">Angielski</SelectItem>
+                <SelectItem value="es">Hiszpański</SelectItem>
+                <SelectItem value="fr">Francuski</SelectItem>
+                <SelectItem value="de">Niemiecki</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -101,7 +101,7 @@ export function SettingsForm() {
       </Card>
 
       <div className="flex justify-end">
-        <Button onClick={handleSave}>Save Changes</Button>
+        <Button onClick={handleSave}>Zapisz zmiany</Button>
       </div>
     </div>
   );

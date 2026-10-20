@@ -3,51 +3,51 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Utensils, GraduationCap, Stethoscope, Dumbbell, ShoppingCart, School } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Locations | Quattro",
-  description: "Explore estate facilities and nearby points of interest",
+  title: "Lokalizacje",
+  description: "Odkryj udogodnienia osiedla i ciekawe miejsca w okolicy",
 };
 
 const estateFacilities = [
   {
-    name: "Kindergarten",
-    description: "Modern kindergarten with experienced staff",
+    name: "Przedszkole",
+    description: "Nowoczesne przedszkole z doświadczoną kadrą",
     icon: GraduationCap,
-    category: "Education",
+    category: "Edukacja",
   },
   {
-    name: "Sushi Restaurant",
-    description: "Authentic Japanese cuisine",
+    name: "Restauracja sushi",
+    description: "Autentyczna kuchnia japońska",
     icon: Utensils,
-    category: "Dining",
+    category: "Gastronomia",
   },
   {
-    name: "Medical Center",
-    description: "General practitioners and specialists",
+    name: "Centrum medyczne",
+    description: "Lekarze rodzinni i specjaliści",
     icon: Stethoscope,
-    category: "Healthcare",
+    category: "Zdrowie",
   },
   {
-    name: "Fitness Center",
-    description: "24/7 gym with modern equipment",
+    name: "Siłownia",
+    description: "Siłownia czynna całą dobę z nowoczesnym sprzętem",
     icon: Dumbbell,
-    category: "Sports",
+    category: "Sport",
   },
 ];
 
 const nearbyLocations = [
   {
-    name: "City Mall",
-    description: "Large shopping center with various stores",
+    name: "Centrum handlowe",
+    description: "Duże centrum handlowe z wieloma sklepami",
     icon: ShoppingCart,
-    category: "Shopping",
-    distance: "0.5 km",
+    category: "Zakupy",
+    distance: "0,5 km",
   },
   {
-    name: "Primary School",
-    description: "Public primary school with excellent ratings",
+    name: "Szkoła podstawowa",
+    description: "Publiczna szkoła podstawowa z doskonałymi opiniami",
     icon: School,
-    category: "Education",
-    distance: "0.8 km",
+    category: "Edukacja",
+    distance: "0,8 km",
   },
 ];
 
@@ -55,15 +55,15 @@ export default function LocationsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Locations</h1>
+        <h1 className="text-3xl font-bold">Lokalizacje</h1>
         <p className="text-muted-foreground">
-          Explore facilities within the estate and nearby points of interest.
+          Odkryj udogodnienia na osiedlu i ciekawe miejsca w okolicy.
         </p>
       </div>
 
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Estate Facilities</h2>
+          <h2 className="text-2xl font-semibold mb-4">Udogodnienia osiedla</h2>
           <div className="grid gap-4 md:grid-cols-2">
             {estateFacilities.map((facility) => {
               const Icon = facility.icon;
@@ -88,7 +88,7 @@ export default function LocationsPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Nearby Locations</h2>
+          <h2 className="text-2xl font-semibold mb-4">W okolicy</h2>
           <div className="grid gap-4 md:grid-cols-2">
             {nearbyLocations.map((location) => {
               const Icon = location.icon;
@@ -100,7 +100,7 @@ export default function LocationsPage() {
                       <CardTitle className="text-lg">{location.name}</CardTitle>
                     </div>
                     <CardDescription>
-                      {location.category} • {location.distance} away
+                      {location.category} • {location.distance} stąd
                     </CardDescription>
                   </CardHeader>
                   <CardContent>

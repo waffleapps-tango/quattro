@@ -22,7 +22,7 @@ export async function createPackageAction(
   formData: FormData,
 ): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   const validated = createPackageSchema.safeParse({
     communityId: formData.get("communityId"),
@@ -43,35 +43,35 @@ export async function createPackageAction(
   try {
     await createPackage(actor, validated.data);
     revalidatePath("/packages");
-    return { message: "Package registered", success: true };
+    return { message: "Paczka zarejestrowana", success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) {
-      return { message: "You don't have permission to register packages", success: false };
+      return { message: "Nie masz uprawnień do rejestrowania paczek", success: false };
     }
     if (error instanceof TenantMismatchError) {
-      return { message: "Selected apartment doesn't belong to the selected building", success: false };
+      return { message: "Wybrane mieszkanie nie należy do wybranego budynku", success: false };
     }
     console.error(error);
-    return { message: "Failed to register package", success: false };
+    return { message: "Nie udało się zarejestrować paczki", success: false };
   }
 }
 
 export async function markPickedUpAction(packageId: string): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   try {
     await markPickedUp(actor, packageId);
     revalidatePath("/packages");
-    return { message: "Package marked as picked up", success: true };
+    return { message: "Paczka oznaczona jako odebrana", success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return { message: "Package not found", success: false };
+      return { message: "Nie znaleziono paczki", success: false };
     }
     if (error instanceof UnauthorizedError) {
-      return { message: "You don't have permission to do this", success: false };
+      return { message: "Nie masz uprawnień do tej operacji", success: false };
     }
     console.error(error);
-    return { message: "Failed to update package", success: false };
+    return { message: "Nie udało się zaktualizować paczki", success: false };
   }
 }

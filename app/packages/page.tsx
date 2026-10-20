@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { PackagesList } from "@/components/packages/PackagesList";
 import { Role, type Apartment } from "@/lib/generated/prisma";
+
+export const metadata: Metadata = { title: "Paczki" };
 
 export default async function PackagesPage({
   searchParams,

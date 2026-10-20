@@ -1,13 +1,16 @@
+import type { Metadata } from "next";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
+
+export const metadata: Metadata = { title: "Logowanie" };
 
 export default function SignInPage() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background p-4">
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-semibold">Welcome back</h1>
+        <h1 className="text-2xl font-semibold">Witaj ponownie</h1>
         <p className="text-muted-foreground">
-          Sign in to your account to continue
+          Zaloguj się, aby kontynuować
         </p>
       </div>
       <SignIn
@@ -20,12 +23,12 @@ export default function SignInPage() {
         }}
       />
       <p className="text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
+        Nie masz konta?{" "}
         <Link
           href="/sign-up"
           className="text-primary hover:underline"
         >
-          Sign up
+          Załóż konto
         </Link>
       </p>
     </div>

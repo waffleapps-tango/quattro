@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth/session";
 import { listOwnedSpaces, listReports } from "@/domain/reports";
@@ -15,6 +16,8 @@ type SearchParams = {
   category?: string;
   urgent?: string;
 };
+
+export const metadata: Metadata = { title: "Zgłoszenia" };
 
 export default async function ReportsPage({
   searchParams,

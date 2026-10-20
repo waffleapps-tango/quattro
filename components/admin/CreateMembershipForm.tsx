@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 import { createMembershipAction } from "@/actions/memberships";
+import { ROLE_LABEL } from "./roleLabels";
 import { Role, type Building, type Apartment } from "@/lib/generated/prisma";
 
 type ActionState = { message: string; success: boolean };
@@ -83,10 +84,10 @@ export function CreateMembershipForm({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={Role.RESIDENT}>Resident</SelectItem>
-                  <SelectItem value={Role.RECEPTIONIST}>Receptionist</SelectItem>
-                  <SelectItem value={Role.MANAGER}>Manager</SelectItem>
-                  <SelectItem value={Role.ADMIN}>Admin</SelectItem>
+                  <SelectItem value={Role.RESIDENT}>{ROLE_LABEL.RESIDENT}</SelectItem>
+                  <SelectItem value={Role.RECEPTIONIST}>{ROLE_LABEL.RECEPTIONIST}</SelectItem>
+                  <SelectItem value={Role.MANAGER}>{ROLE_LABEL.MANAGER}</SelectItem>
+                  <SelectItem value={Role.ADMIN}>{ROLE_LABEL.ADMIN}</SelectItem>
                 </SelectContent>
               </Select>
               <input type="hidden" name="role" value={role} />

@@ -10,8 +10,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Quattro",
-  description: "Package management system.",
+  title: { default: "Quattro", template: "%s | Quattro" },
+  description: "Paczki i zgłoszenia dla Twojego osiedla.",
 };
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="pl" suppressHydrationWarning>
         <head>
           <script
             dangerouslySetInnerHTML={{

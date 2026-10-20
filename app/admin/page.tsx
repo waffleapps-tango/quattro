@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser, requireMembership } from "@/auth/session";
 import { listMembershipsForCommunity } from "@/domain/memberships";
@@ -6,6 +7,8 @@ import { MembershipsTable } from "@/components/admin/MembershipsTable";
 import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
 import { Role, type Apartment } from "@/lib/generated/prisma";
 import { UnauthorizedError } from "@/domain/errors";
+
+export const metadata: Metadata = { title: "Administracja" };
 
 export default async function AdminPage() {
   const user = await getCurrentUser();

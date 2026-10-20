@@ -47,19 +47,19 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogTitle>Na pewno?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the post.
+            Tej operacji nie można cofnąć. Post zostanie usunięty na stałe.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Anuluj</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isPending}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
-            {isPending ? "Deleting..." : "Delete"}
+            {isPending ? "Usuwanie..." : "Usuń"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

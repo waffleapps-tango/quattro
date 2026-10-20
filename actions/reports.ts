@@ -31,7 +31,7 @@ export async function createReportAction(
   formData: FormData,
 ): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   const validated = createReportSchema.safeParse({
     communityId: formData.get("communityId"),
@@ -75,7 +75,7 @@ export async function changeReportStatusAction(
   status: ReportStatus,
 ): Promise<ActionState> {
   const actor = await getCurrentUser();
-  if (!actor) return { message: "Not signed in", success: false };
+  if (!actor) return { message: "Nie jesteś zalogowany", success: false };
 
   const parsed = z.nativeEnum(ReportStatus).safeParse(status);
   if (!parsed.success) return { message: "Nieprawidłowy status", success: false };
