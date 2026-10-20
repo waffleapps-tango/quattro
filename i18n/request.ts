@@ -8,13 +8,18 @@ import { LOCALE_COOKIE, resolveLocale } from "./locale";
 // ponytail: one indexed select per request for signed-in users; move the locale
 // into the session object (getCurrentUser) if this ever shows up in profiles.
 const savedLocale = cache(async () => {
-  const { userId } = await auth();
-  if (!userId) return null;
-  const user = await prisma.user.findUnique({
-    where: { clerkUserId: userId },
-    select: { locale: true },
-  });
-  return user?.locale ?? null;
+  try {
+    const { userId } = await auth();
+    if (!userId) return null;
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: userId },
+      select: { locale: true },
+    });
+    return user?.locale ?? null;
+  } catch {
+    // auth() throws when clerk middleware did not run (e.g. paths with file extensions)
+    return null;
+  }
 });
 
 export default getRequestConfig(async () => {
@@ -30,6 +35,8 @@ export default getRequestConfig(async () => {
   });
   return {
     locale,
+    // single-community deployment in Poland; make per-community later
+    timeZone: "Europe/Warsaw",
     messages: (await import(`../messages/${locale}.json`)).default,
   };
 });

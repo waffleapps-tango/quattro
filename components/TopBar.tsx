@@ -45,7 +45,9 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         {user ? (
           <>
-            <span className="text-sm text-muted-foreground">{t("greeting", { name: user.firstName ?? "" })}</span>
+            {user.firstName && (
+              <span className="text-sm text-muted-foreground">{t("greeting", { name: user.firstName })}</span>
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">

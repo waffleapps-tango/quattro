@@ -594,7 +594,7 @@
     },
     "add": "Add member",
     "dialogTitle": "Add community member",
-    "dialogDescription": "Manual role assignment (no e-mail/QR invitation yet — next stage).",
+    "dialogDescription": "Manual role assignment (no email/QR invitation yet — next stage).",
     "email": "Email",
     "roleLabel": "Role",
     "building": "Building (optional)",

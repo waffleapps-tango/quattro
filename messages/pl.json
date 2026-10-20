@@ -215,7 +215,7 @@
     },
     "privateBadge": "Prywatne",
     "urgentBadge": "Pilne",
-    "reportedBy": "Zgłosił: {name}",
+    "reportedBy": "Zgłaszający: {name}",
     "placeApartment": "m. {number}",
     "placeParking": "parking {number}",
     "placeStorage": "komórka {number}",
