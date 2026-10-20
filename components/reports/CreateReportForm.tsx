@@ -66,8 +66,8 @@ export function CreateReportForm({
   useEffect(() => {
     // Auto-pick the only choice so a resident with one space isn't asked to choose.
     setType(category?.types.length === 1 ? category.types[0] : "");
-    setParkingSpaceId(parkingSpaces.length === 1 ? parkingSpaces[0].id : "");
-    setStorageUnitId(storageUnits.length === 1 ? storageUnits[0].id : "");
+    setParkingSpaceId(category?.subject === "parking" && parkingSpaces.length === 1 ? parkingSpaces[0].id : "");
+    setStorageUnitId(category?.subject === "storage" && storageUnits.length === 1 ? storageUnits[0].id : "");
   }, [categoryKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -89,8 +89,8 @@ export function CreateReportForm({
           <input type="hidden" name="communityId" value={communityId} />
           <input type="hidden" name="categoryKey" value={categoryKey} />
           <input type="hidden" name="type" value={type} />
-          <input type="hidden" name="parkingSpaceId" value={parkingSpaceId} />
-          <input type="hidden" name="storageUnitId" value={storageUnitId} />
+          <input type="hidden" name="parkingSpaceId" value={category?.subject === "parking" ? parkingSpaceId : ""} />
+          <input type="hidden" name="storageUnitId" value={category?.subject === "storage" ? storageUnitId : ""} />
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="category">Kategoria</Label>
