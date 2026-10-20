@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { PackageCard } from "./PackageCard";
 import { CreatePackageForm } from "./CreatePackageForm";
+import { Package as PackageIcon } from "lucide-react";
+import { EmptyState } from "@/components/system/EmptyState";
 import { Input } from "@/components/ui/input";
 import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
 
@@ -72,7 +74,23 @@ export function PackagesList({
       </div>
 
       {packages.length === 0 ? (
-        <p className="text-muted-foreground">Brak paczek.</p>
+        searchParams.get("q") ? (
+          <EmptyState
+            icon={PackageIcon}
+            title="Nic nie znaleziono"
+            description="Zmień frazę wyszukiwania."
+          />
+        ) : (
+          <EmptyState
+            icon={PackageIcon}
+            title="Brak paczek"
+            description={
+              isStaff
+                ? "Zarejestruj pierwszą paczkę przyciskiem „Dodaj paczkę”."
+                : "Gdy przyjdzie paczka, zobaczysz ją tutaj."
+            }
+          />
+        )
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg) => (

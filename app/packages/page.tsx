@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
@@ -20,16 +21,7 @@ export default async function PackagesPage({
   // deployment serves a single community; a community switcher is needed
   // once a user can belong to more than one.
   const membership = user.memberships[0];
-  if (!membership) {
-    return (
-      <div className="container mx-auto pb-8">
-        <h1 className="text-3xl font-bold mb-6">Paczki</h1>
-        <p className="text-muted-foreground">
-          Nie masz jeszcze dostępu. Poproś administratora o zaproszenie.
-        </p>
-      </div>
-    );
-  }
+  if (!membership) return <WaitingScreen />;
 
   const { q } = await searchParams;
   const packages = await listPackagesForViewer(user, membership.communityId, { search: q });

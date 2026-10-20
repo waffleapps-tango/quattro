@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Users } from "lucide-react";
+import { EmptyState } from "@/components/system/EmptyState";
 import { toast } from "sonner";
 import { updateMembershipRoleAction, removeMembershipAction } from "@/actions/memberships";
 import { ROLE_LABEL } from "./roleLabels";
@@ -46,6 +48,16 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
     if (result.success) toast.success(result.message);
     else toast.error(result.message);
   };
+
+  if (memberships.length === 0) {
+    return (
+      <EmptyState
+        icon={Users}
+        title="Brak członków"
+        description="Dodaj pierwszego członka przyciskiem powyżej."
+      />
+    );
+  }
 
   return (
     <div className="rounded-md border">

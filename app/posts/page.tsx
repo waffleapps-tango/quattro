@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 
+import { MessageSquare } from "lucide-react";
+import { EmptyState } from "@/components/system/EmptyState";
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
 
@@ -37,6 +39,13 @@ export default async function PostsPage() {
       {/*  </div>*/}
       {/*</div>*/}
 
+      {posts.length === 0 && (
+        <EmptyState
+          icon={MessageSquare}
+          title="Brak postów"
+          description="Dodaj pierwszy post dla społeczności."
+        />
+      )}
       <div className="grid gap-4">
         {posts.map((post) => (
           <Link key={post.id} href={`/posts/${post.slug}`}>

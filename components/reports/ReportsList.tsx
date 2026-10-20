@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReportCard } from "./ReportCard";
 import { CreateReportForm } from "./CreateReportForm";
+import { Megaphone } from "lucide-react";
+import { EmptyState } from "@/components/system/EmptyState";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -114,7 +116,17 @@ export function ReportsList({
       )}
 
       {reports.length === 0 ? (
-        <p className="text-muted-foreground">Brak zgłoszeń.</p>
+        <EmptyState
+          icon={Megaphone}
+          title="Brak zgłoszeń"
+          description={
+            isStaff
+              ? "Zmień filtry, aby zobaczyć więcej."
+              : view === "mine"
+                ? "Nie masz jeszcze zgłoszeń."
+                : "Nic tu jeszcze nie ma. Zgłoś pierwszy problem."
+          }
+        />
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {reports.map((report) => (

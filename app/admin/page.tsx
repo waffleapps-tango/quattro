@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { WaitingScreen } from "@/components/system/WaitingScreen";
+import { AccessDenied } from "@/components/system/AccessDenied";
 import { getCurrentUser, requireMembership } from "@/auth/session";
 import { listMembershipsForCommunity } from "@/domain/memberships";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
@@ -15,12 +17,12 @@ export default async function AdminPage() {
   if (!user) redirect("/sign-in");
 
   const membership = user.memberships[0];
-  if (!membership) redirect("/");
+  if (!membership) return <WaitingScreen />;
 
   try {
     requireMembership(user, membership.communityId, [Role.ADMIN, Role.MANAGER]);
   } catch (error) {
-    if (error instanceof UnauthorizedError) redirect("/");
+    if (error instanceof UnauthorizedError) return <AccessDenied />;
     throw error;
   }
 
