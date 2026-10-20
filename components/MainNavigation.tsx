@@ -13,7 +13,7 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
-  Shield, MessageSquare,
+  Shield, MessageSquare, Megaphone,
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
@@ -35,6 +35,11 @@ const protectedRoutes = [
     title: "Packages",
     href: "/packages",
     icon: Package,
+  },
+  {
+    title: "Reports",
+    href: "/reports",
+    icon: Megaphone,
   },
   {
     title: "Locations",
