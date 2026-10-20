@@ -3,7 +3,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
-    <div className="space-y-6" aria-busy="true" aria-label="Ładowanie">
+    <div className="space-y-6" aria-busy="true" role="status">
+      <span className="sr-only">Ładowanie…</span>
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 md:grid-cols-3">
         {Array.from({ length: 3 }).map((_, i) => (

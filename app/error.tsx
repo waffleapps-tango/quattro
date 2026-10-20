@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { startTransition, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { StatusScreen } from "@/components/system/StatusScreen";
 
@@ -12,13 +13,19 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const router = useRouter();
   useEffect(() => {
     console.error(error);
   }, [error]);
 
   return (
     <StatusScreen variant="error">
-      <Button onClick={reset}>Spróbuj ponownie</Button>
+      <Button onClick={() =>
+          startTransition(() => {
+            router.refresh();
+            reset();
+          })
+        }>Spróbuj ponownie</Button>
       <Button asChild variant="outline">
         <Link href="/">Strona główna</Link>
       </Button>

@@ -53,7 +53,7 @@ export default async function PostsPage() {
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
                 <div className="text-sm text-muted-foreground">
-                  {format(new Date(post.createdAt), "PPP")}
+                  {format(new Date(post.createdAt), "dd.MM.yyyy")}
                 </div>
               </CardHeader>
               <CardContent>

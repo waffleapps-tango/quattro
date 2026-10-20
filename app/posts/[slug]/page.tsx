@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { EditPostForm } from "@/components/posts/EditPostForm";
 import { DeletePostButton } from "@/components/posts/DeletePostButton";
@@ -27,21 +28,7 @@ export default async function PostPage({ params }: PostPageParams) {
     where: { slug },
   });
 
-  if (!post) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="flex flex-col items-center justify-center space-y-4">
-          <h1 className="text-2xl font-bold">Nie znaleziono posta</h1>
-          <Link href="/posts">
-            <Button variant="outline">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Wróć do postów
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  if (!post) notFound();
 
   return (
     <div className="container mx-auto py-8">
@@ -60,7 +47,7 @@ export default async function PostPage({ params }: PostPageParams) {
             <div>
               <CardTitle>{ post.title }</CardTitle>
               <div className="text-sm text-muted-foreground mt-2">
-                Autor: post.author • { format( new Date( post.createdAt ), "PPP" ) }
+                {format(new Date(post.createdAt), "dd.MM.yyyy")}
               </div>
               <div className="flex gap-2">
                 <EditPostForm post={ post }/>

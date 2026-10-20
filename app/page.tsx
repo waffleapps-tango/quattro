@@ -136,7 +136,7 @@ export default async function Home() {
               </CardContent>
               <CardFooter>
                 <Button asChild variant="outline">
-                  <Link href="/reports">Zobacz zgłoszenia</Link>
+                  <Link href="/reports?view=mine">Zobacz zgłoszenia</Link>
                 </Button>
               </CardFooter>
             </Card>
