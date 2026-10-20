@@ -1,0 +1,9 @@
+{
+  "common": {
+    "appName": "Quattro",
+    "loading": "Loading…"
+  },
+  "meta": {
+    "description": "Packages and reports for your neighborhood."
+  }
+}

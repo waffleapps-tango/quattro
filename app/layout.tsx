@@ -6,22 +6,29 @@ import { MainNavigation } from "@/components/MainNavigation";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { TopBar } from "@/components/TopBar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { enUS, plPL } from "@clerk/localizations";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: { default: "Quattro", template: "%s | Quattro" },
-  description: "Paczki i zgłoszenia dla Twojego osiedla.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta");
+  return {
+    title: { default: "Quattro", template: "%s | Quattro" },
+    description: t("description"),
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
   return (
-    <ClerkProvider>
-      <html lang="pl" suppressHydrationWarning>
+    <ClerkProvider localization={locale === "pl" ? plPL : enUS}>
+      <html lang={locale} suppressHydrationWarning>
         <head>
           <script
             dangerouslySetInnerHTML={{
@@ -36,6 +43,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <NextIntlClientProvider>
             <div className="flex h-screen">
               <MainNavigation />
               <div className="flex-1 flex flex-col">
@@ -48,6 +56,7 @@ export default function RootLayout({
               </div>
             </div>
             <Toaster />
+            </NextIntlClientProvider>
           </ThemeProvider>
         </body>
       </html>

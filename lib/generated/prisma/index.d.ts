@@ -3249,6 +3249,7 @@ export namespace Prisma {
     email: string | null
     firstName: string | null
     lastName: string | null
+    locale: string | null
     createdAt: Date | null
   }
 
@@ -3258,6 +3259,7 @@ export namespace Prisma {
     email: string | null
     firstName: string | null
     lastName: string | null
+    locale: string | null
     createdAt: Date | null
   }
 
@@ -3267,6 +3269,7 @@ export namespace Prisma {
     email: number
     firstName: number
     lastName: number
+    locale: number
     createdAt: number
     _all: number
   }
@@ -3278,6 +3281,7 @@ export namespace Prisma {
     email?: true
     firstName?: true
     lastName?: true
+    locale?: true
     createdAt?: true
   }
 
@@ -3287,6 +3291,7 @@ export namespace Prisma {
     email?: true
     firstName?: true
     lastName?: true
+    locale?: true
     createdAt?: true
   }
 
@@ -3296,6 +3301,7 @@ export namespace Prisma {
     email?: true
     firstName?: true
     lastName?: true
+    locale?: true
     createdAt?: true
     _all?: true
   }
@@ -3378,6 +3384,7 @@ export namespace Prisma {
     email: string
     firstName: string | null
     lastName: string | null
+    locale: string | null
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -3404,6 +3411,7 @@ export namespace Prisma {
     email?: boolean
     firstName?: boolean
     lastName?: boolean
+    locale?: boolean
     createdAt?: boolean
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     recipientPackages?: boolean | User$recipientPackagesArgs<ExtArgs>
@@ -3420,6 +3428,7 @@ export namespace Prisma {
     email?: boolean
     firstName?: boolean
     lastName?: boolean
+    locale?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -3429,6 +3438,7 @@ export namespace Prisma {
     email?: boolean
     firstName?: boolean
     lastName?: boolean
+    locale?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -3438,10 +3448,11 @@ export namespace Prisma {
     email?: boolean
     firstName?: boolean
     lastName?: boolean
+    locale?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkUserId" | "email" | "firstName" | "lastName" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkUserId" | "email" | "firstName" | "lastName" | "locale" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     recipientPackages?: boolean | User$recipientPackagesArgs<ExtArgs>
@@ -3470,6 +3481,7 @@ export namespace Prisma {
       email: string
       firstName: string | null
       lastName: string | null
+      locale: string | null
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -3905,6 +3917,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly firstName: FieldRef<"User", 'String'>
     readonly lastName: FieldRef<"User", 'String'>
+    readonly locale: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -15420,6 +15433,7 @@ export namespace Prisma {
     email: 'email',
     firstName: 'firstName',
     lastName: 'lastName',
+    locale: 'locale',
     createdAt: 'createdAt'
   };
 
@@ -15827,6 +15841,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     firstName?: StringNullableFilter<"User"> | string | null
     lastName?: StringNullableFilter<"User"> | string | null
+    locale?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
     recipientPackages?: PackageListRelationFilter
@@ -15842,6 +15857,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
+    locale?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
     recipientPackages?: PackageOrderByRelationAggregateInput
@@ -15860,6 +15876,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     firstName?: StringNullableFilter<"User"> | string | null
     lastName?: StringNullableFilter<"User"> | string | null
+    locale?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
     recipientPackages?: PackageListRelationFilter
@@ -15875,6 +15892,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
+    locale?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -15890,6 +15908,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     firstName?: StringNullableWithAggregatesFilter<"User"> | string | null
     lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    locale?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -16756,6 +16775,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -16771,6 +16791,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -16786,6 +16807,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -16801,6 +16823,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
@@ -16816,6 +16839,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
   }
 
@@ -16825,6 +16849,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16834,6 +16859,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17807,6 +17833,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    locale?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -17816,6 +17843,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    locale?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -17825,6 +17853,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    locale?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -21855,6 +21884,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
@@ -21869,6 +21899,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
@@ -21996,6 +22027,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
@@ -22010,6 +22042,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
@@ -22236,6 +22269,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
@@ -22250,6 +22284,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
@@ -22269,6 +22304,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -22283,6 +22319,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -22302,6 +22339,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -22316,6 +22354,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -22461,6 +22500,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
@@ -22475,6 +22515,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
@@ -22500,6 +22541,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -22514,6 +22556,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
@@ -22539,6 +22582,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -22553,6 +22597,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
@@ -23270,6 +23315,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -23284,6 +23330,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -23495,6 +23542,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -23509,6 +23557,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
@@ -23556,6 +23605,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -23570,6 +23620,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -23639,6 +23690,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -23653,6 +23705,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput

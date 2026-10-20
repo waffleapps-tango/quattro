@@ -10,6 +10,7 @@ function makeUser(memberships: SessionUser["memberships"]): SessionUser {
     email: "a@example.com",
     firstName: null,
     lastName: null,
+    locale: null,
     createdAt: new Date(),
     memberships,
   };

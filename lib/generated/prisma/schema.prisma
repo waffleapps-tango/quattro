@@ -41,6 +41,7 @@ model User {
   email       String   @unique
   firstName   String?
   lastName    String?
+  locale      String?
   createdAt   DateTime @default(now())
 
   memberships       Membership[]
