@@ -1,7 +1,14 @@
 {
   "common": {
     "appName": "Quattro",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "close": "Close",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "goHome": "Back to home",
+    "home": "Home",
+    "retry": "Try again"
   },
   "meta": {
     "description": "Packages and reports for your neighborhood.",
@@ -51,5 +58,54 @@
       "filter": "Filter",
       "cancel": "Cancel"
     }
+  },
+  "nav": {
+    "home": "Home",
+    "settings": "Settings",
+    "packages": "Packages",
+    "reports": "Reports",
+    "locations": "Locations",
+    "posts": "Posts",
+    "admin": "Administration",
+    "profile": "Profile",
+    "greeting": "Hi, {name}"
+  },
+  "system": {
+    "errorCode": "Error code: {digest}",
+    "notFound": {
+      "title": "This stairwell leads nowhere",
+      "description": "We couldn't find that page. Head back down to the home page."
+    },
+    "error": {
+      "code": "Oops",
+      "title": "Something went wrong",
+      "description": "Something broke on our side. Please try again in a moment."
+    },
+    "forbidden": {
+      "title": "Key holders only",
+      "description": "Your account doesn't have access to this page."
+    },
+    "waiting": {
+      "title": "Waiting for an invitation",
+      "description": "Your account isn't assigned to a community yet. Ask an administrator for access."
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome to Quattro",
+    "tagline": "Packages and reports for your neighborhood, all in one place.",
+    "greeting": "Good day, {name}",
+    "waitingForPickup": "Packages waiting for pickup",
+    "newReports": "New reports",
+    "urgentReports": "Urgent reports",
+    "addPackage": "Add package",
+    "reports": "Reports",
+    "admin": "Administration",
+    "packagesToPickup": "Packages to pick up ({count})",
+    "nothingWaiting": "Nothing is waiting for you",
+    "viewPackages": "View packages",
+    "myReports": "My reports ({count})",
+    "noOpenReports": "No open reports",
+    "viewReports": "View reports",
+    "newReport": "New report"
   }
 }

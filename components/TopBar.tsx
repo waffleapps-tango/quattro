@@ -17,8 +17,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Settings, LogOut } from "lucide-react";
 import { useUser, useClerk } from "@clerk/nextjs";
+import { useTranslations } from "next-intl";
 
 export function TopBar() {
+  const t = useTranslations("nav");
+  const tc = useTranslations("common");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUser();
   const { signOut } = useClerk();
@@ -42,7 +45,7 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         {user ? (
           <>
-            <span className="text-sm text-muted-foreground">Cześć, {user.firstName}</span>
+            <span className="text-sm text-muted-foreground">{t("greeting", { name: user.firstName ?? "" })}</span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -67,18 +70,18 @@ export function TopBar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profil</span>
+                  <span>{t("profile")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/settings">
                     <Settings className="mr-2 h-4 w-4" />
-                    <span>Ustawienia</span>
+                    <span>{t("settings")}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Wyloguj się</span>
+                  <span>{tc("signOut")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -86,10 +89,10 @@ export function TopBar() {
         ) : (
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild>
-              <Link href="/sign-in">Zaloguj się</Link>
+              <Link href="/sign-in">{tc("signIn")}</Link>
             </Button>
             <Button asChild>
-              <Link href="/sign-up">Załóż konto</Link>
+              <Link href="/sign-up">{tc("signUp")}</Link>
             </Button>
           </div>
         )}

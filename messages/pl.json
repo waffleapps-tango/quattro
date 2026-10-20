@@ -1,7 +1,14 @@
 {
   "common": {
     "appName": "Quattro",
-    "loading": "Ładowanie…"
+    "loading": "Ładowanie…",
+    "close": "Zamknij",
+    "signIn": "Zaloguj się",
+    "signUp": "Załóż konto",
+    "signOut": "Wyloguj się",
+    "goHome": "Wróć na stronę główną",
+    "home": "Strona główna",
+    "retry": "Spróbuj ponownie"
   },
   "meta": {
     "description": "Paczki i zgłoszenia dla Twojego osiedla.",
@@ -51,5 +58,54 @@
       "filter": "Filtruj",
       "cancel": "Anuluj"
     }
+  },
+  "nav": {
+    "home": "Strona główna",
+    "settings": "Ustawienia",
+    "packages": "Paczki",
+    "reports": "Zgłoszenia",
+    "locations": "Lokalizacje",
+    "posts": "Posty",
+    "admin": "Administracja",
+    "profile": "Profil",
+    "greeting": "Cześć, {name}"
+  },
+  "system": {
+    "errorCode": "Kod błędu: {digest}",
+    "notFound": {
+      "title": "Ta klatka prowadzi donikąd",
+      "description": "Nie znaleźliśmy tej strony. Wróć na dół, do strony głównej."
+    },
+    "error": {
+      "code": "Ups",
+      "title": "Coś poszło nie tak",
+      "description": "Awaria po naszej stronie. Spróbuj ponownie za chwilę."
+    },
+    "forbidden": {
+      "title": "Tu wchodzą tylko osoby z kluczem",
+      "description": "Twoje konto nie ma dostępu do tej strony."
+    },
+    "waiting": {
+      "title": "Czekamy na zaproszenie",
+      "description": "Twoje konto nie jest jeszcze przypisane do wspólnoty. Poproś administratora o dostęp."
+    }
+  },
+  "dashboard": {
+    "welcome": "Witaj w Quattro",
+    "tagline": "Paczki i zgłoszenia dla Twojego osiedla w jednym miejscu.",
+    "greeting": "Dzień dobry, {name}",
+    "waitingForPickup": "Paczki czekające na wydanie",
+    "newReports": "Nowe zgłoszenia",
+    "urgentReports": "Pilne zgłoszenia",
+    "addPackage": "Dodaj paczkę",
+    "reports": "Zgłoszenia",
+    "admin": "Administracja",
+    "packagesToPickup": "Paczki do odbioru ({count})",
+    "nothingWaiting": "Nic na Ciebie nie czeka",
+    "viewPackages": "Zobacz paczki",
+    "myReports": "Moje zgłoszenia ({count})",
+    "noOpenReports": "Brak otwartych zgłoszeń",
+    "viewReports": "Zobacz zgłoszenia",
+    "newReport": "Nowe zgłoszenie"
   }
 }

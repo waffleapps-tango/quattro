@@ -1,10 +1,12 @@
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function Loading() {
+export default async function Loading() {
+  const t = await getTranslations("common");
   return (
     <div className="space-y-6" aria-busy="true" role="status">
-      <span className="sr-only">Ładowanie…</span>
+      <span className="sr-only">{t("loading")}</span>
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 md:grid-cols-3">
         {Array.from({ length: 3 }).map((_, i) => (

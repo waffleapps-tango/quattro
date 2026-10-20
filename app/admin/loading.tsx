@@ -1,9 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function Loading() {
+export default async function Loading() {
+  const t = await getTranslations("common");
   return (
     <div className="container mx-auto py-8" aria-busy="true" role="status">
-      <span className="sr-only">Ładowanie…</span>
+      <span className="sr-only">{t("loading")}</span>
       <div className="flex justify-between items-center mb-6">
         <Skeleton className="h-8 w-64" />
         <Skeleton className="h-9 w-36" />

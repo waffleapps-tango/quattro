@@ -16,16 +16,17 @@ import {
   Shield, MessageSquare, Megaphone,
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
+import { useTranslations } from "next-intl";
 import { PendingIndicator } from "@/components/system/PendingIndicator";
 
 const publicRoutes = [
   {
-    title: "Strona główna",
+    titleKey: "home" as const,
     href: "/",
     icon: Home,
   },
   {
-    title: "Ustawienia",
+    titleKey: "settings" as const,
     href: "/settings",
     icon: Settings,
   },
@@ -33,22 +34,22 @@ const publicRoutes = [
 
 const protectedRoutes = [
   {
-    title: "Paczki",
+    titleKey: "packages" as const,
     href: "/packages",
     icon: Package,
   },
   {
-    title: "Zgłoszenia",
+    titleKey: "reports" as const,
     href: "/reports",
     icon: Megaphone,
   },
   {
-    title: "Lokalizacje",
+    titleKey: "locations" as const,
     href: "/locations",
     icon: MapPin,
   },
   {
-    title: "Posty",
+    titleKey: "posts" as const,
     href: "/posts",
     icon: MessageSquare,
   },
@@ -56,7 +57,7 @@ const protectedRoutes = [
 
 const adminRoutes = [
   {
-    title: "Administracja",
+    titleKey: "admin" as const,
     href: "/admin",
     icon: Shield,
   },
@@ -64,6 +65,7 @@ const adminRoutes = [
 
 export function MainNavigation() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useUser();
   const [role, setRole] = useState<string | null>(null);
@@ -117,7 +119,7 @@ export function MainNavigation() {
               <Link
                 key={route.href}
                 href={route.href}
-                title={isCollapsed ? route.title : undefined}
+                title={isCollapsed ? t(route.titleKey) : undefined}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                   pathname === route.href
@@ -126,7 +128,7 @@ export function MainNavigation() {
                 )}
               >
                 <Icon className="h-4 w-4" />
-                <span aria-hidden={isCollapsed} className={cn("whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>{route.title}</span>
+                <span aria-hidden={isCollapsed} className={cn("whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>{t(route.titleKey)}</span>
                 {!isCollapsed && <PendingIndicator />}
               </Link>
             );

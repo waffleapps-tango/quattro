@@ -13,16 +13,17 @@ import {
   Megaphone,
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
+import { useTranslations } from "next-intl";
 import { PendingIndicator } from "@/components/system/PendingIndicator";
 
 const publicRoutes = [
   {
-    title: "Strona główna",
+    titleKey: "home" as const,
     href: "/",
     icon: Home,
   },
   {
-    title: "Ustawienia",
+    titleKey: "settings" as const,
     href: "/settings",
     icon: Settings,
   },
@@ -30,17 +31,17 @@ const publicRoutes = [
 
 const protectedRoutes = [
   {
-    title: "Paczki",
+    titleKey: "packages" as const,
     href: "/packages",
     icon: Package,
   },
   {
-    title: "Zgłoszenia",
+    titleKey: "reports" as const,
     href: "/reports",
     icon: Megaphone,
   },
   {
-    title: "Lokalizacje",
+    titleKey: "locations" as const,
     href: "/locations",
     icon: MapPin,
   },
@@ -48,7 +49,7 @@ const protectedRoutes = [
 
 const adminRoutes = [
   {
-    title: "Administracja",
+    titleKey: "admin" as const,
     href: "/admin",
     icon: Shield,
   },
@@ -56,6 +57,7 @@ const adminRoutes = [
 
 export function MobileNavigation() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
   const { user } = useUser();
   const [role, setRole] = useState<string | null>(null);
 
@@ -92,7 +94,7 @@ export function MobileNavigation() {
             )}
           >
             <Icon className="h-4 w-4" />
-            <span>{route.title}</span>
+            <span>{t(route.titleKey)}</span>
             <PendingIndicator />
           </Link>
         );
