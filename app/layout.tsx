@@ -22,6 +22,13 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `try{var p=localStorage.getItem("quattro-palette");if(p)document.documentElement.dataset.palette=p}catch(e){}`,
+            }}
+          />
+        </head>
         <body className={inter.className}>
           <ThemeProvider
             attribute="class"

@@ -24,7 +24,7 @@ import { Plus } from "lucide-react";
 import { createPackageAction } from "@/actions/packages";
 import type { Building, Apartment } from "@/lib/generated/prisma";
 
-type ActionState = { message: string; success: boolean };
+type ActionState = { message: string; success: boolean; fieldErrors?: Record<string, string> };
 
 export function CreatePackageForm({
   communityId,
@@ -109,6 +109,12 @@ export function CreatePackageForm({
                 </SelectContent>
               </Select>
               <input type="hidden" name="apartmentId" value={apartmentId} />
+              {state.fieldErrors?.apartmentId && (
+                <p className="text-sm text-destructive">
+                  Wybierz mieszkanie
+                  {apartments.length === 0 && " (ten budynek nie ma mieszkań)"}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="trackingNumber">Numer przesyłki</Label>

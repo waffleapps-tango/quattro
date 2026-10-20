@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0e96b2cc-8021-43af-b62a-38c0bafc9864" name="Changes" comment="chore: code clear">
+      <change afterPath="$PROJECT_DIR$/.claude/worktrees/reports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/palettes.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/settings/ThemePicker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/settings/useThemeSwitch.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ideas/quattro/idea.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ideas/quattro/pitch.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ideas/quattro/plan.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ideas/quattro/roast.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/palettes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/001-button-transition-and-press.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/002-theme-toggle-no-scale-zero.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/003-global-ease-out-token.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/004-reduced-motion.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/005-sheet-easing-duration.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/006-sidebar-collapse.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/007-switch-scoped-transition.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/008-gate-card-hover.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plans/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/actions/packages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/packages.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/MainNavigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/MainNavigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ThemeToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ThemeToggle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/packages/CreatePackageForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/packages/CreatePackageForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/settings/SettingsForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/settings/SettingsForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/sheet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/sheet.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/switch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/switch.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="false" />
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2vBiOa57bpKhMwzO5fQAWIHu4s9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "js.debugger.nextJs.config.created.client": "true",
+    "last_opened_file_path": "/Users/maciek/Documents/development/quattro",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/maciek/Documents/development/quattro/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="/usr/local/bin/node" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-WS-251.26094.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0e96b2cc-8021-43af-b62a-38c0bafc9864" name="Changes" comment="" />
+      <created>1743624836533</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743624836533</updated>
+      <workItem from="1743624838597" duration="1391000" />
+      <workItem from="1743626614596" duration="2379000" />
+      <workItem from="1743711737453" duration="4409000" />
+      <workItem from="1744747153195" duration="3588000" />
+      <workItem from="1744921250217" duration="1071000" />
+      <workItem from="1745351121969" duration="5539000" />
+      <workItem from="1745415187722" duration="24000" />
+      <workItem from="1745433099861" duration="4944000" />
+      <workItem from="1745438309542" duration="3537000" />
+      <workItem from="1745524363848" duration="6286000" />
+      <workItem from="1745772330504" duration="1368000" />
+      <workItem from="1747336789183" duration="4000" />
+      <workItem from="1747424693185" duration="2808000" />
+      <workItem from="1749579333023" duration="177000" />
+      <workItem from="1749668567770" duration="5127000" />
+      <workItem from="1754298788337" duration="572000" />
+      <workItem from="1786216534862" duration="18627000" />
+      <workItem from="1791321795916" duration="7392000" />
+      <workItem from="1792448803688" duration="685000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: shadcn init, route dictionaries added">
+      <option name="closed" value="true" />
+      <created>1743626222654</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743626222654</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: added additional shadcn components and Package Page with mock data">
+      <option name="closed" value="true" />
+      <created>1743627671370</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743627671370</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: added side navigation panel">
+      <option name="closed" value="true" />
+      <created>1743629056511</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743629056512</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: added side navigation panel">
+      <option name="closed" value="true" />
+      <created>1743711779622</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743711779622</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: settings page added">
+      <option name="closed" value="true" />
+      <created>1743713444093</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743713444093</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: location page added">
+      <option name="closed" value="true" />
+      <created>1743714214656</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743714214656</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: added top bar with user avatar">
+      <option name="closed" value="true" />
+      <created>1743715504133</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743715504133</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: added main max width and centered content on large screens">
+      <option name="closed" value="true" />
+      <created>1743716096692</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743716096692</updated>
+    </task>
+    <task id="LOCAL-00009" summary="chore: removed dead code">
+      <option name="closed" value="true" />
+      <created>1744747185253</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744747185253</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: added basic clerk auth">
+      <option name="closed" value="true" />
+      <created>1744749590374</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1744749590374</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fix: top bar and side panel height matched">
+      <option name="closed" value="true" />
+      <created>1744750110317</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744750110317</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: added public / non public routes">
+      <option name="closed" value="true" />
+      <created>1744833097875</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744833097875</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: added role handling">
+      <option name="closed" value="true" />
+      <created>1744837971816</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1744837971816</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: basic prisma integration added">
+      <option name="closed" value="true" />
+      <created>1745358646209</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745358646209</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: prisma post db created">
+      <option name="closed" value="true" />
+      <created>1745437179200</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745437179200</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: create post form created">
+      <option name="closed" value="true" />
+      <created>1745439328632</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745439328632</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: created save post server action">
+      <option name="closed" value="true" />
+      <created>1745524433304</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1745524433304</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: edit save post server action">
+      <option name="closed" value="true" />
+      <created>1745528304024</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1745528304024</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feat: panic commit">
+      <option name="closed" value="true" />
+      <created>1745772597413</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1745772597413</updated>
+    </task>
+    <task id="LOCAL-00020" summary="chore: code clear">
+      <option name="closed" value="true" />
+      <created>1750708104895</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1750708104895</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="feat: shadcn init, route dictionaries added" />
+    <MESSAGE value="feat: added additional shadcn components and Package Page with mock data" />
+    <MESSAGE value="feat: added side navigation panel" />
+    <MESSAGE value="feat: settings page added" />
+    <MESSAGE value="feat: location page added" />
+    <MESSAGE value="feat: added top bar with user avatar" />
+    <MESSAGE value="feat: added main max width and centered content on large screens" />
+    <MESSAGE value="chore: removed dead code" />
+    <MESSAGE value="feat: added basic clerk auth" />
+    <MESSAGE value="fix: top bar and side panel height matched" />
+    <MESSAGE value="feat: added public / non public routes" />
+    <MESSAGE value="feat: added role handling" />
+    <MESSAGE value="feat: basic prisma integration added" />
+    <MESSAGE value="feat: prisma post db created" />
+    <MESSAGE value="feat: create post form created" />
+    <MESSAGE value="feat: created save post server action" />
+    <MESSAGE value="feat: edit save post server action" />
+    <MESSAGE value="feat: panic commit" />
+    <MESSAGE value="chore: code clear" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: code clear" />
+  </component>
+</project>

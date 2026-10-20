@@ -87,13 +87,13 @@ export function MainNavigation() {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col h-full border-r bg-background transition-all duration-300",
+        "hidden md:flex flex-col h-full border-r bg-background transition-[width] duration-200 ease-(--ease-in-out)",
         isCollapsed ? "w-16" : "w-64"
       )}
     >
       <div className="flex flex-col border-b min-h-[86px]">
         <div className="flex items-center justify-between p-4 h-full">
-          {!isCollapsed && <span className="font-semibold">Quattro</span>}
+          <span aria-hidden={isCollapsed} className={cn("font-semibold whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>Quattro</span>
           <Button
             variant="ghost"
             size="icon"
@@ -116,6 +116,7 @@ export function MainNavigation() {
               <Link
                 key={route.href}
                 href={route.href}
+                title={isCollapsed ? route.title : undefined}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                   pathname === route.href
@@ -124,7 +125,7 @@ export function MainNavigation() {
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {!isCollapsed && <span>{route.title}</span>}
+                <span aria-hidden={isCollapsed} className={cn("whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>{route.title}</span>
               </Link>
             );
           })}

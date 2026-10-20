@@ -15,7 +15,7 @@ const createPackageSchema = z.object({
   notes: z.string().optional(),
 });
 
-type ActionState = { message: string; success: boolean };
+type ActionState = { message: string; success: boolean; fieldErrors?: Record<string, string> };
 
 export async function createPackageAction(
   _prevState: ActionState,
@@ -34,7 +34,10 @@ export async function createPackageAction(
   });
 
   if (!validated.success) {
-    return { message: "Invalid form data", success: false };
+    const fieldErrors = Object.fromEntries(
+      validated.error.issues.map((i) => [i.path.join("."), "To pole jest wymagane"]),
+    );
+    return { message: "Uzupełnij wymagane pola", success: false, fieldErrors };
   }
 
   try {
