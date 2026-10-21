@@ -116,7 +116,13 @@
     "myReports": "My reports ({count})",
     "noOpenReports": "No open reports",
     "viewReports": "View reports",
-    "newReport": "New report"
+    "newReport": "New report",
+    "myApartment": "My apartment",
+    "myApartmentLine": "{building}, apt {apartment}",
+    "myApartmentNoBuilding": "apt {apartment}",
+    "parkingShort": "parking {numbers}",
+    "storageShort": "storage {numbers}",
+    "viewProfile": "View profile"
   },
   "errors": {
     "notSignedIn": "You are not signed in",
@@ -679,19 +685,16 @@
     "signInLink": "Sign in"
   },
   "profile": {
-    "title": "My profile",
-    "subtitle": "Your account, apartment and assigned spaces.",
     "apartmentCard": "Apartment",
     "community": "Community",
     "building": "Building",
-    "address": "Address",
     "apartment": "Apartment",
     "floor": "Floor",
     "noApartmentTitle": "Your account is not assigned to an apartment",
     "noApartmentHint": "Staff accounts manage the community. Ask a manager to assign you to an apartment.",
     "parkingCard": "Parking spaces",
     "storageCard": "Storage units",
-    "level": "Level",
+    "levelValue": "Level {level}",
     "evCharger": "EV charger",
     "noParking": "No parking spaces assigned",
     "noStorage": "No storage units assigned",

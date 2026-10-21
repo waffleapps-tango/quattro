@@ -4,6 +4,7 @@ import { Megaphone, Package } from "lucide-react";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listReports } from "@/domain/reports";
+import { getProfile } from "@/domain/profile";
 import { summarizeDashboard } from "@/domain/dashboard/summary";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EmptyState } from "@/components/system/EmptyState";
@@ -46,16 +47,48 @@ export default async function Home() {
   const canAdmin = membership.role === Role.ADMIN || membership.role === Role.MANAGER;
 
   // ponytail: counts in memory from the full lists; switch to count() queries if lists grow.
-  const [packages, reports] = await Promise.all([
+  const [packages, reports, profile] = await Promise.all([
     listPackagesForViewer(user, membership.communityId),
     listReports(user, membership.communityId),
+    getProfile(user, membership.communityId),
   ]);
   const format = await getFormatter();
   const s = summarizeDashboard({ userId: user.id, packages, reports });
 
+  const apt = profile.apartment;
+  const aptLine = apt
+    ? [
+        profile.building
+          ? t("myApartmentLine", { building: profile.building.name, apartment: apt.number })
+          : t("myApartmentNoBuilding", { apartment: apt.number }),
+        profile.parkingSpaces.length &&
+          t("parkingShort", { numbers: profile.parkingSpaces.map((x) => x.number).join(", ") }),
+        profile.storageUnits.length &&
+          t("storageShort", { numbers: profile.storageUnits.map((x) => x.number).join(", ") }),
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : null;
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">{t("greeting", { name: user.firstName ?? user.email })}</h1>
+
+      {aptLine && (
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("myApartment")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm">{aptLine}</p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/profile">{t("viewProfile")}</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
 
       {isStaff ? (
         <>

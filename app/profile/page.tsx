@@ -56,7 +56,7 @@ export default async function ProfilePage() {
         <div className="min-w-0 space-y-1">
           <h1 className="truncate text-2xl font-bold">{name}</h1>
           <p className="truncate text-sm text-muted-foreground">{p.email}</p>
-          <Badge variant="secondary" aria-label={t("role")}>
+          <Badge variant="secondary">
             {tAdmin(`role.${p.role}`)}
           </Badge>
         </div>
@@ -94,7 +94,7 @@ export default async function ProfilePage() {
                   <li key={s.id} className="flex items-center justify-between gap-2">
                     <span className="font-medium">{s.number}</span>
                     <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                      {s.level && <span>{t("level")}: {s.level}</span>}
+                      {s.level && <span>{t("levelValue", { level: s.level })}</span>}
                       {s.hasEvCharger && <Badge variant="secondary">{t("evCharger")}</Badge>}
                     </span>
                   </li>
