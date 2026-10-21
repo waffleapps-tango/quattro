@@ -3,11 +3,12 @@
 import type { ReactNode, Ref } from "react";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
+import { cn } from "@/lib/utils";
 import { quick } from "@/lib/motion";
 
 export function AnimatedList({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={className}>
+    <div className={cn("relative", className)}>
       <AnimatePresence mode="popLayout" initial={false}>
         {children}
       </AnimatePresence>
@@ -27,7 +28,7 @@ export function AnimatedItem({
   return (
     <m.div
       ref={ref}
-      layout
+      layout="position"
       className={className}
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}

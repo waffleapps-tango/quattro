@@ -57,19 +57,19 @@ export default async function PostsPage() {
         {posts.map((post) => (
           <AnimatedItem key={post.id}>
             <Interactive>
-          <Link href={`/posts/${post.slug}`}>
-            <Card className="hover:bg-accent transition-colors">
-              <CardHeader>
-                <CardTitle>{post.title}</CardTitle>
-                <div className="text-sm text-muted-foreground">
-                  {format.dateTime(new Date(post.createdAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="line-clamp-2">{post.content}</p>
-              </CardContent>
-            </Card>
-          </Link>
+            <Link href={`/posts/${post.slug}`} className="block">
+              <Card className="hover:bg-accent transition-colors">
+                <CardHeader>
+                  <CardTitle>{post.title}</CardTitle>
+                  <div className="text-sm text-muted-foreground">
+                    {format.dateTime(new Date(post.createdAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="line-clamp-2">{post.content}</p>
+                </CardContent>
+              </Card>
+            </Link>
             </Interactive>
           </AnimatedItem>
         ))}

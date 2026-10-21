@@ -36,6 +36,9 @@ export default async function RootLayout({
               __html: `try{var p=localStorage.getItem("quattro-palette");if(p)document.documentElement.dataset.palette=p}catch(e){}`,
             }}
           />
+          <noscript>
+            <style>{"[style*='opacity:0']{opacity:1!important;transform:none!important}"}</style>
+          </noscript>
         </head>
         <body className={inter.className}>
           <ThemeProvider

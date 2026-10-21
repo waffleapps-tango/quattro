@@ -106,16 +106,16 @@ export default async function Home() {
             ].map((c, i) => (
               <StaggerItem key={c.label} index={2 + i} className="h-full">
                 <Interactive className="h-full">
-                <Link href={c.href}>
-                  <Card className="transition-colors hover:bg-muted/50">
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-4xl font-bold">{c.value}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
+                  <Link href={c.href} className="block h-full">
+                    <Card className="transition-colors hover:bg-muted/50">
+                      <CardHeader>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-4xl font-bold">{c.value}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 </Interactive>
               </StaggerItem>
             ))}

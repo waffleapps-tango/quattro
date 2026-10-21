@@ -123,8 +123,8 @@ export function CreateReportForm({
               </Collapse>
             </div>
 
-            <Collapse show={Boolean(category && category.types.length > 1)} className="px-1 -mx-1 pt-1 -mt-1 pb-4 mb-0!">
-              <div className="space-y-2">
+            <Collapse show={Boolean(category && category.types.length > 1)} className="-mx-1 -mt-1 mb-0!">
+              <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="type">{t("kind")}</Label>
                 <Select value={type} onValueChange={(v) => setType(v as ReportType)}>
                   <SelectTrigger id="type">
@@ -144,8 +144,8 @@ export function CreateReportForm({
               </div>
             </Collapse>
 
-            <Collapse show={category?.subject === "parking"} className="px-1 -mx-1 pt-1 -mt-1 pb-4 mb-0!">
-              <div className="space-y-2">
+            <Collapse show={category?.subject === "parking"} className="-mx-1 -mt-1 mb-0!">
+              <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="parking">{t("parking")}</Label>
                 <Select value={parkingSpaceId} onValueChange={setParkingSpaceId}>
                   <SelectTrigger id="parking">
@@ -167,8 +167,8 @@ export function CreateReportForm({
               </div>
             </Collapse>
 
-            <Collapse show={category?.subject === "storage"} className="px-1 -mx-1 pt-1 -mt-1 pb-4 mb-0!">
-              <div className="space-y-2">
+            <Collapse show={category?.subject === "storage"} className="-mx-1 -mt-1 mb-0!">
+              <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="storage">{t("storage")}</Label>
                 <Select value={storageUnitId} onValueChange={setStorageUnitId}>
                   <SelectTrigger id="storage">
@@ -190,8 +190,8 @@ export function CreateReportForm({
               </div>
             </Collapse>
 
-            <Collapse show={Boolean(category)} className="px-1 -mx-1 pt-1 -mt-1 pb-4 mb-0!">
-              <div className="flex flex-wrap gap-1">
+            <Collapse show={Boolean(category)} className="-mx-1 -mt-1 mb-0!">
+              <div className="flex flex-wrap gap-1 px-1 pt-1 pb-4">
                 {category && (t.raw(`categories.${category.key}.suggestions` as CatSuggKey) as string[]).map((s) => (
                   <Button
                     key={s}
