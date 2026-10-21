@@ -37,21 +37,21 @@ export default async function LocationsPage() {
           <h2 className="text-2xl font-semibold mb-4">{t("estateHeading")}</h2>
           <Stagger className="grid gap-4 md:grid-cols-2">
             {estateFacilities.map(({ key, icon: Icon }, i) => (
-              <StaggerItem key={key} index={i}>
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-lg">{t(`estate.${key}.name`)}</CardTitle>
-                  </div>
-                  <CardDescription>{t(`estate.${key}.category`)}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    {t(`estate.${key}.description`)}
-                  </p>
-                </CardContent>
-              </Card>
+              <StaggerItem key={key} index={i} className="h-full [&>*]:h-full">
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-5 w-5 text-primary" />
+                      <CardTitle className="text-lg">{t(`estate.${key}.name`)}</CardTitle>
+                    </div>
+                    <CardDescription>{t(`estate.${key}.category`)}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      {t(`estate.${key}.description`)}
+                    </p>
+                  </CardContent>
+                </Card>
               </StaggerItem>
             ))}
           </Stagger>
@@ -61,26 +61,26 @@ export default async function LocationsPage() {
           <h2 className="text-2xl font-semibold mb-4">{t("nearbyHeading")}</h2>
           <Stagger className="grid gap-4 md:grid-cols-2">
             {nearbyLocations.map(({ key, icon: Icon, km }, i) => (
-              <StaggerItem key={key} index={i}>
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-lg">{t(`nearby.${key}.name`)}</CardTitle>
-                  </div>
-                  <CardDescription>
-                    {t("categoryDistance", {
-                      category: t(`nearby.${key}.category`),
-                      distance: t("distance", { km: format.number(km) }),
-                    })}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    {t(`nearby.${key}.description`)}
-                  </p>
-                </CardContent>
-              </Card>
+              <StaggerItem key={key} index={i} className="h-full [&>*]:h-full">
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-5 w-5 text-primary" />
+                      <CardTitle className="text-lg">{t(`nearby.${key}.name`)}</CardTitle>
+                    </div>
+                    <CardDescription>
+                      {t("categoryDistance", {
+                        category: t(`nearby.${key}.category`),
+                        distance: t("distance", { km: format.number(km) }),
+                      })}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      {t(`nearby.${key}.description`)}
+                    </p>
+                  </CardContent>
+                </Card>
               </StaggerItem>
             ))}
           </Stagger>

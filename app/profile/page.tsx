@@ -63,69 +63,75 @@ export default async function ProfilePage() {
         </div>
       </StaggerItem>
 
-      <StaggerItem index={1} className="grid gap-4 md:grid-cols-2">
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>{t("apartmentCard")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {p.apartment ? (
-              <dl className="grid gap-4 sm:grid-cols-2">
-                <Row label={t("community")} value={[p.community.name, p.community.address].filter(Boolean).join(", ")} />
-                {p.building && (
-                  <Row label={t("building")} value={[p.building.name, p.building.address].filter(Boolean).join(", ")} />
-                )}
-                <Row label={t("apartment")} value={p.apartment.number} />
-                {p.apartment.floor != null && <Row label={t("floor")} value={String(p.apartment.floor)} />}
-              </dl>
-            ) : (
-              <EmptyState icon={Home} title={t("noApartmentTitle")} description={t("noApartmentHint")} />
-            )}
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <StaggerItem index={1} className="md:col-span-2 h-full [&>*]:h-full">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("apartmentCard")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {p.apartment ? (
+                <dl className="grid gap-4 sm:grid-cols-2">
+                  <Row label={t("community")} value={[p.community.name, p.community.address].filter(Boolean).join(", ")} />
+                  {p.building && (
+                    <Row label={t("building")} value={[p.building.name, p.building.address].filter(Boolean).join(", ")} />
+                  )}
+                  <Row label={t("apartment")} value={p.apartment.number} />
+                  {p.apartment.floor != null && <Row label={t("floor")} value={String(p.apartment.floor)} />}
+                </dl>
+              ) : (
+                <EmptyState icon={Home} title={t("noApartmentTitle")} description={t("noApartmentHint")} />
+              )}
+            </CardContent>
+          </Card>
+        </StaggerItem>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("parkingCard")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {p.parkingSpaces.length ? (
-              <ul className="space-y-2">
-                {p.parkingSpaces.map((s) => (
-                  <li key={s.id} className="flex items-center justify-between gap-2">
-                    <span className="font-medium">{s.number}</span>
-                    <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                      {s.level && <span>{t("levelValue", { level: s.level })}</span>}
-                      {s.hasEvCharger && <Badge variant="secondary">{t("evCharger")}</Badge>}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-muted-foreground">{t("noParking")}</p>
-            )}
-          </CardContent>
-          {p.parkingSpaces.length > 0 && reportLink}
-        </Card>
+        <StaggerItem index={2} className="h-full [&>*]:h-full">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("parkingCard")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {p.parkingSpaces.length ? (
+                <ul className="space-y-2">
+                  {p.parkingSpaces.map((s) => (
+                    <li key={s.id} className="flex items-center justify-between gap-2">
+                      <span className="font-medium">{s.number}</span>
+                      <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                        {s.level && <span>{t("levelValue", { level: s.level })}</span>}
+                        {s.hasEvCharger && <Badge variant="secondary">{t("evCharger")}</Badge>}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-muted-foreground">{t("noParking")}</p>
+              )}
+            </CardContent>
+            {p.parkingSpaces.length > 0 && reportLink}
+          </Card>
+        </StaggerItem>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("storageCard")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {p.storageUnits.length ? (
-              <ul className="space-y-2">
-                {p.storageUnits.map((u) => (
-                  <li key={u.id} className="font-medium">{u.number}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-muted-foreground">{t("noStorage")}</p>
-            )}
-          </CardContent>
-          {p.storageUnits.length > 0 && reportLink}
-        </Card>
-      </StaggerItem>
+        <StaggerItem index={3} className="h-full [&>*]:h-full">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("storageCard")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {p.storageUnits.length ? (
+                <ul className="space-y-2">
+                  {p.storageUnits.map((u) => (
+                    <li key={u.id} className="font-medium">{u.number}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-muted-foreground">{t("noStorage")}</p>
+              )}
+            </CardContent>
+            {p.storageUnits.length > 0 && reportLink}
+          </Card>
+        </StaggerItem>
+      </div>
     </Stagger>
   );
 }

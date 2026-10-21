@@ -97,25 +97,27 @@ export default async function Home() {
 
       {isStaff ? (
         <>
-          <StaggerItem index={2} className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             {[
               { label: t("waitingForPickup"), value: s.waitingPackageCount, href: "/packages" },
               { label: t("newReports"), value: s.newReportCount, href: "/reports?status=NEW" },
               { label: t("urgentReports"), value: s.urgentReportCount, href: "/reports?urgent=1" },
-            ].map((c) => (
-              <Link key={c.label} href={c.href}>
-                <Card className="transition-colors hover:bg-muted/50">
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-4xl font-bold">{c.value}</p>
-                  </CardContent>
-                </Card>
-              </Link>
+            ].map((c, i) => (
+              <StaggerItem key={c.label} index={2 + i} className="h-full">
+                <Link href={c.href}>
+                  <Card className="transition-colors hover:bg-muted/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-4xl font-bold">{c.value}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </StaggerItem>
             ))}
-          </StaggerItem>
-          <StaggerItem index={3} className="flex flex-wrap gap-2">
+          </div>
+          <StaggerItem index={5} className="flex flex-wrap gap-2">
             <Button asChild>
               <Link href="/packages">{t("addPackage")}</Link>
             </Button>
@@ -131,58 +133,62 @@ export default async function Home() {
         </>
       ) : (
         <>
-          <StaggerItem index={2} className="grid gap-4 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("packagesToPickup", { count: s.waitingPackageCount })}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {s.waitingPackages.length === 0 ? (
-                  <EmptyState icon={Package} title={t("nothingWaiting")} />
-                ) : (
-                  s.waitingPackages.map((p) => (
-                    <div key={p.id} className="text-sm">
-                      <p className="font-medium">
-                        {p.building.name} / {p.apartment.number}
-                      </p>
-                      <p className="text-muted-foreground">
-                        {p.courier ? `${p.courier}, ` : ""}
-                        {format.dateTime(new Date(p.receivedAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
-                      </p>
-                    </div>
-                  ))
-                )}
-              </CardContent>
-              <CardFooter>
-                <Button asChild variant="outline">
-                  <Link href="/packages">{t("viewPackages")}</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("myReports", { count: s.myOpenReportCount })}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {s.myOpenReports.length === 0 ? (
-                  <EmptyState icon={Megaphone} title={t("noOpenReports")} />
-                ) : (
-                  s.myOpenReports.map((r) => (
-                    <div key={r.id} className="flex items-center justify-between gap-2 text-sm">
-                      <span className="font-medium">{r.title}</span>
-                      <Badge>{tr(`status.${r.status}`)}</Badge>
-                    </div>
-                  ))
-                )}
-              </CardContent>
-              <CardFooter>
-                <Button asChild variant="outline">
-                  <Link href="/reports?view=mine">{t("viewReports")}</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          </StaggerItem>
-          <StaggerItem index={3}>
+          <div className="grid gap-4 md:grid-cols-2">
+            <StaggerItem index={2} className="h-full [&>*]:h-full">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("packagesToPickup", { count: s.waitingPackageCount })}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {s.waitingPackages.length === 0 ? (
+                    <EmptyState icon={Package} title={t("nothingWaiting")} />
+                  ) : (
+                    s.waitingPackages.map((p) => (
+                      <div key={p.id} className="text-sm">
+                        <p className="font-medium">
+                          {p.building.name} / {p.apartment.number}
+                        </p>
+                        <p className="text-muted-foreground">
+                          {p.courier ? `${p.courier}, ` : ""}
+                          {format.dateTime(new Date(p.receivedAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
+                        </p>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+                <CardFooter>
+                  <Button asChild variant="outline">
+                    <Link href="/packages">{t("viewPackages")}</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            </StaggerItem>
+            <StaggerItem index={3} className="h-full [&>*]:h-full">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("myReports", { count: s.myOpenReportCount })}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {s.myOpenReports.length === 0 ? (
+                    <EmptyState icon={Megaphone} title={t("noOpenReports")} />
+                  ) : (
+                    s.myOpenReports.map((r) => (
+                      <div key={r.id} className="flex items-center justify-between gap-2 text-sm">
+                        <span className="font-medium">{r.title}</span>
+                        <Badge>{tr(`status.${r.status}`)}</Badge>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+                <CardFooter>
+                  <Button asChild variant="outline">
+                    <Link href="/reports?view=mine">{t("viewReports")}</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            </StaggerItem>
+          </div>
+          <StaggerItem index={4}>
             <Button asChild>
               <Link href="/reports">{t("newReport")}</Link>
             </Button>

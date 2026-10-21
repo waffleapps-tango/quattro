@@ -46,74 +46,74 @@ export function SettingsForm() {
   return (
     <Stagger className="grid gap-6">
       <StaggerItem index={0}>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("appearance.title")}</CardTitle>
-          <CardDescription>{t("appearance.description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="theme">{t("appearance.theme")}</Label>
-            <Select value={theme} onValueChange={setTheme}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={t("appearance.themePlaceholder")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">{t("themes.light")}</SelectItem>
-                <SelectItem value="dark">{t("themes.dark")}</SelectItem>
-                <SelectItem value="system">{t("themes.system")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <ThemePicker />
-        </CardContent>
-      </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("appearance.title")}</CardTitle>
+            <CardDescription>{t("appearance.description")}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="theme">{t("appearance.theme")}</Label>
+              <Select value={theme} onValueChange={setTheme}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder={t("appearance.themePlaceholder")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">{t("themes.light")}</SelectItem>
+                  <SelectItem value="dark">{t("themes.dark")}</SelectItem>
+                  <SelectItem value="system">{t("themes.system")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <ThemePicker />
+          </CardContent>
+        </Card>
       </StaggerItem>
 
       <StaggerItem index={1}>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("notifications.title")}</CardTitle>
-          <CardDescription>{t("notifications.description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="notifications">{t("notifications.email")}</Label>
-            <Switch
-              id="notifications"
-              checked={notifications}
-              onCheckedChange={setNotifications}
-            />
-          </div>
-        </CardContent>
-      </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("notifications.title")}</CardTitle>
+            <CardDescription>{t("notifications.description")}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="notifications">{t("notifications.email")}</Label>
+              <Switch
+                id="notifications"
+                checked={notifications}
+                onCheckedChange={setNotifications}
+              />
+            </div>
+          </CardContent>
+        </Card>
       </StaggerItem>
 
       <StaggerItem index={2}>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("language.title")}</CardTitle>
-          <CardDescription>{t("language.description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="language">{t("language.label")}</Label>
-            <Select value={locale} onValueChange={changeLocale} disabled={pending}>
-              <SelectTrigger id="language" className="w-[180px]">
-                <SelectValue placeholder={t("language.placeholder")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pl">Polski</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("language.title")}</CardTitle>
+              <CardDescription>{t("language.description")}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="language">{t("language.label")}</Label>
+                <Select value={locale} onValueChange={changeLocale} disabled={pending}>
+                  <SelectTrigger id="language" className="w-[180px]">
+                    <SelectValue placeholder={t("language.placeholder")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pl">Polski</SelectItem>
+                    <SelectItem value="en">English</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
       </StaggerItem>
 
       <StaggerItem index={3} className="flex justify-end">
-        <Button onClick={handleSave}>{t("save")}</Button>
+          <Button onClick={handleSave}>{t("save")}</Button>
       </StaggerItem>
     </Stagger>
   );
