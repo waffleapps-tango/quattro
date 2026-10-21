@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Collapse } from "@/components/motion/Collapse";
 import {
   Dialog,
   DialogContent,
@@ -111,13 +112,13 @@ export function CreatePackageForm({
                 </SelectContent>
               </Select>
               <input type="hidden" name="apartmentId" value={apartmentId} />
-              {state.fieldErrors?.apartmentId && (
+              <Collapse show={Boolean(state.fieldErrors?.apartmentId)}>
                 <p className="text-sm text-destructive">
                   {apartments.length === 0
                     ? t("apartmentRequiredNoApartments")
                     : t("apartmentRequired")}
                 </p>
-              )}
+              </Collapse>
             </div>
             <div className="space-y-2">
               <Label htmlFor="trackingNumber">{t("trackingNumber")}</Label>
@@ -128,9 +129,9 @@ export function CreatePackageForm({
               <Input id="courier" name="courier" />
             </div>
           </div>
-          {state.message && !state.success && (
+          <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
-          )}
+          </Collapse>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
               {t("cancel")}

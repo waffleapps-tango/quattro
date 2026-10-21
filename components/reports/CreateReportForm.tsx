@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Collapse } from "@/components/motion/Collapse";
 import {
   Dialog,
   DialogContent,
@@ -117,34 +118,34 @@ export function CreateReportForm({
                   ))}
                 </SelectContent>
               </Select>
-              {state.fieldErrors?.categoryKey && (
+              <Collapse show={Boolean(state.fieldErrors?.categoryKey)}>
                 <p className="text-sm text-destructive">{t("categoryRequired")}</p>
-              )}
+              </Collapse>
             </div>
 
-            {category && category.types.length > 1 && (
-              <div className="space-y-2">
+            <Collapse show={Boolean(category && category.types.length > 1)} className="px-1 -mx-1 pb-1 -mb-1 mt-0!">
+              <div className="space-y-2 pt-4">
                 <Label htmlFor="type">{t("kind")}</Label>
                 <Select value={type} onValueChange={(v) => setType(v as ReportType)}>
                   <SelectTrigger id="type">
                     <SelectValue placeholder={t("kindPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {category.types.map((ty) => (
+                    {category?.types.map((ty) => (
                       <SelectItem key={ty} value={ty}>
                         {t(`type.${ty}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {state.fieldErrors?.type && (
+                <Collapse show={Boolean(state.fieldErrors?.type)}>
                   <p className="text-sm text-destructive">{t("kindRequired")}</p>
-                )}
+                </Collapse>
               </div>
-            )}
+            </Collapse>
 
-            {category?.subject === "parking" && (
-              <div className="space-y-2">
+            <Collapse show={category?.subject === "parking"} className="px-1 -mx-1 pb-1 -mb-1 mt-0!">
+              <div className="space-y-2 pt-4">
                 <Label htmlFor="parking">{t("parking")}</Label>
                 <Select value={parkingSpaceId} onValueChange={setParkingSpaceId}>
                   <SelectTrigger id="parking">
@@ -164,10 +165,10 @@ export function CreateReportForm({
                   </p>
                 )}
               </div>
-            )}
+            </Collapse>
 
-            {category?.subject === "storage" && (
-              <div className="space-y-2">
+            <Collapse show={category?.subject === "storage"} className="px-1 -mx-1 pb-1 -mb-1 mt-0!">
+              <div className="space-y-2 pt-4">
                 <Label htmlFor="storage">{t("storage")}</Label>
                 <Select value={storageUnitId} onValueChange={setStorageUnitId}>
                   <SelectTrigger id="storage">
@@ -187,11 +188,11 @@ export function CreateReportForm({
                   </p>
                 )}
               </div>
-            )}
+            </Collapse>
 
-            {category && (
-              <div className="flex flex-wrap gap-1">
-                {(t.raw(`categories.${category.key}.suggestions` as CatSuggKey) as string[]).map((s) => (
+            <Collapse show={Boolean(category)} className="px-1 -mx-1 pb-1 -mb-1 mt-0!">
+              <div className="flex flex-wrap gap-1 pt-4">
+                {category && (t.raw(`categories.${category.key}.suggestions` as CatSuggKey) as string[]).map((s) => (
                   <Button
                     key={s}
                     type="button"
@@ -204,7 +205,7 @@ export function CreateReportForm({
                   </Button>
                 ))}
               </div>
-            )}
+            </Collapse>
 
             <div className="space-y-2">
               <Label htmlFor="title">{t("titleLabel")}</Label>
@@ -215,9 +216,9 @@ export function CreateReportForm({
                 maxLength={120}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              {state.fieldErrors?.title && (
+              <Collapse show={Boolean(state.fieldErrors?.title)}>
                 <p className="text-sm text-destructive">{t("titleRequired")}</p>
-              )}
+              </Collapse>
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">{t("description")}</Label>
@@ -229,9 +230,9 @@ export function CreateReportForm({
                 rows={4}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              {state.fieldErrors?.description && (
+              <Collapse show={Boolean(state.fieldErrors?.description)}>
                 <p className="text-sm text-destructive">{t("descriptionRequired")}</p>
-              )}
+              </Collapse>
             </div>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -244,9 +245,9 @@ export function CreateReportForm({
               {t("urgent")}
             </label>
           </div>
-          {state.message && !state.success && (
+          <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
-          )}
+          </Collapse>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
               {t("cancel")}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Collapse } from "@/components/motion/Collapse";
 import {
   Dialog,
   DialogContent,
@@ -87,9 +88,9 @@ export function EditPostForm({ post }: EditPostFormProps) {
               />
             </div>
           </div>
-          {state.message && !state.success && (
+          <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
-          )}
+          </Collapse>
           <DialogFooter>
             <Button
               type="button"
