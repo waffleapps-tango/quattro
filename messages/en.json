@@ -21,7 +21,8 @@
     "signIn": "Sign in",
     "signUp": "Sign up",
     "postNotFound": "Post not found",
-    "locationsDescription": "Discover the estate's amenities and interesting places nearby"
+    "locationsDescription": "Discover the estate's amenities and interesting places nearby",
+    "profile": "My profile"
   },
   "settings": {
     "title": "Settings",
@@ -676,5 +677,25 @@
     "signUpSubtitle": "Sign up to start using Quattro",
     "haveAccount": "Already have an account?",
     "signInLink": "Sign in"
+  },
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Your account, apartment and assigned spaces.",
+    "apartmentCard": "Apartment",
+    "community": "Community",
+    "building": "Building",
+    "address": "Address",
+    "apartment": "Apartment",
+    "floor": "Floor",
+    "noApartmentTitle": "Your account is not assigned to an apartment",
+    "noApartmentHint": "Staff accounts manage the community. Ask a manager to assign you to an apartment.",
+    "parkingCard": "Parking spaces",
+    "storageCard": "Storage units",
+    "level": "Level",
+    "evCharger": "EV charger",
+    "noParking": "No parking spaces assigned",
+    "noStorage": "No storage units assigned",
+    "reportProblem": "Report a problem",
+    "role": "Role"
   }
 }

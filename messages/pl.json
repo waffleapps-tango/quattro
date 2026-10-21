@@ -21,7 +21,8 @@
     "signIn": "Logowanie",
     "signUp": "Rejestracja",
     "postNotFound": "Nie znaleziono posta",
-    "locationsDescription": "Odkryj udogodnienia osiedla i ciekawe miejsca w okolicy"
+    "locationsDescription": "Odkryj udogodnienia osiedla i ciekawe miejsca w okolicy",
+    "profile": "Mój profil"
   },
   "settings": {
     "title": "Ustawienia",
@@ -676,5 +677,25 @@
     "signUpSubtitle": "Zarejestruj się, aby zacząć korzystać z Quattro",
     "haveAccount": "Masz już konto?",
     "signInLink": "Zaloguj się"
+  },
+  "profile": {
+    "title": "Mój profil",
+    "subtitle": "Twoje konto, mieszkanie i przypisane miejsca.",
+    "apartmentCard": "Mieszkanie",
+    "community": "Osiedle",
+    "building": "Budynek",
+    "address": "Adres",
+    "apartment": "Mieszkanie",
+    "floor": "Piętro",
+    "noApartmentTitle": "Twoje konto nie jest przypisane do mieszkania",
+    "noApartmentHint": "Konta pracowników zarządzają osiedlem. Poproś zarządcę o przypisanie do mieszkania.",
+    "parkingCard": "Miejsca parkingowe",
+    "storageCard": "Komórki lokatorskie",
+    "level": "Poziom",
+    "evCharger": "Ładowarka EV",
+    "noParking": "Brak przypisanych miejsc parkingowych",
+    "noStorage": "Brak przypisanych komórek lokatorskich",
+    "reportProblem": "Zgłoś problem",
+    "role": "Rola"
   }
 }
