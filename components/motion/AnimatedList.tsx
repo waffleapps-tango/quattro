@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import { quick } from "@/lib/motion";
@@ -15,9 +15,18 @@ export function AnimatedList({ children, className }: { children: ReactNode; cla
   );
 }
 
-export function AnimatedItem({ children, className }: { children: ReactNode; className?: string }) {
+export function AnimatedItem({
+  children,
+  className,
+  ref,
+}: {
+  children: ReactNode;
+  className?: string;
+  ref?: Ref<HTMLDivElement>;
+}) {
   return (
     <m.div
+      ref={ref}
       layout
       className={className}
       initial={{ opacity: 0, scale: 0.97 }}

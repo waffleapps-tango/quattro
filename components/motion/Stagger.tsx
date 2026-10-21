@@ -25,6 +25,7 @@ export function Stagger({ children, className }: { children: ReactNode; classNam
   );
 }
 
+// Must be rendered inside a Stagger parent (otherwise it shows without animation).
 export function StaggerItem({
   children,
   index = 0,
