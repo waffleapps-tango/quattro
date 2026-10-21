@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { setLocaleAction } from "@/actions/locale";
 import { ThemePicker } from "./ThemePicker";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export function SettingsForm() {
   const { theme, setTheme } = useTheme();
@@ -43,7 +44,8 @@ export function SettingsForm() {
   }
 
   return (
-    <div className="grid gap-6">
+    <Stagger className="grid gap-6">
+      <StaggerItem index={0}>
       <Card>
         <CardHeader>
           <CardTitle>{t("appearance.title")}</CardTitle>
@@ -66,7 +68,9 @@ export function SettingsForm() {
           <ThemePicker />
         </CardContent>
       </Card>
+      </StaggerItem>
 
+      <StaggerItem index={1}>
       <Card>
         <CardHeader>
           <CardTitle>{t("notifications.title")}</CardTitle>
@@ -83,7 +87,9 @@ export function SettingsForm() {
           </div>
         </CardContent>
       </Card>
+      </StaggerItem>
 
+      <StaggerItem index={2}>
       <Card>
         <CardHeader>
           <CardTitle>{t("language.title")}</CardTitle>
@@ -104,10 +110,11 @@ export function SettingsForm() {
           </div>
         </CardContent>
       </Card>
+      </StaggerItem>
 
-      <div className="flex justify-end">
+      <StaggerItem index={3} className="flex justify-end">
         <Button onClick={handleSave}>{t("save")}</Button>
-      </div>
-    </div>
+      </StaggerItem>
+    </Stagger>
   );
 } 

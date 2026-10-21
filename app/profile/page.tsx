@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser } from "@/auth/session";
 import { getProfile } from "@/domain/profile";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
@@ -48,8 +49,8 @@ export default async function ProfilePage() {
   );
 
   return (
-    <div className="container mx-auto space-y-6 pb-8">
-      <div className="flex items-center gap-4">
+    <Stagger className="container mx-auto space-y-6 pb-8">
+      <StaggerItem index={0} className="flex items-center gap-4">
         <Avatar className="h-16 w-16">
           <AvatarFallback className="text-xl">{initials}</AvatarFallback>
         </Avatar>
@@ -60,9 +61,9 @@ export default async function ProfilePage() {
             {tAdmin(`role.${p.role}`)}
           </Badge>
         </div>
-      </div>
+      </StaggerItem>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <StaggerItem index={1} className="grid gap-4 md:grid-cols-2">
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle>{t("apartmentCard")}</CardTitle>
@@ -124,7 +125,7 @@ export default async function ProfilePage() {
           </CardContent>
           {p.storageUnits.length > 0 && reportLink}
         </Card>
-      </div>
-    </div>
+      </StaggerItem>
+    </Stagger>
   );
 }

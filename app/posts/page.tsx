@@ -7,6 +7,7 @@ import { MessageSquare } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
+import { FadeIn } from "@/components/motion/FadeIn";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
@@ -26,10 +27,10 @@ export default async function PostsPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
+      <FadeIn className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">{t("heading", { count: postCount })}</h1>
         <CreatePostForm />
-      </div>
+      </FadeIn>
 
       {/*<div className="mb-6">*/}
       {/*  <div className="relative">*/}

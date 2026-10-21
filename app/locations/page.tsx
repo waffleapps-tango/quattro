@@ -1,5 +1,7 @@
 import { getFormatter, getTranslations } from "next-intl/server";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FadeIn } from "@/components/motion/FadeIn";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Utensils, GraduationCap, Stethoscope, Dumbbell, ShoppingCart, School } from "lucide-react";
 
 export async function generateMetadata() {
@@ -25,17 +27,18 @@ export default async function LocationsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
+      <FadeIn>
         <h1 className="text-3xl font-bold">{t("title")}</h1>
         <p className="text-muted-foreground">{t("subtitle")}</p>
-      </div>
+      </FadeIn>
 
       <div className="space-y-6">
         <div>
           <h2 className="text-2xl font-semibold mb-4">{t("estateHeading")}</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {estateFacilities.map(({ key, icon: Icon }) => (
-              <Card key={key}>
+          <Stagger className="grid gap-4 md:grid-cols-2">
+            {estateFacilities.map(({ key, icon: Icon }, i) => (
+              <StaggerItem key={key} index={i}>
+              <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <Icon className="h-5 w-5 text-primary" />
@@ -49,15 +52,17 @@ export default async function LocationsPage() {
                   </p>
                 </CardContent>
               </Card>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
 
         <div>
           <h2 className="text-2xl font-semibold mb-4">{t("nearbyHeading")}</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {nearbyLocations.map(({ key, icon: Icon, km }) => (
-              <Card key={key}>
+          <Stagger className="grid gap-4 md:grid-cols-2">
+            {nearbyLocations.map(({ key, icon: Icon, km }, i) => (
+              <StaggerItem key={key} index={i}>
+              <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <Icon className="h-5 w-5 text-primary" />
@@ -76,8 +81,9 @@ export default async function LocationsPage() {
                   </p>
                 </CardContent>
               </Card>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Role } from "@/lib/generated/prisma";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export default async function Home() {
   const t = await getTranslations("dashboard");
@@ -71,10 +72,13 @@ export default async function Home() {
     : null;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">{t("greeting", { name: user.firstName ?? user.email })}</h1>
+    <Stagger className="space-y-6">
+      <StaggerItem index={0}>
+        <h1 className="text-3xl font-bold">{t("greeting", { name: user.firstName ?? user.email })}</h1>
+      </StaggerItem>
 
       {aptLine && (
+        <StaggerItem index={1}>
         <Card>
           <CardHeader>
             <CardTitle>{t("myApartment")}</CardTitle>
@@ -88,11 +92,12 @@ export default async function Home() {
             </Button>
           </CardFooter>
         </Card>
+        </StaggerItem>
       )}
 
       {isStaff ? (
         <>
-          <div className="grid gap-4 md:grid-cols-3">
+          <StaggerItem index={2} className="grid gap-4 md:grid-cols-3">
             {[
               { label: t("waitingForPickup"), value: s.waitingPackageCount, href: "/packages" },
               { label: t("newReports"), value: s.newReportCount, href: "/reports?status=NEW" },
@@ -109,8 +114,8 @@ export default async function Home() {
                 </Card>
               </Link>
             ))}
-          </div>
-          <div className="flex flex-wrap gap-2">
+          </StaggerItem>
+          <StaggerItem index={3} className="flex flex-wrap gap-2">
             <Button asChild>
               <Link href="/packages">{t("addPackage")}</Link>
             </Button>
@@ -122,11 +127,11 @@ export default async function Home() {
                 <Link href="/admin">{t("admin")}</Link>
               </Button>
             )}
-          </div>
+          </StaggerItem>
         </>
       ) : (
         <>
-          <div className="grid gap-4 md:grid-cols-2">
+          <StaggerItem index={2} className="grid gap-4 md:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle>{t("packagesToPickup", { count: s.waitingPackageCount })}</CardTitle>
@@ -176,12 +181,14 @@ export default async function Home() {
                 </Button>
               </CardFooter>
             </Card>
-          </div>
-          <Button asChild>
-            <Link href="/reports">{t("newReport")}</Link>
-          </Button>
+          </StaggerItem>
+          <StaggerItem index={3}>
+            <Button asChild>
+              <Link href="/reports">{t("newReport")}</Link>
+            </Button>
+          </StaggerItem>
         </>
       )}
-    </div>
+    </Stagger>
   );
 }

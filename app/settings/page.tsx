@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { SettingsForm } from "@/components/settings/SettingsForm";
+import { FadeIn } from "@/components/motion/FadeIn";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [m, t] = await Promise.all([getTranslations("meta"), getTranslations("settings")]);
@@ -11,10 +12,10 @@ export default async function SettingsPage() {
   const t = await getTranslations("settings");
   return (
     <div className="space-y-6">
-      <div>
+      <FadeIn>
         <h1 className="text-3xl font-bold">{t("title")}</h1>
         <p className="text-muted-foreground">{t("description")}</p>
-      </div>
+      </FadeIn>
       <SettingsForm />
     </div>
   );
