@@ -7,6 +7,7 @@ import { PackageCard } from "./PackageCard";
 import { CreatePackageForm } from "./CreatePackageForm";
 import { Package as PackageIcon } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
+import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { Input } from "@/components/ui/input";
 import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
 
@@ -92,11 +93,13 @@ export function PackagesList({
           />
         )
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <AnimatedList className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg) => (
-            <PackageCard key={pkg.id} pkg={pkg} canMarkPickedUp={isStaff} />
+            <AnimatedItem key={pkg.id} className="h-full [&>*]:h-full">
+              <PackageCard pkg={pkg} canMarkPickedUp={isStaff} />
+            </AnimatedItem>
           ))}
-        </div>
+        </AnimatedList>
       )}
     </div>
   );

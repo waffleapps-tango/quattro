@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Loader2, Copy } from "lucide-react";
 import { useState } from "react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
+import { quick } from "@/lib/motion";
 import { toast } from "sonner";
 import { useFormatter, useTranslations } from "next-intl";
 import { markPickedUpAction } from "@/actions/packages";
@@ -58,7 +61,17 @@ export function PackageCard({
           <span>
             {pkg.building.name} / {pkg.apartment.number}
           </span>
-          <Badge>{t(`status.${pkg.status}`)}</Badge>
+          <AnimatePresence mode="wait" initial={false}>
+            <m.span
+              key={pkg.status}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={quick}
+            >
+              <Badge>{t(`status.${pkg.status}`)}</Badge>
+            </m.span>
+          </AnimatePresence>
         </CardTitle>
       </CardHeader>
       <CardContent>

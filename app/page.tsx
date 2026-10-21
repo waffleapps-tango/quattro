@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Role } from "@/lib/generated/prisma";
+import { Interactive } from "@/components/motion/Interactive";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export default async function Home() {
@@ -104,6 +105,7 @@ export default async function Home() {
               { label: t("urgentReports"), value: s.urgentReportCount, href: "/reports?urgent=1" },
             ].map((c, i) => (
               <StaggerItem key={c.label} index={2 + i} className="h-full">
+                <Interactive className="h-full">
                 <Link href={c.href}>
                   <Card className="transition-colors hover:bg-muted/50">
                     <CardHeader>
@@ -114,6 +116,7 @@ export default async function Home() {
                     </CardContent>
                   </Card>
                 </Link>
+                </Interactive>
               </StaggerItem>
             ))}
           </div>

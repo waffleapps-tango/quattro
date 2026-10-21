@@ -7,6 +7,8 @@ import { MessageSquare } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
+import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
+import { Interactive } from "@/components/motion/Interactive";
 import { FadeIn } from "@/components/motion/FadeIn";
 
 export async function generateMetadata() {
@@ -51,9 +53,11 @@ export default async function PostsPage() {
           description={t("emptyHint")}
         />
       )}
-      <div className="grid gap-4">
+      <AnimatedList className="grid gap-4">
         {posts.map((post) => (
-          <Link key={post.id} href={`/posts/${post.slug}`}>
+          <AnimatedItem key={post.id}>
+            <Interactive>
+          <Link href={`/posts/${post.slug}`}>
             <Card className="hover:bg-accent transition-colors">
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
@@ -66,8 +70,10 @@ export default async function PostsPage() {
               </CardContent>
             </Card>
           </Link>
+            </Interactive>
+          </AnimatedItem>
         ))}
-      </div>
+      </AnimatedList>
     </div>
   );
 } 

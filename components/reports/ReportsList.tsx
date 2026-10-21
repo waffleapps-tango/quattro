@@ -7,6 +7,7 @@ import { ReportCard } from "./ReportCard";
 import { CreateReportForm } from "./CreateReportForm";
 import { Megaphone } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
+import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -133,17 +134,18 @@ export function ReportsList({
           }
         />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <AnimatedList className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {reports.map((report) => (
-            <ReportCard
-              key={report.id}
-              report={report}
-              canChangeStatus={isStaff}
-              canApprove={canApprove}
-              showAuthor={isStaff}
-            />
+            <AnimatedItem key={report.id} className="h-full [&>*]:h-full">
+              <ReportCard
+                report={report}
+                canChangeStatus={isStaff}
+                canApprove={canApprove}
+                showAuthor={isStaff}
+              />
+            </AnimatedItem>
           ))}
-        </div>
+        </AnimatedList>
       )}
     </div>
   );

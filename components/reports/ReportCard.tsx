@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
+import { quick } from "@/lib/motion";
 import { toast } from "sonner";
 import { useFormatter, useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
@@ -62,7 +65,17 @@ export function ReportCard({
       <CardHeader>
         <CardTitle className="flex items-start justify-between gap-2">
           <span>{report.title}</span>
-          <Badge>{t(`status.${report.status}`)}</Badge>
+          <AnimatePresence mode="wait" initial={false}>
+            <m.span
+              key={report.status}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={quick}
+            >
+              <Badge>{t(`status.${report.status}`)}</Badge>
+            </m.span>
+          </AnimatePresence>
         </CardTitle>
         <div className="flex flex-wrap gap-1">
           <Badge variant="outline">{t(`type.${report.type}`)}</Badge>
