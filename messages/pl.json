@@ -166,7 +166,7 @@
     "recipientLabel": "Odbiorca: {value}",
     "pickUp": "Wydaj",
     "remind": "Przypomnij",
-    "waitingDays": "Czeka {count} dni",
+    "waitingDays": "Czeka {count, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}",
     "actions": {
       "created": "Paczka zarejestrowana",
       "noPermissionCreate": "Nie masz uprawnień do rejestrowania paczek",
@@ -206,11 +206,11 @@
       },
       "PACKAGE_REMINDER": {
         "title": "Paczka czeka",
-        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting} dni."
+        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}."
       },
       "PACKAGE_REMINDER_AUTO": {
         "title": "Paczka czeka",
-        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting} dni."
+        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}."
       }
     }
   },

@@ -166,7 +166,7 @@
     "recipientLabel": "Recipient: {value}",
     "pickUp": "Hand over",
     "remind": "Remind",
-    "waitingDays": "Waiting {count} days",
+    "waitingDays": "Waiting {count, plural, one {# day} other {# days}}",
     "actions": {
       "created": "Package registered",
       "noPermissionCreate": "You do not have permission to register packages",
@@ -206,11 +206,11 @@
       },
       "PACKAGE_REMINDER": {
         "title": "Package waiting",
-        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting} days."
+        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting, plural, one {# day} other {# days}}."
       },
       "PACKAGE_REMINDER_AUTO": {
         "title": "Package waiting",
-        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting} days."
+        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting, plural, one {# day} other {# days}}."
       }
     }
   },
