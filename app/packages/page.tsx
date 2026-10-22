@@ -4,6 +4,7 @@ import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
+import { canEditNotificationSettings, getReminderAfterDays } from "@/domain/notifications/settings";
 import { PackagesList } from "@/components/packages/PackagesList";
 import { Role, type Apartment } from "@/lib/generated/prisma";
 
@@ -33,6 +34,9 @@ export default async function PackagesPage({
   const STAFF_ROLES: Role[] = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
   const isStaff = STAFF_ROLES.includes(membership.role);
 
+  const reminderAfterDays = isStaff ? await getReminderAfterDays(membership.communityId) : null;
+  const canEditReminders = canEditNotificationSettings(membership);
+
   const buildings = isStaff
     ? await listBuildingsForCommunity(membership.communityId)
     : [];
@@ -57,6 +61,8 @@ export default async function PackagesPage({
         buildings={buildings}
         apartmentsByBuilding={apartmentsByBuilding}
         isStaff={isStaff}
+        reminderAfterDays={reminderAfterDays}
+        canEditReminders={canEditReminders}
       />
     </div>
   );

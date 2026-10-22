@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { PackageCard } from "./PackageCard";
 import { CreatePackageForm } from "./CreatePackageForm";
+import { ReminderSettings } from "./ReminderSettings";
 import { Package as PackageIcon } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
@@ -23,12 +24,16 @@ export function PackagesList({
   buildings,
   apartmentsByBuilding,
   isStaff,
+  reminderAfterDays,
+  canEditReminders,
 }: {
   packages: PackageWithRelations[];
   communityId: string;
   buildings: Building[];
   apartmentsByBuilding: Record<string, Apartment[]>;
   isStaff: boolean;
+  reminderAfterDays: number | null;
+  canEditReminders: boolean;
 }) {
   const t = useTranslations("packages");
   const router = useRouter();
@@ -75,6 +80,14 @@ export function PackagesList({
           )}
         </div>
       </div>
+
+      {isStaff && (
+        <ReminderSettings
+          communityId={communityId}
+          reminderAfterDays={reminderAfterDays}
+          canEdit={canEditReminders}
+        />
+      )}
 
       {packages.length === 0 ? (
         searchParams.get("q") ? (

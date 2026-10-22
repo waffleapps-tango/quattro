@@ -3,14 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Loader2, Copy } from "lucide-react";
+import { Bell, CheckCircle2, Loader2, Copy } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import { quick } from "@/lib/motion";
 import { toast } from "sonner";
 import { useFormatter, useTranslations } from "next-intl";
-import { markPickedUpAction } from "@/actions/packages";
+import { markPickedUpAction, remindPackageAction } from "@/actions/packages";
 import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
 
 type PackageWithRelations = Package & {
@@ -43,6 +43,24 @@ export function PackageCard({
       setIsUpdating(false);
     }
   };
+
+  const handleRemind = async () => {
+    setIsUpdating(true);
+    try {
+      const result = await remindPackageAction(pkg.id);
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const daysWaiting = Math.floor(
+    (Date.now() - new Date(pkg.receivedAt).getTime()) / (24 * 60 * 60 * 1000),
+  );
 
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text);
@@ -105,16 +123,27 @@ export function PackageCard({
               }),
             })}
           </p>
+          {pkg.status !== "PICKED_UP" && daysWaiting >= 1 && (
+            <p className="text-sm text-muted-foreground" suppressHydrationWarning>
+              {t("waitingDays", { count: daysWaiting })}
+            </p>
+          )}
           {pkg.recipient && (
             <p className="text-sm text-muted-foreground">
               {t("recipientLabel", { value: pkg.recipient.email })}
             </p>
           )}
           {canMarkPickedUp && pkg.status !== "PICKED_UP" && (
-            <Button size="sm" onClick={handlePickup} disabled={isUpdating} className="mt-2">
-              <CheckCircle2 className="mr-2 h-4 w-4" />
-              {isUpdating ? t("saving") : t("pickUp")}
-            </Button>
+            <div className="mt-2 flex gap-2">
+              <Button size="sm" onClick={handlePickup} disabled={isUpdating}>
+                <CheckCircle2 className="mr-2 h-4 w-4" />
+                {isUpdating ? t("saving") : t("pickUp")}
+              </Button>
+              <Button size="sm" variant="outline" onClick={handleRemind} disabled={isUpdating}>
+                <Bell className="mr-2 h-4 w-4" />
+                {t("remind")}
+              </Button>
+            </div>
           )}
         </div>
       </CardContent>
