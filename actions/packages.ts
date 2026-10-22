@@ -5,7 +5,14 @@ import { revalidatePath } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/auth/session";
 import { createPackage, markPickedUp } from "@/domain/packages";
-import { UnauthorizedError, NotFoundError, TenantMismatchError } from "@/domain/errors";
+import { remindPackage } from "@/domain/packages/reminders";
+import {
+  InvalidTransitionError,
+  NotFoundError,
+  RateLimitedError,
+  TenantMismatchError,
+  UnauthorizedError,
+} from "@/domain/errors";
 
 const createPackageSchema = z.object({
   communityId: z.string().min(1),
@@ -76,6 +83,26 @@ export async function markPickedUpAction(packageId: string): Promise<ActionState
     if (error instanceof UnauthorizedError) {
       return { message: t("noPermission"), success: false };
     }
+    console.error(error);
+    return { message: t("updateFailed"), success: false };
+  }
+}
+
+export async function remindPackageAction(packageId: string): Promise<ActionState> {
+  const t = await getTranslations("packages.actions");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  try {
+    const { notified } = await remindPackage(actor, packageId);
+    if (notified === 0) return { message: t("noRecipients"), success: false };
+    return { message: t("reminded"), success: true };
+  } catch (error) {
+    if (error instanceof NotFoundError) return { message: t("notFound"), success: false };
+    if (error instanceof UnauthorizedError) return { message: t("noPermission"), success: false };
+    if (error instanceof InvalidTransitionError) return { message: t("alreadyPickedUp"), success: false };
+    if (error instanceof RateLimitedError) return { message: t("reminderCooldown"), success: false };
     console.error(error);
     return { message: t("updateFailed"), success: false };
   }
