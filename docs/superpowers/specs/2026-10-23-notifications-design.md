@@ -70,7 +70,7 @@ Resident:
 
 Reception:
 - Packages list shows "Waiting N days" for packages not picked up, and a "Remind" button per row (hidden for `PICKED_UP`). A toast reports the result, including a "reminded recently" message when the cooldown applies.
-- Staff settings panel for "Auto-remind after N days" with an off toggle, writing `Community.reminderAfterDays` and logging an audit entry. MANAGER and ADMIN can edit; RECEPTIONIST can view. (Open for confirmation: whether reception should be able to edit it.)
+- Staff settings panel for "Auto-remind after N days" with an off toggle, writing `Community.reminderAfterDays` and logging an audit entry. MANAGER and ADMIN can edit; RECEPTIONIST can view. The check lives in one helper, `canEditNotificationSettings(membership)`, so making it configurable per community (HOA) later changes that helper and nothing else.
 
 ## Permissions and tenant isolation
 
@@ -92,4 +92,4 @@ Vitest, using `domain/__test-helpers__`:
 
 ## Out of scope for v1
 
-Email, SMS, push and other channels, the preferences UI, live updates, per-type settings, and a notification on pickup. Each has a defined seam above.
+Email, SMS, push and other channels, the preferences UI, live updates, per-type settings, per-community configurable permissions for who can edit notification settings, and a notification on pickup. Each has a defined seam above.
