@@ -2,9 +2,10 @@ import prisma from "@/lib/prisma";
 import { requireMembership, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, TenantMismatchError, UnauthorizedError } from "@/domain/errors";
-import { PackageStatus, Role, type Prisma } from "@/lib/generated/prisma";
-
-const STAFF_ROLES: Role[] = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
+import { notify } from "@/domain/notifications";
+import { resolvePackageRecipients } from "@/domain/packages/reminders";
+import { STAFF_ROLES } from "@/domain/packages/roles";
+import { PackageStatus, type Prisma } from "@/lib/generated/prisma";
 
 export async function createPackage(
   actor: SessionUser,
@@ -56,6 +57,18 @@ export async function createPackage(
       entity: "Package",
       entityId: pkg.id,
       metadata: { trackingNumber: input.trackingNumber ?? null },
+    });
+
+    await notify(tx, {
+      communityId: input.communityId,
+      type: "PACKAGE_RECEIVED",
+      recipientUserIds: await resolvePackageRecipients(tx, pkg),
+      payload: {
+        packageId: pkg.id,
+        buildingName: apartment.building.name,
+        apartmentNumber: apartment.number,
+      },
+      dedupeKey: `PACKAGE_RECEIVED:${pkg.id}`,
     });
 
     return pkg;
