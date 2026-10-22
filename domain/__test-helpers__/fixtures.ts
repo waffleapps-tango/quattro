@@ -39,6 +39,8 @@ export async function createUserWithMembership(params: {
 }
 
 export async function cleanupDatabase() {
+  await prisma.notificationDelivery.deleteMany();
+  await prisma.notification.deleteMany();
   await prisma.auditLog.deleteMany();
   await prisma.report.deleteMany();
   await prisma.parkingSpace.deleteMany();
@@ -49,4 +51,21 @@ export async function cleanupDatabase() {
   await prisma.building.deleteMany();
   await prisma.community.deleteMany();
   await prisma.user.deleteMany();
+}
+
+export async function createPackageScenario() {
+  const { community, building, apartment } =
+    await createCommunityWithBuildingAndApartment();
+  const receptionist = await createUserWithMembership({
+    communityId: community.id,
+    buildingId: building.id,
+    role: Role.RECEPTIONIST,
+  });
+  const resident = await createUserWithMembership({
+    communityId: community.id,
+    buildingId: building.id,
+    apartmentId: apartment.id,
+    role: Role.RESIDENT,
+  });
+  return { community, building, apartment, receptionist, resident };
 }

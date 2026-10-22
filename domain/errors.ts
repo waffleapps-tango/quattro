@@ -32,3 +32,10 @@ export class InvalidTransitionError extends Error {
     this.name = "InvalidTransitionError";
   }
 }
+
+export class RateLimitedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "RateLimitedError";
+  }
+}
