@@ -5,6 +5,11 @@ import type { ChannelAdapter, SendResult } from "./channels/types";
 export const MAX_ATTEMPTS = 5;
 const BATCH_SIZE = 100;
 
+// ponytail: only runs from the daily cron (vercel.json `0 8 * * *`), so non-instant
+// channels deliver up to 24h late; call it after createPackage via next/server
+// `after()` or add a more frequent cron when a real channel ships. It also has no
+// claim/lock, so overlapping runs can double-send; add FOR UPDATE SKIP LOCKED or
+// a claim column before a second channel ships.
 export async function dispatchPending(
   adapters: Record<string, ChannelAdapter> = channels,
   now = new Date(),

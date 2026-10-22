@@ -54,6 +54,8 @@ export async function remindPackage(actor: SessionUser, packageId: string, now =
   }
 
   return prisma.$transaction(async (tx) => {
+    // Serialize concurrent reminds of the same package so the cooldown check below is race-safe.
+    await tx.$queryRaw`SELECT 1 FROM "Package" WHERE id = ${pkg.id} FOR UPDATE`;
     const recent = await tx.notification.findFirst({
       where: {
         communityId: pkg.communityId,

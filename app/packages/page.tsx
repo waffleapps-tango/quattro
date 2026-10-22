@@ -6,7 +6,8 @@ import { listPackagesForViewer } from "@/domain/packages";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { canEditNotificationSettings, getReminderAfterDays } from "@/domain/notifications/settings";
 import { PackagesList } from "@/components/packages/PackagesList";
-import { Role, type Apartment } from "@/lib/generated/prisma";
+import { STAFF_ROLES } from "@/domain/packages/roles";
+import { type Apartment } from "@/lib/generated/prisma";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
@@ -31,7 +32,6 @@ export default async function PackagesPage({
   const { q } = await searchParams;
   const packages = await listPackagesForViewer(user, membership.communityId, { search: q });
 
-  const STAFF_ROLES: Role[] = [Role.RECEPTIONIST, Role.MANAGER, Role.ADMIN];
   const isStaff = STAFF_ROLES.includes(membership.role);
 
   const reminderAfterDays = isStaff ? await getReminderAfterDays(membership.communityId) : null;
