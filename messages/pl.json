@@ -196,7 +196,7 @@
   },
   "notifications": {
     "title": "Powiadomienia",
-    "open": "Otwórz powiadomienia",
+    "open": "Otwórz powiadomienia{count, plural, =0 {} other { (nieprzeczytane: {count})}}",
     "empty": "Brak powiadomień",
     "markAllRead": "Oznacz wszystkie jako przeczytane",
     "types": {
@@ -206,11 +206,11 @@
       },
       "PACKAGE_REMINDER": {
         "title": "Paczka czeka",
-        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}."
+        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka{daysWaiting, plural, =0 { od dziś} one { już # dzień} few { już # dni} many { już # dni} other { już # dni}}."
       },
       "PACKAGE_REMINDER_AUTO": {
         "title": "Paczka czeka",
-        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}."
+        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka{daysWaiting, plural, =0 { od dziś} one { już # dzień} few { już # dni} many { już # dni} other { już # dni}}."
       }
     }
   },

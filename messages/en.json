@@ -196,7 +196,7 @@
   },
   "notifications": {
     "title": "Notifications",
-    "open": "Open notifications",
+    "open": "Open notifications{count, plural, =0 {} other { ({count} unread)}}",
     "empty": "No notifications",
     "markAllRead": "Mark all as read",
     "types": {
@@ -206,11 +206,11 @@
       },
       "PACKAGE_REMINDER": {
         "title": "Package waiting",
-        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting, plural, one {# day} other {# days}}."
+        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting{daysWaiting, plural, =0 { since today} one { # day} other { # days}}."
       },
       "PACKAGE_REMINDER_AUTO": {
         "title": "Package waiting",
-        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting, plural, one {# day} other {# days}}."
+        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting{daysWaiting, plural, =0 { since today} one { # day} other { # days}}."
       }
     }
   },
