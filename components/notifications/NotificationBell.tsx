@@ -51,13 +51,21 @@ export function NotificationBell() {
   }, [load, pathname, open]);
 
   const openItem = async (item: Item) => {
-    if (!item.readAt) await markNotificationReadAction(item.id);
-    await load();
+    try {
+      if (!item.readAt) await markNotificationReadAction(item.id);
+    } catch (error) {
+      console.error(error);
+    }
     router.push("/packages");
+    void load();
   };
 
   const markAll = async () => {
-    await markAllNotificationsReadAction();
+    try {
+      await markAllNotificationsReadAction();
+    } catch (error) {
+      console.error(error);
+    }
     await load();
   };
 
@@ -74,14 +82,18 @@ export function NotificationBell() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80">
-        <DropdownMenuLabel className="flex items-center justify-between">
-          <span>{t("title")}</span>
-          {unread > 0 && (
-            <Button variant="link" size="sm" className="h-auto p-0" onClick={markAll}>
-              {t("markAllRead")}
-            </Button>
-          )}
-        </DropdownMenuLabel>
+        <DropdownMenuLabel>{t("title")}</DropdownMenuLabel>
+        {unread > 0 && (
+          <DropdownMenuItem
+            onSelect={(e) => {
+              e.preventDefault();
+              markAll();
+            }}
+            className="text-sm text-primary"
+          >
+            {t("markAllRead")}
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         {items.length === 0 ? (
           <p className="px-2 py-6 text-center text-sm text-muted-foreground">{t("empty")}</p>
