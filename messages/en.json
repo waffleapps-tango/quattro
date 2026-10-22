@@ -165,6 +165,8 @@
     "receivedAt": "Received: {date}",
     "recipientLabel": "Recipient: {value}",
     "pickUp": "Hand over",
+    "remind": "Remind",
+    "waitingDays": "Waiting {count} days",
     "actions": {
       "created": "Package registered",
       "noPermissionCreate": "You do not have permission to register packages",
@@ -173,7 +175,43 @@
       "pickedUp": "Package marked as picked up",
       "notFound": "Package not found",
       "noPermission": "You do not have permission for this action",
-      "updateFailed": "Could not update the package"
+      "updateFailed": "Could not update the package",
+      "reminded": "Reminder sent",
+      "reminderCooldown": "A reminder was already sent recently",
+      "noRecipients": "No residents to notify for this apartment",
+      "alreadyPickedUp": "This package was already picked up",
+      "settingsSaved": "Reminder settings saved",
+      "settingsInvalid": "Enter a number of days from 1 to 60",
+      "settingsNoPermission": "You do not have permission to change this setting",
+      "settingsFailed": "Could not save the settings"
+    },
+    "reminderSettings": {
+      "title": "Automatic reminder",
+      "description": "Remind residents once when a package has been waiting too long.",
+      "enabled": "Remind automatically",
+      "days": "After (days)",
+      "save": "Save",
+      "readOnly": "Only managers can change this."
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "open": "Open notifications",
+    "empty": "No notifications",
+    "markAllRead": "Mark all as read",
+    "types": {
+      "PACKAGE_RECEIVED": {
+        "title": "Package registered",
+        "body": "A package arrived for {buildingName} / {apartmentNumber}."
+      },
+      "PACKAGE_REMINDER": {
+        "title": "Package waiting",
+        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting} days."
+      },
+      "PACKAGE_REMINDER_AUTO": {
+        "title": "Package waiting",
+        "body": "Your package for {buildingName} / {apartmentNumber} has been waiting {daysWaiting} days."
+      }
     }
   },
   "reports": {

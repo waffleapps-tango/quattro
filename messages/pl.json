@@ -165,6 +165,8 @@
     "receivedAt": "Przyjęta: {date}",
     "recipientLabel": "Odbiorca: {value}",
     "pickUp": "Wydaj",
+    "remind": "Przypomnij",
+    "waitingDays": "Czeka {count} dni",
     "actions": {
       "created": "Paczka zarejestrowana",
       "noPermissionCreate": "Nie masz uprawnień do rejestrowania paczek",
@@ -173,7 +175,43 @@
       "pickedUp": "Paczka oznaczona jako odebrana",
       "notFound": "Nie znaleziono paczki",
       "noPermission": "Nie masz uprawnień do tej operacji",
-      "updateFailed": "Nie udało się zaktualizować paczki"
+      "updateFailed": "Nie udało się zaktualizować paczki",
+      "reminded": "Przypomnienie wysłane",
+      "reminderCooldown": "Przypomnienie zostało niedawno wysłane",
+      "noRecipients": "Brak mieszkańców do powiadomienia w tym mieszkaniu",
+      "alreadyPickedUp": "Ta paczka została już odebrana",
+      "settingsSaved": "Zapisano ustawienia przypomnień",
+      "settingsInvalid": "Podaj liczbę dni od 1 do 60",
+      "settingsNoPermission": "Nie masz uprawnień do zmiany tego ustawienia",
+      "settingsFailed": "Nie udało się zapisać ustawień"
+    },
+    "reminderSettings": {
+      "title": "Automatyczne przypomnienie",
+      "description": "Jednorazowo przypomnij mieszkańcom, gdy paczka czeka zbyt długo.",
+      "enabled": "Przypominaj automatycznie",
+      "days": "Po (dniach)",
+      "save": "Zapisz",
+      "readOnly": "Tylko zarządca może to zmienić."
+    }
+  },
+  "notifications": {
+    "title": "Powiadomienia",
+    "open": "Otwórz powiadomienia",
+    "empty": "Brak powiadomień",
+    "markAllRead": "Oznacz wszystkie jako przeczytane",
+    "types": {
+      "PACKAGE_RECEIVED": {
+        "title": "Paczka zarejestrowana",
+        "body": "Dla {buildingName} / {apartmentNumber} dotarła paczka."
+      },
+      "PACKAGE_REMINDER": {
+        "title": "Paczka czeka",
+        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting} dni."
+      },
+      "PACKAGE_REMINDER_AUTO": {
+        "title": "Paczka czeka",
+        "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka już {daysWaiting} dni."
+      }
     }
   },
   "reports": {
