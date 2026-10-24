@@ -646,6 +646,9 @@
     "roleLabel": "Rola",
     "building": "Budynek (opcjonalnie)",
     "apartment": "Mieszkanie (opcjonalnie)",
+    "buildingRequired": "Budynek",
+    "apartmentRequired": "Mieszkanie",
+    "removeApartment": "Usuń mieszkanie {name}",
     "none": "Brak",
     "cancel": "Anuluj",
     "saving": "Zapisywanie...",
@@ -669,7 +672,10 @@
       "notFound": "Nie znaleziono członka",
       "removed": "Członek usunięty",
       "removeFailed": "Nie udało się usunąć członka",
-      "removeForbidden": "Nie masz uprawnień do usuwania członków"
+      "removeForbidden": "Nie masz uprawnień do usuwania członków",
+      "apartmentRequired": "Wybierz budynek i mieszkanie dla mieszkańca",
+      "alreadyResident": "Ta osoba jest już przypisana do tego mieszkania",
+      "residencyRemoved": "Mieszkanie zostało odpięte od tej osoby"
     }
   },
   "locations": {

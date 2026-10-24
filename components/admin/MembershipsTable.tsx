@@ -17,17 +17,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Users } from "lucide-react";
+import { Users, X } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { toast } from "sonner";
-import { updateMembershipRoleAction, removeMembershipAction } from "@/actions/memberships";
+import { updateMembershipRoleAction, removeMembershipAction, removeResidencyAction } from "@/actions/memberships";
 import { useTranslations } from "next-intl";
-import { Role, type Membership, type User, type Building, type Apartment } from "@/lib/generated/prisma";
+import { Role, type Membership, type User, type Building, type Apartment, type ApartmentResidency } from "@/lib/generated/prisma";
 
 type MembershipRow = Membership & {
-  user: User;
+  user: User & {
+    residencies: (ApartmentResidency & { apartment: Apartment & { building: Building } })[];
+  };
   building: Building | null;
-  apartment: Apartment | null;
 };
 
 export function MembershipsTable({ memberships }: { memberships: MembershipRow[] }) {
@@ -45,6 +46,14 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
   const handleRemove = async (membershipId: string) => {
     setPendingId(membershipId);
     const result = await removeMembershipAction(membershipId);
+    setPendingId(null);
+    if (result.success) toast.success(result.message);
+    else toast.error(result.message);
+  };
+
+  const handleRemoveResidency = async (residencyId: string) => {
+    setPendingId(residencyId);
+    const result = await removeResidencyAction(residencyId);
     setPendingId(null);
     if (result.success) toast.success(result.message);
     else toast.error(result.message);
@@ -77,7 +86,34 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
             <TableRow key={membership.id}>
               <TableCell>{membership.user.email}</TableCell>
               <TableCell>{membership.building?.name ?? "—"}</TableCell>
-              <TableCell>{membership.apartment?.number ?? "—"}</TableCell>
+              <TableCell>
+                {membership.user.residencies.length === 0 ? (
+                  "—"
+                ) : (
+                  <div className="flex flex-wrap gap-1">
+                    {membership.user.residencies.map((r) => {
+                      const name = `${r.apartment.building.name} / ${r.apartment.number}`;
+                      return (
+                        <span
+                          key={r.id}
+                          className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-sm"
+                        >
+                          {name}
+                          <button
+                            type="button"
+                            aria-label={t("removeApartment", { name })}
+                            className="text-muted-foreground hover:text-foreground disabled:opacity-50"
+                            disabled={pendingId === r.id}
+                            onClick={() => handleRemoveResidency(r.id)}
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+              </TableCell>
               <TableCell>
                 <Select
                   value={membership.role}

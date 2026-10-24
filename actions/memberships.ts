@@ -9,7 +9,8 @@ import {
   updateMembershipRole,
   removeMembership,
 } from "@/domain/memberships";
-import { UnauthorizedError, NotFoundError, TenantMismatchError } from "@/domain/errors";
+import { UnauthorizedError, NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
+import { addResidency, removeResidency } from "@/domain/residencies";
 import { Role } from "@/lib/generated/prisma";
 
 const createMembershipSchema = z.object({
@@ -44,7 +45,15 @@ export async function createMembershipAction(
   }
 
   try {
-    await createMembership(actor, validated.data);
+    const { role, buildingId, apartmentId, communityId, email } = validated.data;
+    if (role === Role.RESIDENT) {
+      if (!buildingId || !apartmentId) {
+        return { message: t("apartmentRequired"), success: false };
+      }
+      await addResidency(actor, { communityId, email, buildingId, apartmentId });
+    } else {
+      await createMembership(actor, { communityId, email, buildingId, role });
+    }
     revalidatePath("/admin");
     return { message: t("created"), success: true };
   } catch (error) {
@@ -53,6 +62,9 @@ export async function createMembershipAction(
     }
     if (error instanceof TenantMismatchError) {
       return { message: t("tenantMismatch"), success: false };
+    }
+    if (error instanceof ValidationError) {
+      return { message: t("alreadyResident"), success: false };
     }
     console.error(error);
     return { message: t("createFailed"), success: false };
@@ -94,6 +106,28 @@ export async function removeMembershipAction(membershipId: string): Promise<Acti
     await removeMembership(actor, membershipId);
     revalidatePath("/admin");
     return { message: t("removed"), success: true };
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return { message: t("notFound"), success: false };
+    }
+    if (error instanceof UnauthorizedError) {
+      return { message: t("removeForbidden"), success: false };
+    }
+    console.error(error);
+    return { message: t("removeFailed"), success: false };
+  }
+}
+
+export async function removeResidencyAction(residencyId: string): Promise<ActionState> {
+  const t = await getTranslations("admin.actions");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  try {
+    await removeResidency(actor, residencyId);
+    revalidatePath("/admin");
+    return { message: t("residencyRemoved"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
       return { message: t("notFound"), success: false };

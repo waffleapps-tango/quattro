@@ -646,6 +646,9 @@
     "roleLabel": "Role",
     "building": "Building (optional)",
     "apartment": "Apartment (optional)",
+    "buildingRequired": "Building",
+    "apartmentRequired": "Apartment",
+    "removeApartment": "Remove apartment {name}",
     "none": "None",
     "cancel": "Cancel",
     "saving": "Saving...",
@@ -669,7 +672,10 @@
       "notFound": "Member not found",
       "removed": "Member removed",
       "removeFailed": "Could not remove the member",
-      "removeForbidden": "You are not allowed to remove members"
+      "removeForbidden": "You are not allowed to remove members",
+      "apartmentRequired": "Choose a building and an apartment for a resident",
+      "alreadyResident": "This person is already linked to that apartment",
+      "residencyRemoved": "Apartment removed from this person"
     }
   },
   "locations": {

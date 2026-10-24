@@ -95,7 +95,7 @@ export function CreateMembershipForm({
               <input type="hidden" name="role" value={role} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="buildingId">{t("building")}</Label>
+              <Label htmlFor="buildingId">{role === Role.RESIDENT ? t("buildingRequired") : t("building")}</Label>
               <Select value={buildingId} onValueChange={setBuildingId}>
                 <SelectTrigger id="buildingId">
                   <SelectValue placeholder={t("none")} />
@@ -110,25 +110,24 @@ export function CreateMembershipForm({
               </Select>
               <input type="hidden" name="buildingId" value={buildingId} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="apartmentId">{t("apartment")}</Label>
-              <Select
-                value={apartmentId}
-                onValueChange={setApartmentId}
-              >
-                <SelectTrigger id="apartmentId">
-                  <SelectValue placeholder={t("none")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {apartments.map((apartment) => (
-                    <SelectItem key={apartment.id} value={apartment.id}>
-                      {apartment.number}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <input type="hidden" name="apartmentId" value={apartmentId} />
-            </div>
+            {role === Role.RESIDENT && (
+              <div className="space-y-2">
+                <Label htmlFor="apartmentId">{t("apartmentRequired")}</Label>
+                <Select value={apartmentId} onValueChange={setApartmentId}>
+                  <SelectTrigger id="apartmentId">
+                    <SelectValue placeholder={t("none")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {apartments.map((apartment) => (
+                      <SelectItem key={apartment.id} value={apartment.id}>
+                        {apartment.number}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <input type="hidden" name="apartmentId" value={apartmentId} />
+              </div>
+            )}
           </div>
           <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
