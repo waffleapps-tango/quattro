@@ -229,6 +229,8 @@
     "kindPlaceholder": "Wybierz rodzaj",
     "kindRequired": "Wybierz rodzaj",
     "parking": "Miejsce parkingowe",
+    "apartment": "Mieszkanie",
+    "apartmentPlaceholder": "Wybierz mieszkanie",
     "parkingPlaceholder": "Wybierz miejsce",
     "noParking": "Nie masz przypisanego miejsca parkingowego. Skontaktuj się z administratorem.",
     "storage": "Komórka lokatorska",

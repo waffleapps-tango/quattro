@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { requireMembership, type SessionUser } from "@/auth/session";
+import { requireMembership, residentApartmentIds, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import {
   InvalidTransitionError,
@@ -59,9 +59,10 @@ export async function createReport(
     urgent?: boolean;
     parkingSpaceId?: string;
     storageUnitId?: string;
+    apartmentId?: string;
   },
 ) {
-  const membership = membershipIn(actor, input.communityId);
+  membershipIn(actor, input.communityId);
 
   const category = getCategory(input.categoryKey);
   if (!category) throw new ValidationError(`Unknown category ${input.categoryKey}`);
@@ -88,10 +89,22 @@ export async function createReport(
     throw new ValidationError("A storage unit is required for this category");
   }
 
+  const residentApartments = residentApartmentIds(actor, input.communityId);
   const isPrivate = category.visibility === "PRIVATE";
-  if (isPrivate && !membership.apartmentId) {
-    throw new UnauthorizedError(`User ${actor.id} has no apartment to file a private report for`);
+  let apartmentId: string | undefined;
+  if (isPrivate) {
+    if (residentApartments.length === 0) {
+      throw new UnauthorizedError(`User ${actor.id} has no apartment to file a private report for`);
+    }
+    apartmentId =
+      input.apartmentId ?? (residentApartments.length === 1 ? residentApartments[0] : undefined);
+    if (!apartmentId) throw new ValidationError("An apartment is required for this report");
+    if (!residentApartments.includes(apartmentId)) {
+      throw new UnauthorizedError(`User ${actor.id} does not live in apartment ${apartmentId}`);
+    }
   }
+  // Spaces must belong to the chosen apartment for private reports, else to any of the user's.
+  const ownedApartments = apartmentId ? [apartmentId] : residentApartments;
 
   return prisma.$transaction(async (tx) => {
     if (input.parkingSpaceId) {
@@ -99,7 +112,8 @@ export async function createReport(
       if (
         !space ||
         space.communityId !== input.communityId ||
-        space.apartmentId !== membership.apartmentId
+        !space.apartmentId ||
+        !ownedApartments.includes(space.apartmentId)
       ) {
         throw new TenantMismatchError(
           `Parking space ${input.parkingSpaceId} is not assigned to the reporter's apartment`,
@@ -111,7 +125,8 @@ export async function createReport(
       if (
         !unit ||
         unit.communityId !== input.communityId ||
-        unit.apartmentId !== membership.apartmentId
+        !unit.apartmentId ||
+        !ownedApartments.includes(unit.apartmentId)
       ) {
         throw new TenantMismatchError(
           `Storage unit ${input.storageUnitId} is not assigned to the reporter's apartment`,
@@ -119,11 +134,15 @@ export async function createReport(
       }
     }
 
+    const apartment = apartmentId
+      ? await tx.apartment.findUnique({ where: { id: apartmentId }, select: { buildingId: true } })
+      : null;
+
     const report = await tx.report.create({
       data: {
         communityId: input.communityId,
-        buildingId: isPrivate ? membership.buildingId : null,
-        apartmentId: isPrivate ? membership.apartmentId : null,
+        buildingId: apartment?.buildingId ?? null,
+        apartmentId: apartmentId ?? null,
         parkingSpaceId: input.parkingSpaceId,
         storageUnitId: input.storageUnitId,
         authorId: actor.id,
@@ -248,16 +267,17 @@ export async function changeStatus(
 }
 
 export async function listOwnedSpaces(actor: SessionUser, communityId: string) {
-  const membership = membershipIn(actor, communityId);
-  if (!membership.apartmentId) return { parkingSpaces: [], storageUnits: [] };
+  membershipIn(actor, communityId);
+  const apartmentIds = residentApartmentIds(actor, communityId);
+  if (apartmentIds.length === 0) return { parkingSpaces: [], storageUnits: [] };
 
   const [parkingSpaces, storageUnits] = await Promise.all([
     prisma.parkingSpace.findMany({
-      where: { communityId, apartmentId: membership.apartmentId },
+      where: { communityId, apartmentId: { in: apartmentIds } },
       orderBy: { number: "asc" },
     }),
     prisma.storageUnit.findMany({
-      where: { communityId, apartmentId: membership.apartmentId },
+      where: { communityId, apartmentId: { in: apartmentIds } },
       orderBy: { number: "asc" },
     }),
   ]);

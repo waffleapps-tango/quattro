@@ -29,6 +29,7 @@ export function ReportsList({
   isStaff,
   canApprove,
   canFilePrivate,
+  apartments,
   parkingSpaces,
   storageUnits,
 }: {
@@ -37,6 +38,7 @@ export function ReportsList({
   isStaff: boolean;
   canApprove: boolean;
   canFilePrivate: boolean;
+  apartments: { id: string; label: string }[];
   parkingSpaces: ParkingSpace[];
   storageUnits: StorageUnit[];
 }) {
@@ -84,6 +86,7 @@ export function ReportsList({
         <CreateReportForm
           communityId={communityId}
           canFilePrivate={canFilePrivate}
+          apartments={apartments}
           parkingSpaces={parkingSpaces}
           storageUnits={storageUnits}
         />

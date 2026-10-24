@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { getCurrentUser } from "@/auth/session";
 import { listOwnedSpaces, listReports } from "@/domain/reports";
+import { listResidentApartments } from "@/domain/residencies";
 import { ReportsList } from "@/components/reports/ReportsList";
 import {
   ReportStatus,
@@ -61,6 +62,10 @@ export default async function ReportsPage({
   );
 
   const { parkingSpaces, storageUnits } = await listOwnedSpaces(user, membership.communityId);
+  const apartments = (await listResidentApartments(user, membership.communityId)).map((a) => ({
+    id: a.id,
+    label: `${a.building.name} / ${a.number}`,
+  }));
 
   return (
     <div className="container mx-auto pb-8">
@@ -70,7 +75,8 @@ export default async function ReportsPage({
         communityId={membership.communityId}
         isStaff={isStaff}
         canApprove={canApprove}
-        canFilePrivate={Boolean(membership.apartmentId)}
+        canFilePrivate={apartments.length > 0}
+        apartments={apartments}
         parkingSpaces={parkingSpaces}
         storageUnits={storageUnits}
       />

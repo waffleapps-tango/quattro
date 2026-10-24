@@ -37,11 +37,13 @@ type ActionState = { message: string; success: boolean; fieldErrors?: Record<str
 export function CreateReportForm({
   communityId,
   canFilePrivate,
+  apartments,
   parkingSpaces,
   storageUnits,
 }: {
   communityId: string;
   canFilePrivate: boolean;
+  apartments: { id: string; label: string }[];
   parkingSpaces: ParkingSpace[];
   storageUnits: StorageUnit[];
 }) {
@@ -52,6 +54,7 @@ export function CreateReportForm({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [urgent, setUrgent] = useState(false);
+  const [apartmentId, setApartmentId] = useState(apartments.length === 1 ? apartments[0].id : "");
   const [parkingSpaceId, setParkingSpaceId] = useState("");
   const [storageUnitId, setStorageUnitId] = useState("");
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
@@ -61,6 +64,14 @@ export function CreateReportForm({
 
   const categories = CATEGORIES.filter((c) => canFilePrivate || c.visibility === "PUBLIC");
   const category = getCategory(categoryKey);
+  const visibleParking =
+    apartments.length > 1 && apartmentId
+      ? parkingSpaces.filter((s) => s.apartmentId === apartmentId)
+      : parkingSpaces;
+  const visibleStorage =
+    apartments.length > 1 && apartmentId
+      ? storageUnits.filter((u) => u.apartmentId === apartmentId)
+      : storageUnits;
 
   useEffect(() => {
     if (state.success && !pending) {
@@ -76,9 +87,9 @@ export function CreateReportForm({
   useEffect(() => {
     // Auto-pick the only choice so a resident with one space isn't asked to choose.
     setType(category?.types.length === 1 ? category.types[0] : "");
-    setParkingSpaceId(category?.subject === "parking" && parkingSpaces.length === 1 ? parkingSpaces[0].id : "");
-    setStorageUnitId(category?.subject === "storage" && storageUnits.length === 1 ? storageUnits[0].id : "");
-  }, [categoryKey]); // eslint-disable-line react-hooks/exhaustive-deps
+    setParkingSpaceId(category?.subject === "parking" && visibleParking.length === 1 ? visibleParking[0].id : "");
+    setStorageUnitId(category?.subject === "storage" && visibleStorage.length === 1 ? visibleStorage[0].id : "");
+  }, [categoryKey, apartmentId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -99,6 +110,7 @@ export function CreateReportForm({
           <input type="hidden" name="communityId" value={communityId} />
           <input type="hidden" name="categoryKey" value={categoryKey} />
           <input type="hidden" name="type" value={type} />
+          <input type="hidden" name="apartmentId" value={apartmentId} />
           <input type="hidden" name="parkingSpaceId" value={category?.subject === "parking" ? parkingSpaceId : ""} />
           <input type="hidden" name="storageUnitId" value={category?.subject === "storage" ? storageUnitId : ""} />
           <div className="space-y-4 py-4">
@@ -144,6 +156,24 @@ export function CreateReportForm({
               </div>
             </Collapse>
 
+            <Collapse show={apartments.length > 1 && Boolean(category)} className="-mx-1 -mt-1 mb-0!">
+              <div className="space-y-2 px-1 pt-1 pb-4">
+                <Label htmlFor="apartment">{t("apartment")}</Label>
+                <Select value={apartmentId} onValueChange={setApartmentId}>
+                  <SelectTrigger id="apartment">
+                    <SelectValue placeholder={t("apartmentPlaceholder")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {apartments.map((a) => (
+                      <SelectItem key={a.id} value={a.id}>
+                        {a.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </Collapse>
+
             <Collapse show={category?.subject === "parking"} className="-mx-1 -mt-1 mb-0!">
               <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="parking">{t("parking")}</Label>
@@ -152,14 +182,14 @@ export function CreateReportForm({
                     <SelectValue placeholder={t("parkingPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {parkingSpaces.map((s) => (
+                    {visibleParking.map((s) => (
                       <SelectItem key={s.id} value={s.id}>
                         {s.level ? t("parkingLevel", { number: s.number, level: s.level }) : s.number}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {parkingSpaces.length === 0 && (
+                {visibleParking.length === 0 && (
                   <p className="text-sm text-destructive">
                     {t("noParking")}
                   </p>
@@ -175,14 +205,14 @@ export function CreateReportForm({
                     <SelectValue placeholder={t("storagePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {storageUnits.map((u) => (
+                    {visibleStorage.map((u) => (
                       <SelectItem key={u.id} value={u.id}>
                         {u.number}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {storageUnits.length === 0 && (
+                {visibleStorage.length === 0 && (
                   <p className="text-sm text-destructive">
                     {t("noStorage")}
                   </p>

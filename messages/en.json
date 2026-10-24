@@ -229,6 +229,8 @@
     "kindPlaceholder": "Choose a type",
     "kindRequired": "Choose a type",
     "parking": "Parking space",
+    "apartment": "Apartment",
+    "apartmentPlaceholder": "Choose an apartment",
     "parkingPlaceholder": "Choose a space",
     "noParking": "You have no parking space assigned. Contact the administrator.",
     "storage": "Storage unit",

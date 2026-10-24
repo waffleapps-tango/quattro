@@ -375,3 +375,63 @@ describe("listOwnedSpaces", () => {
     expect(result).toEqual({ parkingSpaces: [], storageUnits: [] });
   });
 });
+
+describe("several apartments", () => {
+  async function residentOfTwo() {
+    const second = await prisma.apartment.create({ data: { buildingId: building.id, number: "303" } });
+    const residency = await prisma.apartmentResidency.create({
+      data: { userId: resident.id, apartmentId: second.id, communityId: community.id },
+    });
+    return { second, actor: { ...resident, residencies: [...resident.residencies, residency] } };
+  }
+
+  it("requires an explicit apartment when the user has more than one", async () => {
+    const { actor } = await residentOfTwo();
+    await expect(createReport(actor, privateInput())).rejects.toThrow(ValidationError);
+  });
+
+  it("files a private report for the chosen apartment and derives the building", async () => {
+    const { second, actor } = await residentOfTwo();
+
+    const report = await createReport(actor, { ...privateInput(), apartmentId: second.id });
+
+    expect(report.apartmentId).toBe(second.id);
+    expect(report.buildingId).toBe(building.id);
+  });
+
+  it("rejects an apartment the user does not live in", async () => {
+    await expect(
+      createReport(resident, { ...privateInput(), apartmentId: otherApartment.id }),
+    ).rejects.toThrow(UnauthorizedError);
+  });
+
+  it("lists the spaces of every apartment the user lives in, and only those", async () => {
+    const { second, actor } = await residentOfTwo();
+    const a = await prisma.parkingSpace.create({ data: { communityId: community.id, apartmentId: apartment.id, number: "P-10" } });
+    const b = await prisma.parkingSpace.create({ data: { communityId: community.id, apartmentId: second.id, number: "P-11" } });
+    await prisma.parkingSpace.create({ data: { communityId: community.id, apartmentId: otherApartment.id, number: "P-12" } });
+
+    const result = await listOwnedSpaces(actor, community.id);
+
+    expect(result.parkingSpaces.map((s) => s.id).sort()).toEqual([a.id, b.id].sort());
+  });
+
+  it("only accepts a parking space that belongs to the chosen apartment", async () => {
+    const { second, actor } = await residentOfTwo();
+    const space = await prisma.parkingSpace.create({
+      data: { communityId: community.id, buildingId: building.id, apartmentId: apartment.id, number: "P-20" },
+    });
+
+    await expect(
+      createReport(actor, {
+        communityId: community.id,
+        categoryKey: "own-parking",
+        type: "DEFECT",
+        title: "Brama",
+        description: "Nie działa",
+        apartmentId: second.id,
+        parkingSpaceId: space.id,
+      }),
+    ).rejects.toThrow(TenantMismatchError);
+  });
+});

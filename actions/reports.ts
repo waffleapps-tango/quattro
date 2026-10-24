@@ -25,6 +25,7 @@ const createReportSchema = z.object({
   urgent: z.boolean(),
   parkingSpaceId: z.string().min(1).optional(),
   storageUnitId: z.string().min(1).optional(),
+  apartmentId: z.string().min(1).optional(),
 });
 
 export async function createReportAction(
@@ -45,6 +46,7 @@ export async function createReportAction(
     urgent: formData.get("urgent") === "on",
     parkingSpaceId: formData.get("parkingSpaceId") || undefined,
     storageUnitId: formData.get("storageUnitId") || undefined,
+    apartmentId: formData.get("apartmentId") || undefined,
   });
 
   if (!validated.success) {
