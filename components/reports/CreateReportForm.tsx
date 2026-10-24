@@ -84,7 +84,7 @@ export function CreateReportForm({
       setUrgent(false);
       setApartmentId(apartments.length === 1 ? apartments[0].id : "");
     }
-  }, [state, pending]);
+  }, [state, pending]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // Auto-pick the only choice so a resident with one space isn't asked to choose.
