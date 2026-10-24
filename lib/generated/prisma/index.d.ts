@@ -78,6 +78,11 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  * 
  */
 export type NotificationDelivery = $Result.DefaultSelection<Prisma.$NotificationDeliveryPayload>
+/**
+ * Model ApartmentResidency
+ * 
+ */
+export type ApartmentResidency = $Result.DefaultSelection<Prisma.$ApartmentResidencyPayload>
 
 /**
  * Enums
@@ -416,6 +421,16 @@ export class PrismaClient<
     * ```
     */
   get notificationDelivery(): Prisma.NotificationDeliveryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.apartmentResidency`: Exposes CRUD operations for the **ApartmentResidency** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApartmentResidencies
+    * const apartmentResidencies = await prisma.apartmentResidency.findMany()
+    * ```
+    */
+  get apartmentResidency(): Prisma.ApartmentResidencyDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -869,7 +884,8 @@ export namespace Prisma {
     Report: 'Report',
     AuditLog: 'AuditLog',
     Notification: 'Notification',
-    NotificationDelivery: 'NotificationDelivery'
+    NotificationDelivery: 'NotificationDelivery',
+    ApartmentResidency: 'ApartmentResidency'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -888,7 +904,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "user" | "community" | "building" | "apartment" | "membership" | "package" | "parkingSpace" | "storageUnit" | "report" | "auditLog" | "notification" | "notificationDelivery"
+      modelProps: "post" | "user" | "community" | "building" | "apartment" | "membership" | "package" | "parkingSpace" | "storageUnit" | "report" | "auditLog" | "notification" | "notificationDelivery" | "apartmentResidency"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1854,6 +1870,80 @@ export namespace Prisma {
           }
         }
       }
+      ApartmentResidency: {
+        payload: Prisma.$ApartmentResidencyPayload<ExtArgs>
+        fields: Prisma.ApartmentResidencyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApartmentResidencyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApartmentResidencyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>
+          }
+          findFirst: {
+            args: Prisma.ApartmentResidencyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApartmentResidencyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>
+          }
+          findMany: {
+            args: Prisma.ApartmentResidencyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>[]
+          }
+          create: {
+            args: Prisma.ApartmentResidencyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>
+          }
+          createMany: {
+            args: Prisma.ApartmentResidencyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApartmentResidencyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>[]
+          }
+          delete: {
+            args: Prisma.ApartmentResidencyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>
+          }
+          update: {
+            args: Prisma.ApartmentResidencyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApartmentResidencyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApartmentResidencyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApartmentResidencyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApartmentResidencyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApartmentResidencyPayload>
+          }
+          aggregate: {
+            args: Prisma.ApartmentResidencyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApartmentResidency>
+          }
+          groupBy: {
+            args: Prisma.ApartmentResidencyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApartmentResidencyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApartmentResidencyCountArgs<ExtArgs>
+            result: $Utils.Optional<ApartmentResidencyCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1963,6 +2053,7 @@ export namespace Prisma {
     auditLog?: AuditLogOmit
     notification?: NotificationOmit
     notificationDelivery?: NotificationDeliveryOmit
+    apartmentResidency?: ApartmentResidencyOmit
   }
 
   /* Types for Logging */
@@ -2044,6 +2135,7 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     memberships: number
+    residencies: number
     recipientPackages: number
     receivedPackages: number
     pickedUpPackages: number
@@ -2054,6 +2146,7 @@ export namespace Prisma {
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
+    residencies?: boolean | UserCountOutputTypeCountResidenciesArgs
     recipientPackages?: boolean | UserCountOutputTypeCountRecipientPackagesArgs
     receivedPackages?: boolean | UserCountOutputTypeCountReceivedPackagesArgs
     pickedUpPackages?: boolean | UserCountOutputTypeCountPickedUpPackagesArgs
@@ -2078,6 +2171,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MembershipWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountResidenciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentResidencyWhereInput
   }
 
   /**
@@ -2130,6 +2230,7 @@ export namespace Prisma {
   export type CommunityCountOutputType = {
     buildings: number
     memberships: number
+    residencies: number
     packages: number
     auditLogs: number
     parkingSpaces: number
@@ -2141,6 +2242,7 @@ export namespace Prisma {
   export type CommunityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buildings?: boolean | CommunityCountOutputTypeCountBuildingsArgs
     memberships?: boolean | CommunityCountOutputTypeCountMembershipsArgs
+    residencies?: boolean | CommunityCountOutputTypeCountResidenciesArgs
     packages?: boolean | CommunityCountOutputTypeCountPackagesArgs
     auditLogs?: boolean | CommunityCountOutputTypeCountAuditLogsArgs
     parkingSpaces?: boolean | CommunityCountOutputTypeCountParkingSpacesArgs
@@ -2172,6 +2274,13 @@ export namespace Prisma {
    */
   export type CommunityCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MembershipWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountResidenciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentResidencyWhereInput
   }
 
   /**
@@ -2299,6 +2408,7 @@ export namespace Prisma {
 
   export type ApartmentCountOutputType = {
     memberships: number
+    residencies: number
     packages: number
     parkingSpaces: number
     storageUnits: number
@@ -2307,6 +2417,7 @@ export namespace Prisma {
 
   export type ApartmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | ApartmentCountOutputTypeCountMembershipsArgs
+    residencies?: boolean | ApartmentCountOutputTypeCountResidenciesArgs
     packages?: boolean | ApartmentCountOutputTypeCountPackagesArgs
     parkingSpaces?: boolean | ApartmentCountOutputTypeCountParkingSpacesArgs
     storageUnits?: boolean | ApartmentCountOutputTypeCountStorageUnitsArgs
@@ -2329,6 +2440,13 @@ export namespace Prisma {
    */
   export type ApartmentCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MembershipWhereInput
+  }
+
+  /**
+   * ApartmentCountOutputType without action
+   */
+  export type ApartmentCountOutputTypeCountResidenciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentResidencyWhereInput
   }
 
   /**
@@ -3659,6 +3777,7 @@ export namespace Prisma {
     locale?: boolean
     createdAt?: boolean
     memberships?: boolean | User$membershipsArgs<ExtArgs>
+    residencies?: boolean | User$residenciesArgs<ExtArgs>
     recipientPackages?: boolean | User$recipientPackagesArgs<ExtArgs>
     receivedPackages?: boolean | User$receivedPackagesArgs<ExtArgs>
     pickedUpPackages?: boolean | User$pickedUpPackagesArgs<ExtArgs>
@@ -3701,6 +3820,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkUserId" | "email" | "firstName" | "lastName" | "locale" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
+    residencies?: boolean | User$residenciesArgs<ExtArgs>
     recipientPackages?: boolean | User$recipientPackagesArgs<ExtArgs>
     receivedPackages?: boolean | User$receivedPackagesArgs<ExtArgs>
     pickedUpPackages?: boolean | User$pickedUpPackagesArgs<ExtArgs>
@@ -3716,6 +3836,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
+      residencies: Prisma.$ApartmentResidencyPayload<ExtArgs>[]
       recipientPackages: Prisma.$PackagePayload<ExtArgs>[]
       receivedPackages: Prisma.$PackagePayload<ExtArgs>[]
       pickedUpPackages: Prisma.$PackagePayload<ExtArgs>[]
@@ -4126,6 +4247,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     memberships<T extends User$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    residencies<T extends User$residenciesArgs<ExtArgs> = {}>(args?: Subset<T, User$residenciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recipientPackages<T extends User$recipientPackagesArgs<ExtArgs> = {}>(args?: Subset<T, User$recipientPackagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivedPackages<T extends User$receivedPackagesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedPackagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pickedUpPackages<T extends User$pickedUpPackagesArgs<ExtArgs> = {}>(args?: Subset<T, User$pickedUpPackagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4580,6 +4702,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.residencies
+   */
+  export type User$residenciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    where?: ApartmentResidencyWhereInput
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    cursor?: ApartmentResidencyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApartmentResidencyScalarFieldEnum | ApartmentResidencyScalarFieldEnum[]
+  }
+
+  /**
    * User.recipientPackages
    */
   export type User$recipientPackagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4950,6 +5096,7 @@ export namespace Prisma {
     updatedAt?: boolean
     buildings?: boolean | Community$buildingsArgs<ExtArgs>
     memberships?: boolean | Community$membershipsArgs<ExtArgs>
+    residencies?: boolean | Community$residenciesArgs<ExtArgs>
     packages?: boolean | Community$packagesArgs<ExtArgs>
     auditLogs?: boolean | Community$auditLogsArgs<ExtArgs>
     parkingSpaces?: boolean | Community$parkingSpacesArgs<ExtArgs>
@@ -4990,6 +5137,7 @@ export namespace Prisma {
   export type CommunityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buildings?: boolean | Community$buildingsArgs<ExtArgs>
     memberships?: boolean | Community$membershipsArgs<ExtArgs>
+    residencies?: boolean | Community$residenciesArgs<ExtArgs>
     packages?: boolean | Community$packagesArgs<ExtArgs>
     auditLogs?: boolean | Community$auditLogsArgs<ExtArgs>
     parkingSpaces?: boolean | Community$parkingSpacesArgs<ExtArgs>
@@ -5006,6 +5154,7 @@ export namespace Prisma {
     objects: {
       buildings: Prisma.$BuildingPayload<ExtArgs>[]
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
+      residencies: Prisma.$ApartmentResidencyPayload<ExtArgs>[]
       packages: Prisma.$PackagePayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       parkingSpaces: Prisma.$ParkingSpacePayload<ExtArgs>[]
@@ -5416,6 +5565,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     buildings<T extends Community$buildingsArgs<ExtArgs> = {}>(args?: Subset<T, Community$buildingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     memberships<T extends Community$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Community$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    residencies<T extends Community$residenciesArgs<ExtArgs> = {}>(args?: Subset<T, Community$residenciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages<T extends Community$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Community$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Community$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Community$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     parkingSpaces<T extends Community$parkingSpacesArgs<ExtArgs> = {}>(args?: Subset<T, Community$parkingSpacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5890,6 +6040,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MembershipScalarFieldEnum | MembershipScalarFieldEnum[]
+  }
+
+  /**
+   * Community.residencies
+   */
+  export type Community$residenciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    where?: ApartmentResidencyWhereInput
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    cursor?: ApartmentResidencyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApartmentResidencyScalarFieldEnum | ApartmentResidencyScalarFieldEnum[]
   }
 
   /**
@@ -7504,6 +7678,7 @@ export namespace Prisma {
     updatedAt?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     memberships?: boolean | Apartment$membershipsArgs<ExtArgs>
+    residencies?: boolean | Apartment$residenciesArgs<ExtArgs>
     packages?: boolean | Apartment$packagesArgs<ExtArgs>
     parkingSpaces?: boolean | Apartment$parkingSpacesArgs<ExtArgs>
     storageUnits?: boolean | Apartment$storageUnitsArgs<ExtArgs>
@@ -7544,6 +7719,7 @@ export namespace Prisma {
   export type ApartmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     memberships?: boolean | Apartment$membershipsArgs<ExtArgs>
+    residencies?: boolean | Apartment$residenciesArgs<ExtArgs>
     packages?: boolean | Apartment$packagesArgs<ExtArgs>
     parkingSpaces?: boolean | Apartment$parkingSpacesArgs<ExtArgs>
     storageUnits?: boolean | Apartment$storageUnitsArgs<ExtArgs>
@@ -7562,6 +7738,7 @@ export namespace Prisma {
     objects: {
       building: Prisma.$BuildingPayload<ExtArgs>
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
+      residencies: Prisma.$ApartmentResidencyPayload<ExtArgs>[]
       packages: Prisma.$PackagePayload<ExtArgs>[]
       parkingSpaces: Prisma.$ParkingSpacePayload<ExtArgs>[]
       storageUnits: Prisma.$StorageUnitPayload<ExtArgs>[]
@@ -7970,6 +8147,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     building<T extends BuildingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BuildingDefaultArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     memberships<T extends Apartment$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    residencies<T extends Apartment$residenciesArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$residenciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages<T extends Apartment$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     parkingSpaces<T extends Apartment$parkingSpacesArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$parkingSpacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     storageUnits<T extends Apartment$storageUnitsArgs<ExtArgs> = {}>(args?: Subset<T, Apartment$storageUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8426,6 +8604,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MembershipScalarFieldEnum | MembershipScalarFieldEnum[]
+  }
+
+  /**
+   * Apartment.residencies
+   */
+  export type Apartment$residenciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    where?: ApartmentResidencyWhereInput
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    cursor?: ApartmentResidencyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApartmentResidencyScalarFieldEnum | ApartmentResidencyScalarFieldEnum[]
   }
 
   /**
@@ -18024,6 +18226,1080 @@ export namespace Prisma {
 
 
   /**
+   * Model ApartmentResidency
+   */
+
+  export type AggregateApartmentResidency = {
+    _count: ApartmentResidencyCountAggregateOutputType | null
+    _min: ApartmentResidencyMinAggregateOutputType | null
+    _max: ApartmentResidencyMaxAggregateOutputType | null
+  }
+
+  export type ApartmentResidencyMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    apartmentId: string | null
+    communityId: string | null
+    createdAt: Date | null
+  }
+
+  export type ApartmentResidencyMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    apartmentId: string | null
+    communityId: string | null
+    createdAt: Date | null
+  }
+
+  export type ApartmentResidencyCountAggregateOutputType = {
+    id: number
+    userId: number
+    apartmentId: number
+    communityId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ApartmentResidencyMinAggregateInputType = {
+    id?: true
+    userId?: true
+    apartmentId?: true
+    communityId?: true
+    createdAt?: true
+  }
+
+  export type ApartmentResidencyMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    apartmentId?: true
+    communityId?: true
+    createdAt?: true
+  }
+
+  export type ApartmentResidencyCountAggregateInputType = {
+    id?: true
+    userId?: true
+    apartmentId?: true
+    communityId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ApartmentResidencyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApartmentResidency to aggregate.
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentResidencies to fetch.
+     */
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApartmentResidencyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentResidencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentResidencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApartmentResidencies
+    **/
+    _count?: true | ApartmentResidencyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApartmentResidencyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApartmentResidencyMaxAggregateInputType
+  }
+
+  export type GetApartmentResidencyAggregateType<T extends ApartmentResidencyAggregateArgs> = {
+        [P in keyof T & keyof AggregateApartmentResidency]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApartmentResidency[P]>
+      : GetScalarType<T[P], AggregateApartmentResidency[P]>
+  }
+
+
+
+
+  export type ApartmentResidencyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentResidencyWhereInput
+    orderBy?: ApartmentResidencyOrderByWithAggregationInput | ApartmentResidencyOrderByWithAggregationInput[]
+    by: ApartmentResidencyScalarFieldEnum[] | ApartmentResidencyScalarFieldEnum
+    having?: ApartmentResidencyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApartmentResidencyCountAggregateInputType | true
+    _min?: ApartmentResidencyMinAggregateInputType
+    _max?: ApartmentResidencyMaxAggregateInputType
+  }
+
+  export type ApartmentResidencyGroupByOutputType = {
+    id: string
+    userId: string
+    apartmentId: string
+    communityId: string
+    createdAt: Date
+    _count: ApartmentResidencyCountAggregateOutputType | null
+    _min: ApartmentResidencyMinAggregateOutputType | null
+    _max: ApartmentResidencyMaxAggregateOutputType | null
+  }
+
+  type GetApartmentResidencyGroupByPayload<T extends ApartmentResidencyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApartmentResidencyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApartmentResidencyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApartmentResidencyGroupByOutputType[P]>
+            : GetScalarType<T[P], ApartmentResidencyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApartmentResidencySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    apartmentId?: boolean
+    communityId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apartmentResidency"]>
+
+  export type ApartmentResidencySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    apartmentId?: boolean
+    communityId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apartmentResidency"]>
+
+  export type ApartmentResidencySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    apartmentId?: boolean
+    communityId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apartmentResidency"]>
+
+  export type ApartmentResidencySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    apartmentId?: boolean
+    communityId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ApartmentResidencyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "apartmentId" | "communityId" | "createdAt", ExtArgs["result"]["apartmentResidency"]>
+  export type ApartmentResidencyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+  export type ApartmentResidencyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+  export type ApartmentResidencyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+
+  export type $ApartmentResidencyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApartmentResidency"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      apartment: Prisma.$ApartmentPayload<ExtArgs>
+      community: Prisma.$CommunityPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      apartmentId: string
+      communityId: string
+      createdAt: Date
+    }, ExtArgs["result"]["apartmentResidency"]>
+    composites: {}
+  }
+
+  type ApartmentResidencyGetPayload<S extends boolean | null | undefined | ApartmentResidencyDefaultArgs> = $Result.GetResult<Prisma.$ApartmentResidencyPayload, S>
+
+  type ApartmentResidencyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApartmentResidencyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApartmentResidencyCountAggregateInputType | true
+    }
+
+  export interface ApartmentResidencyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApartmentResidency'], meta: { name: 'ApartmentResidency' } }
+    /**
+     * Find zero or one ApartmentResidency that matches the filter.
+     * @param {ApartmentResidencyFindUniqueArgs} args - Arguments to find a ApartmentResidency
+     * @example
+     * // Get one ApartmentResidency
+     * const apartmentResidency = await prisma.apartmentResidency.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApartmentResidencyFindUniqueArgs>(args: SelectSubset<T, ApartmentResidencyFindUniqueArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApartmentResidency that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApartmentResidencyFindUniqueOrThrowArgs} args - Arguments to find a ApartmentResidency
+     * @example
+     * // Get one ApartmentResidency
+     * const apartmentResidency = await prisma.apartmentResidency.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApartmentResidencyFindUniqueOrThrowArgs>(args: SelectSubset<T, ApartmentResidencyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApartmentResidency that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyFindFirstArgs} args - Arguments to find a ApartmentResidency
+     * @example
+     * // Get one ApartmentResidency
+     * const apartmentResidency = await prisma.apartmentResidency.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApartmentResidencyFindFirstArgs>(args?: SelectSubset<T, ApartmentResidencyFindFirstArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApartmentResidency that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyFindFirstOrThrowArgs} args - Arguments to find a ApartmentResidency
+     * @example
+     * // Get one ApartmentResidency
+     * const apartmentResidency = await prisma.apartmentResidency.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApartmentResidencyFindFirstOrThrowArgs>(args?: SelectSubset<T, ApartmentResidencyFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApartmentResidencies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApartmentResidencies
+     * const apartmentResidencies = await prisma.apartmentResidency.findMany()
+     * 
+     * // Get first 10 ApartmentResidencies
+     * const apartmentResidencies = await prisma.apartmentResidency.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apartmentResidencyWithIdOnly = await prisma.apartmentResidency.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApartmentResidencyFindManyArgs>(args?: SelectSubset<T, ApartmentResidencyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApartmentResidency.
+     * @param {ApartmentResidencyCreateArgs} args - Arguments to create a ApartmentResidency.
+     * @example
+     * // Create one ApartmentResidency
+     * const ApartmentResidency = await prisma.apartmentResidency.create({
+     *   data: {
+     *     // ... data to create a ApartmentResidency
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApartmentResidencyCreateArgs>(args: SelectSubset<T, ApartmentResidencyCreateArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApartmentResidencies.
+     * @param {ApartmentResidencyCreateManyArgs} args - Arguments to create many ApartmentResidencies.
+     * @example
+     * // Create many ApartmentResidencies
+     * const apartmentResidency = await prisma.apartmentResidency.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApartmentResidencyCreateManyArgs>(args?: SelectSubset<T, ApartmentResidencyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApartmentResidencies and returns the data saved in the database.
+     * @param {ApartmentResidencyCreateManyAndReturnArgs} args - Arguments to create many ApartmentResidencies.
+     * @example
+     * // Create many ApartmentResidencies
+     * const apartmentResidency = await prisma.apartmentResidency.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApartmentResidencies and only return the `id`
+     * const apartmentResidencyWithIdOnly = await prisma.apartmentResidency.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApartmentResidencyCreateManyAndReturnArgs>(args?: SelectSubset<T, ApartmentResidencyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApartmentResidency.
+     * @param {ApartmentResidencyDeleteArgs} args - Arguments to delete one ApartmentResidency.
+     * @example
+     * // Delete one ApartmentResidency
+     * const ApartmentResidency = await prisma.apartmentResidency.delete({
+     *   where: {
+     *     // ... filter to delete one ApartmentResidency
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApartmentResidencyDeleteArgs>(args: SelectSubset<T, ApartmentResidencyDeleteArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApartmentResidency.
+     * @param {ApartmentResidencyUpdateArgs} args - Arguments to update one ApartmentResidency.
+     * @example
+     * // Update one ApartmentResidency
+     * const apartmentResidency = await prisma.apartmentResidency.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApartmentResidencyUpdateArgs>(args: SelectSubset<T, ApartmentResidencyUpdateArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApartmentResidencies.
+     * @param {ApartmentResidencyDeleteManyArgs} args - Arguments to filter ApartmentResidencies to delete.
+     * @example
+     * // Delete a few ApartmentResidencies
+     * const { count } = await prisma.apartmentResidency.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApartmentResidencyDeleteManyArgs>(args?: SelectSubset<T, ApartmentResidencyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApartmentResidencies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApartmentResidencies
+     * const apartmentResidency = await prisma.apartmentResidency.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApartmentResidencyUpdateManyArgs>(args: SelectSubset<T, ApartmentResidencyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApartmentResidencies and returns the data updated in the database.
+     * @param {ApartmentResidencyUpdateManyAndReturnArgs} args - Arguments to update many ApartmentResidencies.
+     * @example
+     * // Update many ApartmentResidencies
+     * const apartmentResidency = await prisma.apartmentResidency.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApartmentResidencies and only return the `id`
+     * const apartmentResidencyWithIdOnly = await prisma.apartmentResidency.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApartmentResidencyUpdateManyAndReturnArgs>(args: SelectSubset<T, ApartmentResidencyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApartmentResidency.
+     * @param {ApartmentResidencyUpsertArgs} args - Arguments to update or create a ApartmentResidency.
+     * @example
+     * // Update or create a ApartmentResidency
+     * const apartmentResidency = await prisma.apartmentResidency.upsert({
+     *   create: {
+     *     // ... data to create a ApartmentResidency
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApartmentResidency we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApartmentResidencyUpsertArgs>(args: SelectSubset<T, ApartmentResidencyUpsertArgs<ExtArgs>>): Prisma__ApartmentResidencyClient<$Result.GetResult<Prisma.$ApartmentResidencyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApartmentResidencies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyCountArgs} args - Arguments to filter ApartmentResidencies to count.
+     * @example
+     * // Count the number of ApartmentResidencies
+     * const count = await prisma.apartmentResidency.count({
+     *   where: {
+     *     // ... the filter for the ApartmentResidencies we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApartmentResidencyCountArgs>(
+      args?: Subset<T, ApartmentResidencyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApartmentResidencyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApartmentResidency.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApartmentResidencyAggregateArgs>(args: Subset<T, ApartmentResidencyAggregateArgs>): Prisma.PrismaPromise<GetApartmentResidencyAggregateType<T>>
+
+    /**
+     * Group by ApartmentResidency.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentResidencyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApartmentResidencyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApartmentResidencyGroupByArgs['orderBy'] }
+        : { orderBy?: ApartmentResidencyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApartmentResidencyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApartmentResidencyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApartmentResidency model
+   */
+  readonly fields: ApartmentResidencyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApartmentResidency.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApartmentResidencyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    apartment<T extends ApartmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ApartmentDefaultArgs<ExtArgs>>): Prisma__ApartmentClient<$Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApartmentResidency model
+   */
+  interface ApartmentResidencyFieldRefs {
+    readonly id: FieldRef<"ApartmentResidency", 'String'>
+    readonly userId: FieldRef<"ApartmentResidency", 'String'>
+    readonly apartmentId: FieldRef<"ApartmentResidency", 'String'>
+    readonly communityId: FieldRef<"ApartmentResidency", 'String'>
+    readonly createdAt: FieldRef<"ApartmentResidency", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApartmentResidency findUnique
+   */
+  export type ApartmentResidencyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentResidency to fetch.
+     */
+    where: ApartmentResidencyWhereUniqueInput
+  }
+
+  /**
+   * ApartmentResidency findUniqueOrThrow
+   */
+  export type ApartmentResidencyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentResidency to fetch.
+     */
+    where: ApartmentResidencyWhereUniqueInput
+  }
+
+  /**
+   * ApartmentResidency findFirst
+   */
+  export type ApartmentResidencyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentResidency to fetch.
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentResidencies to fetch.
+     */
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApartmentResidencies.
+     */
+    cursor?: ApartmentResidencyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentResidencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentResidencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApartmentResidencies.
+     */
+    distinct?: ApartmentResidencyScalarFieldEnum | ApartmentResidencyScalarFieldEnum[]
+  }
+
+  /**
+   * ApartmentResidency findFirstOrThrow
+   */
+  export type ApartmentResidencyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentResidency to fetch.
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentResidencies to fetch.
+     */
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApartmentResidencies.
+     */
+    cursor?: ApartmentResidencyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentResidencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentResidencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApartmentResidencies.
+     */
+    distinct?: ApartmentResidencyScalarFieldEnum | ApartmentResidencyScalarFieldEnum[]
+  }
+
+  /**
+   * ApartmentResidency findMany
+   */
+  export type ApartmentResidencyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentResidencies to fetch.
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentResidencies to fetch.
+     */
+    orderBy?: ApartmentResidencyOrderByWithRelationInput | ApartmentResidencyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApartmentResidencies.
+     */
+    cursor?: ApartmentResidencyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentResidencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentResidencies.
+     */
+    skip?: number
+    distinct?: ApartmentResidencyScalarFieldEnum | ApartmentResidencyScalarFieldEnum[]
+  }
+
+  /**
+   * ApartmentResidency create
+   */
+  export type ApartmentResidencyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ApartmentResidency.
+     */
+    data: XOR<ApartmentResidencyCreateInput, ApartmentResidencyUncheckedCreateInput>
+  }
+
+  /**
+   * ApartmentResidency createMany
+   */
+  export type ApartmentResidencyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApartmentResidencies.
+     */
+    data: ApartmentResidencyCreateManyInput | ApartmentResidencyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApartmentResidency createManyAndReturn
+   */
+  export type ApartmentResidencyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApartmentResidencies.
+     */
+    data: ApartmentResidencyCreateManyInput | ApartmentResidencyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApartmentResidency update
+   */
+  export type ApartmentResidencyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ApartmentResidency.
+     */
+    data: XOR<ApartmentResidencyUpdateInput, ApartmentResidencyUncheckedUpdateInput>
+    /**
+     * Choose, which ApartmentResidency to update.
+     */
+    where: ApartmentResidencyWhereUniqueInput
+  }
+
+  /**
+   * ApartmentResidency updateMany
+   */
+  export type ApartmentResidencyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApartmentResidencies.
+     */
+    data: XOR<ApartmentResidencyUpdateManyMutationInput, ApartmentResidencyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApartmentResidencies to update
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * Limit how many ApartmentResidencies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApartmentResidency updateManyAndReturn
+   */
+  export type ApartmentResidencyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * The data used to update ApartmentResidencies.
+     */
+    data: XOR<ApartmentResidencyUpdateManyMutationInput, ApartmentResidencyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApartmentResidencies to update
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * Limit how many ApartmentResidencies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApartmentResidency upsert
+   */
+  export type ApartmentResidencyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ApartmentResidency to update in case it exists.
+     */
+    where: ApartmentResidencyWhereUniqueInput
+    /**
+     * In case the ApartmentResidency found by the `where` argument doesn't exist, create a new ApartmentResidency with this data.
+     */
+    create: XOR<ApartmentResidencyCreateInput, ApartmentResidencyUncheckedCreateInput>
+    /**
+     * In case the ApartmentResidency was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApartmentResidencyUpdateInput, ApartmentResidencyUncheckedUpdateInput>
+  }
+
+  /**
+   * ApartmentResidency delete
+   */
+  export type ApartmentResidencyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+    /**
+     * Filter which ApartmentResidency to delete.
+     */
+    where: ApartmentResidencyWhereUniqueInput
+  }
+
+  /**
+   * ApartmentResidency deleteMany
+   */
+  export type ApartmentResidencyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApartmentResidencies to delete
+     */
+    where?: ApartmentResidencyWhereInput
+    /**
+     * Limit how many ApartmentResidencies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApartmentResidency without action
+   */
+  export type ApartmentResidencyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentResidency
+     */
+    select?: ApartmentResidencySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApartmentResidency
+     */
+    omit?: ApartmentResidencyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApartmentResidencyInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -18225,6 +19501,17 @@ export namespace Prisma {
   };
 
   export type NotificationDeliveryScalarFieldEnum = (typeof NotificationDeliveryScalarFieldEnum)[keyof typeof NotificationDeliveryScalarFieldEnum]
+
+
+  export const ApartmentResidencyScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    apartmentId: 'apartmentId',
+    communityId: 'communityId',
+    createdAt: 'createdAt'
+  };
+
+  export type ApartmentResidencyScalarFieldEnum = (typeof ApartmentResidencyScalarFieldEnum)[keyof typeof ApartmentResidencyScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -18518,6 +19805,7 @@ export namespace Prisma {
     locale?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
+    residencies?: ApartmentResidencyListRelationFilter
     recipientPackages?: PackageListRelationFilter
     receivedPackages?: PackageListRelationFilter
     pickedUpPackages?: PackageListRelationFilter
@@ -18535,6 +19823,7 @@ export namespace Prisma {
     locale?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
+    residencies?: ApartmentResidencyOrderByRelationAggregateInput
     recipientPackages?: PackageOrderByRelationAggregateInput
     receivedPackages?: PackageOrderByRelationAggregateInput
     pickedUpPackages?: PackageOrderByRelationAggregateInput
@@ -18555,6 +19844,7 @@ export namespace Prisma {
     locale?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
+    residencies?: ApartmentResidencyListRelationFilter
     recipientPackages?: PackageListRelationFilter
     receivedPackages?: PackageListRelationFilter
     pickedUpPackages?: PackageListRelationFilter
@@ -18601,6 +19891,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Community"> | Date | string
     buildings?: BuildingListRelationFilter
     memberships?: MembershipListRelationFilter
+    residencies?: ApartmentResidencyListRelationFilter
     packages?: PackageListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     parkingSpaces?: ParkingSpaceListRelationFilter
@@ -18618,6 +19909,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     buildings?: BuildingOrderByRelationAggregateInput
     memberships?: MembershipOrderByRelationAggregateInput
+    residencies?: ApartmentResidencyOrderByRelationAggregateInput
     packages?: PackageOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
     parkingSpaces?: ParkingSpaceOrderByRelationAggregateInput
@@ -18638,6 +19930,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Community"> | Date | string
     buildings?: BuildingListRelationFilter
     memberships?: MembershipListRelationFilter
+    residencies?: ApartmentResidencyListRelationFilter
     packages?: PackageListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     parkingSpaces?: ParkingSpaceListRelationFilter
@@ -18762,6 +20055,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Apartment"> | Date | string
     building?: XOR<BuildingScalarRelationFilter, BuildingWhereInput>
     memberships?: MembershipListRelationFilter
+    residencies?: ApartmentResidencyListRelationFilter
     packages?: PackageListRelationFilter
     parkingSpaces?: ParkingSpaceListRelationFilter
     storageUnits?: StorageUnitListRelationFilter
@@ -18777,6 +20071,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     building?: BuildingOrderByWithRelationInput
     memberships?: MembershipOrderByRelationAggregateInput
+    residencies?: ApartmentResidencyOrderByRelationAggregateInput
     packages?: PackageOrderByRelationAggregateInput
     parkingSpaces?: ParkingSpaceOrderByRelationAggregateInput
     storageUnits?: StorageUnitOrderByRelationAggregateInput
@@ -18796,6 +20091,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Apartment"> | Date | string
     building?: XOR<BuildingScalarRelationFilter, BuildingWhereInput>
     memberships?: MembershipListRelationFilter
+    residencies?: ApartmentResidencyListRelationFilter
     packages?: PackageListRelationFilter
     parkingSpaces?: ParkingSpaceListRelationFilter
     storageUnits?: StorageUnitListRelationFilter
@@ -19541,6 +20837,68 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"NotificationDelivery"> | Date | string
   }
 
+  export type ApartmentResidencyWhereInput = {
+    AND?: ApartmentResidencyWhereInput | ApartmentResidencyWhereInput[]
+    OR?: ApartmentResidencyWhereInput[]
+    NOT?: ApartmentResidencyWhereInput | ApartmentResidencyWhereInput[]
+    id?: StringFilter<"ApartmentResidency"> | string
+    userId?: StringFilter<"ApartmentResidency"> | string
+    apartmentId?: StringFilter<"ApartmentResidency"> | string
+    communityId?: StringFilter<"ApartmentResidency"> | string
+    createdAt?: DateTimeFilter<"ApartmentResidency"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    apartment?: XOR<ApartmentScalarRelationFilter, ApartmentWhereInput>
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+  }
+
+  export type ApartmentResidencyOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    apartmentId?: SortOrder
+    communityId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    apartment?: ApartmentOrderByWithRelationInput
+    community?: CommunityOrderByWithRelationInput
+  }
+
+  export type ApartmentResidencyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_apartmentId?: ApartmentResidencyUserIdApartmentIdCompoundUniqueInput
+    AND?: ApartmentResidencyWhereInput | ApartmentResidencyWhereInput[]
+    OR?: ApartmentResidencyWhereInput[]
+    NOT?: ApartmentResidencyWhereInput | ApartmentResidencyWhereInput[]
+    userId?: StringFilter<"ApartmentResidency"> | string
+    apartmentId?: StringFilter<"ApartmentResidency"> | string
+    communityId?: StringFilter<"ApartmentResidency"> | string
+    createdAt?: DateTimeFilter<"ApartmentResidency"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    apartment?: XOR<ApartmentScalarRelationFilter, ApartmentWhereInput>
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+  }, "id" | "userId_apartmentId">
+
+  export type ApartmentResidencyOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    apartmentId?: SortOrder
+    communityId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ApartmentResidencyCountOrderByAggregateInput
+    _max?: ApartmentResidencyMaxOrderByAggregateInput
+    _min?: ApartmentResidencyMinOrderByAggregateInput
+  }
+
+  export type ApartmentResidencyScalarWhereWithAggregatesInput = {
+    AND?: ApartmentResidencyScalarWhereWithAggregatesInput | ApartmentResidencyScalarWhereWithAggregatesInput[]
+    OR?: ApartmentResidencyScalarWhereWithAggregatesInput[]
+    NOT?: ApartmentResidencyScalarWhereWithAggregatesInput | ApartmentResidencyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApartmentResidency"> | string
+    userId?: StringWithAggregatesFilter<"ApartmentResidency"> | string
+    apartmentId?: StringWithAggregatesFilter<"ApartmentResidency"> | string
+    communityId?: StringWithAggregatesFilter<"ApartmentResidency"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ApartmentResidency"> | Date | string
+  }
+
   export type PostCreateInput = {
     id?: string
     title: string
@@ -19620,6 +20978,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
@@ -19637,6 +20996,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
@@ -19654,6 +21014,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
@@ -19671,6 +21032,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
@@ -19718,6 +21080,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
@@ -19735,6 +21098,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
@@ -19752,6 +21116,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
@@ -19769,6 +21134,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
@@ -19898,6 +21264,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
@@ -19912,6 +21279,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
@@ -19926,6 +21294,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
@@ -19940,6 +21309,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
@@ -20685,6 +22055,59 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ApartmentResidencyCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutResidenciesInput
+    apartment: ApartmentCreateNestedOneWithoutResidenciesInput
+    community: CommunityCreateNestedOneWithoutResidenciesInput
+  }
+
+  export type ApartmentResidencyUncheckedCreateInput = {
+    id?: string
+    userId: string
+    apartmentId: string
+    communityId: string
+    createdAt?: Date | string
+  }
+
+  export type ApartmentResidencyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutResidenciesNestedInput
+    apartment?: ApartmentUpdateOneRequiredWithoutResidenciesNestedInput
+    community?: CommunityUpdateOneRequiredWithoutResidenciesNestedInput
+  }
+
+  export type ApartmentResidencyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyCreateManyInput = {
+    id?: string
+    userId: string
+    apartmentId: string
+    communityId: string
+    createdAt?: Date | string
+  }
+
+  export type ApartmentResidencyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -20812,6 +22235,12 @@ export namespace Prisma {
     none?: MembershipWhereInput
   }
 
+  export type ApartmentResidencyListRelationFilter = {
+    every?: ApartmentResidencyWhereInput
+    some?: ApartmentResidencyWhereInput
+    none?: ApartmentResidencyWhereInput
+  }
+
   export type PackageListRelationFilter = {
     every?: PackageWhereInput
     some?: PackageWhereInput
@@ -20837,6 +22266,10 @@ export namespace Prisma {
   }
 
   export type MembershipOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApartmentResidencyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21739,6 +23172,35 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type ApartmentResidencyUserIdApartmentIdCompoundUniqueInput = {
+    userId: string
+    apartmentId: string
+  }
+
+  export type ApartmentResidencyCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    apartmentId?: SortOrder
+    communityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApartmentResidencyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    apartmentId?: SortOrder
+    communityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApartmentResidencyMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    apartmentId?: SortOrder
+    communityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -21756,6 +23218,13 @@ export namespace Prisma {
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
     createMany?: MembershipCreateManyUserInputEnvelope
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
+  }
+
+  export type ApartmentResidencyCreateNestedManyWithoutUserInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutUserInput, ApartmentResidencyUncheckedCreateWithoutUserInput> | ApartmentResidencyCreateWithoutUserInput[] | ApartmentResidencyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutUserInput | ApartmentResidencyCreateOrConnectWithoutUserInput[]
+    createMany?: ApartmentResidencyCreateManyUserInputEnvelope
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
   }
 
   export type PackageCreateNestedManyWithoutRecipientInput = {
@@ -21805,6 +23274,13 @@ export namespace Prisma {
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
     createMany?: MembershipCreateManyUserInputEnvelope
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
+  }
+
+  export type ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutUserInput, ApartmentResidencyUncheckedCreateWithoutUserInput> | ApartmentResidencyCreateWithoutUserInput[] | ApartmentResidencyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutUserInput | ApartmentResidencyCreateOrConnectWithoutUserInput[]
+    createMany?: ApartmentResidencyCreateManyUserInputEnvelope
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
   }
 
   export type PackageUncheckedCreateNestedManyWithoutRecipientInput = {
@@ -21865,6 +23341,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutUserInput | MembershipUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutUserInput | MembershipUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type ApartmentResidencyUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutUserInput, ApartmentResidencyUncheckedCreateWithoutUserInput> | ApartmentResidencyCreateWithoutUserInput[] | ApartmentResidencyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutUserInput | ApartmentResidencyCreateOrConnectWithoutUserInput[]
+    upsert?: ApartmentResidencyUpsertWithWhereUniqueWithoutUserInput | ApartmentResidencyUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ApartmentResidencyCreateManyUserInputEnvelope
+    set?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    disconnect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    delete?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    update?: ApartmentResidencyUpdateWithWhereUniqueWithoutUserInput | ApartmentResidencyUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ApartmentResidencyUpdateManyWithWhereWithoutUserInput | ApartmentResidencyUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
   }
 
   export type PackageUpdateManyWithoutRecipientNestedInput = {
@@ -21965,6 +23455,20 @@ export namespace Prisma {
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
   }
 
+  export type ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutUserInput, ApartmentResidencyUncheckedCreateWithoutUserInput> | ApartmentResidencyCreateWithoutUserInput[] | ApartmentResidencyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutUserInput | ApartmentResidencyCreateOrConnectWithoutUserInput[]
+    upsert?: ApartmentResidencyUpsertWithWhereUniqueWithoutUserInput | ApartmentResidencyUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ApartmentResidencyCreateManyUserInputEnvelope
+    set?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    disconnect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    delete?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    update?: ApartmentResidencyUpdateWithWhereUniqueWithoutUserInput | ApartmentResidencyUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ApartmentResidencyUpdateManyWithWhereWithoutUserInput | ApartmentResidencyUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
+  }
+
   export type PackageUncheckedUpdateManyWithoutRecipientNestedInput = {
     create?: XOR<PackageCreateWithoutRecipientInput, PackageUncheckedCreateWithoutRecipientInput> | PackageCreateWithoutRecipientInput[] | PackageUncheckedCreateWithoutRecipientInput[]
     connectOrCreate?: PackageCreateOrConnectWithoutRecipientInput | PackageCreateOrConnectWithoutRecipientInput[]
@@ -22063,6 +23567,13 @@ export namespace Prisma {
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
   }
 
+  export type ApartmentResidencyCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutCommunityInput, ApartmentResidencyUncheckedCreateWithoutCommunityInput> | ApartmentResidencyCreateWithoutCommunityInput[] | ApartmentResidencyUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutCommunityInput | ApartmentResidencyCreateOrConnectWithoutCommunityInput[]
+    createMany?: ApartmentResidencyCreateManyCommunityInputEnvelope
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+  }
+
   export type PackageCreateNestedManyWithoutCommunityInput = {
     create?: XOR<PackageCreateWithoutCommunityInput, PackageUncheckedCreateWithoutCommunityInput> | PackageCreateWithoutCommunityInput[] | PackageUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: PackageCreateOrConnectWithoutCommunityInput | PackageCreateOrConnectWithoutCommunityInput[]
@@ -22117,6 +23628,13 @@ export namespace Prisma {
     connectOrCreate?: MembershipCreateOrConnectWithoutCommunityInput | MembershipCreateOrConnectWithoutCommunityInput[]
     createMany?: MembershipCreateManyCommunityInputEnvelope
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
+  }
+
+  export type ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutCommunityInput, ApartmentResidencyUncheckedCreateWithoutCommunityInput> | ApartmentResidencyCreateWithoutCommunityInput[] | ApartmentResidencyUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutCommunityInput | ApartmentResidencyCreateOrConnectWithoutCommunityInput[]
+    createMany?: ApartmentResidencyCreateManyCommunityInputEnvelope
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
   }
 
   export type PackageUncheckedCreateNestedManyWithoutCommunityInput = {
@@ -22195,6 +23713,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutCommunityInput | MembershipUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutCommunityInput | MembershipUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type ApartmentResidencyUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutCommunityInput, ApartmentResidencyUncheckedCreateWithoutCommunityInput> | ApartmentResidencyCreateWithoutCommunityInput[] | ApartmentResidencyUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutCommunityInput | ApartmentResidencyCreateOrConnectWithoutCommunityInput[]
+    upsert?: ApartmentResidencyUpsertWithWhereUniqueWithoutCommunityInput | ApartmentResidencyUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ApartmentResidencyCreateManyCommunityInputEnvelope
+    set?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    disconnect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    delete?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    update?: ApartmentResidencyUpdateWithWhereUniqueWithoutCommunityInput | ApartmentResidencyUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ApartmentResidencyUpdateManyWithWhereWithoutCommunityInput | ApartmentResidencyUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
   }
 
   export type PackageUpdateManyWithoutCommunityNestedInput = {
@@ -22307,6 +23839,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutCommunityInput | MembershipUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutCommunityInput | MembershipUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutCommunityInput, ApartmentResidencyUncheckedCreateWithoutCommunityInput> | ApartmentResidencyCreateWithoutCommunityInput[] | ApartmentResidencyUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutCommunityInput | ApartmentResidencyCreateOrConnectWithoutCommunityInput[]
+    upsert?: ApartmentResidencyUpsertWithWhereUniqueWithoutCommunityInput | ApartmentResidencyUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ApartmentResidencyCreateManyCommunityInputEnvelope
+    set?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    disconnect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    delete?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    update?: ApartmentResidencyUpdateWithWhereUniqueWithoutCommunityInput | ApartmentResidencyUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ApartmentResidencyUpdateManyWithWhereWithoutCommunityInput | ApartmentResidencyUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
   }
 
   export type PackageUncheckedUpdateManyWithoutCommunityNestedInput = {
@@ -22672,6 +24218,13 @@ export namespace Prisma {
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
   }
 
+  export type ApartmentResidencyCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutApartmentInput, ApartmentResidencyUncheckedCreateWithoutApartmentInput> | ApartmentResidencyCreateWithoutApartmentInput[] | ApartmentResidencyUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutApartmentInput | ApartmentResidencyCreateOrConnectWithoutApartmentInput[]
+    createMany?: ApartmentResidencyCreateManyApartmentInputEnvelope
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+  }
+
   export type PackageCreateNestedManyWithoutApartmentInput = {
     create?: XOR<PackageCreateWithoutApartmentInput, PackageUncheckedCreateWithoutApartmentInput> | PackageCreateWithoutApartmentInput[] | PackageUncheckedCreateWithoutApartmentInput[]
     connectOrCreate?: PackageCreateOrConnectWithoutApartmentInput | PackageCreateOrConnectWithoutApartmentInput[]
@@ -22705,6 +24258,13 @@ export namespace Prisma {
     connectOrCreate?: MembershipCreateOrConnectWithoutApartmentInput | MembershipCreateOrConnectWithoutApartmentInput[]
     createMany?: MembershipCreateManyApartmentInputEnvelope
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
+  }
+
+  export type ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutApartmentInput, ApartmentResidencyUncheckedCreateWithoutApartmentInput> | ApartmentResidencyCreateWithoutApartmentInput[] | ApartmentResidencyUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutApartmentInput | ApartmentResidencyCreateOrConnectWithoutApartmentInput[]
+    createMany?: ApartmentResidencyCreateManyApartmentInputEnvelope
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
   }
 
   export type PackageUncheckedCreateNestedManyWithoutApartmentInput = {
@@ -22755,6 +24315,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutApartmentInput | MembershipUpdateWithWhereUniqueWithoutApartmentInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutApartmentInput | MembershipUpdateManyWithWhereWithoutApartmentInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type ApartmentResidencyUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutApartmentInput, ApartmentResidencyUncheckedCreateWithoutApartmentInput> | ApartmentResidencyCreateWithoutApartmentInput[] | ApartmentResidencyUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutApartmentInput | ApartmentResidencyCreateOrConnectWithoutApartmentInput[]
+    upsert?: ApartmentResidencyUpsertWithWhereUniqueWithoutApartmentInput | ApartmentResidencyUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: ApartmentResidencyCreateManyApartmentInputEnvelope
+    set?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    disconnect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    delete?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    update?: ApartmentResidencyUpdateWithWhereUniqueWithoutApartmentInput | ApartmentResidencyUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: ApartmentResidencyUpdateManyWithWhereWithoutApartmentInput | ApartmentResidencyUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
   }
 
   export type PackageUpdateManyWithoutApartmentNestedInput = {
@@ -22825,6 +24399,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutApartmentInput | MembershipUpdateWithWhereUniqueWithoutApartmentInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutApartmentInput | MembershipUpdateManyWithWhereWithoutApartmentInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput = {
+    create?: XOR<ApartmentResidencyCreateWithoutApartmentInput, ApartmentResidencyUncheckedCreateWithoutApartmentInput> | ApartmentResidencyCreateWithoutApartmentInput[] | ApartmentResidencyUncheckedCreateWithoutApartmentInput[]
+    connectOrCreate?: ApartmentResidencyCreateOrConnectWithoutApartmentInput | ApartmentResidencyCreateOrConnectWithoutApartmentInput[]
+    upsert?: ApartmentResidencyUpsertWithWhereUniqueWithoutApartmentInput | ApartmentResidencyUpsertWithWhereUniqueWithoutApartmentInput[]
+    createMany?: ApartmentResidencyCreateManyApartmentInputEnvelope
+    set?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    disconnect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    delete?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    connect?: ApartmentResidencyWhereUniqueInput | ApartmentResidencyWhereUniqueInput[]
+    update?: ApartmentResidencyUpdateWithWhereUniqueWithoutApartmentInput | ApartmentResidencyUpdateWithWhereUniqueWithoutApartmentInput[]
+    updateMany?: ApartmentResidencyUpdateManyWithWhereWithoutApartmentInput | ApartmentResidencyUpdateManyWithWhereWithoutApartmentInput[]
+    deleteMany?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
   }
 
   export type PackageUncheckedUpdateManyWithoutApartmentNestedInput = {
@@ -23451,6 +25039,48 @@ export namespace Prisma {
     update?: XOR<XOR<NotificationUpdateToOneWithWhereWithoutDeliveriesInput, NotificationUpdateWithoutDeliveriesInput>, NotificationUncheckedUpdateWithoutDeliveriesInput>
   }
 
+  export type UserCreateNestedOneWithoutResidenciesInput = {
+    create?: XOR<UserCreateWithoutResidenciesInput, UserUncheckedCreateWithoutResidenciesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResidenciesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ApartmentCreateNestedOneWithoutResidenciesInput = {
+    create?: XOR<ApartmentCreateWithoutResidenciesInput, ApartmentUncheckedCreateWithoutResidenciesInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutResidenciesInput
+    connect?: ApartmentWhereUniqueInput
+  }
+
+  export type CommunityCreateNestedOneWithoutResidenciesInput = {
+    create?: XOR<CommunityCreateWithoutResidenciesInput, CommunityUncheckedCreateWithoutResidenciesInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutResidenciesInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutResidenciesNestedInput = {
+    create?: XOR<UserCreateWithoutResidenciesInput, UserUncheckedCreateWithoutResidenciesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResidenciesInput
+    upsert?: UserUpsertWithoutResidenciesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResidenciesInput, UserUpdateWithoutResidenciesInput>, UserUncheckedUpdateWithoutResidenciesInput>
+  }
+
+  export type ApartmentUpdateOneRequiredWithoutResidenciesNestedInput = {
+    create?: XOR<ApartmentCreateWithoutResidenciesInput, ApartmentUncheckedCreateWithoutResidenciesInput>
+    connectOrCreate?: ApartmentCreateOrConnectWithoutResidenciesInput
+    upsert?: ApartmentUpsertWithoutResidenciesInput
+    connect?: ApartmentWhereUniqueInput
+    update?: XOR<XOR<ApartmentUpdateToOneWithWhereWithoutResidenciesInput, ApartmentUpdateWithoutResidenciesInput>, ApartmentUncheckedUpdateWithoutResidenciesInput>
+  }
+
+  export type CommunityUpdateOneRequiredWithoutResidenciesNestedInput = {
+    create?: XOR<CommunityCreateWithoutResidenciesInput, CommunityUncheckedCreateWithoutResidenciesInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutResidenciesInput
+    upsert?: CommunityUpsertWithoutResidenciesInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutResidenciesInput, CommunityUpdateWithoutResidenciesInput>, CommunityUncheckedUpdateWithoutResidenciesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -23841,6 +25471,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ApartmentResidencyCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    apartment: ApartmentCreateNestedOneWithoutResidenciesInput
+    community: CommunityCreateNestedOneWithoutResidenciesInput
+  }
+
+  export type ApartmentResidencyUncheckedCreateWithoutUserInput = {
+    id?: string
+    apartmentId: string
+    communityId: string
+    createdAt?: Date | string
+  }
+
+  export type ApartmentResidencyCreateOrConnectWithoutUserInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    create: XOR<ApartmentResidencyCreateWithoutUserInput, ApartmentResidencyUncheckedCreateWithoutUserInput>
+  }
+
+  export type ApartmentResidencyCreateManyUserInputEnvelope = {
+    data: ApartmentResidencyCreateManyUserInput | ApartmentResidencyCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PackageCreateWithoutRecipientInput = {
     id?: string
     trackingNumber?: string | null
@@ -24112,6 +25766,33 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Membership"> | Date | string
   }
 
+  export type ApartmentResidencyUpsertWithWhereUniqueWithoutUserInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    update: XOR<ApartmentResidencyUpdateWithoutUserInput, ApartmentResidencyUncheckedUpdateWithoutUserInput>
+    create: XOR<ApartmentResidencyCreateWithoutUserInput, ApartmentResidencyUncheckedCreateWithoutUserInput>
+  }
+
+  export type ApartmentResidencyUpdateWithWhereUniqueWithoutUserInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    data: XOR<ApartmentResidencyUpdateWithoutUserInput, ApartmentResidencyUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ApartmentResidencyUpdateManyWithWhereWithoutUserInput = {
+    where: ApartmentResidencyScalarWhereInput
+    data: XOR<ApartmentResidencyUpdateManyMutationInput, ApartmentResidencyUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ApartmentResidencyScalarWhereInput = {
+    AND?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
+    OR?: ApartmentResidencyScalarWhereInput[]
+    NOT?: ApartmentResidencyScalarWhereInput | ApartmentResidencyScalarWhereInput[]
+    id?: StringFilter<"ApartmentResidency"> | string
+    userId?: StringFilter<"ApartmentResidency"> | string
+    apartmentId?: StringFilter<"ApartmentResidency"> | string
+    communityId?: StringFilter<"ApartmentResidency"> | string
+    createdAt?: DateTimeFilter<"ApartmentResidency"> | Date | string
+  }
+
   export type PackageUpsertWithWhereUniqueWithoutRecipientInput = {
     where: PackageWhereUniqueInput
     update: XOR<PackageUpdateWithoutRecipientInput, PackageUncheckedUpdateWithoutRecipientInput>
@@ -24343,6 +26024,30 @@ export namespace Prisma {
 
   export type MembershipCreateManyCommunityInputEnvelope = {
     data: MembershipCreateManyCommunityInput | MembershipCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ApartmentResidencyCreateWithoutCommunityInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutResidenciesInput
+    apartment: ApartmentCreateNestedOneWithoutResidenciesInput
+  }
+
+  export type ApartmentResidencyUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    userId: string
+    apartmentId: string
+    createdAt?: Date | string
+  }
+
+  export type ApartmentResidencyCreateOrConnectWithoutCommunityInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    create: XOR<ApartmentResidencyCreateWithoutCommunityInput, ApartmentResidencyUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ApartmentResidencyCreateManyCommunityInputEnvelope = {
+    data: ApartmentResidencyCreateManyCommunityInput | ApartmentResidencyCreateManyCommunityInput[]
     skipDuplicates?: boolean
   }
 
@@ -24608,6 +26313,22 @@ export namespace Prisma {
     data: XOR<MembershipUpdateManyMutationInput, MembershipUncheckedUpdateManyWithoutCommunityInput>
   }
 
+  export type ApartmentResidencyUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    update: XOR<ApartmentResidencyUpdateWithoutCommunityInput, ApartmentResidencyUncheckedUpdateWithoutCommunityInput>
+    create: XOR<ApartmentResidencyCreateWithoutCommunityInput, ApartmentResidencyUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ApartmentResidencyUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    data: XOR<ApartmentResidencyUpdateWithoutCommunityInput, ApartmentResidencyUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type ApartmentResidencyUpdateManyWithWhereWithoutCommunityInput = {
+    where: ApartmentResidencyScalarWhereInput
+    data: XOR<ApartmentResidencyUpdateManyMutationInput, ApartmentResidencyUncheckedUpdateManyWithoutCommunityInput>
+  }
+
   export type PackageUpsertWithWhereUniqueWithoutCommunityInput = {
     where: PackageWhereUniqueInput
     update: XOR<PackageUpdateWithoutCommunityInput, PackageUncheckedUpdateWithoutCommunityInput>
@@ -24740,6 +26461,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
@@ -24756,6 +26478,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
@@ -24776,6 +26499,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
@@ -24789,6 +26513,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
@@ -25008,6 +26733,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
@@ -25024,6 +26750,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
@@ -25198,6 +26925,30 @@ export namespace Prisma {
 
   export type MembershipCreateManyApartmentInputEnvelope = {
     data: MembershipCreateManyApartmentInput | MembershipCreateManyApartmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ApartmentResidencyCreateWithoutApartmentInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutResidenciesInput
+    community: CommunityCreateNestedOneWithoutResidenciesInput
+  }
+
+  export type ApartmentResidencyUncheckedCreateWithoutApartmentInput = {
+    id?: string
+    userId: string
+    communityId: string
+    createdAt?: Date | string
+  }
+
+  export type ApartmentResidencyCreateOrConnectWithoutApartmentInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    create: XOR<ApartmentResidencyCreateWithoutApartmentInput, ApartmentResidencyUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type ApartmentResidencyCreateManyApartmentInputEnvelope = {
+    data: ApartmentResidencyCreateManyApartmentInput | ApartmentResidencyCreateManyApartmentInput[]
     skipDuplicates?: boolean
   }
 
@@ -25412,6 +27163,22 @@ export namespace Prisma {
     data: XOR<MembershipUpdateManyMutationInput, MembershipUncheckedUpdateManyWithoutApartmentInput>
   }
 
+  export type ApartmentResidencyUpsertWithWhereUniqueWithoutApartmentInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    update: XOR<ApartmentResidencyUpdateWithoutApartmentInput, ApartmentResidencyUncheckedUpdateWithoutApartmentInput>
+    create: XOR<ApartmentResidencyCreateWithoutApartmentInput, ApartmentResidencyUncheckedCreateWithoutApartmentInput>
+  }
+
+  export type ApartmentResidencyUpdateWithWhereUniqueWithoutApartmentInput = {
+    where: ApartmentResidencyWhereUniqueInput
+    data: XOR<ApartmentResidencyUpdateWithoutApartmentInput, ApartmentResidencyUncheckedUpdateWithoutApartmentInput>
+  }
+
+  export type ApartmentResidencyUpdateManyWithWhereWithoutApartmentInput = {
+    where: ApartmentResidencyScalarWhereInput
+    data: XOR<ApartmentResidencyUpdateManyMutationInput, ApartmentResidencyUncheckedUpdateManyWithoutApartmentInput>
+  }
+
   export type PackageUpsertWithWhereUniqueWithoutApartmentInput = {
     where: PackageWhereUniqueInput
     update: XOR<PackageUpdateWithoutApartmentInput, PackageUncheckedUpdateWithoutApartmentInput>
@@ -25484,6 +27251,7 @@ export namespace Prisma {
     lastName?: string | null
     locale?: string | null
     createdAt?: Date | string
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
@@ -25500,6 +27268,7 @@ export namespace Prisma {
     lastName?: string | null
     locale?: string | null
     createdAt?: Date | string
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
@@ -25521,6 +27290,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
@@ -25537,6 +27307,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
@@ -25590,6 +27361,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
@@ -25603,6 +27375,7 @@ export namespace Prisma {
     floor?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
@@ -25633,6 +27406,7 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
@@ -25649,6 +27423,7 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
@@ -25676,6 +27451,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
@@ -25692,6 +27468,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
@@ -25757,6 +27534,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
@@ -25770,6 +27548,7 @@ export namespace Prisma {
     floor?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
@@ -25785,6 +27564,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
@@ -25801,6 +27581,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
@@ -25854,6 +27635,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
     reports?: ReportCreateNestedManyWithoutApartmentInput
@@ -25867,6 +27649,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
     reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
@@ -25886,6 +27669,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
@@ -25902,6 +27686,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
@@ -25923,6 +27708,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
@@ -25939,6 +27725,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
@@ -25960,6 +27747,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
@@ -25976,6 +27764,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
@@ -26008,6 +27797,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
@@ -26024,6 +27814,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
@@ -26089,6 +27880,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
     reports?: ReportUpdateManyWithoutApartmentNestedInput
@@ -26102,6 +27894,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
@@ -26127,6 +27920,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
@@ -26143,6 +27937,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -26170,6 +27965,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
@@ -26186,6 +27982,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -26213,6 +28010,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
@@ -26229,6 +28027,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -26245,6 +28044,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
@@ -26261,6 +28061,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
@@ -26314,6 +28115,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
     reports?: ReportCreateNestedManyWithoutApartmentInput
@@ -26327,6 +28129,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
     reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
@@ -26405,6 +28208,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
@@ -26421,6 +28225,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
@@ -26486,6 +28291,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
     reports?: ReportUpdateManyWithoutApartmentNestedInput
@@ -26499,6 +28305,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
@@ -26529,6 +28336,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
@@ -26545,6 +28353,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
@@ -26598,6 +28407,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
     reports?: ReportCreateNestedManyWithoutApartmentInput
@@ -26611,6 +28421,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
     reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
@@ -26689,6 +28500,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
@@ -26705,6 +28517,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
@@ -26770,6 +28583,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
     reports?: ReportUpdateManyWithoutApartmentNestedInput
@@ -26783,6 +28597,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
@@ -26813,6 +28628,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
@@ -26829,6 +28645,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
@@ -26882,6 +28699,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     building: BuildingCreateNestedOneWithoutApartmentsInput
     memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutApartmentInput
     packages?: PackageCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
@@ -26895,6 +28713,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutApartmentInput
     packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
@@ -26968,6 +28787,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
@@ -26984,6 +28804,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
@@ -27016,6 +28837,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
@@ -27032,6 +28854,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
@@ -27097,6 +28920,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
@@ -27110,6 +28934,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
@@ -27201,6 +29026,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
@@ -27217,6 +29043,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
@@ -27233,6 +29060,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
@@ -27249,6 +29077,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
@@ -27270,6 +29099,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
@@ -27286,6 +29116,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
@@ -27318,6 +29149,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
@@ -27334,6 +29166,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
@@ -27361,6 +29194,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
@@ -27377,6 +29211,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
@@ -27393,6 +29228,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingCreateNestedManyWithoutCommunityInput
     memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
     packages?: PackageCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
@@ -27409,6 +29245,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
     memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
     packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
@@ -27430,6 +29267,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
@@ -27446,6 +29284,7 @@ export namespace Prisma {
     locale?: string | null
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
     receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
     pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
@@ -27510,6 +29349,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
     packages?: PackageUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
@@ -27526,6 +29366,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
     memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
     packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
@@ -27553,6 +29394,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
@@ -27569,6 +29411,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
     receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
     pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
@@ -27667,12 +29510,259 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserCreateWithoutResidenciesInput = {
+    id?: string
+    clerkUserId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    locale?: string | null
+    createdAt?: Date | string
+    memberships?: MembershipCreateNestedManyWithoutUserInput
+    recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
+    receivedPackages?: PackageCreateNestedManyWithoutReceivedByInput
+    pickedUpPackages?: PackageCreateNestedManyWithoutPickedUpByInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutAuthorInput
+    notifications?: NotificationCreateNestedManyWithoutRecipientInput
+  }
+
+  export type UserUncheckedCreateWithoutResidenciesInput = {
+    id?: string
+    clerkUserId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    locale?: string | null
+    createdAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
+    receivedPackages?: PackageUncheckedCreateNestedManyWithoutReceivedByInput
+    pickedUpPackages?: PackageUncheckedCreateNestedManyWithoutPickedUpByInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutAuthorInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  }
+
+  export type UserCreateOrConnectWithoutResidenciesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutResidenciesInput, UserUncheckedCreateWithoutResidenciesInput>
+  }
+
+  export type ApartmentCreateWithoutResidenciesInput = {
+    id?: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    building: BuildingCreateNestedOneWithoutApartmentsInput
+    memberships?: MembershipCreateNestedManyWithoutApartmentInput
+    packages?: PackageCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutApartmentInput
+    reports?: ReportCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentUncheckedCreateWithoutResidenciesInput = {
+    id?: string
+    buildingId: string
+    number: string
+    floor?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutApartmentInput
+    packages?: PackageUncheckedCreateNestedManyWithoutApartmentInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutApartmentInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutApartmentInput
+    reports?: ReportUncheckedCreateNestedManyWithoutApartmentInput
+  }
+
+  export type ApartmentCreateOrConnectWithoutResidenciesInput = {
+    where: ApartmentWhereUniqueInput
+    create: XOR<ApartmentCreateWithoutResidenciesInput, ApartmentUncheckedCreateWithoutResidenciesInput>
+  }
+
+  export type CommunityCreateWithoutResidenciesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    reminderAfterDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    packages?: PackageCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutResidenciesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    reminderAfterDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutResidenciesInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutResidenciesInput, CommunityUncheckedCreateWithoutResidenciesInput>
+  }
+
+  export type UserUpsertWithoutResidenciesInput = {
+    update: XOR<UserUpdateWithoutResidenciesInput, UserUncheckedUpdateWithoutResidenciesInput>
+    create: XOR<UserCreateWithoutResidenciesInput, UserUncheckedCreateWithoutResidenciesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutResidenciesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutResidenciesInput, UserUncheckedUpdateWithoutResidenciesInput>
+  }
+
+  export type UserUpdateWithoutResidenciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUpdateManyWithoutUserNestedInput
+    recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
+    receivedPackages?: PackageUpdateManyWithoutReceivedByNestedInput
+    pickedUpPackages?: PackageUpdateManyWithoutPickedUpByNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutAuthorNestedInput
+    notifications?: NotificationUpdateManyWithoutRecipientNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutResidenciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
+    receivedPackages?: PackageUncheckedUpdateManyWithoutReceivedByNestedInput
+    pickedUpPackages?: PackageUncheckedUpdateManyWithoutPickedUpByNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutAuthorNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  }
+
+  export type ApartmentUpsertWithoutResidenciesInput = {
+    update: XOR<ApartmentUpdateWithoutResidenciesInput, ApartmentUncheckedUpdateWithoutResidenciesInput>
+    create: XOR<ApartmentCreateWithoutResidenciesInput, ApartmentUncheckedCreateWithoutResidenciesInput>
+    where?: ApartmentWhereInput
+  }
+
+  export type ApartmentUpdateToOneWithWhereWithoutResidenciesInput = {
+    where?: ApartmentWhereInput
+    data: XOR<ApartmentUpdateWithoutResidenciesInput, ApartmentUncheckedUpdateWithoutResidenciesInput>
+  }
+
+  export type ApartmentUpdateWithoutResidenciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneRequiredWithoutApartmentsNestedInput
+    memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type ApartmentUncheckedUpdateWithoutResidenciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buildingId?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    floor?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutApartmentNestedInput
+  }
+
+  export type CommunityUpsertWithoutResidenciesInput = {
+    update: XOR<CommunityUpdateWithoutResidenciesInput, CommunityUncheckedUpdateWithoutResidenciesInput>
+    create: XOR<CommunityCreateWithoutResidenciesInput, CommunityUncheckedCreateWithoutResidenciesInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutResidenciesInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutResidenciesInput, CommunityUncheckedUpdateWithoutResidenciesInput>
+  }
+
+  export type CommunityUpdateWithoutResidenciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutResidenciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
   export type MembershipCreateManyUserInput = {
     id?: string
     communityId: string
     buildingId?: string | null
     apartmentId?: string | null
     role: $Enums.Role
+    createdAt?: Date | string
+  }
+
+  export type ApartmentResidencyCreateManyUserInput = {
+    id?: string
+    apartmentId: string
+    communityId: string
     createdAt?: Date | string
   }
 
@@ -27790,6 +29880,27 @@ export namespace Prisma {
     buildingId?: NullableStringFieldUpdateOperationsInput | string | null
     apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apartment?: ApartmentUpdateOneRequiredWithoutResidenciesNestedInput
+    community?: CommunityUpdateOneRequiredWithoutResidenciesNestedInput
+  }
+
+  export type ApartmentResidencyUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apartmentId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apartmentId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28082,6 +30193,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ApartmentResidencyCreateManyCommunityInput = {
+    id?: string
+    userId: string
+    apartmentId: string
+    createdAt?: Date | string
+  }
+
   export type PackageCreateManyCommunityInput = {
     id?: string
     buildingId: string
@@ -28218,6 +30336,27 @@ export namespace Prisma {
     buildingId?: NullableStringFieldUpdateOperationsInput | string | null
     apartmentId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutResidenciesNestedInput
+    apartment?: ApartmentUpdateOneRequiredWithoutResidenciesNestedInput
+  }
+
+  export type ApartmentResidencyUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    apartmentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28535,6 +30674,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutApartmentNestedInput
     packages?: PackageUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutApartmentNestedInput
@@ -28548,6 +30688,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutApartmentNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutApartmentNestedInput
     packages?: PackageUncheckedUpdateManyWithoutApartmentNestedInput
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutApartmentNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutApartmentNestedInput
@@ -28770,6 +30911,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ApartmentResidencyCreateManyApartmentInput = {
+    id?: string
+    userId: string
+    communityId: string
+    createdAt?: Date | string
+  }
+
   export type PackageCreateManyApartmentInput = {
     id?: string
     communityId: string
@@ -28850,6 +30998,27 @@ export namespace Prisma {
     communityId?: StringFieldUpdateOperationsInput | string
     buildingId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutResidenciesNestedInput
+    community?: CommunityUpdateOneRequiredWithoutResidenciesNestedInput
+  }
+
+  export type ApartmentResidencyUncheckedUpdateWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApartmentResidencyUncheckedUpdateManyWithoutApartmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

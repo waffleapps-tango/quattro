@@ -45,12 +45,13 @@ model User {
   createdAt   DateTime @default(now())
 
   memberships       Membership[]
-  recipientPackages Package[]      @relation("PackageRecipient")
-  receivedPackages  Package[]      @relation("PackageReceivedBy")
-  pickedUpPackages  Package[]      @relation("PackagePickedUpBy")
+  residencies       ApartmentResidency[]
+  recipientPackages Package[]            @relation("PackageRecipient")
+  receivedPackages  Package[]            @relation("PackageReceivedBy")
+  pickedUpPackages  Package[]            @relation("PackagePickedUpBy")
   auditLogs         AuditLog[]
   reports           Report[]
-  notifications     Notification[] @relation("NotificationRecipient")
+  notifications     Notification[]       @relation("NotificationRecipient")
 }
 
 model Community {
@@ -63,6 +64,7 @@ model Community {
 
   buildings     Building[]
   memberships   Membership[]
+  residencies   ApartmentResidency[]
   packages      Package[]
   auditLogs     AuditLog[]
   parkingSpaces ParkingSpace[]
@@ -98,8 +100,9 @@ model Apartment {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  building      Building       @relation(fields: [buildingId], references: [id])
+  building      Building             @relation(fields: [buildingId], references: [id])
   memberships   Membership[]
+  residencies   ApartmentResidency[]
   packages      Package[]
   parkingSpaces ParkingSpace[]
   storageUnits  StorageUnit[]
@@ -113,6 +116,7 @@ model Membership {
   userId      String
   communityId String
   buildingId  String?
+  // DEPRECATED: apartment links live in ApartmentResidency. Not read or written by the app.
   apartmentId String?
   role        Role
   createdAt   DateTime @default(now())
@@ -309,4 +313,20 @@ model NotificationDelivery {
 
   @@unique([notificationId, channel])
   @@index([status, nextAttemptAt])
+}
+
+model ApartmentResidency {
+  id          String   @id @default(cuid())
+  userId      String
+  apartmentId String
+  communityId String
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id])
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+  community Community @relation(fields: [communityId], references: [id])
+
+  @@unique([userId, apartmentId])
+  @@index([userId])
+  @@index([apartmentId])
 }

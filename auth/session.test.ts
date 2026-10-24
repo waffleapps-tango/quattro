@@ -13,6 +13,7 @@ function makeUser(memberships: SessionUser["memberships"]): SessionUser {
     locale: null,
     createdAt: new Date(),
     memberships,
+    residencies: [],
   };
 }
 

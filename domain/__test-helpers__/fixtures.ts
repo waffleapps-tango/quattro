@@ -31,14 +31,23 @@ export async function createUserWithMembership(params: {
       userId: user.id,
       communityId: params.communityId,
       buildingId: params.buildingId,
+      // ponytail: legacy dual-write, removed in Task 7 once nothing reads Membership.apartmentId.
       apartmentId: params.apartmentId,
       role: params.role,
     },
   });
-  return { ...user, memberships: [membership] };
+  const residencies = params.apartmentId
+    ? [
+        await prisma.apartmentResidency.create({
+          data: { userId: user.id, apartmentId: params.apartmentId, communityId: params.communityId },
+        }),
+      ]
+    : [];
+  return { ...user, memberships: [membership], residencies };
 }
 
 export async function cleanupDatabase() {
+  await prisma.apartmentResidency.deleteMany();
   await prisma.notificationDelivery.deleteMany();
   await prisma.notification.deleteMany();
   await prisma.auditLog.deleteMany();

@@ -1,9 +1,17 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { UnauthorizedError } from "@/domain/errors";
-import { Prisma, type Membership, type Role, type User } from "@/lib/generated/prisma";
+import { Prisma, type ApartmentResidency, type Membership, type Role, type User } from "@/lib/generated/prisma";
 
-export type SessionUser = User & { memberships: Membership[] };
+export type SessionUser = User & {
+  memberships: Membership[];
+  residencies: ApartmentResidency[];
+};
+
+const sessionInclude = {
+  memberships: { orderBy: { createdAt: "asc" } },
+  residencies: true,
+} satisfies Prisma.UserInclude;
 
 export async function getCurrentUser(): Promise<SessionUser | null> {
   const { userId: clerkUserId } = await auth();
@@ -11,7 +19,7 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
 
   const existing = await prisma.user.findUnique({
     where: { clerkUserId },
-    include: { memberships: { orderBy: { createdAt: "asc" } } },
+    include: sessionInclude,
   });
   if (existing) return existing;
 
@@ -40,13 +48,13 @@ export async function linkClerkUser(
     return await prisma.user.update({
       where: { email },
       data: { clerkUserId },
-      include: { memberships: { orderBy: { createdAt: "asc" } } },
+      include: sessionInclude,
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
       return await prisma.user.create({
         data: { clerkUserId, email },
-        include: { memberships: { orderBy: { createdAt: "asc" } } },
+        include: sessionInclude,
       });
     }
     throw error;
@@ -67,4 +75,10 @@ export function requireMembership(
     );
   }
   return membership;
+}
+
+export function residentApartmentIds(user: SessionUser, communityId: string): string[] {
+  return user.residencies
+    .filter((r) => r.communityId === communityId)
+    .map((r) => r.apartmentId);
 }
