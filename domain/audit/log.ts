@@ -9,7 +9,9 @@ export type AuditAction =
   | "REPORT_CREATED"
   | "REPORT_STATUS_CHANGED"
   | "PACKAGE_REMINDER_SENT"
-  | "COMMUNITY_SETTINGS_CHANGED";
+  | "COMMUNITY_SETTINGS_CHANGED"
+  | "RESIDENCY_ADDED"
+  | "RESIDENCY_REMOVED";
 
 export async function writeAuditLog(
   tx: Prisma.TransactionClient,

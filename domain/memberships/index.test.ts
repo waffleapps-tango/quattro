@@ -20,7 +20,7 @@ afterEach(async () => {
 
 describe("createMembership", () => {
   it("creates a membership and an audit log entry when the actor is an admin", async () => {
-    const { community, building, apartment } =
+    const { community, building } =
       await createCommunityWithBuildingAndApartment();
     const admin = await createUserWithMembership({
       communityId: community.id,
@@ -30,7 +30,6 @@ describe("createMembership", () => {
     const membership = await createMembership(admin, {
       communityId: community.id,
       buildingId: building.id,
-      apartmentId: apartment.id,
       role: Role.RESIDENT,
       email: "resident@example.com",
     });

@@ -12,7 +12,17 @@ export async function listMembershipsForCommunity(
 
   return prisma.membership.findMany({
     where: { communityId },
-    include: { user: true, building: true, apartment: true },
+    include: {
+      building: true,
+      user: {
+        include: {
+          residencies: {
+            where: { communityId },
+            include: { apartment: { include: { building: true } } },
+          },
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -23,28 +33,13 @@ export async function createMembership(
     communityId: string;
     email: string;
     buildingId?: string;
-    apartmentId?: string;
     role: Role;
   },
 ) {
   requireMembership(actor, input.communityId, [Role.ADMIN, Role.MANAGER]);
 
   return prisma.$transaction(async (tx) => {
-    if (input.apartmentId) {
-      const apartment = await tx.apartment.findUnique({
-        where: { id: input.apartmentId },
-        include: { building: true },
-      });
-      if (
-        !apartment ||
-        apartment.building.communityId !== input.communityId ||
-        (input.buildingId && apartment.buildingId !== input.buildingId)
-      ) {
-        throw new TenantMismatchError(
-          `Apartment ${input.apartmentId} does not belong to community ${input.communityId}`,
-        );
-      }
-    } else if (input.buildingId) {
+    if (input.buildingId) {
       const building = await tx.building.findUnique({ where: { id: input.buildingId } });
       if (!building || building.communityId !== input.communityId) {
         throw new TenantMismatchError(
@@ -64,7 +59,6 @@ export async function createMembership(
         userId: user.id,
         communityId: input.communityId,
         buildingId: input.buildingId,
-        apartmentId: input.apartmentId,
         role: input.role,
       },
     });
@@ -122,6 +116,9 @@ export async function removeMembership(actor: SessionUser, membershipId: string)
   requireMembership(actor, membership.communityId, [Role.ADMIN, Role.MANAGER]);
 
   return prisma.$transaction(async (tx) => {
+    await tx.apartmentResidency.deleteMany({
+      where: { userId: membership.userId, communityId: membership.communityId },
+    });
     await tx.membership.delete({ where: { id: membershipId } });
 
     await writeAuditLog(tx, {
