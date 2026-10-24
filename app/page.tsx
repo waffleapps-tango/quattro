@@ -57,20 +57,20 @@ export default async function Home() {
   const format = await getFormatter();
   const s = summarizeDashboard({ userId: user.id, packages, reports });
 
-  const apt = profile.apartment;
-  const aptLine = apt
-    ? [
-        profile.building
-          ? t("myApartmentLine", { building: profile.building.name, apartment: apt.number })
-          : t("myApartmentNoBuilding", { apartment: apt.number }),
-        profile.parkingSpaces.length &&
-          t("parkingShort", { numbers: profile.parkingSpaces.map((x) => x.number).join(", ") }),
-        profile.storageUnits.length &&
-          t("storageShort", { numbers: profile.storageUnits.map((x) => x.number).join(", ") }),
-      ]
-        .filter(Boolean)
-        .join(" · ")
-    : null;
+  const extras = [
+    profile.parkingSpaces.length &&
+      t("parkingShort", { numbers: profile.parkingSpaces.map((x) => x.number).join(", ") }),
+    profile.storageUnits.length &&
+      t("storageShort", { numbers: profile.storageUnits.map((x) => x.number).join(", ") }),
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  const aptLines = [
+    ...profile.apartments.map((a) =>
+      t("myApartmentLine", { building: a.building.name, apartment: a.number }),
+    ),
+    ...(extras ? [extras] : []),
+  ];
 
   return (
     <Stagger className="space-y-6">
@@ -78,14 +78,18 @@ export default async function Home() {
         <h1 className="text-3xl font-bold">{t("greeting", { name: user.firstName ?? user.email })}</h1>
       </StaggerItem>
 
-      {aptLine && (
+      {profile.apartments.length > 0 && (
         <StaggerItem index={1}>
         <Card>
           <CardHeader>
             <CardTitle>{t("myApartment")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm">{aptLine}</p>
+            <ul className="space-y-1">
+              {aptLines.map((line) => (
+                <li key={line} className="text-sm">{line}</li>
+              ))}
+            </ul>
           </CardContent>
           <CardFooter>
             <Button asChild variant="outline" size="sm">

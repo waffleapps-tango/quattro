@@ -726,6 +726,7 @@
   },
   "profile": {
     "apartmentCard": "Apartment",
+    "apartmentCardNumbered": "Apartment {number}",
     "community": "Community",
     "building": "Building",
     "apartment": "Apartment",

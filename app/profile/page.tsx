@@ -64,29 +64,42 @@ export default async function ProfilePage() {
       </StaggerItem>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <StaggerItem index={1} className="md:col-span-2 h-full [&>*]:h-full">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("apartmentCard")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {p.apartment ? (
-                <dl className="grid gap-4 sm:grid-cols-2">
-                  <Row label={t("community")} value={[p.community.name, p.community.address].filter(Boolean).join(", ")} />
-                  {p.building && (
-                    <Row label={t("building")} value={[p.building.name, p.building.address].filter(Boolean).join(", ")} />
-                  )}
-                  <Row label={t("apartment")} value={p.apartment.number} />
-                  {p.apartment.floor != null && <Row label={t("floor")} value={String(p.apartment.floor)} />}
-                </dl>
-              ) : (
+        {p.apartments.length > 0 ? (
+          p.apartments.map((a, i) => (
+            <StaggerItem key={a.id} index={1 + i} className="md:col-span-2 h-full [&>*]:h-full">
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    {p.apartments.length > 1
+                      ? t("apartmentCardNumbered", { number: a.number })
+                      : t("apartmentCard")}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <dl className="grid gap-4 sm:grid-cols-2">
+                    <Row label={t("community")} value={[p.community.name, p.community.address].filter(Boolean).join(", ")} />
+                    <Row label={t("building")} value={[a.building.name, a.building.address].filter(Boolean).join(", ")} />
+                    <Row label={t("apartment")} value={a.number} />
+                    {a.floor != null && <Row label={t("floor")} value={String(a.floor)} />}
+                  </dl>
+                </CardContent>
+              </Card>
+            </StaggerItem>
+          ))
+        ) : (
+          <StaggerItem index={1} className="md:col-span-2 h-full [&>*]:h-full">
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("apartmentCard")}</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <EmptyState icon={Home} title={t("noApartmentTitle")} description={t("noApartmentHint")} />
-              )}
-            </CardContent>
-          </Card>
-        </StaggerItem>
+              </CardContent>
+            </Card>
+          </StaggerItem>
+        )}
 
-        <StaggerItem index={2} className="h-full [&>*]:h-full">
+        <StaggerItem index={2 + p.apartments.length} className="h-full [&>*]:h-full">
           <Card>
             <CardHeader>
               <CardTitle>{t("parkingCard")}</CardTitle>
@@ -112,7 +125,7 @@ export default async function ProfilePage() {
           </Card>
         </StaggerItem>
 
-        <StaggerItem index={3} className="h-full [&>*]:h-full">
+        <StaggerItem index={3 + p.apartments.length} className="h-full [&>*]:h-full">
           <Card>
             <CardHeader>
               <CardTitle>{t("storageCard")}</CardTitle>

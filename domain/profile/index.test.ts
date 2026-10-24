@@ -35,7 +35,9 @@ describe("getProfile", () => {
     expect(profile.role).toBe("RESIDENT");
     expect(profile.community.name).toBe(community.name);
     expect(profile.building?.name).toBe("Building A");
-    expect(profile.apartment).toEqual({ number: "101", floor: null });
+    expect(profile.apartments).toEqual([
+      { id: apartment.id, number: "101", floor: null, building: { name: "Building A", address: null } },
+    ]);
     expect(profile.parkingSpaces.map((s) => [s.number, s.level, s.hasEvCharger])).toEqual([["P-1", "-1", true]]);
     expect(profile.storageUnits.map((u) => u.number)).toEqual(["K-1"]);
   });
@@ -60,29 +62,40 @@ describe("getProfile", () => {
     expect(profile.storageUnits).toEqual([]);
   });
 
-  it("returns null apartment and empty lists for staff without an apartment", async () => {
+  it("returns no apartments and empty lists for staff without an apartment", async () => {
     const { community } = await createCommunityWithBuildingAndApartment();
     const manager = await createUserWithMembership({ communityId: community.id, role: Role.MANAGER });
 
     const profile = await getProfile(manager, community.id);
 
-    expect(profile.apartment).toBeNull();
+    expect(profile.apartments).toEqual([]);
     expect(profile.building).toBeNull();
     expect(profile.parkingSpaces).toEqual([]);
     expect(profile.storageUnits).toEqual([]);
   });
 
-  it("falls back to the apartment's building when the membership has none", async () => {
-    const { community, apartment } = await createCommunityWithBuildingAndApartment();
+  it("returns the building of every apartment the member lives in", async () => {
+    const { community, building, apartment } = await createCommunityWithBuildingAndApartment();
+    const second = await prisma.apartment.create({ data: { buildingId: building.id, number: "102", floor: 2 } });
     const resident = await createUserWithMembership({
       communityId: community.id,
       apartmentId: apartment.id,
       role: Role.RESIDENT,
     });
+    const residency = await prisma.apartmentResidency.create({
+      data: { userId: resident.id, apartmentId: second.id, communityId: community.id },
+    });
 
-    const profile = await getProfile(resident, community.id);
+    const profile = await getProfile(
+      { ...resident, residencies: [...resident.residencies, residency] },
+      community.id,
+    );
 
-    expect(profile.building?.name).toBe("Building A");
+    expect(profile.apartments.map((a) => [a.number, a.building.name])).toEqual([
+      ["101", "Building A"],
+      ["102", "Building A"],
+    ]);
+    expect(profile.building).toBeNull();
   });
 
   it("rejects an actor from another community", async () => {
