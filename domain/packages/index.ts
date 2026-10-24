@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { requireMembership, type SessionUser } from "@/auth/session";
+import { requireMembership, residentApartmentIds, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, TenantMismatchError, UnauthorizedError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
@@ -143,8 +143,9 @@ export async function listPackagesForViewer(
   const residentFilters: Prisma.PackageWhereInput[] = [
     { recipientUserId: actor.id },
   ];
-  if (residentMembership.apartmentId) {
-    residentFilters.push({ apartmentId: residentMembership.apartmentId });
+  const apartmentIds = residentApartmentIds(actor, communityId);
+  if (apartmentIds.length > 0) {
+    residentFilters.push({ apartmentId: { in: apartmentIds } });
   }
 
   return prisma.package.findMany({

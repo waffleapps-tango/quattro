@@ -6,6 +6,7 @@ import {
   createCommunityWithBuildingAndApartment,
   createUserWithMembership,
   cleanupDatabase,
+  createPackageScenario,
 } from "@/domain/__test-helpers__/fixtures";
 import { createPackage, markPickedUp, listPackagesForViewer } from "@/domain/packages";
 
@@ -211,5 +212,31 @@ describe("listPackagesForViewer", () => {
     const resultA = await listPackagesForViewer(receptionistA, communityA.id);
     expect(resultA).toHaveLength(1);
     expect(resultA[0].communityId).toBe(communityA.id);
+  });
+});
+
+describe("listPackagesForViewer with several apartments", () => {
+  it("shows a resident the packages of every apartment they live in, and no others", async () => {
+    const s = await createPackageScenario();
+    const second = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "102" } });
+    const third = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "103" } });
+    await prisma.apartmentResidency.create({
+      data: { userId: s.resident.id, apartmentId: second.id, communityId: s.community.id },
+    });
+    const resident = await prisma.user.findUniqueOrThrow({
+      where: { id: s.resident.id },
+      include: { memberships: true, residencies: true },
+    });
+    for (const apartmentId of [s.apartment.id, second.id, third.id]) {
+      await createPackage(s.receptionist, {
+        communityId: s.community.id,
+        buildingId: s.building.id,
+        apartmentId,
+      });
+    }
+
+    const visible = await listPackagesForViewer(resident, s.community.id);
+
+    expect(visible.map((p) => p.apartmentId).sort()).toEqual([s.apartment.id, second.id].sort());
   });
 });

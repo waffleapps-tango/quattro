@@ -77,6 +77,7 @@ describe("PACKAGE_RECEIVED on createPackage", () => {
   it("still registers the package when the apartment has no residents", async () => {
     const s = await createPackageScenario();
     await prisma.membership.delete({ where: { id: s.resident.memberships[0].id } });
+    await prisma.apartmentResidency.deleteMany({ where: { userId: s.resident.id } });
 
     const pkg = await registerPackage(s);
 
@@ -143,6 +144,7 @@ describe("remindPackage", () => {
     const s = await createPackageScenario();
     const pkg = await registerPackage(s);
     await prisma.membership.delete({ where: { id: s.resident.memberships[0].id } });
+    await prisma.apartmentResidency.deleteMany({ where: { userId: s.resident.id } });
 
     expect(await remindPackage(s.receptionist, pkg.id)).toEqual({ notified: 0 });
   });
@@ -192,5 +194,24 @@ describe("sendAutoReminders", () => {
     await backdate(pkg.id, 30);
 
     expect(await sendAutoReminders()).toEqual({ sent: 0 });
+  });
+});
+
+describe("recipients across several apartments", () => {
+  it("notifies a person linked to a second apartment when a package arrives there", async () => {
+    const s = await createPackageScenario();
+    const second = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "102" } });
+    await prisma.apartmentResidency.create({
+      data: { userId: s.resident.id, apartmentId: second.id, communityId: s.community.id },
+    });
+
+    await createPackage(s.receptionist, {
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: second.id,
+    });
+
+    const rows = await prisma.notification.findMany({ where: { type: "PACKAGE_RECEIVED" } });
+    expect(rows.map((r) => r.recipientUserId)).toEqual([s.resident.id]);
   });
 });

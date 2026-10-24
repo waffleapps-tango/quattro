@@ -4,7 +4,7 @@ import { writeAuditLog } from "@/domain/audit/log";
 import { InvalidTransitionError, NotFoundError, RateLimitedError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
 import { STAFF_ROLES } from "@/domain/packages/roles";
-import { PackageStatus, Role, type Prisma } from "@/lib/generated/prisma";
+import { PackageStatus, type Prisma } from "@/lib/generated/prisma";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 export const REMIND_COOLDOWN_MS = 60 * 60 * 1000;
@@ -24,8 +24,8 @@ export async function resolvePackageRecipients(
   pkg: { apartmentId: string; recipientUserId: string | null },
 ): Promise<string[]> {
   if (pkg.recipientUserId) return [pkg.recipientUserId];
-  const residents = await tx.membership.findMany({
-    where: { apartmentId: pkg.apartmentId, role: Role.RESIDENT },
+  const residents = await tx.apartmentResidency.findMany({
+    where: { apartmentId: pkg.apartmentId },
     select: { userId: true },
   });
   return residents.map((r) => r.userId);
