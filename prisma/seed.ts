@@ -72,8 +72,19 @@ async function main() {
           userId: resident.id,
           communityId: community.id,
           buildingId: buildings[0].id,
-          apartmentId: apartmentsByBuilding[0][i].id,
           role: Role.RESIDENT,
+        },
+      }),
+    ),
+  );
+
+  await Promise.all(
+    residents.map((resident, i) =>
+      prisma.apartmentResidency.create({
+        data: {
+          userId: resident.id,
+          apartmentId: apartmentsByBuilding[0][i].id,
+          communityId: community.id,
         },
       }),
     ),

@@ -31,8 +31,6 @@ export async function createUserWithMembership(params: {
       userId: user.id,
       communityId: params.communityId,
       buildingId: params.buildingId,
-      // ponytail: legacy dual-write, removed in Task 7 once nothing reads Membership.apartmentId.
-      apartmentId: params.apartmentId,
       role: params.role,
     },
   });
