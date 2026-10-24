@@ -7,7 +7,7 @@ import {
   createCommunityWithBuildingAndApartment,
   createUserWithMembership,
 } from "@/domain/__test-helpers__/fixtures";
-import { removeMembership } from "@/domain/memberships";
+import { listMembershipsForCommunity, removeMembership } from "@/domain/memberships";
 import { addResidency, listResidentApartments, removeResidency } from "@/domain/residencies";
 
 afterEach(async () => {
@@ -172,6 +172,23 @@ describe("removeResidency", () => {
   });
 });
 
+describe("removeResidency permissions", () => {
+  it("rejects residents and receptionists of the same community", async () => {
+    const { community, building, apartment, manager } = await setup();
+    const residency = await addResidency(manager, {
+      communityId: community.id,
+      email: "stay@example.com",
+      buildingId: building.id,
+      apartmentId: apartment.id,
+    });
+    for (const role of [Role.RESIDENT, Role.RECEPTIONIST]) {
+      const actor = await createUserWithMembership({ communityId: community.id, role });
+      await expect(removeResidency(actor, residency.id)).rejects.toThrow(UnauthorizedError);
+    }
+    expect(await prisma.apartmentResidency.count()).toBe(1);
+  });
+});
+
 describe("removeMembership", () => {
   it("also deletes the user's residencies in that community", async () => {
     const { community, building, apartment, manager } = await setup();
@@ -186,6 +203,51 @@ describe("removeMembership", () => {
     await removeMembership(manager, membership.id);
 
     expect(await prisma.apartmentResidency.count()).toBe(0);
+    const audit = await prisma.auditLog.findFirstOrThrow({ where: { action: "USER_REMOVED", entityId: membership.id } });
+    expect(audit.metadata).toMatchObject({ removedResidencies: 1 });
+  });
+
+  it("keeps the same user's residency in another community", async () => {
+    const { community, apartment, manager } = await setup();
+    const other = await createCommunityWithBuildingAndApartment();
+    const user = await createUserWithMembership({
+      communityId: community.id,
+      apartmentId: apartment.id,
+      role: Role.RESIDENT,
+    });
+    await prisma.membership.create({ data: { userId: user.id, communityId: other.community.id, role: Role.RESIDENT } });
+    await prisma.apartmentResidency.create({
+      data: { userId: user.id, apartmentId: other.apartment.id, communityId: other.community.id },
+    });
+    const membership = await prisma.membership.findFirstOrThrow({
+      where: { userId: user.id, communityId: community.id },
+    });
+
+    await removeMembership(manager, membership.id);
+
+    const left = await prisma.apartmentResidency.findMany({ where: { userId: user.id } });
+    expect(left.map((r) => r.communityId)).toEqual([other.community.id]);
+  });
+});
+
+describe("listMembershipsForCommunity", () => {
+  it("does not return another community's residencies", async () => {
+    const { community, apartment, manager } = await setup();
+    const other = await createCommunityWithBuildingAndApartment();
+    const user = await createUserWithMembership({
+      communityId: community.id,
+      apartmentId: apartment.id,
+      role: Role.RESIDENT,
+    });
+    await prisma.membership.create({ data: { userId: user.id, communityId: other.community.id, role: Role.RESIDENT } });
+    await prisma.apartmentResidency.create({
+      data: { userId: user.id, apartmentId: other.apartment.id, communityId: other.community.id },
+    });
+
+    const rows = await listMembershipsForCommunity(manager, community.id);
+
+    const mine = rows.find((m) => m.userId === user.id)!;
+    expect(mine.user.residencies.map((r) => r.apartmentId)).toEqual([apartment.id]);
   });
 });
 

@@ -214,4 +214,19 @@ describe("recipients across several apartments", () => {
     const rows = await prisma.notification.findMany({ where: { type: "PACKAGE_RECEIVED" } });
     expect(rows.map((r) => r.recipientUserId)).toEqual([s.resident.id]);
   });
+
+  it("notifies any role with a residency in the apartment, not only residents", async () => {
+    const s = await createPackageScenario();
+    const staff = await createUserWithMembership({
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+      role: Role.RECEPTIONIST,
+    });
+
+    await registerPackage(s);
+
+    const rows = await prisma.notification.findMany({ where: { type: "PACKAGE_RECEIVED" } });
+    expect(rows.map((r) => r.recipientUserId).sort()).toEqual([s.resident.id, staff.id].sort());
+  });
 });

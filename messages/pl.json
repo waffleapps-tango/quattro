@@ -119,7 +119,6 @@
     "newReport": "Nowe zgłoszenie",
     "myApartment": "Moje mieszkanie",
     "myApartmentLine": "{building}, m. {apartment}",
-    "myApartmentNoBuilding": "m. {apartment}",
     "parkingShort": "parking {numbers}",
     "storageShort": "komórka {numbers}",
     "viewProfile": "Zobacz profil"
@@ -231,6 +230,7 @@
     "parking": "Miejsce parkingowe",
     "apartment": "Mieszkanie",
     "apartmentPlaceholder": "Wybierz mieszkanie",
+    "apartmentRequired": "Wybierz mieszkanie",
     "parkingPlaceholder": "Wybierz miejsce",
     "noParking": "Nie masz przypisanego miejsca parkingowego. Skontaktuj się z administratorem.",
     "storage": "Komórka lokatorska",
@@ -645,7 +645,6 @@
     "email": "Email",
     "roleLabel": "Rola",
     "building": "Budynek (opcjonalnie)",
-    "apartment": "Mieszkanie (opcjonalnie)",
     "buildingRequired": "Budynek",
     "apartmentRequired": "Mieszkanie",
     "removeApartment": "Usuń mieszkanie {name}",
@@ -675,7 +674,7 @@
       "removeForbidden": "Nie masz uprawnień do usuwania członków",
       "apartmentRequired": "Wybierz budynek i mieszkanie dla mieszkańca",
       "alreadyResident": "Ta osoba jest już przypisana do tego mieszkania",
-      "residencyRemoved": "Mieszkanie zostało odpięte od tej osoby"
+      "residencyRemoved": "Usunięto powiązanie z mieszkaniem"
     }
   },
   "locations": {
@@ -732,7 +731,7 @@
   },
   "profile": {
     "apartmentCard": "Mieszkanie",
-    "apartmentCardNumbered": "Mieszkanie {number}",
+    "apartmentCardNumbered": "{building} / mieszkanie {number}",
     "community": "Osiedle",
     "building": "Budynek",
     "apartment": "Mieszkanie",

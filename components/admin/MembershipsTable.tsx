@@ -102,7 +102,7 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
                           <button
                             type="button"
                             aria-label={t("removeApartment", { name })}
-                            className="text-muted-foreground hover:text-foreground disabled:opacity-50"
+                            className="p-0.5 rounded-sm text-muted-foreground hover:text-foreground disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             disabled={pendingId === r.id}
                             onClick={() => handleRemoveResidency(r.id)}
                           >

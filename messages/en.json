@@ -119,7 +119,6 @@
     "newReport": "New report",
     "myApartment": "My apartment",
     "myApartmentLine": "{building}, apt {apartment}",
-    "myApartmentNoBuilding": "apt {apartment}",
     "parkingShort": "parking {numbers}",
     "storageShort": "storage {numbers}",
     "viewProfile": "View profile"
@@ -231,6 +230,7 @@
     "parking": "Parking space",
     "apartment": "Apartment",
     "apartmentPlaceholder": "Choose an apartment",
+    "apartmentRequired": "Choose an apartment",
     "parkingPlaceholder": "Choose a space",
     "noParking": "You have no parking space assigned. Contact the administrator.",
     "storage": "Storage unit",
@@ -645,7 +645,6 @@
     "email": "Email",
     "roleLabel": "Role",
     "building": "Building (optional)",
-    "apartment": "Apartment (optional)",
     "buildingRequired": "Building",
     "apartmentRequired": "Apartment",
     "removeApartment": "Remove apartment {name}",
@@ -732,7 +731,7 @@
   },
   "profile": {
     "apartmentCard": "Apartment",
-    "apartmentCardNumbered": "Apartment {number}",
+    "apartmentCardNumbered": "{building} / apartment {number}",
     "community": "Community",
     "building": "Building",
     "apartment": "Apartment",

@@ -64,6 +64,7 @@ export function CreateReportForm({
 
   const categories = CATEGORIES.filter((c) => canFilePrivate || c.visibility === "PUBLIC");
   const category = getCategory(categoryKey);
+  const needsApartment = apartments.length > 1 && category?.visibility === "PRIVATE" && !apartmentId;
   const visibleParking =
     apartments.length > 1 && apartmentId
       ? parkingSpaces.filter((s) => s.apartmentId === apartmentId)
@@ -81,6 +82,7 @@ export function CreateReportForm({
       setTitle("");
       setDescription("");
       setUrgent(false);
+      setApartmentId(apartments.length === 1 ? apartments[0].id : "");
     }
   }, [state, pending]);
 
@@ -156,7 +158,7 @@ export function CreateReportForm({
               </div>
             </Collapse>
 
-            <Collapse show={apartments.length > 1 && Boolean(category)} className="-mx-1 -mt-1 mb-0!">
+            <Collapse show={apartments.length > 1 && category?.visibility === "PRIVATE"} className="-mx-1 -mt-1 mb-0!">
               <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="apartment">{t("apartment")}</Label>
                 <Select value={apartmentId} onValueChange={setApartmentId}>
@@ -171,6 +173,7 @@ export function CreateReportForm({
                     ))}
                   </SelectContent>
                 </Select>
+                {needsApartment && <p className="text-sm text-destructive">{t("apartmentRequired")}</p>}
               </div>
             </Collapse>
 
@@ -282,7 +285,7 @@ export function CreateReportForm({
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
               {t("cancel")}
             </Button>
-            <Button type="submit" disabled={pending}>
+            <Button type="submit" disabled={pending || needsApartment}>
               {pending ? t("sending") : t("send")}
             </Button>
           </DialogFooter>

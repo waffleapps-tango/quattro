@@ -71,7 +71,7 @@ export default async function ProfilePage() {
                 <CardHeader>
                   <CardTitle>
                     {p.apartments.length > 1
-                      ? t("apartmentCardNumbered", { number: a.number })
+                      ? t("apartmentCardNumbered", { building: a.building.name, number: a.number })
                       : t("apartmentCard")}
                   </CardTitle>
                 </CardHeader>

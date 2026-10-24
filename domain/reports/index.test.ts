@@ -434,4 +434,40 @@ describe("several apartments", () => {
       }),
     ).rejects.toThrow(TenantMismatchError);
   });
+
+  it("derives the apartment from the named parking space when none is given", async () => {
+    const { second, actor } = await residentOfTwo();
+    const space = await prisma.parkingSpace.create({
+      data: { communityId: community.id, buildingId: building.id, apartmentId: second.id, number: "P-30" },
+    });
+
+    const report = await createReport(actor, {
+      communityId: community.id,
+      categoryKey: "own-parking",
+      type: "DEFECT",
+      title: "Brama",
+      description: "Nie działa",
+      parkingSpaceId: space.id,
+    });
+
+    expect(report.apartmentId).toBe(second.id);
+  });
+
+  it("does not derive the apartment from a space of a foreign apartment", async () => {
+    const { actor } = await residentOfTwo();
+    const space = await prisma.parkingSpace.create({
+      data: { communityId: community.id, buildingId: building.id, apartmentId: otherApartment.id, number: "P-31" },
+    });
+
+    await expect(
+      createReport(actor, {
+        communityId: community.id,
+        categoryKey: "own-parking",
+        type: "DEFECT",
+        title: "Brama",
+        description: "Nie działa",
+        parkingSpaceId: space.id,
+      }),
+    ).rejects.toThrow(ValidationError);
+  });
 });

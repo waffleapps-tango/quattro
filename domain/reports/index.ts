@@ -98,6 +98,13 @@ export async function createReport(
     }
     apartmentId =
       input.apartmentId ?? (residentApartments.length === 1 ? residentApartments[0] : undefined);
+    if (!apartmentId && (input.parkingSpaceId || input.storageUnitId)) {
+      // Several apartments: the named space/unit tells us which one is meant.
+      const owner = input.parkingSpaceId
+        ? await prisma.parkingSpace.findUnique({ where: { id: input.parkingSpaceId }, select: { apartmentId: true } })
+        : await prisma.storageUnit.findUnique({ where: { id: input.storageUnitId }, select: { apartmentId: true } });
+      if (owner?.apartmentId && residentApartments.includes(owner.apartmentId)) apartmentId = owner.apartmentId;
+    }
     if (!apartmentId) throw new ValidationError("An apartment is required for this report");
     if (!residentApartments.includes(apartmentId)) {
       throw new UnauthorizedError(`User ${actor.id} does not live in apartment ${apartmentId}`);

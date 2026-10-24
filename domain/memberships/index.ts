@@ -116,7 +116,7 @@ export async function removeMembership(actor: SessionUser, membershipId: string)
   requireMembership(actor, membership.communityId, [Role.ADMIN, Role.MANAGER]);
 
   return prisma.$transaction(async (tx) => {
-    await tx.apartmentResidency.deleteMany({
+    const removed = await tx.apartmentResidency.deleteMany({
       where: { userId: membership.userId, communityId: membership.communityId },
     });
     await tx.membership.delete({ where: { id: membershipId } });
@@ -127,6 +127,7 @@ export async function removeMembership(actor: SessionUser, membershipId: string)
       action: "USER_REMOVED",
       entity: "Membership",
       entityId: membershipId,
+      metadata: { removedResidencies: removed.count },
     });
   });
 }
