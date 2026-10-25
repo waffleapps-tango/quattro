@@ -129,6 +129,7 @@ export async function removeResidencyAction(residencyId: string): Promise<Action
   try {
     await removeResidency(actor, residencyId);
     revalidatePath("/admin");
+    revalidatePath("/profile");
     return { message: t("residencyRemoved"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {

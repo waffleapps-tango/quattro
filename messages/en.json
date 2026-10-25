@@ -736,6 +736,35 @@
     "signInLink": "Sign in"
   },
   "profile": {
+    "people": {
+      "title": "People",
+      "you": "you",
+      "unnamed": "Unnamed person",
+      "kind": { "OWNER": "Owner", "TENANT": "Tenant" },
+      "primary": "Primary contact",
+      "makePrimary": "Make {name} the primary contact",
+      "noPrimary": "No primary contact",
+      "removeTenant": "Remove {name}",
+      "tenantEmail": "Tenant's email",
+      "addTenant": "Add tenant",
+      "notify": "Notify me about packages",
+      "livesHere": "I live here",
+      "livesHereAuto": "Automatic: you live here while there are no tenants",
+      "livesHereReset": "Reset to automatic"
+    },
+    "actions": {
+      "tenantAdded": "Tenant added",
+      "tenantFailed": "Could not add the tenant",
+      "noPermission": "You do not have permission for this change",
+      "alreadyLinked": "This person is already linked to this apartment",
+      "invalidEmail": "Enter a valid email address",
+      "notFound": "Not found",
+      "prefsSaved": "Saved",
+      "prefsFailed": "Could not save the change",
+      "primarySet": "Primary contact updated",
+      "primaryInvalid": "This person cannot be the primary contact",
+      "primaryFailed": "Could not update the primary contact"
+    },
     "apartmentCard": "Apartment",
     "apartmentCardNumbered": "{building} / apartment {number}",
     "community": "Community",

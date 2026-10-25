@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser } from "@/auth/session";
 import { getProfile } from "@/domain/profile";
+import { ApartmentPeople } from "@/components/profile/ApartmentPeople";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export async function generateMetadata() {
@@ -82,6 +83,9 @@ export default async function ProfilePage() {
                     <Row label={t("apartment")} value={a.number} />
                     {a.floor != null && <Row label={t("floor")} value={String(a.floor)} />}
                   </dl>
+                  {a.myLink && (
+                    <ApartmentPeople apartmentId={a.id} myLink={a.myLink} people={a.people} />
+                  )}
                 </CardContent>
               </Card>
             </StaggerItem>

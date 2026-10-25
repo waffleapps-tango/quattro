@@ -736,6 +736,35 @@
     "signInLink": "Zaloguj się"
   },
   "profile": {
+    "people": {
+      "title": "Osoby",
+      "you": "ty",
+      "unnamed": "Osoba bez nazwy",
+      "kind": { "OWNER": "Właściciel", "TENANT": "Najemca" },
+      "primary": "Osoba kontaktowa",
+      "makePrimary": "Ustaw {name} jako osobę kontaktową",
+      "noPrimary": "Brak osoby kontaktowej",
+      "removeTenant": "Usuń {name}",
+      "tenantEmail": "Email najemcy",
+      "addTenant": "Dodaj najemcę",
+      "notify": "Powiadamiaj mnie o paczkach",
+      "livesHere": "Mieszkam tu",
+      "livesHereAuto": "Automatycznie: mieszkasz tu, dopóki nie ma najemców",
+      "livesHereReset": "Przywróć automatyczne"
+    },
+    "actions": {
+      "tenantAdded": "Dodano najemcę",
+      "tenantFailed": "Nie udało się dodać najemcy",
+      "noPermission": "Nie masz uprawnień do tej zmiany",
+      "alreadyLinked": "Ta osoba jest już przypisana do tego mieszkania",
+      "invalidEmail": "Podaj poprawny adres email",
+      "notFound": "Nie znaleziono",
+      "prefsSaved": "Zapisano",
+      "prefsFailed": "Nie udało się zapisać zmiany",
+      "primarySet": "Zaktualizowano osobę kontaktową",
+      "primaryInvalid": "Ta osoba nie może być osobą kontaktową",
+      "primaryFailed": "Nie udało się zaktualizować osoby kontaktowej"
+    },
     "apartmentCard": "Mieszkanie",
     "apartmentCardNumbered": "{building} / mieszkanie {number}",
     "community": "Osiedle",

@@ -3,6 +3,7 @@ import type { SessionUser } from "@/auth/session";
 import { UnauthorizedError } from "@/domain/errors";
 import { listOwnedSpaces } from "@/domain/reports";
 import { listResidentApartments } from "@/domain/residencies";
+import { livesHere } from "@/domain/residencies/occupancy";
 
 export async function getProfile(actor: SessionUser, communityId: string) {
   const own = actor.memberships.find((m) => m.communityId === communityId);
@@ -21,6 +22,15 @@ export async function getProfile(actor: SessionUser, communityId: string) {
     listResidentApartments(actor, communityId),
   ]);
 
+  const apartmentIds = apartments.map((a) => a.id);
+  const links = apartmentIds.length
+    ? await prisma.apartmentResidency.findMany({
+        where: { apartmentId: { in: apartmentIds } },
+        include: { user: true },
+        orderBy: [{ kind: "asc" }, { createdAt: "asc" }],
+      })
+    : [];
+
   return {
     firstName: actor.firstName,
     lastName: actor.lastName,
@@ -30,12 +40,41 @@ export async function getProfile(actor: SessionUser, communityId: string) {
     building: membership.building
       ? { name: membership.building.name, address: membership.building.address }
       : null,
-    apartments: apartments.map((a) => ({
-      id: a.id,
-      number: a.number,
-      floor: a.floor,
-      building: { name: a.building.name, address: a.building.address },
-    })),
+    apartments: apartments.map((a) => {
+      const aptLinks = links.filter((l) => l.apartmentId === a.id);
+      const hasTenant = aptLinks.some((l) => l.kind === "TENANT");
+      const mine = aptLinks.find((l) => l.userId === actor.id);
+      const iAmOwner = mine?.kind === "OWNER";
+      return {
+        id: a.id,
+        number: a.number,
+        floor: a.floor,
+        building: { name: a.building.name, address: a.building.address },
+        myLink: mine
+          ? {
+              id: mine.id,
+              kind: mine.kind,
+              receivesPackages: mine.receivesPackages,
+              livesHereOverride: mine.livesHereOverride,
+              livesHere: livesHere(mine, hasTenant),
+            }
+          : null,
+        people: aptLinks.map((l) => {
+          const fullName = [l.user.firstName, l.user.lastName].filter(Boolean).join(" ");
+          return {
+            residencyId: l.id,
+            // Owners see everyone's email; tenants only see names (null when unnamed).
+            name: fullName || (iAmOwner ? l.user.email : null),
+            email: iAmOwner ? l.user.email : null,
+            kind: l.kind,
+            isPrimary: l.isPrimary,
+            receivesPackages: l.receivesPackages,
+            livesHere: livesHere(l, hasTenant),
+            isMe: l.userId === actor.id,
+          };
+        }),
+      };
+    }),
     parkingSpaces: owned.parkingSpaces.map((s) => ({
       id: s.id,
       number: s.number,
