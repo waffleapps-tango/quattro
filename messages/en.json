@@ -639,6 +639,8 @@
   },
   "admin": {
     "title": "Member management",
+    "kindLabel": "Apartment relationship",
+    "kind": { "OWNER": "Owner", "TENANT": "Tenant" },
     "role": {
       "RESIDENT": "Resident",
       "RECEPTIONIST": "Receptionist",

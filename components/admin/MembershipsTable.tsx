@@ -98,7 +98,7 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
                           key={r.id}
                           className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-sm"
                         >
-                          {name}
+                          {name} · {t(`kind.${r.kind}`)}
                           <button
                             type="button"
                             aria-label={t("removeApartment", { name })}

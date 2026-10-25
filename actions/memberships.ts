@@ -11,7 +11,7 @@ import {
 } from "@/domain/memberships";
 import { UnauthorizedError, NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
 import { addResidency, removeResidency } from "@/domain/residencies";
-import { Role } from "@/lib/generated/prisma";
+import { ResidencyKind, Role } from "@/lib/generated/prisma";
 
 const createMembershipSchema = z.object({
   communityId: z.string().min(1),
@@ -19,6 +19,7 @@ const createMembershipSchema = z.object({
   buildingId: z.string().optional(),
   apartmentId: z.string().optional(),
   role: z.nativeEnum(Role),
+  kind: z.nativeEnum(ResidencyKind).default(ResidencyKind.OWNER),
 });
 
 type ActionState = { message: string; success: boolean };
@@ -38,6 +39,7 @@ export async function createMembershipAction(
     buildingId: formData.get("buildingId") || undefined,
     apartmentId: formData.get("apartmentId") || undefined,
     role: formData.get("role"),
+    kind: formData.get("kind") || undefined,
   });
 
   if (!validated.success) {
@@ -45,14 +47,12 @@ export async function createMembershipAction(
   }
 
   try {
-    const { role, buildingId, apartmentId, communityId, email } = validated.data;
+    const { role, buildingId, apartmentId, communityId, email, kind } = validated.data;
     if (role === Role.RESIDENT) {
       if (!buildingId || !apartmentId) {
         return { message: t("apartmentRequired"), success: false };
       }
-      await addResidency(actor, { communityId, email, buildingId, apartmentId,
-        kind: "OWNER", // ponytail: Task 7 replaces this with the admin form's kind select.
-      });
+      await addResidency(actor, { communityId, email, buildingId, apartmentId, kind });
     } else {
       await createMembership(actor, { communityId, email, buildingId, role });
     }

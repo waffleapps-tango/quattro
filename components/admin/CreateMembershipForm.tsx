@@ -24,7 +24,7 @@ import {
 import { Plus } from "lucide-react";
 import { createMembershipAction } from "@/actions/memberships";
 import { useTranslations } from "next-intl";
-import { Role, type Building, type Apartment } from "@/lib/generated/prisma";
+import { ResidencyKind, Role, type Building, type Apartment } from "@/lib/generated/prisma";
 
 type ActionState = { message: string; success: boolean };
 
@@ -41,6 +41,7 @@ export function CreateMembershipForm({
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState<string>("");
   const [apartmentId, setApartmentId] = useState("");
+  const [kind, setKind] = useState<ResidencyKind>(ResidencyKind.OWNER);
   const [role, setRole] = useState<Role>(Role.RESIDENT);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     createMembershipAction,
@@ -126,6 +127,21 @@ export function CreateMembershipForm({
                   </SelectContent>
                 </Select>
                 <input type="hidden" name="apartmentId" value={apartmentId} />
+              </div>
+            )}
+            {role === Role.RESIDENT && (
+              <div className="space-y-2">
+                <Label htmlFor="kind">{t("kindLabel")}</Label>
+                <Select value={kind} onValueChange={(v) => setKind(v as ResidencyKind)}>
+                  <SelectTrigger id="kind">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={ResidencyKind.OWNER}>{t("kind.OWNER")}</SelectItem>
+                    <SelectItem value={ResidencyKind.TENANT}>{t("kind.TENANT")}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <input type="hidden" name="kind" value={kind} />
               </div>
             )}
           </div>

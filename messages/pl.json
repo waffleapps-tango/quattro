@@ -639,6 +639,8 @@
   },
   "admin": {
     "title": "Zarządzanie członkami",
+    "kindLabel": "Relacja z mieszkaniem",
+    "kind": { "OWNER": "Właściciel", "TENANT": "Najemca" },
     "role": {
       "RESIDENT": "Mieszkaniec",
       "RECEPTIONIST": "Recepcja",
