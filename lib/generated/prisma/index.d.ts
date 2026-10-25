@@ -148,6 +148,14 @@ export const DeliveryStatus: {
 
 export type DeliveryStatus = (typeof DeliveryStatus)[keyof typeof DeliveryStatus]
 
+
+export const ResidencyKind: {
+  OWNER: 'OWNER',
+  TENANT: 'TENANT'
+};
+
+export type ResidencyKind = (typeof ResidencyKind)[keyof typeof ResidencyKind]
+
 }
 
 export type Role = $Enums.Role
@@ -173,6 +181,10 @@ export const ReportStatus: typeof $Enums.ReportStatus
 export type DeliveryStatus = $Enums.DeliveryStatus
 
 export const DeliveryStatus: typeof $Enums.DeliveryStatus
+
+export type ResidencyKind = $Enums.ResidencyKind
+
+export const ResidencyKind: typeof $Enums.ResidencyKind
 
 /**
  * ##  Prisma Client ʲˢ
@@ -18240,6 +18252,10 @@ export namespace Prisma {
     userId: string | null
     apartmentId: string | null
     communityId: string | null
+    kind: $Enums.ResidencyKind | null
+    livesHereOverride: boolean | null
+    receivesPackages: boolean | null
+    isPrimary: boolean | null
     createdAt: Date | null
   }
 
@@ -18248,6 +18264,10 @@ export namespace Prisma {
     userId: string | null
     apartmentId: string | null
     communityId: string | null
+    kind: $Enums.ResidencyKind | null
+    livesHereOverride: boolean | null
+    receivesPackages: boolean | null
+    isPrimary: boolean | null
     createdAt: Date | null
   }
 
@@ -18256,6 +18276,10 @@ export namespace Prisma {
     userId: number
     apartmentId: number
     communityId: number
+    kind: number
+    livesHereOverride: number
+    receivesPackages: number
+    isPrimary: number
     createdAt: number
     _all: number
   }
@@ -18266,6 +18290,10 @@ export namespace Prisma {
     userId?: true
     apartmentId?: true
     communityId?: true
+    kind?: true
+    livesHereOverride?: true
+    receivesPackages?: true
+    isPrimary?: true
     createdAt?: true
   }
 
@@ -18274,6 +18302,10 @@ export namespace Prisma {
     userId?: true
     apartmentId?: true
     communityId?: true
+    kind?: true
+    livesHereOverride?: true
+    receivesPackages?: true
+    isPrimary?: true
     createdAt?: true
   }
 
@@ -18282,6 +18314,10 @@ export namespace Prisma {
     userId?: true
     apartmentId?: true
     communityId?: true
+    kind?: true
+    livesHereOverride?: true
+    receivesPackages?: true
+    isPrimary?: true
     createdAt?: true
     _all?: true
   }
@@ -18363,6 +18399,10 @@ export namespace Prisma {
     userId: string
     apartmentId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride: boolean | null
+    receivesPackages: boolean
+    isPrimary: boolean
     createdAt: Date
     _count: ApartmentResidencyCountAggregateOutputType | null
     _min: ApartmentResidencyMinAggregateOutputType | null
@@ -18388,6 +18428,10 @@ export namespace Prisma {
     userId?: boolean
     apartmentId?: boolean
     communityId?: boolean
+    kind?: boolean
+    livesHereOverride?: boolean
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
@@ -18399,6 +18443,10 @@ export namespace Prisma {
     userId?: boolean
     apartmentId?: boolean
     communityId?: boolean
+    kind?: boolean
+    livesHereOverride?: boolean
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
@@ -18410,6 +18458,10 @@ export namespace Prisma {
     userId?: boolean
     apartmentId?: boolean
     communityId?: boolean
+    kind?: boolean
+    livesHereOverride?: boolean
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
@@ -18421,10 +18473,14 @@ export namespace Prisma {
     userId?: boolean
     apartmentId?: boolean
     communityId?: boolean
+    kind?: boolean
+    livesHereOverride?: boolean
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
   }
 
-  export type ApartmentResidencyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "apartmentId" | "communityId" | "createdAt", ExtArgs["result"]["apartmentResidency"]>
+  export type ApartmentResidencyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "apartmentId" | "communityId" | "kind" | "livesHereOverride" | "receivesPackages" | "isPrimary" | "createdAt", ExtArgs["result"]["apartmentResidency"]>
   export type ApartmentResidencyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     apartment?: boolean | ApartmentDefaultArgs<ExtArgs>
@@ -18453,6 +18509,10 @@ export namespace Prisma {
       userId: string
       apartmentId: string
       communityId: string
+      kind: $Enums.ResidencyKind
+      livesHereOverride: boolean | null
+      receivesPackages: boolean
+      isPrimary: boolean
       createdAt: Date
     }, ExtArgs["result"]["apartmentResidency"]>
     composites: {}
@@ -18884,6 +18944,10 @@ export namespace Prisma {
     readonly userId: FieldRef<"ApartmentResidency", 'String'>
     readonly apartmentId: FieldRef<"ApartmentResidency", 'String'>
     readonly communityId: FieldRef<"ApartmentResidency", 'String'>
+    readonly kind: FieldRef<"ApartmentResidency", 'ResidencyKind'>
+    readonly livesHereOverride: FieldRef<"ApartmentResidency", 'Boolean'>
+    readonly receivesPackages: FieldRef<"ApartmentResidency", 'Boolean'>
+    readonly isPrimary: FieldRef<"ApartmentResidency", 'Boolean'>
     readonly createdAt: FieldRef<"ApartmentResidency", 'DateTime'>
   }
     
@@ -19508,6 +19572,10 @@ export namespace Prisma {
     userId: 'userId',
     apartmentId: 'apartmentId',
     communityId: 'communityId',
+    kind: 'kind',
+    livesHereOverride: 'livesHereOverride',
+    receivesPackages: 'receivesPackages',
+    isPrimary: 'isPrimary',
     createdAt: 'createdAt'
   };
 
@@ -19711,6 +19779,20 @@ export namespace Prisma {
    * Reference to a field of type 'DeliveryStatus[]'
    */
   export type ListEnumDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResidencyKind'
+   */
+  export type EnumResidencyKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResidencyKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResidencyKind[]'
+   */
+  export type ListEnumResidencyKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResidencyKind[]'>
     
 
 
@@ -20845,6 +20927,10 @@ export namespace Prisma {
     userId?: StringFilter<"ApartmentResidency"> | string
     apartmentId?: StringFilter<"ApartmentResidency"> | string
     communityId?: StringFilter<"ApartmentResidency"> | string
+    kind?: EnumResidencyKindFilter<"ApartmentResidency"> | $Enums.ResidencyKind
+    livesHereOverride?: BoolNullableFilter<"ApartmentResidency"> | boolean | null
+    receivesPackages?: BoolFilter<"ApartmentResidency"> | boolean
+    isPrimary?: BoolFilter<"ApartmentResidency"> | boolean
     createdAt?: DateTimeFilter<"ApartmentResidency"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     apartment?: XOR<ApartmentScalarRelationFilter, ApartmentWhereInput>
@@ -20856,6 +20942,10 @@ export namespace Prisma {
     userId?: SortOrder
     apartmentId?: SortOrder
     communityId?: SortOrder
+    kind?: SortOrder
+    livesHereOverride?: SortOrderInput | SortOrder
+    receivesPackages?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     apartment?: ApartmentOrderByWithRelationInput
@@ -20871,6 +20961,10 @@ export namespace Prisma {
     userId?: StringFilter<"ApartmentResidency"> | string
     apartmentId?: StringFilter<"ApartmentResidency"> | string
     communityId?: StringFilter<"ApartmentResidency"> | string
+    kind?: EnumResidencyKindFilter<"ApartmentResidency"> | $Enums.ResidencyKind
+    livesHereOverride?: BoolNullableFilter<"ApartmentResidency"> | boolean | null
+    receivesPackages?: BoolFilter<"ApartmentResidency"> | boolean
+    isPrimary?: BoolFilter<"ApartmentResidency"> | boolean
     createdAt?: DateTimeFilter<"ApartmentResidency"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     apartment?: XOR<ApartmentScalarRelationFilter, ApartmentWhereInput>
@@ -20882,6 +20976,10 @@ export namespace Prisma {
     userId?: SortOrder
     apartmentId?: SortOrder
     communityId?: SortOrder
+    kind?: SortOrder
+    livesHereOverride?: SortOrderInput | SortOrder
+    receivesPackages?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     _count?: ApartmentResidencyCountOrderByAggregateInput
     _max?: ApartmentResidencyMaxOrderByAggregateInput
@@ -20896,6 +20994,10 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"ApartmentResidency"> | string
     apartmentId?: StringWithAggregatesFilter<"ApartmentResidency"> | string
     communityId?: StringWithAggregatesFilter<"ApartmentResidency"> | string
+    kind?: EnumResidencyKindWithAggregatesFilter<"ApartmentResidency"> | $Enums.ResidencyKind
+    livesHereOverride?: BoolNullableWithAggregatesFilter<"ApartmentResidency"> | boolean | null
+    receivesPackages?: BoolWithAggregatesFilter<"ApartmentResidency"> | boolean
+    isPrimary?: BoolWithAggregatesFilter<"ApartmentResidency"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ApartmentResidency"> | Date | string
   }
 
@@ -22057,6 +22159,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyCreateInput = {
     id?: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutResidenciesInput
     apartment: ApartmentCreateNestedOneWithoutResidenciesInput
@@ -22068,11 +22174,19 @@ export namespace Prisma {
     userId: string
     apartmentId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
   export type ApartmentResidencyUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutResidenciesNestedInput
     apartment?: ApartmentUpdateOneRequiredWithoutResidenciesNestedInput
@@ -22084,6 +22198,10 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     apartmentId?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22092,11 +22210,19 @@ export namespace Prisma {
     userId: string
     apartmentId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
   export type ApartmentResidencyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22105,6 +22231,10 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     apartmentId?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -23172,6 +23302,13 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type EnumResidencyKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResidencyKind | EnumResidencyKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumResidencyKindFilter<$PrismaModel> | $Enums.ResidencyKind
+  }
+
   export type ApartmentResidencyUserIdApartmentIdCompoundUniqueInput = {
     userId: string
     apartmentId: string
@@ -23182,6 +23319,10 @@ export namespace Prisma {
     userId?: SortOrder
     apartmentId?: SortOrder
     communityId?: SortOrder
+    kind?: SortOrder
+    livesHereOverride?: SortOrder
+    receivesPackages?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -23190,6 +23331,10 @@ export namespace Prisma {
     userId?: SortOrder
     apartmentId?: SortOrder
     communityId?: SortOrder
+    kind?: SortOrder
+    livesHereOverride?: SortOrder
+    receivesPackages?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -23198,7 +23343,21 @@ export namespace Prisma {
     userId?: SortOrder
     apartmentId?: SortOrder
     communityId?: SortOrder
+    kind?: SortOrder
+    livesHereOverride?: SortOrder
+    receivesPackages?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type EnumResidencyKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResidencyKind | EnumResidencyKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumResidencyKindWithAggregatesFilter<$PrismaModel> | $Enums.ResidencyKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResidencyKindFilter<$PrismaModel>
+    _max?: NestedEnumResidencyKindFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -25057,6 +25216,10 @@ export namespace Prisma {
     connect?: CommunityWhereUniqueInput
   }
 
+  export type EnumResidencyKindFieldUpdateOperationsInput = {
+    set?: $Enums.ResidencyKind
+  }
+
   export type UserUpdateOneRequiredWithoutResidenciesNestedInput = {
     create?: XOR<UserCreateWithoutResidenciesInput, UserUncheckedCreateWithoutResidenciesInput>
     connectOrCreate?: UserCreateOrConnectWithoutResidenciesInput
@@ -25443,6 +25606,23 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumResidencyKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResidencyKind | EnumResidencyKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumResidencyKindFilter<$PrismaModel> | $Enums.ResidencyKind
+  }
+
+  export type NestedEnumResidencyKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResidencyKind | EnumResidencyKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResidencyKind[] | ListEnumResidencyKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumResidencyKindWithAggregatesFilter<$PrismaModel> | $Enums.ResidencyKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResidencyKindFilter<$PrismaModel>
+    _max?: NestedEnumResidencyKindFilter<$PrismaModel>
+  }
+
   export type MembershipCreateWithoutUserInput = {
     id?: string
     role: $Enums.Role
@@ -25473,6 +25653,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyCreateWithoutUserInput = {
     id?: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
     apartment: ApartmentCreateNestedOneWithoutResidenciesInput
     community: CommunityCreateNestedOneWithoutResidenciesInput
@@ -25482,6 +25666,10 @@ export namespace Prisma {
     id?: string
     apartmentId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
@@ -25790,6 +25978,10 @@ export namespace Prisma {
     userId?: StringFilter<"ApartmentResidency"> | string
     apartmentId?: StringFilter<"ApartmentResidency"> | string
     communityId?: StringFilter<"ApartmentResidency"> | string
+    kind?: EnumResidencyKindFilter<"ApartmentResidency"> | $Enums.ResidencyKind
+    livesHereOverride?: BoolNullableFilter<"ApartmentResidency"> | boolean | null
+    receivesPackages?: BoolFilter<"ApartmentResidency"> | boolean
+    isPrimary?: BoolFilter<"ApartmentResidency"> | boolean
     createdAt?: DateTimeFilter<"ApartmentResidency"> | Date | string
   }
 
@@ -26029,6 +26221,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyCreateWithoutCommunityInput = {
     id?: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutResidenciesInput
     apartment: ApartmentCreateNestedOneWithoutResidenciesInput
@@ -26038,6 +26234,10 @@ export namespace Prisma {
     id?: string
     userId: string
     apartmentId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
@@ -26930,6 +27130,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyCreateWithoutApartmentInput = {
     id?: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutResidenciesInput
     community: CommunityCreateNestedOneWithoutResidenciesInput
@@ -26939,6 +27143,10 @@ export namespace Prisma {
     id?: string
     userId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
@@ -29763,6 +29971,10 @@ export namespace Prisma {
     id?: string
     apartmentId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
@@ -29885,6 +30097,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apartment?: ApartmentUpdateOneRequiredWithoutResidenciesNestedInput
     community?: CommunityUpdateOneRequiredWithoutResidenciesNestedInput
@@ -29894,6 +30110,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     apartmentId?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29901,6 +30121,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     apartmentId?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -30197,6 +30421,10 @@ export namespace Prisma {
     id?: string
     userId: string
     apartmentId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
@@ -30341,6 +30569,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutResidenciesNestedInput
     apartment?: ApartmentUpdateOneRequiredWithoutResidenciesNestedInput
@@ -30350,6 +30582,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     apartmentId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -30357,6 +30593,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     apartmentId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -30915,6 +31155,10 @@ export namespace Prisma {
     id?: string
     userId: string
     communityId: string
+    kind: $Enums.ResidencyKind
+    livesHereOverride?: boolean | null
+    receivesPackages?: boolean
+    isPrimary?: boolean
     createdAt?: Date | string
   }
 
@@ -31003,6 +31247,10 @@ export namespace Prisma {
 
   export type ApartmentResidencyUpdateWithoutApartmentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutResidenciesNestedInput
     community?: CommunityUpdateOneRequiredWithoutResidenciesNestedInput
@@ -31012,6 +31260,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -31019,6 +31271,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumResidencyKindFieldUpdateOperationsInput | $Enums.ResidencyKind
+    livesHereOverride?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    receivesPackages?: BoolFieldUpdateOperationsInput | boolean
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

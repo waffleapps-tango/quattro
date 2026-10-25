@@ -2,13 +2,13 @@ import prisma from "@/lib/prisma";
 import { requireMembership, residentApartmentIds, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
-import { Role } from "@/lib/generated/prisma";
+import { Role, type ResidencyKind } from "@/lib/generated/prisma";
 
 const MANAGE_ROLES: Role[] = [Role.ADMIN, Role.MANAGER];
 
 export async function addResidency(
   actor: SessionUser,
-  input: { communityId: string; email: string; buildingId: string; apartmentId: string },
+  input: { communityId: string; email: string; buildingId: string; apartmentId: string; kind: ResidencyKind },
 ) {
   requireMembership(actor, input.communityId, MANAGE_ROLES);
 
@@ -55,7 +55,12 @@ export async function addResidency(
     }
 
     const residency = await tx.apartmentResidency.create({
-      data: { userId: user.id, apartmentId: input.apartmentId, communityId: input.communityId },
+      data: {
+        userId: user.id,
+        apartmentId: input.apartmentId,
+        communityId: input.communityId,
+        kind: input.kind,
+      },
     });
 
     await writeAuditLog(tx, {
@@ -64,7 +69,7 @@ export async function addResidency(
       action: "RESIDENCY_ADDED",
       entity: "ApartmentResidency",
       entityId: residency.id,
-      metadata: { targetEmail: input.email, apartmentId: input.apartmentId },
+      metadata: { targetEmail: input.email, apartmentId: input.apartmentId, kind: input.kind },
     });
 
     return residency;

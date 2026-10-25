@@ -46,12 +46,12 @@ model User {
 
   memberships       Membership[]
   residencies       ApartmentResidency[]
-  recipientPackages Package[]      @relation("PackageRecipient")
-  receivedPackages  Package[]      @relation("PackageReceivedBy")
-  pickedUpPackages  Package[]      @relation("PackagePickedUpBy")
+  recipientPackages Package[]            @relation("PackageRecipient")
+  receivedPackages  Package[]            @relation("PackageReceivedBy")
+  pickedUpPackages  Package[]            @relation("PackagePickedUpBy")
   auditLogs         AuditLog[]
   reports           Report[]
-  notifications     Notification[] @relation("NotificationRecipient")
+  notifications     Notification[]       @relation("NotificationRecipient")
 }
 
 model Community {
@@ -100,7 +100,7 @@ model Apartment {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  building      Building       @relation(fields: [buildingId], references: [id])
+  building      Building             @relation(fields: [buildingId], references: [id])
   memberships   Membership[]
   residencies   ApartmentResidency[]
   packages      Package[]
@@ -315,12 +315,21 @@ model NotificationDelivery {
   @@index([status, nextAttemptAt])
 }
 
+enum ResidencyKind {
+  OWNER
+  TENANT
+}
+
 model ApartmentResidency {
-  id          String   @id @default(cuid())
-  userId      String
-  apartmentId String
-  communityId String
-  createdAt   DateTime @default(now())
+  id                String        @id @default(cuid())
+  userId            String
+  apartmentId       String
+  communityId       String
+  kind              ResidencyKind
+  livesHereOverride Boolean?
+  receivesPackages  Boolean       @default(true)
+  isPrimary         Boolean       @default(false)
+  createdAt         DateTime      @default(now())
 
   user      User      @relation(fields: [userId], references: [id])
   apartment Apartment @relation(fields: [apartmentId], references: [id])

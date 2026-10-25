@@ -25,6 +25,7 @@ describe("addResidency", () => {
     const { community, building, apartment, manager } = await setup();
 
     const residency = await addResidency(manager, {
+      kind: "OWNER",
       communityId: community.id,
       email: "new@example.com",
       buildingId: building.id,
@@ -52,6 +53,7 @@ describe("addResidency", () => {
     });
 
     await addResidency(manager, {
+      kind: "OWNER",
       communityId: community.id,
       email: "desk@example.com",
       buildingId: building.id,
@@ -69,8 +71,8 @@ describe("addResidency", () => {
     const second = await prisma.apartment.create({ data: { buildingId: building.id, number: "102" } });
     const input = { communityId: community.id, email: "owner@example.com", buildingId: building.id };
 
-    await addResidency(manager, { ...input, apartmentId: apartment.id });
-    await addResidency(manager, { ...input, apartmentId: second.id });
+    await addResidency(manager, { kind: "OWNER", ...input, apartmentId: apartment.id });
+    await addResidency(manager, { kind: "OWNER", ...input, apartmentId: second.id });
 
     const user = await prisma.user.findUniqueOrThrow({
       where: { email: "owner@example.com" },
@@ -87,6 +89,7 @@ describe("addResidency", () => {
       email: "dup@example.com",
       buildingId: building.id,
       apartmentId: apartment.id,
+      kind: "OWNER" as const,
     };
     await addResidency(manager, input);
     await expect(addResidency(manager, input)).rejects.toThrow(ValidationError);
@@ -98,6 +101,7 @@ describe("addResidency", () => {
 
     await expect(
       addResidency(manager, {
+        kind: "OWNER",
         communityId: community.id,
         email: "x@example.com",
         buildingId: other.building.id,
@@ -114,6 +118,7 @@ describe("addResidency", () => {
 
     await expect(
       addResidency(outsider, {
+        kind: "OWNER",
         communityId: community.id,
         email: "x@example.com",
         buildingId: building.id,
@@ -128,6 +133,7 @@ describe("addResidency", () => {
       const actor = await createUserWithMembership({ communityId: community.id, role });
       await expect(
         addResidency(actor, {
+          kind: "OWNER",
           communityId: community.id,
           email: "x@example.com",
           buildingId: building.id,
@@ -142,6 +148,7 @@ describe("removeResidency", () => {
   it("deletes the residency, keeps the membership and writes an audit entry", async () => {
     const { community, building, apartment, manager } = await setup();
     const residency = await addResidency(manager, {
+      kind: "OWNER",
       communityId: community.id,
       email: "gone@example.com",
       buildingId: building.id,
@@ -158,6 +165,7 @@ describe("removeResidency", () => {
   it("throws NotFoundError for an unknown id and UnauthorizedError for another community's manager", async () => {
     const { community, building, apartment, manager } = await setup();
     const residency = await addResidency(manager, {
+      kind: "OWNER",
       communityId: community.id,
       email: "keep@example.com",
       buildingId: building.id,
@@ -176,6 +184,7 @@ describe("removeResidency permissions", () => {
   it("rejects residents and receptionists of the same community", async () => {
     const { community, building, apartment, manager } = await setup();
     const residency = await addResidency(manager, {
+      kind: "OWNER",
       communityId: community.id,
       email: "stay@example.com",
       buildingId: building.id,
@@ -193,6 +202,7 @@ describe("removeMembership", () => {
   it("also deletes the user's residencies in that community", async () => {
     const { community, building, apartment, manager } = await setup();
     await addResidency(manager, {
+      kind: "OWNER",
       communityId: community.id,
       email: "leaving@example.com",
       buildingId: building.id,
@@ -217,7 +227,7 @@ describe("removeMembership", () => {
     });
     await prisma.membership.create({ data: { userId: user.id, communityId: other.community.id, role: Role.RESIDENT } });
     await prisma.apartmentResidency.create({
-      data: { userId: user.id, apartmentId: other.apartment.id, communityId: other.community.id },
+      data: { kind: "OWNER", userId: user.id, apartmentId: other.apartment.id, communityId: other.community.id },
     });
     const membership = await prisma.membership.findFirstOrThrow({
       where: { userId: user.id, communityId: community.id },
@@ -241,7 +251,7 @@ describe("listMembershipsForCommunity", () => {
     });
     await prisma.membership.create({ data: { userId: user.id, communityId: other.community.id, role: Role.RESIDENT } });
     await prisma.apartmentResidency.create({
-      data: { userId: user.id, apartmentId: other.apartment.id, communityId: other.community.id },
+      data: { kind: "OWNER", userId: user.id, apartmentId: other.apartment.id, communityId: other.community.id },
     });
 
     const rows = await listMembershipsForCommunity(manager, community.id);
@@ -263,7 +273,7 @@ describe("listResidentApartments", () => {
       role: Role.RESIDENT,
     });
     const residency = await prisma.apartmentResidency.create({
-      data: { userId: resident.id, apartmentId: second.id, communityId: community.id },
+      data: { kind: "OWNER", userId: resident.id, apartmentId: second.id, communityId: community.id },
     });
     const actor = { ...resident, residencies: [...resident.residencies, residency] };
 

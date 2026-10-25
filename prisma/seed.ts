@@ -82,6 +82,7 @@ async function main() {
     residents.map((resident, i) =>
       prisma.apartmentResidency.create({
         data: {
+          kind: "OWNER",
           userId: resident.id,
           apartmentId: apartmentsByBuilding[0][i].id,
           communityId: community.id,

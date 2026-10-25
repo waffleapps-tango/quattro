@@ -221,7 +221,7 @@ describe("listPackagesForViewer with several apartments", () => {
     const second = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "102" } });
     const third = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "103" } });
     await prisma.apartmentResidency.create({
-      data: { userId: s.resident.id, apartmentId: second.id, communityId: s.community.id },
+      data: { kind: "OWNER", userId: s.resident.id, apartmentId: second.id, communityId: s.community.id },
     });
     const resident = await prisma.user.findUniqueOrThrow({
       where: { id: s.resident.id },

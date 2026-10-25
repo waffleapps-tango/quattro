@@ -315,12 +315,21 @@ model NotificationDelivery {
   @@index([status, nextAttemptAt])
 }
 
+enum ResidencyKind {
+  OWNER
+  TENANT
+}
+
 model ApartmentResidency {
-  id          String   @id @default(cuid())
-  userId      String
-  apartmentId String
-  communityId String
-  createdAt   DateTime @default(now())
+  id                String        @id @default(cuid())
+  userId            String
+  apartmentId       String
+  communityId       String
+  kind              ResidencyKind
+  livesHereOverride Boolean?
+  receivesPackages  Boolean       @default(true)
+  isPrimary         Boolean       @default(false)
+  createdAt         DateTime      @default(now())
 
   user      User      @relation(fields: [userId], references: [id])
   apartment Apartment @relation(fields: [apartmentId], references: [id])

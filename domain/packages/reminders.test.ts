@@ -202,7 +202,7 @@ describe("recipients across several apartments", () => {
     const s = await createPackageScenario();
     const second = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "102" } });
     await prisma.apartmentResidency.create({
-      data: { userId: s.resident.id, apartmentId: second.id, communityId: s.community.id },
+      data: { kind: "OWNER", userId: s.resident.id, apartmentId: second.id, communityId: s.community.id },
     });
 
     await createPackage(s.receptionist, {

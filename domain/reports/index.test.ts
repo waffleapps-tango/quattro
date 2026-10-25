@@ -380,7 +380,7 @@ describe("several apartments", () => {
   async function residentOfTwo() {
     const second = await prisma.apartment.create({ data: { buildingId: building.id, number: "303" } });
     const residency = await prisma.apartmentResidency.create({
-      data: { userId: resident.id, apartmentId: second.id, communityId: community.id },
+      data: { kind: "OWNER", userId: resident.id, apartmentId: second.id, communityId: community.id },
     });
     return { second, actor: { ...resident, residencies: [...resident.residencies, residency] } };
   }

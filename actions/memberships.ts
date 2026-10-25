@@ -50,7 +50,9 @@ export async function createMembershipAction(
       if (!buildingId || !apartmentId) {
         return { message: t("apartmentRequired"), success: false };
       }
-      await addResidency(actor, { communityId, email, buildingId, apartmentId });
+      await addResidency(actor, { communityId, email, buildingId, apartmentId,
+        kind: "OWNER", // ponytail: Task 7 replaces this with the admin form's kind select.
+      });
     } else {
       await createMembership(actor, { communityId, email, buildingId, role });
     }

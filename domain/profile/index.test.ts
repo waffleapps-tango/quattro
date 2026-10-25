@@ -83,7 +83,7 @@ describe("getProfile", () => {
       role: Role.RESIDENT,
     });
     const residency = await prisma.apartmentResidency.create({
-      data: { userId: resident.id, apartmentId: second.id, communityId: community.id },
+      data: { kind: "OWNER", userId: resident.id, apartmentId: second.id, communityId: community.id },
     });
 
     const profile = await getProfile(

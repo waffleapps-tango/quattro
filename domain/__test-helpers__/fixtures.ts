@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Role } from "@/lib/generated/prisma";
+import { Role, type ResidencyKind } from "@/lib/generated/prisma";
 import type { SessionUser } from "@/auth/session";
 
 export async function createCommunityWithBuildingAndApartment() {
@@ -21,6 +21,7 @@ export async function createUserWithMembership(params: {
   apartmentId?: string;
   role: Role;
   email?: string;
+  kind?: ResidencyKind;
 }): Promise<SessionUser> {
   const email = params.email ?? `user-${Date.now()}-${Math.random()}@example.com`;
   const user = await prisma.user.create({
@@ -37,7 +38,7 @@ export async function createUserWithMembership(params: {
   const residencies = params.apartmentId
     ? [
         await prisma.apartmentResidency.create({
-          data: { userId: user.id, apartmentId: params.apartmentId, communityId: params.communityId },
+          data: { userId: user.id, apartmentId: params.apartmentId, communityId: params.communityId, kind: params.kind ?? "OWNER" },
         }),
       ]
     : [];
