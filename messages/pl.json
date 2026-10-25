@@ -130,6 +130,12 @@
     "invalidForm": "Nieprawidłowe dane formularza"
   },
   "packages": {
+    "recipient": "Odbiorca",
+    "recipientDefaultPrimary": "Domyślnie: {name}",
+    "recipientDefaultAll": "Domyślnie: wszyscy mieszkańcy",
+    "recipientAll": "Wszyscy mieszkańcy",
+    "recipientOwner": "{name} (właściciel)",
+    "recipientTenant": "{name} (najemca)",
     "title": "Paczki",
     "subtitleStaff": "Zarządzaj paczkami w recepcji.",
     "subtitleResident": "Twoje paczki.",
@@ -169,7 +175,7 @@
     "actions": {
       "created": "Paczka zarejestrowana",
       "noPermissionCreate": "Nie masz uprawnień do rejestrowania paczek",
-      "apartmentMismatch": "Wybrane mieszkanie nie należy do wybranego budynku",
+      "apartmentMismatch": "Wybrane mieszkanie, budynek lub odbiorca są nieprawidłowe",
       "createFailed": "Nie udało się zarejestrować paczki",
       "pickedUp": "Paczka oznaczona jako odebrana",
       "notFound": "Nie znaleziono paczki",

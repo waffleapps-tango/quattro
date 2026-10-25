@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/auth/session";
 import { createPackage, markPickedUp } from "@/domain/packages";
+import { getPackageRecipientOptions, type PackageRecipientOptions } from "@/domain/residencies/recipients";
 import { remindPackage } from "@/domain/packages/reminders";
 import {
   InvalidTransitionError,
@@ -50,8 +51,14 @@ export async function createPackageAction(
     return { message: te("fillRequired"), success: false, fieldErrors };
   }
 
+  const recipient = String(formData.get("recipient") ?? "");
+
   try {
-    await createPackage(actor, validated.data);
+    await createPackage(actor, {
+      ...validated.data,
+      recipientUserId: recipient && recipient !== "ALL" ? recipient : undefined,
+      allResidents: recipient === "ALL",
+    });
     revalidatePath("/packages");
     return { message: t("created"), success: true };
   } catch (error) {
@@ -105,5 +112,21 @@ export async function remindPackageAction(packageId: string): Promise<ActionStat
     if (error instanceof RateLimitedError) return { message: t("reminderCooldown"), success: false };
     console.error(error);
     return { message: t("updateFailed"), success: false };
+  }
+}
+
+export async function getPackageRecipientOptionsAction(
+  communityId: string,
+  apartmentId: string,
+): Promise<{ ok: true; data: PackageRecipientOptions } | { ok: false }> {
+  const actor = await getCurrentUser();
+  if (!actor) return { ok: false };
+  try {
+    return { ok: true, data: await getPackageRecipientOptions(actor, communityId, apartmentId) };
+  } catch (error) {
+    if (!(error instanceof UnauthorizedError || error instanceof TenantMismatchError)) {
+      console.error(error);
+    }
+    return { ok: false };
   }
 }

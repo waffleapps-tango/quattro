@@ -130,6 +130,12 @@
     "invalidForm": "Invalid form data"
   },
   "packages": {
+    "recipient": "Recipient",
+    "recipientDefaultPrimary": "Default: {name}",
+    "recipientDefaultAll": "Default: all residents",
+    "recipientAll": "All residents",
+    "recipientOwner": "{name} (owner)",
+    "recipientTenant": "{name} (tenant)",
     "title": "Packages",
     "subtitleStaff": "Manage packages at the front desk.",
     "subtitleResident": "Your packages.",
@@ -169,7 +175,7 @@
     "actions": {
       "created": "Package registered",
       "noPermissionCreate": "You do not have permission to register packages",
-      "apartmentMismatch": "The selected apartment does not belong to the selected building",
+      "apartmentMismatch": "The selected apartment, building or recipient is invalid",
       "createFailed": "Could not register the package",
       "pickedUp": "Package marked as picked up",
       "notFound": "Package not found",

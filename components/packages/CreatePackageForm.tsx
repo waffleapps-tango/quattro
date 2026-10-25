@@ -23,7 +23,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
-import { createPackageAction } from "@/actions/packages";
+import { createPackageAction, getPackageRecipientOptionsAction } from "@/actions/packages";
+import type { PackageRecipientOptions } from "@/domain/residencies/recipients";
 import type { Building, Apartment } from "@/lib/generated/prisma";
 
 type ActionState = { message: string; success: boolean; fieldErrors?: Record<string, string> };
@@ -41,6 +42,8 @@ export function CreatePackageForm({
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState(buildings[0]?.id ?? "");
   const [apartmentId, setApartmentId] = useState("");
+  const [recipient, setRecipient] = useState("DEFAULT");
+  const [recipientOptions, setRecipientOptions] = useState<PackageRecipientOptions | null>(null);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     createPackageAction,
     { message: "", success: false },
@@ -53,6 +56,19 @@ export function CreatePackageForm({
   useEffect(() => {
     setApartmentId("");
   }, [buildingId]);
+
+  useEffect(() => {
+    setRecipient("DEFAULT");
+    setRecipientOptions(null);
+    if (!apartmentId) return;
+    let cancelled = false;
+    getPackageRecipientOptionsAction(communityId, apartmentId).then((result) => {
+      if (!cancelled && result.ok) setRecipientOptions(result.data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [apartmentId, communityId]);
 
   const apartments = apartmentsByBuilding[buildingId] ?? [];
 
@@ -120,6 +136,32 @@ export function CreatePackageForm({
                 </p>
               </Collapse>
             </div>
+            <Collapse show={Boolean(apartmentId)} className="-mx-1 -mt-1 mb-0!">
+              <div className="space-y-2 px-1 pt-1 pb-4">
+                <Label htmlFor="recipient">{t("recipient")}</Label>
+                <Select value={recipient} onValueChange={setRecipient}>
+                  <SelectTrigger id="recipient">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="DEFAULT">
+                      {recipientOptions?.default.type === "primary"
+                        ? t("recipientDefaultPrimary", { name: recipientOptions.default.name })
+                        : t("recipientDefaultAll")}
+                    </SelectItem>
+                    <SelectItem value="ALL">{t("recipientAll")}</SelectItem>
+                    {recipientOptions?.options.map((o) => (
+                      <SelectItem key={o.userId} value={o.userId}>
+                        {o.kind === "OWNER"
+                          ? t("recipientOwner", { name: o.name })
+                          : t("recipientTenant", { name: o.name })}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <input type="hidden" name="recipient" value={recipient === "DEFAULT" ? "" : recipient} />
+              </div>
+            </Collapse>
             <div className="space-y-2">
               <Label htmlFor="trackingNumber">{t("trackingNumber")}</Label>
               <Input id="trackingNumber" name="trackingNumber" />
