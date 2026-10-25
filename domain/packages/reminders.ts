@@ -3,6 +3,7 @@ import { requireMembership, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import { InvalidTransitionError, NotFoundError, RateLimitedError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
+import { effectiveResidents } from "@/domain/residencies/occupancy";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import { PackageStatus, type Prisma } from "@/lib/generated/prisma";
 
@@ -24,11 +25,11 @@ export async function resolvePackageRecipients(
   pkg: { apartmentId: string; recipientUserId: string | null },
 ): Promise<string[]> {
   if (pkg.recipientUserId) return [pkg.recipientUserId];
-  const residents = await tx.apartmentResidency.findMany({
+  const links = await tx.apartmentResidency.findMany({
     where: { apartmentId: pkg.apartmentId },
-    select: { userId: true },
+    select: { userId: true, kind: true, livesHereOverride: true, receivesPackages: true },
   });
-  return residents.map((r) => r.userId);
+  return effectiveResidents(links).map((l) => l.userId);
 }
 
 function reminderPayload(pkg: PackageForNotice, now: Date) {

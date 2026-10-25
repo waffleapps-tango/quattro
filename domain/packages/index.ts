@@ -14,6 +14,7 @@ export async function createPackage(
     buildingId: string;
     apartmentId: string;
     recipientUserId?: string;
+    allResidents?: boolean;
     trackingNumber?: string;
     courier?: string;
     notes?: string;
@@ -36,12 +37,32 @@ export async function createPackage(
       );
     }
 
+    let recipientUserId: string | null = null;
+    if (input.recipientUserId) {
+      const link = await tx.apartmentResidency.findUnique({
+        where: {
+          userId_apartmentId: { userId: input.recipientUserId, apartmentId: input.apartmentId },
+        },
+      });
+      if (!link || !link.receivesPackages) {
+        throw new TenantMismatchError(
+          `User ${input.recipientUserId} cannot receive packages for apartment ${input.apartmentId}`,
+        );
+      }
+      recipientUserId = link.userId;
+    } else if (!input.allResidents) {
+      const primary = await tx.apartmentResidency.findFirst({
+        where: { apartmentId: input.apartmentId, isPrimary: true, receivesPackages: true },
+      });
+      recipientUserId = primary?.userId ?? null;
+    }
+
     const pkg = await tx.package.create({
       data: {
         communityId: input.communityId,
         buildingId: input.buildingId,
         apartmentId: input.apartmentId,
-        recipientUserId: input.recipientUserId,
+        recipientUserId,
         trackingNumber: input.trackingNumber,
         courier: input.courier,
         notes: input.notes,
