@@ -1,86 +1,142 @@
 import prisma from "@/lib/prisma";
 import { requireMembership, residentApartmentIds, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
-import { NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
-import { Role, type ResidencyKind } from "@/lib/generated/prisma";
+import {
+  NotFoundError,
+  TenantMismatchError,
+  UnauthorizedError,
+  ValidationError,
+} from "@/domain/errors";
+import { Role, type Prisma, type ResidencyKind } from "@/lib/generated/prisma";
+import { canManageApartment, isApartmentOwner, isCommunityManager, MANAGE_ROLES } from "./access";
 
-const MANAGE_ROLES: Role[] = [Role.ADMIN, Role.MANAGER];
+async function linkResident(
+  tx: Prisma.TransactionClient,
+  p: {
+    actorId: string;
+    communityId: string;
+    email: string;
+    buildingId: string;
+    apartmentId: string;
+    kind: ResidencyKind;
+  },
+) {
+  const apartment = await tx.apartment.findUnique({
+    where: { id: p.apartmentId },
+    include: { building: true },
+  });
+  if (
+    !apartment ||
+    apartment.buildingId !== p.buildingId ||
+    apartment.building.communityId !== p.communityId
+  ) {
+    throw new TenantMismatchError(
+      `Apartment ${p.apartmentId} does not belong to building ${p.buildingId} in community ${p.communityId}`,
+    );
+  }
+
+  const user =
+    (await tx.user.findUnique({ where: { email: p.email } })) ??
+    (await tx.user.create({
+      data: { email: p.email, clerkUserId: `pending:${p.email}` },
+    }));
+
+  const membership = await tx.membership.findUnique({
+    where: { userId_communityId: { userId: user.id, communityId: p.communityId } },
+  });
+  if (!membership) {
+    await tx.membership.create({
+      data: {
+        userId: user.id,
+        communityId: p.communityId,
+        buildingId: p.buildingId,
+        role: Role.RESIDENT,
+      },
+    });
+  }
+
+  const existing = await tx.apartmentResidency.findUnique({
+    where: { userId_apartmentId: { userId: user.id, apartmentId: p.apartmentId } },
+  });
+  if (existing) {
+    throw new ValidationError(`User ${p.email} is already linked to apartment ${p.apartmentId}`);
+  }
+
+  const residency = await tx.apartmentResidency.create({
+    data: {
+      userId: user.id,
+      apartmentId: p.apartmentId,
+      communityId: p.communityId,
+      kind: p.kind,
+    },
+  });
+
+  await writeAuditLog(tx, {
+    communityId: p.communityId,
+    userId: p.actorId,
+    action: "RESIDENCY_ADDED",
+    entity: "ApartmentResidency",
+    entityId: residency.id,
+    metadata: { targetEmail: p.email, apartmentId: p.apartmentId, kind: p.kind },
+  });
+
+  return residency;
+}
 
 export async function addResidency(
   actor: SessionUser,
-  input: { communityId: string; email: string; buildingId: string; apartmentId: string; kind: ResidencyKind },
+  input: {
+    communityId: string;
+    email: string;
+    buildingId: string;
+    apartmentId: string;
+    kind: ResidencyKind;
+  },
 ) {
   requireMembership(actor, input.communityId, MANAGE_ROLES);
+  return prisma.$transaction((tx) => linkResident(tx, { actorId: actor.id, ...input }));
+}
 
-  return prisma.$transaction(async (tx) => {
-    const apartment = await tx.apartment.findUnique({
-      where: { id: input.apartmentId },
-      include: { building: true },
-    });
-    if (
-      !apartment ||
-      apartment.buildingId !== input.buildingId ||
-      apartment.building.communityId !== input.communityId
-    ) {
-      throw new TenantMismatchError(
-        `Apartment ${input.apartmentId} does not belong to building ${input.buildingId} in community ${input.communityId}`,
-      );
-    }
-
-    const user =
-      (await tx.user.findUnique({ where: { email: input.email } })) ??
-      (await tx.user.create({
-        data: { email: input.email, clerkUserId: `pending:${input.email}` },
-      }));
-
-    const membership = await tx.membership.findUnique({
-      where: { userId_communityId: { userId: user.id, communityId: input.communityId } },
-    });
-    if (!membership) {
-      await tx.membership.create({
-        data: {
-          userId: user.id,
-          communityId: input.communityId,
-          buildingId: input.buildingId,
-          role: Role.RESIDENT,
-        },
-      });
-    }
-
-    const existing = await tx.apartmentResidency.findUnique({
-      where: { userId_apartmentId: { userId: user.id, apartmentId: input.apartmentId } },
-    });
-    if (existing) {
-      throw new ValidationError(`User ${input.email} is already linked to apartment ${input.apartmentId}`);
-    }
-
-    const residency = await tx.apartmentResidency.create({
-      data: {
-        userId: user.id,
-        apartmentId: input.apartmentId,
-        communityId: input.communityId,
-        kind: input.kind,
-      },
-    });
-
-    await writeAuditLog(tx, {
-      communityId: input.communityId,
-      userId: actor.id,
-      action: "RESIDENCY_ADDED",
-      entity: "ApartmentResidency",
-      entityId: residency.id,
-      metadata: { targetEmail: input.email, apartmentId: input.apartmentId, kind: input.kind },
-    });
-
-    return residency;
+export async function addTenant(
+  actor: SessionUser,
+  input: { apartmentId: string; email: string },
+) {
+  const apartment = await prisma.apartment.findUnique({
+    where: { id: input.apartmentId },
+    include: { building: true },
   });
+  if (!apartment) throw new NotFoundError(`Apartment ${input.apartmentId} not found`);
+  const communityId = apartment.building.communityId;
+
+  if (!canManageApartment(actor, communityId, apartment.id)) {
+    throw new UnauthorizedError(
+      `User ${actor.id} may not add tenants to apartment ${apartment.id}`,
+    );
+  }
+
+  return prisma.$transaction((tx) =>
+    linkResident(tx, {
+      actorId: actor.id,
+      communityId,
+      email: input.email,
+      buildingId: apartment.buildingId,
+      apartmentId: apartment.id,
+      kind: "TENANT",
+    }),
+  );
 }
 
 export async function removeResidency(actor: SessionUser, residencyId: string) {
   const residency = await prisma.apartmentResidency.findUnique({ where: { id: residencyId } });
   if (!residency) throw new NotFoundError(`Residency ${residencyId} not found`);
 
-  requireMembership(actor, residency.communityId, MANAGE_ROLES);
+  // Admins and managers remove any link; an owner may only remove tenants of their own apartment.
+  const allowed =
+    isCommunityManager(actor, residency.communityId) ||
+    (residency.kind === "TENANT" && isApartmentOwner(actor, residency.apartmentId));
+  if (!allowed) {
+    throw new UnauthorizedError(`User ${actor.id} may not remove residency ${residencyId}`);
+  }
 
   await prisma.$transaction(async (tx) => {
     await tx.apartmentResidency.delete({ where: { id: residencyId } });
@@ -90,7 +146,11 @@ export async function removeResidency(actor: SessionUser, residencyId: string) {
       action: "RESIDENCY_REMOVED",
       entity: "ApartmentResidency",
       entityId: residencyId,
-      metadata: { apartmentId: residency.apartmentId, userId: residency.userId },
+      metadata: {
+        apartmentId: residency.apartmentId,
+        userId: residency.userId,
+        kind: residency.kind,
+      },
     });
   });
 }
