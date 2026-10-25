@@ -91,6 +91,26 @@ async function main() {
     ),
   );
 
+  const tenant = await prisma.user.create({
+    data: {
+      clerkUserId: "pending:tenant1@quattro.dev",
+      email: "tenant1@quattro.dev",
+      firstName: "Tenant",
+      lastName: "1",
+    },
+  });
+  await prisma.membership.create({
+    data: { userId: tenant.id, communityId: community.id, buildingId: buildings[0].id, role: Role.RESIDENT },
+  });
+  await prisma.apartmentResidency.create({
+    data: {
+      userId: tenant.id,
+      apartmentId: apartmentsByBuilding[0][0].id,
+      communityId: community.id,
+      kind: "TENANT",
+    },
+  });
+
   await prisma.package.create({
     data: {
       communityId: community.id,
