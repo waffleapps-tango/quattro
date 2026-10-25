@@ -131,3 +131,46 @@ describe("removeResidency permissions", () => {
     await expect(removeResidency(otherOwner, tenantLink.id)).rejects.toThrow(UnauthorizedError);
   });
 });
+
+describe("removeResidency and the tenant's membership", () => {
+  const membershipCount = (email: string) =>
+    prisma.membership.count({ where: { user: { email }, communityId: community.id } });
+
+  it("deletes the RESIDENT membership when an owner removes the last link", async () => {
+    const link = await addTenant(owner, { apartmentId: apartment.id, email: "t@example.com" });
+    await removeResidency(owner, link.id);
+    expect(await membershipCount("t@example.com")).toBe(0);
+    const audit = await prisma.auditLog.findFirstOrThrow({ where: { action: "RESIDENCY_REMOVED", entityId: link.id } });
+    expect(audit.metadata).toMatchObject({ removedMembership: true });
+  });
+
+  it("keeps the membership when the tenant still has another residency", async () => {
+    const link = await addTenant(owner, { apartmentId: apartment.id, email: "t@example.com" });
+    const other = await prisma.apartment.create({ data: { buildingId: building.id, number: "202" } });
+    const user = await prisma.user.findUniqueOrThrow({ where: { email: "t@example.com" } });
+    await prisma.apartmentResidency.create({
+      data: { userId: user.id, apartmentId: other.id, communityId: community.id, kind: "OWNER" },
+    });
+    await removeResidency(owner, link.id);
+    expect(await membershipCount("t@example.com")).toBe(1);
+  });
+
+  it("keeps the membership when a manager removes the link", async () => {
+    const link = await addTenant(owner, { apartmentId: apartment.id, email: "t@example.com" });
+    await removeResidency(manager, link.id);
+    expect(await membershipCount("t@example.com")).toBe(1);
+  });
+
+  it("keeps a non-RESIDENT membership", async () => {
+    const staff = await createUserWithMembership({
+      communityId: community.id,
+      buildingId: building.id,
+      role: Role.RECEPTIONIST,
+      email: "staff@example.com",
+    });
+    const link = await addTenant(owner, { apartmentId: apartment.id, email: "staff@example.com" });
+    await removeResidency(owner, link.id);
+    expect(await membershipCount("staff@example.com")).toBe(1);
+    expect(staff.id).toBeTruthy();
+  });
+});

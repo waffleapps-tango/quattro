@@ -68,6 +68,8 @@ export function ApartmentPeople({
     setBusy(key);
     try {
       report(await fn());
+    } catch {
+      toast.error(t("actionFailed"));
     } finally {
       setBusy(null);
     }
@@ -79,6 +81,7 @@ export function ApartmentPeople({
     <div className="mt-4 space-y-4 border-t pt-4">
       <h3 className="text-sm font-medium">{t("title")}</h3>
 
+      <div role="radiogroup" aria-label={t("primary")} className="space-y-4">
       <ul className="space-y-2">
         {people.map((p) => (
           <li key={p.residencyId} className="flex flex-wrap items-center justify-between gap-2">
@@ -129,6 +132,7 @@ export function ApartmentPeople({
           {t("noPrimary")}
         </label>
       )}
+      </div>
 
       {isOwner && (
         <form action={formAction} className="flex flex-wrap items-end gap-2">

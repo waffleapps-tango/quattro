@@ -10,12 +10,17 @@ import { Package as PackageIcon } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { Input } from "@/components/ui/input";
-import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
+import type { Package, Apartment, Building } from "@/lib/generated/prisma";
 
 type PackageWithRelations = Package & {
   apartment: Apartment;
   building: Building;
-  recipient: User | null;
+  recipient: {
+    id: string;
+    firstName: string | null;
+    lastName: string | null;
+    email?: string;
+  } | null;
 };
 
 export function PackagesList({

@@ -139,7 +139,10 @@ export async function listPackagesForViewer(
         OR: [
           { trackingNumber: { contains: search, mode: "insensitive" } },
           { apartment: { number: { contains: search, mode: "insensitive" } } },
-          { recipient: { email: { contains: search, mode: "insensitive" } } },
+          // Residents must not be able to probe co-residents' emails through search.
+          ...(staffMembership
+            ? [{ recipient: { email: { contains: search, mode: "insensitive" as const } } }]
+            : []),
         ],
       }
     : {};
@@ -147,7 +150,11 @@ export async function listPackagesForViewer(
   if (staffMembership) {
     return prisma.package.findMany({
       where: { communityId, ...searchFilter },
-      include: { apartment: true, building: true, recipient: true },
+      include: {
+        apartment: true,
+        building: true,
+        recipient: { select: { id: true, firstName: true, lastName: true, email: true } },
+      },
       orderBy: { createdAt: "desc" },
     });
   }
@@ -171,7 +178,11 @@ export async function listPackagesForViewer(
 
   return prisma.package.findMany({
     where: { communityId, OR: residentFilters },
-    include: { apartment: true, building: true, recipient: true },
+    include: {
+      apartment: true,
+      building: true,
+      recipient: { select: { id: true, firstName: true, lastName: true } },
+    },
     orderBy: { createdAt: "desc" },
   });
 }

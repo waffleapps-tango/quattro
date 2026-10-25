@@ -138,8 +138,24 @@ export async function removeResidency(actor: SessionUser, residencyId: string) {
     throw new UnauthorizedError(`User ${actor.id} may not remove residency ${residencyId}`);
   }
 
+  const byManager = isCommunityManager(actor, residency.communityId);
+
   await prisma.$transaction(async (tx) => {
     await tx.apartmentResidency.delete({ where: { id: residencyId } });
+
+    // An owner removing a tenant also drops the RESIDENT membership they created, once unused.
+    let removedMembership = false;
+    if (!byManager) {
+      const remaining = await tx.apartmentResidency.count({
+        where: { userId: residency.userId, communityId: residency.communityId },
+      });
+      if (remaining === 0) {
+        const { count } = await tx.membership.deleteMany({
+          where: { userId: residency.userId, communityId: residency.communityId, role: Role.RESIDENT },
+        });
+        removedMembership = count > 0;
+      }
+    }
     await writeAuditLog(tx, {
       communityId: residency.communityId,
       userId: actor.id,
@@ -150,6 +166,7 @@ export async function removeResidency(actor: SessionUser, residencyId: string) {
         apartmentId: residency.apartmentId,
         userId: residency.userId,
         kind: residency.kind,
+        ...(removedMembership ? { removedMembership } : {}),
       },
     });
   });

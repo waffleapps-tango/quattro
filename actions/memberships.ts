@@ -15,7 +15,7 @@ import { ResidencyKind, Role } from "@/lib/generated/prisma";
 
 const createMembershipSchema = z.object({
   communityId: z.string().min(1),
-  email: z.string().email(),
+  email: z.string().trim().toLowerCase().email(),
   buildingId: z.string().optional(),
   apartmentId: z.string().optional(),
   role: z.nativeEnum(Role),

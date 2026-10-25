@@ -24,11 +24,14 @@ export async function resolvePackageRecipients(
   tx: Prisma.TransactionClient,
   pkg: { apartmentId: string; recipientUserId: string | null },
 ): Promise<string[]> {
-  if (pkg.recipientUserId) return [pkg.recipientUserId];
   const links = await tx.apartmentResidency.findMany({
     where: { apartmentId: pkg.apartmentId },
     select: { userId: true, kind: true, livesHereOverride: true, receivesPackages: true },
   });
+  // A stored recipient only counts while they still have a link that receives packages.
+  if (pkg.recipientUserId && links.some((l) => l.userId === pkg.recipientUserId && l.receivesPackages)) {
+    return [pkg.recipientUserId];
+  }
   return effectiveResidents(links).map((l) => l.userId);
 }
 

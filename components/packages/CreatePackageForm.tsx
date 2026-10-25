@@ -50,7 +50,10 @@ export function CreatePackageForm({
   );
 
   useEffect(() => {
-    if (state.success && !pending) setOpen(false);
+    if (state.success && !pending) {
+      setOpen(false);
+      setRecipient("DEFAULT");
+    }
   }, [state, pending]);
 
   useEffect(() => {
@@ -64,7 +67,7 @@ export function CreatePackageForm({
     let cancelled = false;
     getPackageRecipientOptionsAction(communityId, apartmentId).then((result) => {
       if (!cancelled && result.ok) setRecipientOptions(result.data);
-    });
+    }).catch(() => {});
     return () => {
       cancelled = true;
     };
@@ -145,9 +148,11 @@ export function CreatePackageForm({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="DEFAULT">
-                      {recipientOptions?.default.type === "primary"
-                        ? t("recipientDefaultPrimary", { name: recipientOptions.default.name })
-                        : t("recipientDefaultAll")}
+                      {!recipientOptions
+                        ? t("recipientDefault")
+                        : recipientOptions.default.type === "primary"
+                          ? t("recipientDefaultPrimary", { name: recipientOptions.default.name })
+                          : t("recipientDefaultAll")}
                     </SelectItem>
                     <SelectItem value="ALL">{t("recipientAll")}</SelectItem>
                     {recipientOptions?.options.map((o) => (

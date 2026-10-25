@@ -240,3 +240,57 @@ describe("listPackagesForViewer with several apartments", () => {
     expect(visible.map((p) => p.apartmentId).sort()).toEqual([s.apartment.id, second.id].sort());
   });
 });
+
+describe("listPackagesForViewer with owners and tenants", () => {
+  async function setup() {
+    const base = await createCommunityWithBuildingAndApartment();
+    const common = {
+      communityId: base.community.id,
+      buildingId: base.building.id,
+      apartmentId: base.apartment.id,
+      role: Role.RESIDENT,
+    };
+    const owner = await createUserWithMembership({ ...common, kind: "OWNER" });
+    const tenant = await createUserWithMembership({ ...common, kind: "TENANT" });
+    const receptionist = await createUserWithMembership({
+      communityId: base.community.id,
+      buildingId: base.building.id,
+      role: Role.RECEPTIONIST,
+    });
+    return { ...base, owner, tenant, receptionist };
+  }
+
+  it("does not expose the recipient's email or clerk id to residents, but does to staff", async () => {
+    const s = await setup();
+    await prisma.apartmentResidency.updateMany({ where: { userId: s.owner.id }, data: { isPrimary: true } });
+    await createPackage(s.receptionist, {
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+    });
+
+    const [asTenant] = await listPackagesForViewer(s.tenant, s.community.id);
+    expect(asTenant.recipient).not.toBeNull();
+    expect(asTenant.recipient).not.toHaveProperty("email");
+    expect(asTenant.recipient).not.toHaveProperty("clerkUserId");
+
+    const [asStaff] = await listPackagesForViewer(s.receptionist, s.community.id);
+    expect(asStaff.recipient).toHaveProperty("email", s.owner.email);
+    expect(asStaff.recipient).not.toHaveProperty("clerkUserId");
+  });
+
+  it("shows the apartment's package to a renting-out owner and to an opted-out tenant", async () => {
+    const s = await setup();
+    await prisma.apartmentResidency.updateMany({ where: { userId: s.tenant.id }, data: { receivesPackages: false } });
+    const pkg = await createPackage(s.receptionist, {
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+    });
+
+    for (const viewer of [s.owner, s.tenant]) {
+      const result = await listPackagesForViewer(viewer, s.community.id);
+      expect(result.map((p) => p.id)).toEqual([pkg.id]);
+    }
+  });
+});

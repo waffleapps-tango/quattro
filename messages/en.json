@@ -131,6 +131,7 @@
   },
   "packages": {
     "recipient": "Recipient",
+    "recipientDefault": "Default",
     "recipientDefaultPrimary": "Default: {name}",
     "recipientDefaultAll": "Default: all residents",
     "recipientAll": "All residents",
@@ -744,6 +745,7 @@
       "unnamed": "Unnamed person",
       "kind": { "OWNER": "Owner", "TENANT": "Tenant" },
       "primary": "Primary contact",
+      "actionFailed": "Something went wrong. Try again.",
       "makePrimary": "Make {name} the primary contact",
       "noPrimary": "No primary contact",
       "removeTenant": "Remove {name}",

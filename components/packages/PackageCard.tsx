@@ -11,12 +11,17 @@ import { quick } from "@/lib/motion";
 import { toast } from "sonner";
 import { useFormatter, useTranslations } from "next-intl";
 import { markPickedUpAction, remindPackageAction } from "@/actions/packages";
-import type { Package, Apartment, Building, User } from "@/lib/generated/prisma";
+import type { Package, Apartment, Building } from "@/lib/generated/prisma";
 
 type PackageWithRelations = Package & {
   apartment: Apartment;
   building: Building;
-  recipient: User | null;
+  recipient: {
+    id: string;
+    firstName: string | null;
+    lastName: string | null;
+    email?: string;
+  } | null;
 };
 
 export function PackageCard({
@@ -130,7 +135,12 @@ export function PackageCard({
           )}
           {pkg.recipient && (
             <p className="text-sm text-muted-foreground">
-              {t("recipientLabel", { value: pkg.recipient.email })}
+              {t("recipientLabel", {
+                value:
+                  [pkg.recipient.firstName, pkg.recipient.lastName].filter(Boolean).join(" ") ||
+                  pkg.recipient.email ||
+                  "",
+              })}
             </p>
           )}
           {canMarkPickedUp && pkg.status !== "PICKED_UP" && (

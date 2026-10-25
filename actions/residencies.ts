@@ -17,7 +17,7 @@ type ActionState = { message: string; success: boolean };
 
 const addTenantSchema = z.object({
   apartmentId: z.string().min(1),
-  email: z.string().trim().email(),
+  email: z.string().trim().toLowerCase().email(),
 });
 
 export async function addTenantAction(

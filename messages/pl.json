@@ -131,6 +131,7 @@
   },
   "packages": {
     "recipient": "Odbiorca",
+    "recipientDefault": "Domyślnie",
     "recipientDefaultPrimary": "Domyślnie: {name}",
     "recipientDefaultAll": "Domyślnie: wszyscy mieszkańcy",
     "recipientAll": "Wszyscy mieszkańcy",
@@ -744,6 +745,7 @@
       "unnamed": "Osoba bez nazwy",
       "kind": { "OWNER": "Właściciel", "TENANT": "Najemca" },
       "primary": "Osoba kontaktowa",
+      "actionFailed": "Coś poszło nie tak. Spróbuj ponownie.",
       "makePrimary": "Ustaw {name} jako osobę kontaktową",
       "noPrimary": "Brak osoby kontaktowej",
       "removeTenant": "Usuń {name}",

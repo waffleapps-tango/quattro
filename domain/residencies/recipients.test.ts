@@ -9,6 +9,7 @@ import {
   createUserWithMembership,
 } from "@/domain/__test-helpers__/fixtures";
 import { createPackage } from "@/domain/packages";
+import { remindPackage } from "@/domain/packages/reminders";
 import { getPackageRecipientOptions } from "@/domain/residencies/recipients";
 
 afterEach(async () => {
@@ -139,5 +140,31 @@ describe("getPackageRecipientOptions", () => {
     await expect(
       getPackageRecipientOptions(receptionist, community.id, other.apartment.id),
     ).rejects.toThrow(TenantMismatchError);
+  });
+});
+
+describe("stale stored recipients", () => {
+  const reminded = async () =>
+    (await prisma.notification.findMany({ where: { type: "PACKAGE_REMINDER" } }))
+      .map((n) => n.recipientUserId)
+      .sort();
+
+  it("reminds the effective residents when the stored recipient later opts out", async () => {
+    await prisma.apartmentResidency.update({ where: { id: (await linkOf(owner.id)).id }, data: { isPrimary: true } });
+    const pkg = await register();
+    expect(pkg.recipientUserId).toBe(owner.id);
+    await prisma.apartmentResidency.update({ where: { id: (await linkOf(owner.id)).id }, data: { receivesPackages: false } });
+
+    await remindPackage(receptionist, pkg.id);
+    expect(await reminded()).toEqual([tenant.id]);
+  });
+
+  it("reminds the effective residents when the stored recipient's link is deleted", async () => {
+    await prisma.apartmentResidency.update({ where: { id: (await linkOf(owner.id)).id }, data: { isPrimary: true } });
+    const pkg = await register();
+    await prisma.apartmentResidency.delete({ where: { id: (await linkOf(owner.id)).id } });
+
+    await remindPackage(receptionist, pkg.id);
+    expect(await reminded()).toEqual([tenant.id]);
   });
 });
