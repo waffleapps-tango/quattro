@@ -32,6 +32,13 @@ Open http://localhost:3000.
 - `npm run db:migrate` — apply Prisma migrations
 - `npm run db:seed` — seed a dev community, buildings, apartments, users, and packages
 
+## Claude skills
+
+- `/stitch-prompt <route>` — generates a ready-to-paste Google Stitch prompt for one screen
+  (e.g. `/stitch-prompt /packages`, optionally with a role). It reads the route's real code and
+  uses `docs/stitch-screen-prompts.md` (shared design-system block + one prompt per screen) as the
+  template library. Skill lives in `.claude/skills/stitch-prompt/SKILL.md`.
+
 ## Architecture
 
 See `docs/superpowers/specs/2026-10-06-foundation-tenant-packages-design.md`
