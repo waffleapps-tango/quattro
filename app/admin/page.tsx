@@ -7,6 +7,7 @@ import { listMembershipsForCommunity } from "@/domain/memberships";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { MembershipsTable } from "@/components/admin/MembershipsTable";
 import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
+import { UnassignedClerkUsers } from "@/components/admin/UnassignedClerkUsers";
 import { Role, type Apartment } from "@/lib/generated/prisma";
 import { UnauthorizedError } from "@/domain/errors";
 
@@ -53,6 +54,7 @@ export default async function AdminPage() {
           apartmentsByBuilding={apartmentsByBuilding}
         />
       </div>
+      <UnassignedClerkUsers />
       <MembershipsTable memberships={memberships} />
     </div>
   );
