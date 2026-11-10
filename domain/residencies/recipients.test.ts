@@ -141,6 +141,20 @@ describe("getPackageRecipientOptions", () => {
       getPackageRecipientOptions(receptionist, community.id, other.apartment.id),
     ).rejects.toThrow(TenantMismatchError);
   });
+
+  it("shows a placeholder for a hidden resident", async () => {
+    await prisma.user.update({
+      where: { id: owner.id },
+      data: { firstName: "Jan", lastName: "Kowalski", shareName: false },
+    });
+
+    const result = await getPackageRecipientOptions(receptionist, community.id, apartment.id);
+
+    const names = result.options.map((o) => o.name);
+    expect(names).toContain("Mieszkaniec Building A / 101");
+    expect(names.join(" ")).not.toContain("Jan");
+    expect(names.join(" ")).not.toContain(owner.email);
+  });
 });
 
 describe("stale stored recipients", () => {

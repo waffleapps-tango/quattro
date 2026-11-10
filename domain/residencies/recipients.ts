@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { requireMembership, type SessionUser } from "@/auth/session";
 import { TenantMismatchError } from "@/domain/errors";
+import { maskPerson } from "@/domain/privacy/person";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import type { ResidencyKind } from "@/lib/generated/prisma";
 
@@ -33,11 +34,14 @@ export async function getPackageRecipientOptions(
     orderBy: [{ kind: "asc" }, { createdAt: "asc" }],
   });
 
-  const options = links.map((l) => ({ userId: l.userId, name: displayName(l.user), kind: l.kind }));
+  const ctx = { buildingName: apartment.building.name, apartmentNumber: apartment.number };
+  const nameOf = (u: (typeof links)[number]["user"]) => displayName(maskPerson(u, actor.id, ctx));
+
+  const options = links.map((l) => ({ userId: l.userId, name: nameOf(l.user), kind: l.kind }));
   const primary = links.find((l) => l.isPrimary);
   return {
     default: primary
-      ? { type: "primary", userId: primary.userId, name: displayName(primary.user) }
+      ? { type: "primary", userId: primary.userId, name: nameOf(primary.user) }
       : { type: "all" },
     options,
   };

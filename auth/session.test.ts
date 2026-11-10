@@ -11,6 +11,7 @@ function makeUser(memberships: SessionUser["memberships"]): SessionUser {
     firstName: null,
     lastName: null,
     locale: null,
+    shareName: true,
     createdAt: new Date(),
     memberships,
     residencies: [],
