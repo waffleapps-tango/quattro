@@ -32,11 +32,9 @@ export function NotificationChannels({
         setPhone(next.phone ?? "");
         toast.success(res.message);
       } else {
-        setPhone(saved.phone ?? "");
         toast.error(res.message);
       }
     } catch {
-      setPhone(saved.phone ?? "");
       toast.error(t("failed"));
     } finally {
       setBusy(false);
@@ -44,6 +42,8 @@ export function NotificationChannels({
   };
 
   const savePhone = () => {
+    // Only persist on blur while SMS is on; otherwise the number is sent with the SMS switch.
+    if (!saved.smsEnabled) return;
     const next = clean(phone) || null;
     if (next === saved.phone) return;
     // Clearing the number also turns SMS off.
@@ -83,7 +83,7 @@ export function NotificationChannels({
             id="notif-sms"
             checked={saved.smsEnabled}
             disabled={busy}
-            onCheckedChange={(v) => save({ ...saved, smsEnabled: v, phone: clean(phone) || null })}
+            onCheckedChange={(v) => save({ ...saved, smsEnabled: v, phone: v ? clean(phone) || null : saved.phone })}
           />
         </div>
         <Label htmlFor="notif-phone" className="sr-only">
@@ -96,7 +96,6 @@ export function NotificationChannels({
           autoComplete="tel"
           placeholder={t("phonePlaceholder")}
           value={phone}
-          disabled={busy}
           onChange={(e) => setPhone(e.target.value)}
           onBlur={savePhone}
         />
