@@ -75,7 +75,9 @@ function SectionForm({
       <input
         type="hidden"
         name="contacts"
-        value={JSON.stringify(rows.map(({ id: _id, ...r }) => r))}
+        value={JSON.stringify(
+          rows.map((r) => ({ name: r.name, phone: r.phone, note: r.note })),
+        )}
       />
 
       <div className="space-y-2">
