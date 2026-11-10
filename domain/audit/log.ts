@@ -2,6 +2,9 @@ import type { Prisma } from "@/lib/generated/prisma";
 
 export type AuditAction =
   | "PACKAGE_CREATED"
+  | "INFO_SECTION_CREATED"
+  | "INFO_SECTION_UPDATED"
+  | "INFO_SECTION_DELETED"
   | "PACKAGE_PICKED_UP"
   | "MEMBERSHIP_CREATED"
   | "USER_ROLE_CHANGED"
