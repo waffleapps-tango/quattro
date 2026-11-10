@@ -22,7 +22,8 @@
     "signUp": "Rejestracja",
     "postNotFound": "Nie znaleziono posta",
     "locationsDescription": "Odkryj udogodnienia osiedla i ciekawe miejsca w okolicy",
-    "profile": "Mój profil"
+    "profile": "Mój profil",
+    "info": "Informacje"
   },
   "settings": {
     "title": "Ustawienia",
@@ -80,7 +81,8 @@
     "groupModules": "Moduły",
     "groupSystem": "System i ustawienia",
     "profile": "Profil",
-    "greeting": "Cześć, {name}"
+    "greeting": "Cześć, {name}",
+    "info": "Informacje"
   },
   "system": {
     "errorCode": "Kod błędu: {digest}",
@@ -244,8 +246,14 @@
     "dialogEyebrow": "Formularz",
     "urgentHint": "Tylko awarie zagrażające mieniu, bezpieczeństwu lub ciągłości mediów.",
     "visibility": {
-      "PUBLIC": { "title": "Zgłoszenie publiczne", "description": "Widoczne dla sąsiadów na tablicy osiedlowej." },
-      "PRIVATE": { "title": "Zgłoszenie prywatne", "description": "Widzisz je tylko Ty i zarząd." }
+      "PUBLIC": {
+        "title": "Zgłoszenie publiczne",
+        "description": "Widoczne dla sąsiadów na tablicy osiedlowej."
+      },
+      "PRIVATE": {
+        "title": "Zgłoszenie prywatne",
+        "description": "Widzisz je tylko Ty i zarząd."
+      }
     },
     "dialogTitle": "Nowe zgłoszenie",
     "dialogDescription": "Wybierz kategorię i opisz sprawę. Zgłoszenia z kategorii „Moje…” widzisz tylko Ty i zarząd.",
@@ -663,7 +671,10 @@
   "admin": {
     "title": "Zarządzanie członkami",
     "kindLabel": "Relacja z mieszkaniem",
-    "kind": { "OWNER": "Właściciel", "TENANT": "Najemca" },
+    "kind": {
+      "OWNER": "Właściciel",
+      "TENANT": "Najemca"
+    },
     "role": {
       "RESIDENT": "Mieszkaniec",
       "RECEPTIONIST": "Recepcja",
@@ -750,6 +761,43 @@
       }
     }
   },
+  "info": {
+    "title": "Informacje o osiedlu",
+    "subtitle": "Telefony, harmonogram wywozu śmieci i zasady.",
+    "empty": "Na razie pusto",
+    "emptyHint": "Pracownicy mogą dodawać sekcje z przydatnymi informacjami.",
+    "emptyResident": "Nic jeszcze nie dodano.",
+    "add": "Dodaj sekcję",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "moveUp": "Przesuń w górę",
+    "moveDown": "Przesuń w dół",
+    "dialogAddTitle": "Dodaj sekcję",
+    "dialogEditTitle": "Edytuj sekcję",
+    "titleLabel": "Tytuł",
+    "kindLabel": "Typ",
+    "kindContacts": "Lista telefonów",
+    "kindText": "Tekst",
+    "bodyLabel": "Tekst",
+    "contactName": "Nazwa",
+    "contactPhone": "Telefon",
+    "contactNote": "Uwagi (opcjonalnie)",
+    "addContact": "Dodaj telefon",
+    "removeContact": "Usuń telefon",
+    "save": "Zapisz",
+    "saving": "Zapisywanie…",
+    "cancel": "Anuluj",
+    "deleteTitle": "Usunąć tę sekcję?",
+    "deleteDescription": "Sekcja i cała jej zawartość zostaną usunięte dla wszystkich mieszkańców.",
+    "actions": {
+      "saved": "Zapisano",
+      "deleted": "Sekcja usunięta",
+      "moved": "Zmieniono kolejność",
+      "noPermission": "Nie masz uprawnień do tej zmiany",
+      "notFound": "Ta sekcja już nie istnieje",
+      "failed": "Coś poszło nie tak"
+    }
+  },
   "auth": {
     "signInTitle": "Witaj ponownie",
     "signInSubtitle": "Zaloguj się, aby kontynuować",
@@ -765,7 +813,10 @@
       "title": "Osoby",
       "you": "ty",
       "unnamed": "Osoba bez nazwy",
-      "kind": { "OWNER": "Właściciel", "TENANT": "Najemca" },
+      "kind": {
+        "OWNER": "Właściciel",
+        "TENANT": "Najemca"
+      },
       "primary": "Osoba kontaktowa",
       "actionFailed": "Coś poszło nie tak. Spróbuj ponownie.",
       "makePrimary": "Ustaw {name} jako osobę kontaktową",

@@ -22,7 +22,8 @@
     "signUp": "Sign up",
     "postNotFound": "Post not found",
     "locationsDescription": "Discover the estate's amenities and interesting places nearby",
-    "profile": "My profile"
+    "profile": "My profile",
+    "info": "Info"
   },
   "settings": {
     "title": "Settings",
@@ -80,7 +81,8 @@
     "groupModules": "Modules",
     "groupSystem": "System",
     "profile": "Profile",
-    "greeting": "Hi, {name}"
+    "greeting": "Hi, {name}",
+    "info": "Info"
   },
   "system": {
     "errorCode": "Error code: {digest}",
@@ -244,8 +246,14 @@
     "dialogEyebrow": "Form",
     "urgentHint": "Only failures that threaten property, safety or utilities.",
     "visibility": {
-      "PUBLIC": { "title": "Public report", "description": "Visible to your neighbours on the community board." },
-      "PRIVATE": { "title": "Private report", "description": "Only you and management can see it." }
+      "PUBLIC": {
+        "title": "Public report",
+        "description": "Visible to your neighbours on the community board."
+      },
+      "PRIVATE": {
+        "title": "Private report",
+        "description": "Only you and management can see it."
+      }
     },
     "dialogTitle": "New report",
     "dialogDescription": "Choose a category and describe the matter. Reports in “My…” categories are visible only to you and management.",
@@ -663,7 +671,10 @@
   "admin": {
     "title": "Member management",
     "kindLabel": "Apartment relationship",
-    "kind": { "OWNER": "Owner", "TENANT": "Tenant" },
+    "kind": {
+      "OWNER": "Owner",
+      "TENANT": "Tenant"
+    },
     "role": {
       "RESIDENT": "Resident",
       "RECEPTIONIST": "Receptionist",
@@ -750,6 +761,43 @@
       }
     }
   },
+  "info": {
+    "title": "Community info",
+    "subtitle": "Phone numbers, trash schedule and house rules.",
+    "empty": "Nothing here yet",
+    "emptyHint": "Staff can add sections with useful information.",
+    "emptyResident": "Nothing has been added yet.",
+    "add": "Add section",
+    "edit": "Edit",
+    "delete": "Delete",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "dialogAddTitle": "Add section",
+    "dialogEditTitle": "Edit section",
+    "titleLabel": "Title",
+    "kindLabel": "Type",
+    "kindContacts": "Phone list",
+    "kindText": "Text",
+    "bodyLabel": "Text",
+    "contactName": "Name",
+    "contactPhone": "Phone",
+    "contactNote": "Note (optional)",
+    "addContact": "Add phone",
+    "removeContact": "Remove phone",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete this section?",
+    "deleteDescription": "The section and everything in it will be removed for all residents.",
+    "actions": {
+      "saved": "Saved",
+      "deleted": "Section deleted",
+      "moved": "Order changed",
+      "noPermission": "You are not allowed to change this",
+      "notFound": "This section no longer exists",
+      "failed": "Something went wrong"
+    }
+  },
   "auth": {
     "signInTitle": "Welcome back",
     "signInSubtitle": "Sign in to continue",
@@ -765,7 +813,10 @@
       "title": "People",
       "you": "you",
       "unnamed": "Unnamed person",
-      "kind": { "OWNER": "Owner", "TENANT": "Tenant" },
+      "kind": {
+        "OWNER": "Owner",
+        "TENANT": "Tenant"
+      },
       "primary": "Primary contact",
       "actionFailed": "Something went wrong. Try again.",
       "makePrimary": "Make {name} the primary contact",
