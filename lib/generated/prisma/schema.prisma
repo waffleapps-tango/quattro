@@ -45,14 +45,15 @@ model User {
   shareName   Boolean  @default(true)
   createdAt   DateTime @default(now())
 
-  memberships       Membership[]
-  residencies       ApartmentResidency[]
-  recipientPackages Package[]            @relation("PackageRecipient")
-  receivedPackages  Package[]            @relation("PackageReceivedBy")
-  pickedUpPackages  Package[]            @relation("PackagePickedUpBy")
-  auditLogs         AuditLog[]
-  reports           Report[]
-  notifications     Notification[]       @relation("NotificationRecipient")
+  memberships            Membership[]
+  residencies            ApartmentResidency[]
+  recipientPackages      Package[]               @relation("PackageRecipient")
+  receivedPackages       Package[]               @relation("PackageReceivedBy")
+  pickedUpPackages       Package[]               @relation("PackagePickedUpBy")
+  auditLogs              AuditLog[]
+  reports                Report[]
+  notifications          Notification[]          @relation("NotificationRecipient")
+  notificationPreference NotificationPreference?
 }
 
 model Community {
@@ -315,6 +316,16 @@ model NotificationDelivery {
 
   @@unique([notificationId, channel])
   @@index([status, nextAttemptAt])
+}
+
+model NotificationPreference {
+  userId       String   @id
+  emailEnabled Boolean  @default(false)
+  smsEnabled   Boolean  @default(false)
+  phone        String?
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ResidencyKind {
