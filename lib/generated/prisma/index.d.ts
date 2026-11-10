@@ -3625,6 +3625,7 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     locale: string | null
+    shareName: boolean | null
     createdAt: Date | null
   }
 
@@ -3635,6 +3636,7 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     locale: string | null
+    shareName: boolean | null
     createdAt: Date | null
   }
 
@@ -3645,6 +3647,7 @@ export namespace Prisma {
     firstName: number
     lastName: number
     locale: number
+    shareName: number
     createdAt: number
     _all: number
   }
@@ -3657,6 +3660,7 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     locale?: true
+    shareName?: true
     createdAt?: true
   }
 
@@ -3667,6 +3671,7 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     locale?: true
+    shareName?: true
     createdAt?: true
   }
 
@@ -3677,6 +3682,7 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     locale?: true
+    shareName?: true
     createdAt?: true
     _all?: true
   }
@@ -3760,6 +3766,7 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     locale: string | null
+    shareName: boolean
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -3787,6 +3794,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     locale?: boolean
+    shareName?: boolean
     createdAt?: boolean
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     residencies?: boolean | User$residenciesArgs<ExtArgs>
@@ -3806,6 +3814,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     locale?: boolean
+    shareName?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -3816,6 +3825,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     locale?: boolean
+    shareName?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -3826,10 +3836,11 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     locale?: boolean
+    shareName?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkUserId" | "email" | "firstName" | "lastName" | "locale" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkUserId" | "email" | "firstName" | "lastName" | "locale" | "shareName" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     residencies?: boolean | User$residenciesArgs<ExtArgs>
@@ -3863,6 +3874,7 @@ export namespace Prisma {
       firstName: string | null
       lastName: string | null
       locale: string | null
+      shareName: boolean
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -4301,6 +4313,7 @@ export namespace Prisma {
     readonly firstName: FieldRef<"User", 'String'>
     readonly lastName: FieldRef<"User", 'String'>
     readonly locale: FieldRef<"User", 'String'>
+    readonly shareName: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -19397,6 +19410,7 @@ export namespace Prisma {
     firstName: 'firstName',
     lastName: 'lastName',
     locale: 'locale',
+    shareName: 'shareName',
     createdAt: 'createdAt'
   };
 
@@ -19885,6 +19899,7 @@ export namespace Prisma {
     firstName?: StringNullableFilter<"User"> | string | null
     lastName?: StringNullableFilter<"User"> | string | null
     locale?: StringNullableFilter<"User"> | string | null
+    shareName?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
     residencies?: ApartmentResidencyListRelationFilter
@@ -19903,6 +19918,7 @@ export namespace Prisma {
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
     locale?: SortOrderInput | SortOrder
+    shareName?: SortOrder
     createdAt?: SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
     residencies?: ApartmentResidencyOrderByRelationAggregateInput
@@ -19924,6 +19940,7 @@ export namespace Prisma {
     firstName?: StringNullableFilter<"User"> | string | null
     lastName?: StringNullableFilter<"User"> | string | null
     locale?: StringNullableFilter<"User"> | string | null
+    shareName?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
     residencies?: ApartmentResidencyListRelationFilter
@@ -19942,6 +19959,7 @@ export namespace Prisma {
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
     locale?: SortOrderInput | SortOrder
+    shareName?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -19958,6 +19976,7 @@ export namespace Prisma {
     firstName?: StringNullableWithAggregatesFilter<"User"> | string | null
     lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
     locale?: StringNullableWithAggregatesFilter<"User"> | string | null
+    shareName?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -21078,6 +21097,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -21096,6 +21116,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -21114,6 +21135,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -21132,6 +21154,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -21150,6 +21173,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
   }
 
@@ -21160,6 +21184,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21170,6 +21195,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22359,6 +22385,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type MembershipListRelationFilter = {
     every?: MembershipWhereInput
     some?: MembershipWhereInput
@@ -22426,6 +22457,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     locale?: SortOrder
+    shareName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -22436,6 +22468,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     locale?: SortOrder
+    shareName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -22446,6 +22479,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     locale?: SortOrder
+    shareName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -22465,6 +22499,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -22819,11 +22861,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type ParkingSpaceCommunityIdNumberCompoundUniqueInput = {
     communityId: string
     number: string
@@ -22863,14 +22900,6 @@ export namespace Prisma {
     hasEvCharger?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StorageUnitBuildingIdNumberCompoundUniqueInput = {
@@ -23486,6 +23515,10 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type MembershipUpdateManyWithoutUserNestedInput = {
@@ -24822,10 +24855,6 @@ export namespace Prisma {
     connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type CommunityUpdateOneRequiredWithoutParkingSpacesNestedInput = {
     create?: XOR<CommunityCreateWithoutParkingSpacesInput, CommunityUncheckedCreateWithoutParkingSpacesInput>
     connectOrCreate?: CommunityCreateOrConnectWithoutParkingSpacesInput
@@ -25349,6 +25378,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -25364,6 +25398,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -25450,19 +25492,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumReportTypeFilter<$PrismaModel = never> = {
@@ -27458,6 +27487,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -27475,6 +27505,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -27613,6 +27644,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -27630,6 +27662,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput
@@ -27875,6 +27908,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -27892,6 +27926,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -27914,6 +27949,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -27931,6 +27967,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -27953,6 +27990,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -27970,6 +28008,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -28126,6 +28165,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -28143,6 +28183,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -28171,6 +28212,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -28188,6 +28230,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -28216,6 +28259,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -28233,6 +28277,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -28993,6 +29038,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -29010,6 +29056,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -29232,6 +29279,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -29249,6 +29297,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -29305,6 +29354,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -29322,6 +29372,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -29400,6 +29451,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -29417,6 +29469,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -29473,6 +29526,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyCreateNestedManyWithoutUserInput
@@ -29490,6 +29544,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutUserInput
@@ -29600,6 +29655,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUpdateManyWithoutUserNestedInput
@@ -29617,6 +29673,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     residencies?: ApartmentResidencyUncheckedUpdateManyWithoutUserNestedInput
@@ -29725,6 +29782,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
     recipientPackages?: PackageCreateNestedManyWithoutRecipientInput
@@ -29742,6 +29800,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     locale?: string | null
+    shareName?: boolean
     createdAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
     recipientPackages?: PackageUncheckedCreateNestedManyWithoutRecipientInput
@@ -29847,6 +29906,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUpdateManyWithoutRecipientNestedInput
@@ -29864,6 +29924,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
+    shareName?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
     recipientPackages?: PackageUncheckedUpdateManyWithoutRecipientNestedInput

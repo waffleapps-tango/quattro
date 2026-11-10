@@ -42,6 +42,7 @@ model User {
   firstName   String?
   lastName    String?
   locale      String?
+  shareName   Boolean  @default(true)
   createdAt   DateTime @default(now())
 
   memberships       Membership[]
