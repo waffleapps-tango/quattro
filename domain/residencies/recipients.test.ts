@@ -142,6 +142,18 @@ describe("getPackageRecipientOptions", () => {
     ).rejects.toThrow(TenantMismatchError);
   });
 
+  it("shows a placeholder for a hidden primary contact", async () => {
+    await prisma.apartmentResidency.update({ where: { id: (await linkOf(tenant.id)).id }, data: { isPrimary: true } });
+    await prisma.user.update({
+      where: { id: tenant.id },
+      data: { firstName: "Jan", lastName: "Kowalski", shareName: false },
+    });
+
+    const result = await getPackageRecipientOptions(receptionist, community.id, apartment.id);
+
+    expect(result.default).toEqual({ type: "primary", userId: tenant.id, name: "Mieszkaniec Building A / 101" });
+  });
+
   it("shows a placeholder for a hidden resident", async () => {
     await prisma.user.update({
       where: { id: owner.id },

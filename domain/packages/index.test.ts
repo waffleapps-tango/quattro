@@ -303,6 +303,19 @@ describe("listPackagesForViewer with owners and tenants", () => {
     expect(asOwner.recipient).toMatchObject({ firstName: "Jan", lastName: "Kowalski" });
   });
 
+  it("lets staff find a visible recipient by email search", async () => {
+    const s = await setup();
+    await prisma.apartmentResidency.updateMany({ where: { userId: s.owner.id }, data: { isPrimary: true } });
+    await createPackage(s.receptionist, {
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+    });
+
+    const found = await listPackagesForViewer(s.receptionist, s.community.id, { search: s.owner.email });
+    expect(found).toHaveLength(1);
+  });
+
   it("does not let staff find a hidden recipient by email search", async () => {
     const s = await setup();
     await prisma.apartmentResidency.updateMany({ where: { userId: s.owner.id }, data: { isPrimary: true } });

@@ -214,15 +214,28 @@ describe("listReports", () => {
     expect(byId(asStaff, theirs.id).author.email).toBe(neighbour.email);
   });
 
-  it("masks a hidden author for staff", async () => {
-    const theirs = await createReport(neighbour, publicInput());
+  it("masks a hidden author for staff, with building and apartment when the report has them", async () => {
+    const theirs = await createReport(neighbour, privateInput());
     await prisma.user.update({ where: { id: neighbour.id }, data: { shareName: false } });
 
     const item = (await listReports(receptionist, community.id)).find((r) => r.id === theirs.id)!;
 
-    expect(item.author.firstName).toMatch(/^Mieszkaniec/);
+    expect(item.author.firstName).toBe("Mieszkaniec Building A / 202");
     expect(item.author.lastName).toBeNull();
     expect(item.author.email).toBe("");
+  });
+
+  it("shows a hidden author their own report unmasked", async () => {
+    const own = await createReport(neighbour, publicInput());
+    await prisma.user.update({
+      where: { id: neighbour.id },
+      data: { firstName: "Jan", lastName: "Kowalski", shareName: false },
+    });
+
+    const item = (await listReports(neighbour, community.id)).find((r) => r.id === own.id)!;
+
+    expect(item.author.firstName).toBe("Jan");
+    expect(item.author.lastName).toBe("Kowalski");
   });
 
   it("lets a receptionist see PRIVATE reports too", async () => {

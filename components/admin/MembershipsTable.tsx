@@ -22,14 +22,10 @@ import { EmptyState } from "@/components/system/EmptyState";
 import { toast } from "sonner";
 import { updateMembershipRoleAction, removeMembershipAction, removeResidencyAction } from "@/actions/memberships";
 import { useTranslations } from "next-intl";
-import { Role, type Membership, type User, type Building, type Apartment, type ApartmentResidency } from "@/lib/generated/prisma";
+import { Role } from "@/lib/generated/prisma";
+import type { listMembershipsForCommunity } from "@/domain/memberships";
 
-type MembershipRow = Membership & {
-  user: User & {
-    residencies: (ApartmentResidency & { apartment: Apartment & { building: Building } })[];
-  };
-  building: Building | null;
-};
+type MembershipRow = Awaited<ReturnType<typeof listMembershipsForCommunity>>[number];
 
 export function MembershipsTable({ memberships }: { memberships: MembershipRow[] }) {
   const t = useTranslations("admin");

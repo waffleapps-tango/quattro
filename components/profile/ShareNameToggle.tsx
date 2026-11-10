@@ -22,6 +22,9 @@ export function ShareNameToggle({ initial }: { initial: boolean }) {
         setChecked(!next);
         toast.error(result.message);
       }
+    } catch {
+      setChecked(!next);
+      toast.error(t("failed"));
     } finally {
       setBusy(false);
     }

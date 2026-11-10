@@ -14,11 +14,20 @@ export async function listMembershipsForCommunity(
     where: { communityId },
     include: {
       building: true,
+      // Narrow select: this goes to a client component, so no names/clerk ids.
       user: {
-        include: {
+        select: {
+          email: true,
           residencies: {
             where: { communityId },
-            include: { apartment: { include: { building: true } } },
+            select: {
+              id: true,
+              kind: true,
+              apartmentId: true,
+              apartment: {
+                select: { number: true, building: { select: { name: true } } },
+              },
+            },
           },
         },
       },

@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/auth/session";
@@ -12,6 +13,8 @@ export async function setShareNameAction(share: boolean): Promise<ActionState> {
   const te = await getTranslations("errors");
   const actor = await getCurrentUser();
   if (!actor) return { message: te("notSignedIn"), success: false };
+
+  if (!z.boolean().safeParse(share).success) return { message: t("failed"), success: false };
 
   try {
     await setShareName(actor, share);

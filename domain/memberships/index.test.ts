@@ -121,3 +121,17 @@ describe("updateMembershipRole / removeMembership", () => {
     expect(remaining).toBeNull();
   });
 });
+
+describe("listMembershipsForCommunity", () => {
+  it("returns only the narrow user fields the admin table needs", async () => {
+    const { community } = await createCommunityWithBuildingAndApartment();
+    const admin = await createUserWithMembership({ communityId: community.id, role: Role.ADMIN });
+
+    const rows = await listMembershipsForCommunity(admin, community.id);
+
+    expect(rows.length).toBeGreaterThan(0);
+    for (const row of rows) {
+      expect(Object.keys(row.user).sort()).toEqual(["email", "residencies"]);
+    }
+  });
+});
