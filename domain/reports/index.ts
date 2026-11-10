@@ -15,6 +15,7 @@ import {
   type ReportStatus,
   type ReportType,
 } from "@/lib/generated/prisma";
+import { maskPerson } from "@/domain/privacy/person";
 import { getCategory } from "./catalog";
 import { canTransition } from "./transitions";
 
@@ -23,7 +24,7 @@ const APPROVER_ROLES: Role[] = [Role.MANAGER, Role.ADMIN];
 const FINAL_STATUSES: ReportStatus[] = ["RESOLVED", "APPROVED", "REJECTED", "CLOSED"];
 
 const reportInclude = {
-  author: { select: { firstName: true, lastName: true, email: true } },
+  author: { select: { firstName: true, lastName: true, email: true, shareName: true } },
   apartment: true,
   building: true,
   parkingSpace: true,
@@ -33,9 +34,19 @@ const reportInclude = {
 export type ReportListItem = Prisma.ReportGetPayload<{ include: typeof reportInclude }>;
 
 // Residents must not receive other authors' identity (it would ship in the RSC payload).
+// Staff see real identities unless the author opted out of sharing their name.
 function maskAuthor<T extends ReportListItem>(report: T, actor: SessionUser, isStaff: boolean): T {
-  if (isStaff || report.authorId === actor.id) return report;
-  return { ...report, author: { firstName: null, lastName: null, email: "" } };
+  if (report.authorId === actor.id) return report;
+  if (!isStaff) {
+    return { ...report, author: { firstName: null, lastName: null, email: "", shareName: true } };
+  }
+  return {
+    ...report,
+    author: maskPerson({ id: report.authorId, ...report.author }, actor.id, {
+      buildingName: report.building?.name,
+      apartmentNumber: report.apartment?.number,
+    }),
+  };
 }
 
 function membershipIn(actor: SessionUser, communityId: string) {
