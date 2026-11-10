@@ -6,7 +6,7 @@ A user can turn off sharing of their first/last name. When off, everyone except 
 ## Decisions
 - **Scope:** placeholder shown to everyone except the user themself (residents, receptionists, managers, admins).
 - **Default:** name shown (`shareName = true`) for existing and new users.
-- **Placeholder:** uses the apartment of the context (package's, report's, or profile apartment): `Mieszkaniec <Building> / <Apt>`. No apartment in context: `Mieszkaniec`; for a staff-role user: `Pracownik`.
+- **Placeholder:** uses the apartment of the context (package's, report's, or profile apartment): `Mieszkaniec <Building> / <Apt>`. No apartment in context: `Mieszkaniec`.
 - **Email:** masked wherever the hidden user's name is masked (the email is the current fallback when a name is missing, so it would defeat the setting).
 
 ## Data
@@ -26,5 +26,5 @@ All domain queries that return another user's `firstName`/`lastName`/`email` pas
 - A user's own name (greeting, top bar, nav, profile header) is unchanged.
 
 ## Tests
-- Helper unit tests: self, visible user, hidden with apartment, hidden without apartment, hidden staff.
+- Helper unit tests: self, visible user, hidden with apartment, hidden without apartment.
 - Extend packages, reports, profile and recipients domain tests: for a hidden user, neither name nor email is present in data returned to a staff viewer or a resident viewer.
