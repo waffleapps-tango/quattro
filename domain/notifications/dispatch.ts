@@ -4,12 +4,13 @@ import type { ChannelAdapter, SendResult } from "./channels/types";
 
 export const MAX_ATTEMPTS = 5;
 const BATCH_SIZE = 100;
+const LEASE_MS = 5 * 60_000;
 
-// ponytail: only runs from the daily cron (vercel.json `0 8 * * *`), so non-instant
-// channels deliver up to 24h late; call it after createPackage via next/server
-// `after()` or add a more frequent cron when a real channel ships. It also has no
-// claim/lock, so overlapping runs can double-send; add FOR UPDATE SKIP LOCKED or
-// a claim column before a second channel ships.
+// Runs from the daily cron (retry sweeper) and right after requests via after().
+// Each delivery is claimed with an optimistic bump of `attempts`, so overlapping runs
+// cannot double-send; the claim also leases it (nextAttemptAt = now + 5min) so a run
+// that starts after the claim skips it. A crash between claim and result leaves it
+// PENDING, retried once the lease expires (at-least-once).
 export async function dispatchPending(
   adapters: Record<string, ChannelAdapter> = channels,
   now = new Date(),
@@ -27,8 +28,13 @@ export async function dispatchPending(
   const counts = { sent: 0, retried: 0, failed: 0 };
 
   for (const delivery of due) {
-    const adapter = adapters[delivery.channel];
     const attempts = delivery.attempts + 1;
+    const claimed = await prisma.notificationDelivery.updateMany({
+      where: { id: delivery.id, status: "PENDING", attempts: delivery.attempts },
+      data: { attempts, nextAttemptAt: new Date(now.getTime() + LEASE_MS) },
+    });
+    if (claimed.count === 0) continue;
+    const adapter = adapters[delivery.channel];
     let result: SendResult;
     if (!adapter) {
       result = { status: "fail", error: `Unknown channel ${delivery.channel}` };

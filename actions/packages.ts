@@ -2,11 +2,13 @@
 
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/auth/session";
 import { createPackage, markPickedUp } from "@/domain/packages";
 import { getPackageRecipientOptions, type PackageRecipientOptions } from "@/domain/residencies/recipients";
 import { remindPackage } from "@/domain/packages/reminders";
+import { dispatchPending } from "@/domain/notifications/dispatch";
 import {
   InvalidTransitionError,
   NotFoundError,
@@ -60,6 +62,7 @@ export async function createPackageAction(
       allResidents: recipient === "ALL",
     });
     revalidatePath("/packages");
+    after(() => dispatchPending().catch(console.error));
     return { message: t("created"), success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) {
@@ -103,6 +106,7 @@ export async function remindPackageAction(packageId: string): Promise<ActionStat
 
   try {
     const { notified } = await remindPackage(actor, packageId);
+    after(() => dispatchPending().catch(console.error));
     if (notified === 0) return { message: t("noRecipients"), success: false };
     return { message: t("reminded"), success: true };
   } catch (error) {

@@ -95,3 +95,25 @@ describe("dispatchPending", () => {
     expect((await prisma.notificationDelivery.findUniqueOrThrow({ where: { id: d.id } })).status).toBe("PENDING");
   });
 });
+
+describe("dispatchPending concurrency", () => {
+  it("sends a delivery once when two dispatchers run at the same time", async () => {
+    await pendingDelivery();
+    let calls = 0;
+    const adapters: Record<string, ChannelAdapter> = {
+      fake: {
+        id: "fake",
+        send: async () => {
+          calls++;
+          await new Promise((r) => setTimeout(r, 50));
+          return { status: "ok" };
+        },
+      },
+    };
+
+    await Promise.all([dispatchPending(adapters), dispatchPending(adapters)]);
+
+    expect(calls).toBe(1);
+    expect((await prisma.notificationDelivery.findFirstOrThrow()).status).toBe("SENT");
+  });
+});
