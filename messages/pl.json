@@ -643,7 +643,7 @@
     "emptyHint": "Dodaj pierwszy post dla społeczności.",
     "add": "Dodaj post",
     "newTitle": "Nowy post",
-    "newDescription": "Podziel się przemyśleniami ze społecznością.",
+    "newDescription": "Zmiany będą natychmiast widoczne dla mieszkańców.",
     "titleLabel": "Tytuł",
     "titlePlaceholder": "Wpisz tytuł posta",
     "contentLabel": "Treść",
@@ -651,7 +651,7 @@
     "cancel": "Anuluj",
     "adding": "Dodawanie...",
     "editTitle": "Edytuj post",
-    "editDescription": "Zaktualizuj treść posta.",
+    "editDescription": "Zmiany będą natychmiast widoczne dla mieszkańców.",
     "saving": "Zapisywanie...",
     "saveChanges": "Zapisz zmiany",
     "back": "Wróć do postów",
@@ -666,7 +666,15 @@
       "updateFailed": "Nie udało się zaktualizować posta",
       "deleted": "Post usunięty",
       "deleteFailed": "Nie udało się usunąć posta"
-    }
+    },
+    "eyebrow": "Moduł społeczności",
+    "description": "Bieżące komunikaty administracji, zarządu oraz mieszkańców.",
+    "required": "Wymagane",
+    "plainText": "Czysty tekst",
+    "plainTextHint": "Tylko czysty tekst. Podziały wierszy są zachowane.",
+    "chars": "{count} znaków",
+    "edit": "Edytuj",
+    "publishedOn": "Opublikowano {date}"
   },
   "admin": {
     "title": "Zarządzanie członkami",

@@ -43,8 +43,9 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-destructive">
-          <Trash className="h-4 w-4" />
+        <Button variant="outline" size="sm" className="text-destructive">
+          <Trash className="mr-2 h-4 w-4" />
+          {t("delete")}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

@@ -643,7 +643,7 @@
     "emptyHint": "Add the first post for the community.",
     "add": "Add post",
     "newTitle": "New post",
-    "newDescription": "Share your thoughts with the community.",
+    "newDescription": "Changes are visible to residents right away.",
     "titleLabel": "Title",
     "titlePlaceholder": "Enter the post title",
     "contentLabel": "Content",
@@ -651,7 +651,7 @@
     "cancel": "Cancel",
     "adding": "Adding...",
     "editTitle": "Edit post",
-    "editDescription": "Update the post content.",
+    "editDescription": "Changes are visible to residents right away.",
     "saving": "Saving...",
     "saveChanges": "Save changes",
     "back": "Back to posts",
@@ -666,7 +666,15 @@
       "updateFailed": "Could not update the post",
       "deleted": "Post deleted",
       "deleteFailed": "Could not delete the post"
-    }
+    },
+    "eyebrow": "Community",
+    "description": "Current notices from the administration, the board and residents.",
+    "required": "Required",
+    "plainText": "Plain text",
+    "plainTextHint": "Plain text only. Line breaks are kept.",
+    "chars": "{count, plural, one {# character} other {# characters}}",
+    "edit": "Edit",
+    "publishedOn": "Published {date}"
   },
   "admin": {
     "title": "Member management",

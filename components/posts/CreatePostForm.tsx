@@ -12,8 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { PostFields } from "@/components/posts/PostFields";
 import { Plus } from "lucide-react";
 import { createPost } from "@/actions/actions";
 import { useActionState } from "react";
@@ -46,7 +45,7 @@ export function CreatePostForm() {
           {t("add")}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{t("newTitle")}</DialogTitle>
           <DialogDescription>
@@ -54,31 +53,7 @@ export function CreatePostForm() {
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label htmlFor="title" className="text-sm font-medium">
-                {t("titleLabel")}
-              </label>
-              <Input
-                id="title"
-                name="title"
-                placeholder={t("titlePlaceholder")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="content" className="text-sm font-medium">
-                {t("contentLabel")}
-              </label>
-              <Textarea
-                id="content"
-                name="content"
-                placeholder={t("contentPlaceholder")}
-                required
-                rows={5}
-              />
-            </div>
-          </div>
+          <PostFields />
           <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
           </Collapse>
