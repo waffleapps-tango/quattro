@@ -106,8 +106,8 @@ export async function remindPackageAction(packageId: string): Promise<ActionStat
 
   try {
     const { notified } = await remindPackage(actor, packageId);
-    after(() => dispatchPending().catch(console.error));
     if (notified === 0) return { message: t("noRecipients"), success: false };
+    after(() => dispatchPending().catch(console.error));
     return { message: t("reminded"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) return { message: t("notFound"), success: false };

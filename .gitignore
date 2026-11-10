@@ -48,3 +48,4 @@ next-env.d.ts
 
 # sqlite (replaced by local postgres, see docker-compose.yml)
 /prisma/dev.db
+/lib/generated/prisma

@@ -4,6 +4,14 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
+import { getCurrentUser } from "@/auth/session";
+import { Role } from "@/lib/generated/prisma";
+
+// Posts are global (no communityId), so any manager/admin may write; everyone else is refused.
+async function canWritePosts() {
+  const user = await getCurrentUser();
+  return !!user?.memberships.some((m) => m.role === Role.MANAGER || m.role === Role.ADMIN);
+}
 
 const postSchema = z.object({
   title: z.string().min(1),
@@ -16,6 +24,7 @@ export async function createPost(
 ) {
   const t = await getTranslations("posts.actions");
   const te = await getTranslations("errors");
+  if (!(await canWritePosts())) return { message: te("notSignedIn"), success: false };
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
@@ -32,10 +41,13 @@ export async function createPost(
     const post = await prisma.post.create({
       data: {
         ...validatedFields.data,
-        slug: validatedFields.data.title
+        // Suffix keeps slugs unique and non-empty (e.g. titles with only Polish letters).
+        slug: `${validatedFields.data.title
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)/g, ""),
+          .replace(/(^-|-$)/g, "")}-${Date.now().toString(36)}`.replace(/^-/, ""),
         published: true,
       },
     });
@@ -47,7 +59,7 @@ export async function createPost(
       post,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return {
       message: t("createFailed"),
@@ -92,7 +104,7 @@ export async function updatePost(
       success: true,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return {
       message: t("updateFailed"),
@@ -103,6 +115,7 @@ export async function updatePost(
 
 export async function deletePost(postId: string) {
   const t = await getTranslations("posts.actions");
+  if (!(await canWritePosts())) return { message: t("deleteFailed"), success: false };
   try {
     await prisma.post.delete({
       where: {
@@ -116,7 +129,7 @@ export async function deletePost(postId: string) {
       success: true,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       message: t("deleteFailed"),
       success: false,

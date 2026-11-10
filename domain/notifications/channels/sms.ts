@@ -12,6 +12,9 @@ const hasErrorField = (body: string) => {
   }
 };
 
+// Cost guard: the number is not verified, so cap what one account can make us send.
+export const SMS_DAILY_LIMIT = 10;
+
 export const smsChannel: ChannelAdapter = {
   id: "sms",
   async send(notification, user) {
@@ -20,6 +23,16 @@ export const smsChannel: ChannelAdapter = {
 
     const pref = await prisma.notificationPreference.findUnique({ where: { userId: user.id } });
     if (!pref?.smsEnabled || !pref.phone) return { status: "fail", error: "SMS not enabled" };
+
+    const sentToday = await prisma.notificationDelivery.count({
+      where: {
+        channel: "sms",
+        status: "SENT",
+        sentAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+        notification: { recipientUserId: user.id },
+      },
+    });
+    if (sentToday >= SMS_DAILY_LIMIT) return { status: "fail", error: "Daily SMS limit reached" };
 
     const { body } = renderNotification(notification, user);
     const form = new URLSearchParams({

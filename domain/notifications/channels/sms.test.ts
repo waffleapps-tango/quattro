@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import prisma from "@/lib/prisma";
 import type { Notification } from "@/lib/generated/prisma";
 import { cleanupDatabase, createPackageScenario } from "@/domain/__test-helpers__/fixtures";
-import { smsChannel } from "@/domain/notifications/channels/sms";
+import { smsChannel, SMS_DAILY_LIMIT } from "@/domain/notifications/channels/sms";
 
 const notification = {
   id: "n1",
@@ -84,6 +84,24 @@ describe("smsChannel", () => {
       data: { userId: resident.id, smsEnabled: false, phone: "+48123456789" },
     });
     expect((await smsChannel.send(notification, { ...resident, locale: "en" })).status).toBe("fail");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("stops sending once the daily limit is reached", async () => {
+    const user = await residentWithPhone();
+    const community = await prisma.community.findFirstOrThrow();
+    for (let i = 0; i < SMS_DAILY_LIMIT; i++) {
+      await prisma.notification.create({
+        data: {
+          communityId: community.id,
+          recipientUserId: user.id,
+          type: "PACKAGE_RECEIVED",
+          payload: {},
+          deliveries: { create: { channel: "sms", status: "SENT", sentAt: new Date() } },
+        },
+      });
+    }
+    expect(await smsChannel.send(notification, user as never)).toMatchObject({ status: "fail" });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });

@@ -45,14 +45,14 @@ model User {
   shareName   Boolean  @default(true)
   createdAt   DateTime @default(now())
 
-  memberships       Membership[]
-  residencies       ApartmentResidency[]
-  recipientPackages Package[]            @relation("PackageRecipient")
-  receivedPackages  Package[]            @relation("PackageReceivedBy")
-  pickedUpPackages  Package[]            @relation("PackagePickedUpBy")
-  auditLogs         AuditLog[]
-  reports           Report[]
-  notifications     Notification[]       @relation("NotificationRecipient")
+  memberships            Membership[]
+  residencies            ApartmentResidency[]
+  recipientPackages      Package[]               @relation("PackageRecipient")
+  receivedPackages       Package[]               @relation("PackageReceivedBy")
+  pickedUpPackages       Package[]               @relation("PackagePickedUpBy")
+  auditLogs              AuditLog[]
+  reports                Report[]
+  notifications          Notification[]          @relation("NotificationRecipient")
   notificationPreference NotificationPreference?
 }
 
