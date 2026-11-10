@@ -804,6 +804,13 @@
       "noPermission": "Nie masz uprawnień do tej zmiany",
       "notFound": "Ta sekcja już nie istnieje",
       "failed": "Coś poszło nie tak"
+    },
+    "errors": {
+      "title": "Podaj tytuł",
+      "body": "Wpisz treść",
+      "contactName": "Podaj nazwę",
+      "contactPhone": "Podaj numer telefonu",
+      "noContacts": "Dodaj przynajmniej jeden telefon z nazwą i numerem"
     }
   },
   "auth": {

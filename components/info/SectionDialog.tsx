@@ -43,6 +43,10 @@ function SectionForm({
   const [kind, setKind] = useState<"CONTACTS" | "TEXT">(
     section?.kind ?? "CONTACTS",
   );
+  const [title, setTitle] = useState(section?.title ?? "");
+  const [body, setBody] = useState(section?.body ?? "");
+  const [showErrors, setShowErrors] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const [rows, setRows] = useState<Row[]>(
     section?.contacts.map((c) =>
       newRow({ name: c.name, phone: c.phone, note: c.note ?? "" }),
@@ -65,11 +69,40 @@ function SectionForm({
     }
   }, [state, pending, onDone]);
 
+  const filled = rows.filter((r) => r.name.trim() || r.phone.trim());
+  const rowErrors = rows.map((r) => {
+    const used = r.name.trim() || r.phone.trim();
+    return { name: Boolean(used) && !r.name.trim(), phone: Boolean(used) && !r.phone.trim() };
+  });
+  const errors = {
+    title: !title.trim(),
+    body: kind === "TEXT" && !body.trim(),
+    noContacts: kind === "CONTACTS" && filled.length === 0,
+  };
+  const invalid =
+    errors.title || errors.body || errors.noContacts || rowErrors.some((r) => r.name || r.phone);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!invalid) return;
+    e.preventDefault();
+    setShowErrors(true);
+    requestAnimationFrame(() =>
+      formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus(),
+    );
+  };
+
+  const fieldError = (show: boolean, message: string) =>
+    showErrors && show ? (
+      <p role="alert" className="text-sm text-destructive">
+        {message}
+      </p>
+    ) : null;
+
   const setRow = (i: number, patch: Partial<Row>) =>
     setRows((rs) => rs.map((r, j) => (j === i ? { ...r, ...patch } : r)));
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form ref={formRef} action={formAction} onSubmit={onSubmit} noValidate className="space-y-4">
       <input type="hidden" name="communityId" value={communityId} />
       {section && <input type="hidden" name="id" value={section.id} />}
       <input
@@ -85,10 +118,12 @@ function SectionForm({
         <Input
           id="info-title"
           name="title"
-          defaultValue={section?.title}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           maxLength={100}
-          required
+          aria-invalid={showErrors && errors.title}
         />
+        {fieldError(errors.title, t("errors.title"))}
       </div>
 
       <div className="space-y-2">
@@ -111,10 +146,13 @@ function SectionForm({
           <Textarea
             id="info-body"
             name="body"
-            defaultValue={section?.body}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
             rows={8}
             maxLength={5000}
+            aria-invalid={showErrors && errors.body}
           />
+          {fieldError(errors.body, t("errors.body"))}
         </div>
       ) : (
         <div className="space-y-3">
@@ -130,7 +168,9 @@ function SectionForm({
                   value={row.name}
                   maxLength={100}
                   onChange={(e) => setRow(i, { name: e.target.value })}
+                  aria-invalid={showErrors && rowErrors[i].name}
                 />
+                {fieldError(rowErrors[i].name, t("errors.contactName"))}
                 <Input
                   aria-label={t("contactPhone")}
                   placeholder={t("contactPhone")}
@@ -138,7 +178,9 @@ function SectionForm({
                   maxLength={30}
                   inputMode="tel"
                   onChange={(e) => setRow(i, { phone: e.target.value })}
+                  aria-invalid={showErrors && rowErrors[i].phone}
                 />
+                {fieldError(rowErrors[i].phone, t("errors.contactPhone"))}
                 <Input
                   aria-label={t("contactNote")}
                   placeholder={t("contactNote")}
@@ -168,6 +210,7 @@ function SectionForm({
             <Plus className="mr-2 h-4 w-4" />
             {t("addContact")}
           </Button>
+          {fieldError(errors.noContacts, t("errors.noContacts"))}
         </div>
       )}
 

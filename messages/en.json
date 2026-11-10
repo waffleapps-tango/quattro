@@ -804,6 +804,13 @@
       "noPermission": "You are not allowed to change this",
       "notFound": "This section no longer exists",
       "failed": "Something went wrong"
+    },
+    "errors": {
+      "title": "Enter a title",
+      "body": "Enter the text",
+      "contactName": "Enter a name",
+      "contactPhone": "Enter a phone number",
+      "noContacts": "Add at least one phone with a name and number"
     }
   },
   "auth": {
