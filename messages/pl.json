@@ -99,7 +99,9 @@
     },
     "waiting": {
       "title": "Czekamy na zaproszenie",
-      "description": "Twoje konto nie jest jeszcze przypisane do wspólnoty. Poproś administratora o dostęp."
+      "description": "Twoje konto nie jest jeszcze przypisane do wspólnoty. Poproś administratora o dostęp.",
+      "status": "Konto aktywne",
+      "statusDetail": "Oczekiwanie na wspólnotę"
     }
   },
   "dashboard": {
@@ -234,6 +236,12 @@
     "subtitleStaff": "Wszystkie zgłoszenia wspólnoty.",
     "subtitleResident": "Zgłaszaj usterki, pytania i pomysły.",
     "new": "Nowe zgłoszenie",
+    "dialogEyebrow": "Formularz",
+    "urgentHint": "Tylko awarie zagrażające mieniu, bezpieczeństwu lub ciągłości mediów.",
+    "visibility": {
+      "PUBLIC": { "title": "Zgłoszenie publiczne", "description": "Widoczne dla sąsiadów na tablicy osiedlowej." },
+      "PRIVATE": { "title": "Zgłoszenie prywatne", "description": "Widzisz je tylko Ty i zarząd." }
+    },
     "dialogTitle": "Nowe zgłoszenie",
     "dialogDescription": "Wybierz kategorię i opisz sprawę. Zgłoszenia z kategorii „Moje…” widzisz tylko Ty i zarząd.",
     "category": "Kategoria",

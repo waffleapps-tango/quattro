@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { Globe, Lock, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Collapse } from "@/components/motion/Collapse";
@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -31,6 +32,8 @@ import type { ParkingSpace, ReportType, StorageUnit } from "@/lib/generated/pris
 // Category keys are dynamic (validated by i18n/catalog-messages.test.ts); one literal stands in for the typed key.
 type CatLabelKey = "categories.other.label";
 type CatSuggKey = "categories.other.suggestions";
+
+const Req = () => <span className="ml-0.5 text-destructive" aria-hidden="true">*</span>;
 
 type ActionState = { message: string; success: boolean; fieldErrors?: Record<string, string> };
 
@@ -101,8 +104,12 @@ export function CreateReportForm({
           {t("new")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-h-[90vh] gap-0 overflow-y-auto p-0 sm:max-w-[660px]">
+        <DialogHeader className="px-6 pt-6 pb-4">
+          <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+            <span className="h-2 w-2 rounded-full bg-[#805533]" aria-hidden="true" />
+            {t("dialogEyebrow")}
+          </p>
           <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
             {t("dialogDescription")}
@@ -115,11 +122,11 @@ export function CreateReportForm({
           <input type="hidden" name="apartmentId" value={apartmentId} />
           <input type="hidden" name="parkingSpaceId" value={category?.subject === "parking" ? parkingSpaceId : ""} />
           <input type="hidden" name="storageUnitId" value={category?.subject === "storage" ? storageUnitId : ""} />
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 px-6 py-2">
             <div className="space-y-2">
-              <Label htmlFor="category">{t("category")}</Label>
+              <Label htmlFor="category">{t("category")}<Req /></Label>
               <Select value={categoryKey} onValueChange={setCategoryKey}>
-                <SelectTrigger id="category">
+                <SelectTrigger id="category" className="w-full bg-muted">
                   <SelectValue placeholder={t("categoryPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -135,13 +142,28 @@ export function CreateReportForm({
               <Collapse show={Boolean(state.fieldErrors?.categoryKey)}>
                 <p className="text-sm text-destructive">{t("categoryRequired")}</p>
               </Collapse>
+              <Collapse show={Boolean(category)}>
+                {category && (
+                  <div className="flex items-start gap-2.5 rounded-lg bg-muted p-3">
+                    {category.visibility === "PRIVATE" ? (
+                      <Lock className="mt-0.5 h-4 w-4 shrink-0 text-[#805533]" aria-hidden="true" />
+                    ) : (
+                      <Globe className="mt-0.5 h-4 w-4 shrink-0 text-[#805533]" aria-hidden="true" />
+                    )}
+                    <div>
+                      <p className="text-sm font-semibold">{t(`visibility.${category.visibility}.title`)}</p>
+                      <p className="text-xs text-muted-foreground">{t(`visibility.${category.visibility}.description`)}</p>
+                    </div>
+                  </div>
+                )}
+              </Collapse>
             </div>
 
             <Collapse show={Boolean(category && category.types.length > 1)} className="-mx-1 -mt-1 mb-0!">
               <div className="space-y-2 px-1 pt-1 pb-4">
-                <Label htmlFor="type">{t("kind")}</Label>
+                <Label htmlFor="type">{t("kind")}<Req /></Label>
                 <Select value={type} onValueChange={(v) => setType(v as ReportType)}>
-                  <SelectTrigger id="type">
+                  <SelectTrigger id="type" className="w-full bg-muted">
                     <SelectValue placeholder={t("kindPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -162,7 +184,7 @@ export function CreateReportForm({
               <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="apartment">{t("apartment")}</Label>
                 <Select value={apartmentId} onValueChange={setApartmentId}>
-                  <SelectTrigger id="apartment">
+                  <SelectTrigger id="apartment" className="w-full bg-muted">
                     <SelectValue placeholder={t("apartmentPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -181,7 +203,7 @@ export function CreateReportForm({
               <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="parking">{t("parking")}</Label>
                 <Select value={parkingSpaceId} onValueChange={setParkingSpaceId}>
-                  <SelectTrigger id="parking">
+                  <SelectTrigger id="parking" className="w-full bg-muted">
                     <SelectValue placeholder={t("parkingPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -204,7 +226,7 @@ export function CreateReportForm({
               <div className="space-y-2 px-1 pt-1 pb-4">
                 <Label htmlFor="storage">{t("storage")}</Label>
                 <Select value={storageUnitId} onValueChange={setStorageUnitId}>
-                  <SelectTrigger id="storage">
+                  <SelectTrigger id="storage" className="w-full bg-muted">
                     <SelectValue placeholder={t("storagePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -241,9 +263,13 @@ export function CreateReportForm({
             </Collapse>
 
             <div className="space-y-2">
-              <Label htmlFor="title">{t("titleLabel")}</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="title">{t("titleLabel")}<Req /></Label>
+                <span className="text-xs text-muted-foreground tabular-nums">{title.length}/120</span>
+              </div>
               <Input
                 id="title"
+                className="bg-muted"
                 name="title"
                 value={title}
                 maxLength={120}
@@ -254,9 +280,10 @@ export function CreateReportForm({
               </Collapse>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">{t("description")}</Label>
+              <Label htmlFor="description">{t("description")}<Req /></Label>
               <Textarea
                 id="description"
+                className="bg-muted"
                 name="description"
                 value={description}
                 maxLength={2000}
@@ -267,22 +294,19 @@ export function CreateReportForm({
                 <p className="text-sm text-destructive">{t("descriptionRequired")}</p>
               </Collapse>
             </div>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                name="urgent"
-                className="h-4 w-4"
-                checked={urgent}
-                onChange={(e) => setUrgent(e.target.checked)}
-              />
-              {t("urgent")}
-            </label>
+            <div className="flex items-center justify-between gap-4 rounded-lg bg-muted p-3.5">
+              <div>
+                <Label htmlFor="urgent" className="font-semibold">{t("urgent")}</Label>
+                <p className="mt-0.5 text-xs text-muted-foreground">{t("urgentHint")}</p>
+              </div>
+              <Switch id="urgent" name="urgent" checked={urgent} onCheckedChange={setUrgent} />
+            </div>
           </div>
           <Collapse show={Boolean(state.message) && !state.success}>
-            <p className="text-sm text-destructive mb-2">{state.message}</p>
+            <p className="mb-2 px-6 text-sm text-destructive">{state.message}</p>
           </Collapse>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
+          <DialogFooter className="px-6 pt-4 pb-6 sm:justify-between">
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)} disabled={pending}>
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending || needsApartment}>

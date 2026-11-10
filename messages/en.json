@@ -99,7 +99,9 @@
     },
     "waiting": {
       "title": "Waiting for an invitation",
-      "description": "Your account isn't assigned to a community yet. Ask an administrator for access."
+      "description": "Your account isn't assigned to a community yet. Ask an administrator for access.",
+      "status": "Account active",
+      "statusDetail": "Waiting for a community"
     }
   },
   "dashboard": {
@@ -234,6 +236,12 @@
     "subtitleStaff": "All community reports.",
     "subtitleResident": "Report defects, questions and ideas.",
     "new": "New report",
+    "dialogEyebrow": "Form",
+    "urgentHint": "Only failures that threaten property, safety or utilities.",
+    "visibility": {
+      "PUBLIC": { "title": "Public report", "description": "Visible to your neighbours on the community board." },
+      "PRIVATE": { "title": "Private report", "description": "Only you and management can see it." }
+    },
     "dialogTitle": "New report",
     "dialogDescription": "Choose a category and describe the matter. Reports in “My…” categories are visible only to you and management.",
     "category": "Category",
