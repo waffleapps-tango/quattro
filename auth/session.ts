@@ -51,7 +51,8 @@ export async function linkClerkUser(
       include: sessionInclude,
     });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+    // Compare the code, not the class: Next can load the Prisma runtime twice, which breaks instanceof.
+    if ((error as { code?: string } | null)?.code === "P2025") {
       return await prisma.user.create({
         data: { clerkUserId, email },
         include: sessionInclude,
