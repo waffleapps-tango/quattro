@@ -1,5 +1,5 @@
 import type { Prisma } from "@/lib/generated/prisma";
-import { channels, resolveChannels } from "./channels";
+import { channels, resolveChannelsByUser } from "./channels";
 import { NOTIFICATION_TYPES, type NotificationPayload, type NotificationType } from "./types";
 
 export async function notify<T extends NotificationType>(
@@ -30,11 +30,11 @@ export async function notify<T extends NotificationType>(
   });
 
   const now = new Date();
-  const channelIds = resolveChannels();
+  const channelsByUser = await resolveChannelsByUser(tx, recipientIds);
   await tx.notificationDelivery.createMany({
     data: created.flatMap((notification) =>
-      channelIds.map((channel) => {
-        const instant = channels[channel].instant === true;
+      channelsByUser.get(notification.recipientUserId)!.map((channel) => {
+        const instant = channels[channel]?.instant === true;
         return {
           notificationId: notification.id,
           channel,
