@@ -137,9 +137,9 @@ export function ApartmentPeople({
       {isOwner && (
         <form action={formAction} className="flex flex-wrap items-end gap-2">
           <input type="hidden" name="apartmentId" value={apartmentId} />
-          <div className="space-y-1">
+          <div className="space-y-1 max-sm:w-full">
             <Label htmlFor={`tenant-email-${apartmentId}`}>{t("tenantEmail")}</Label>
-            <Input id={`tenant-email-${apartmentId}`} name="email" type="email" required className="w-64" />
+            <Input id={`tenant-email-${apartmentId}`} name="email" type="email" required className="w-full sm:w-64" />
           </div>
           <Button type="submit" disabled={adding}>
             {t("addTenant")}

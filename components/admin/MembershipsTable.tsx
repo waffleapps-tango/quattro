@@ -67,7 +67,7 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
 
   return (
     <div className="rounded-md border">
-      <Table>
+      <Table className="min-w-[680px]">
         <TableHeader>
           <TableRow>
             <TableHead>{t("colEmail")}</TableHead>

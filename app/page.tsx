@@ -28,7 +28,7 @@ export default async function Home() {
   if (!user) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
-        <h1 className="text-3xl font-bold">{t("welcome")}</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl">{t("welcome")}</h1>
         <p className="text-muted-foreground">
           {t("tagline")}
         </p>
@@ -69,7 +69,7 @@ export default async function Home() {
         <p className="mb-1 text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">
           {profile.community.name}
         </p>
-        <h1 className="text-3xl font-semibold">{t("greeting", { name: user.firstName ?? user.email })}</h1>
+        <h1 className="text-2xl font-semibold sm:text-3xl">{t("greeting", { name: user.firstName ?? user.email })}</h1>
       </StaggerItem>
 
       {profile.apartments.length > 0 && (

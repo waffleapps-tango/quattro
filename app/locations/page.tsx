@@ -28,13 +28,13 @@ export default async function LocationsPage() {
   return (
     <div className="space-y-8">
       <FadeIn>
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
         <p className="text-muted-foreground">{t("subtitle")}</p>
       </FadeIn>
 
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">{t("estateHeading")}</h2>
+          <h2 className="text-xl font-semibold mb-4 sm:text-2xl">{t("estateHeading")}</h2>
           <Stagger className="grid gap-4 md:grid-cols-2">
             {estateFacilities.map(({ key, icon: Icon }, i) => (
               <StaggerItem key={key} index={i} className="h-full [&>*]:h-full">
@@ -58,7 +58,7 @@ export default async function LocationsPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold mb-4">{t("nearbyHeading")}</h2>
+          <h2 className="text-xl font-semibold mb-4 sm:text-2xl">{t("nearbyHeading")}</h2>
           <Stagger className="grid gap-4 md:grid-cols-2">
             {nearbyLocations.map(({ key, icon: Icon, km }, i) => (
               <StaggerItem key={key} index={i} className="h-full [&>*]:h-full">

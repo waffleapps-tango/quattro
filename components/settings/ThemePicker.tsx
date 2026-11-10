@@ -30,7 +30,7 @@ function MiniApp() {
         </div>
       </div>
       <Input placeholder={t("search")} readOnly tabIndex={-1} />
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Button size="sm" tabIndex={-1}>{t("register")}</Button>
         <Button size="sm" variant="secondary" tabIndex={-1}>{t("filter")}</Button>
         <Button size="sm" variant="ghost" tabIndex={-1}>{t("cancel")}</Button>
@@ -66,7 +66,8 @@ export function ThemePicker() {
   return (
     <div className="grid items-center gap-6 md:grid-cols-[340px_1fr]">
       <div className="mx-auto flex flex-col items-center gap-2">
-        <div className="relative size-[340px]" role="radiogroup" aria-label={t("picker.palette")}>
+        <div className="relative size-[272px] sm:size-[340px]">
+        <div className="absolute left-0 top-0 size-[340px] origin-top-left max-sm:scale-[0.8]" role="radiogroup" aria-label={t("picker.palette")}>
           <span aria-hidden className="absolute inset-[22px] rounded-full border border-dashed border-border" />
           {PALETTES.map(({ id, label: name, swatch }, i) => {
             const a = (360 / PALETTES.length) * i - 90;
@@ -112,6 +113,7 @@ export function ThemePicker() {
             <Icon className="size-6" />
             <span className="text-xs text-muted-foreground">{modeLabel}</span>
           </button>
+        </div>
         </div>
         <div className="h-5 text-sm font-medium">{label}</div>
       </div>

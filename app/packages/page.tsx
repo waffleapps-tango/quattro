@@ -54,7 +54,7 @@ export default async function PackagesPage({
 
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="text-3xl font-bold mb-6">{t("title")}</h1>
+      <h1 className="text-2xl font-bold mb-6 sm:text-3xl">{t("title")}</h1>
       <PackagesList
         packages={packages}
         communityId={membership.communityId}

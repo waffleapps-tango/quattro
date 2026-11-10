@@ -104,7 +104,7 @@ export function CreateReportForm({
           {t("new")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] gap-0 overflow-y-auto p-0 sm:max-w-[660px]">
+      <DialogContent className="max-h-[90dvh] gap-0 overflow-y-auto p-0 sm:max-w-[660px]">
         <DialogHeader className="px-6 pt-6 pb-4">
           <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-[#805533]" aria-hidden="true" />

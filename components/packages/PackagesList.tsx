@@ -102,7 +102,7 @@ export function PackagesList({
         )
       ) : (
         <Card className="gap-0 overflow-hidden py-0">
-          <Table>
+          <Table className="max-md:block max-md:[&_tbody]:block max-md:[&_thead]:hidden">
             <TableHeader>
               <TableRow className="bg-muted hover:bg-muted [&>th]:h-11 [&>th]:text-[11px] [&>th]:font-medium [&>th]:uppercase [&>th]:tracking-[0.08em]">
                 <TableHead>{t("col.package")}</TableHead>

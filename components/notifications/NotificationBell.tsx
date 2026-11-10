@@ -81,7 +81,7 @@ export function NotificationBell() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80">
+      <DropdownMenuContent align="end" className="w-[min(20rem,calc(100vw-2rem))]">
         <DropdownMenuLabel>{t("title")}</DropdownMenuLabel>
         {unread > 0 && (
           <DropdownMenuItem

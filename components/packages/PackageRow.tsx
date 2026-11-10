@@ -67,8 +67,8 @@ export function PackageRow({
   });
 
   return (
-    <TableRow className={isUpdating ? "opacity-60" : undefined}>
-      <TableCell className="py-4 align-top">
+    <TableRow className={`max-md:grid max-md:grid-cols-[1fr_auto] max-md:gap-x-3 max-md:gap-y-1 max-md:px-4 max-md:py-3 ${isUpdating ? "opacity-60" : ""}`}>
+      <TableCell className="py-4 align-top max-md:col-start-1 max-md:row-start-1 max-md:p-0">
         <div className="flex items-center gap-1.5">
           {pkg.trackingNumber ? (
             <>
@@ -91,12 +91,15 @@ export function PackageRow({
         </div>
         {pkg.courier && <p className="text-sm text-muted-foreground">{pkg.courier}</p>}
       </TableCell>
-      <TableCell className="py-4 align-top">
+      <TableCell className="py-4 align-top max-md:col-start-1 max-md:row-start-2 max-md:p-0">
         <p className="font-medium">
           {pkg.building.name} / {pkg.apartment.number}
         </p>
         {recipientName && <p className="text-sm text-muted-foreground">{recipientName}</p>}
-        <p className="text-sm text-muted-foreground md:hidden">{received}</p>
+        <p className="text-sm text-muted-foreground md:hidden" suppressHydrationWarning>
+          {received}
+          {!picked && daysWaiting >= 1 && ` · ${t("waitingDays", { count: daysWaiting })}`}
+        </p>
       </TableCell>
       <TableCell className="hidden py-4 align-top md:table-cell">
         <p className="text-sm">{received}</p>
@@ -106,16 +109,16 @@ export function PackageRow({
           </p>
         )}
       </TableCell>
-      <TableCell className="py-4 align-top">
+      <TableCell className="py-4 align-top max-md:col-start-2 max-md:row-start-1 max-md:p-0">
         <Badge variant={statusVariant[pkg.status]}>{t(`status.${pkg.status}`)}</Badge>
       </TableCell>
-      <TableCell className="py-4 text-right align-top">
+      <TableCell className="py-4 text-right align-top max-md:col-span-2 max-md:row-start-3 max-md:p-0 max-md:pt-2 max-md:text-left">
         {isUpdating ? (
           <Loader2 className="ml-auto h-4 w-4 animate-spin" aria-hidden="true" />
         ) : (
           canMarkPickedUp &&
           !picked && (
-            <div className="flex justify-end gap-2">
+            <div className="flex gap-2 md:justify-end">
               <Button size="sm" onClick={() => run(markPickedUpAction)}>
                 <CheckCircle2 className="mr-1.5 h-4 w-4" />
                 {t("pickUp")}

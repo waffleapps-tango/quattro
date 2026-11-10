@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Building2, Menu } from "lucide-react";
 import { MobileNavigation } from "./MobileNavigation";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import {
@@ -26,9 +27,13 @@ export function TopBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUser();
   const { signOut } = useClerk();
+  const pathname = usePathname();
+
+  // The drawer would otherwise stay open after tapping a nav link.
+  useEffect(() => setIsMobileMenuOpen(false), [pathname]);
 
   return (
-    <div className="flex h-[86px] items-center justify-between border-b bg-background px-4">
+    <div className="flex h-16 items-center md:h-[86px] justify-between border-b bg-background px-4">
       <div className="flex items-center gap-4">
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
@@ -37,7 +42,12 @@ export function TopBar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0">
-            <SheetTitle className="p-4">Quattro</SheetTitle>
+            <SheetTitle className="flex items-center gap-3 p-4 font-heading font-semibold uppercase tracking-wide">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
+                <Building2 className="h-4 w-4" />
+              </span>
+              Quattro
+            </SheetTitle>
             <MobileNavigation />
           </SheetContent>
         </Sheet>
@@ -47,7 +57,7 @@ export function TopBar() {
         {user ? (
           <>
             {user.firstName && (
-              <span className="text-sm text-muted-foreground">{t("greeting", { name: user.firstName })}</span>
+              <span className="hidden text-sm text-muted-foreground sm:inline">{t("greeting", { name: user.firstName })}</span>
             )}
             <NotificationBell />
             <DropdownMenu>

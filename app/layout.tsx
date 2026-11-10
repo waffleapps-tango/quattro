@@ -52,10 +52,10 @@ export default async function RootLayout({
               <MotionProvider>
                 <div className="flex h-screen">
                   <MainNavigation />
-                  <div className="flex-1 flex flex-col">
+                  <div className="flex min-w-0 flex-1 flex-col">
                     <TopBar />
                     <main className="flex-1 overflow-y-auto">
-                      <div className="mx-auto max-w-[1380px] p-8">
+                      <div className="mx-auto max-w-[1380px] p-4 sm:p-6 lg:p-8">
                         {children}
                       </div>
                     </main>

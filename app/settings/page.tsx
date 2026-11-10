@@ -13,7 +13,7 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-6">
       <FadeIn>
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
         <p className="text-muted-foreground">{t("description")}</p>
       </FadeIn>
       <SettingsForm />
