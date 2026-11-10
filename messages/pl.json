@@ -223,6 +223,9 @@
     "open": "Otwórz powiadomienia{count, plural, =0 {} other { (nieprzeczytane: {count})}}",
     "empty": "Brak powiadomień",
     "markAllRead": "Oznacz wszystkie jako przeczytane",
+    "email": {
+      "footer": "Zmień ustawienia powiadomień: {url}"
+    },
     "types": {
       "PACKAGE_RECEIVED": {
         "title": "Paczka zarejestrowana",

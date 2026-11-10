@@ -223,6 +223,9 @@
     "open": "Open notifications{count, plural, =0 {} other { ({count} unread)}}",
     "empty": "No notifications",
     "markAllRead": "Mark all as read",
+    "email": {
+      "footer": "Change your notification settings: {url}"
+    },
     "types": {
       "PACKAGE_RECEIVED": {
         "title": "Package registered",
