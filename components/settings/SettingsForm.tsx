@@ -7,17 +7,23 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { setLocaleAction } from "@/actions/locale";
 import { ThemePicker } from "./ThemePicker";
+import { NotificationChannels } from "./NotificationChannels";
+import type { NotificationPreferences } from "@/domain/notifications/preferences";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
-export function SettingsForm() {
+export function SettingsForm({
+  initialNotifications,
+  email,
+}: {
+  initialNotifications: NotificationPreferences;
+  email: string;
+}) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [notifications, setNotifications] = useState(true);
   const t = useTranslations("settings");
   const locale = useLocale();
   const router = useRouter();
@@ -76,15 +82,8 @@ export function SettingsForm() {
             <CardTitle>{t("notifications.title")}</CardTitle>
             <CardDescription>{t("notifications.description")}</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="notifications">{t("notifications.email")}</Label>
-              <Switch
-                id="notifications"
-                checked={notifications}
-                onCheckedChange={setNotifications}
-              />
-            </div>
+          <CardContent>
+            <NotificationChannels initial={initialNotifications} email={email} />
           </CardContent>
         </Card>
       </StaggerItem>

@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/auth/session";
 import { markAllRead, markRead } from "@/domain/notifications/queries";
+import { updatePreferences } from "@/domain/notifications/preferences";
 import { updateReminderAfterDays } from "@/domain/notifications/settings";
 import { UnauthorizedError, ValidationError } from "@/domain/errors";
 
@@ -62,5 +63,30 @@ export async function updateReminderSettingsAction(
     }
     console.error(error);
     return { message: t("settingsFailed"), success: false };
+  }
+}
+
+const preferencesSchema = z.object({
+  emailEnabled: z.boolean(),
+  smsEnabled: z.boolean(),
+  phone: z.string().max(32).nullable(),
+});
+
+export async function updateNotificationPreferencesAction(input: unknown): Promise<ActionState> {
+  const t = await getTranslations("settings.notifications");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  const parsed = preferencesSchema.safeParse(input);
+  if (!parsed.success) return { message: t("failed"), success: false };
+
+  try {
+    await updatePreferences(actor, parsed.data);
+    return { message: t("saved"), success: true };
+  } catch (error) {
+    if (error instanceof ValidationError) return { message: t("phoneInvalid"), success: false };
+    console.error(error);
+    return { message: t("failed"), success: false };
   }
 }

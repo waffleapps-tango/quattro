@@ -42,8 +42,18 @@
     },
     "notifications": {
       "title": "Powiadomienia",
-      "description": "Skonfiguruj sposób otrzymywania powiadomień",
-      "email": "Powiadomienia e-mail"
+      "description": "Wybierz, jak chcesz być powiadamiany",
+      "inApp": "W aplikacji",
+      "inAppHint": "Zawsze włączone",
+      "email": "E-mail",
+      "emailHint": "Wysyłane na {email}",
+      "sms": "SMS",
+      "smsHint": "Wiadomości tekstowe na Twój telefon",
+      "phoneLabel": "Numer telefonu",
+      "phonePlaceholder": "+48 123 456 789",
+      "saved": "Zapisano ustawienia powiadomień",
+      "phoneInvalid": "Podaj numer telefonu w formacie międzynarodowym, np. +48123456789",
+      "failed": "Nie udało się zapisać ustawień powiadomień"
     },
     "language": {
       "title": "Język",

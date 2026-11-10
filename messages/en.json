@@ -42,8 +42,18 @@
     },
     "notifications": {
       "title": "Notifications",
-      "description": "Configure how you receive notifications",
-      "email": "Email notifications"
+      "description": "Choose how you want to be notified",
+      "inApp": "In-app",
+      "inAppHint": "Always on",
+      "email": "Email",
+      "emailHint": "Sent to {email}",
+      "sms": "SMS",
+      "smsHint": "Text messages to your phone",
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "+48 123 456 789",
+      "saved": "Notification settings saved",
+      "phoneInvalid": "Enter the phone number in international format, e.g. +48123456789",
+      "failed": "Could not save notification settings"
     },
     "language": {
       "title": "Language",
