@@ -3,25 +3,15 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { PackageCard } from "./PackageCard";
+import { PackageRow, type PackageWithRelations } from "./PackageRow";
 import { CreatePackageForm } from "./CreatePackageForm";
 import { ReminderSettings } from "./ReminderSettings";
-import { Package as PackageIcon } from "lucide-react";
+import { Package as PackageIcon, Search } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
-import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
+import { Card } from "@/components/ui/card";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import type { Package, Apartment, Building } from "@/lib/generated/prisma";
-
-type PackageWithRelations = Package & {
-  apartment: Apartment;
-  building: Building;
-  recipient: {
-    id: string;
-    firstName: string | null;
-    lastName: string | null;
-    email?: string;
-  } | null;
-};
+import type { Apartment, Building } from "@/lib/generated/prisma";
 
 export function PackagesList({
   packages,
@@ -59,21 +49,21 @@ export function PackagesList({
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-semibold">{t("title")}</h2>
-          <p className="text-muted-foreground">
-            {isStaff ? t("subtitleStaff") : t("subtitleResident")}
-          </p>
-        </div>
+        <p className="text-muted-foreground">
+          {isStaff ? t("subtitleStaff") : t("subtitleResident")}
+        </p>
         <div className="flex flex-col gap-2 sm:flex-row">
           {isStaff && (
             <form onSubmit={handleSearchSubmit}>
-              <Input
-                placeholder={t("searchPlaceholder")}
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                className="max-w-sm"
-              />
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  placeholder={t("searchPlaceholder")}
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="w-full bg-muted pl-9 sm:w-80"
+                />
+              </div>
             </form>
           )}
           {isStaff && (
@@ -111,13 +101,24 @@ export function PackagesList({
           />
         )
       ) : (
-        <AnimatedList className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {packages.map((pkg) => (
-            <AnimatedItem key={pkg.id} className="h-full [&>*]:h-full">
-              <PackageCard pkg={pkg} canMarkPickedUp={isStaff} />
-            </AnimatedItem>
-          ))}
-        </AnimatedList>
+        <Card className="gap-0 overflow-hidden py-0">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted hover:bg-muted [&>th]:h-11 [&>th]:text-[11px] [&>th]:font-medium [&>th]:uppercase [&>th]:tracking-[0.08em]">
+                <TableHead>{t("col.package")}</TableHead>
+                <TableHead>{t("col.location")}</TableHead>
+                <TableHead className="hidden md:table-cell">{t("col.received")}</TableHead>
+                <TableHead>{t("col.status")}</TableHead>
+                <TableHead className="text-right">{isStaff ? t("col.actions") : null}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {packages.map((pkg) => (
+                <PackageRow key={pkg.id} pkg={pkg} canMarkPickedUp={isStaff} />
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
       )}
     </div>
   );

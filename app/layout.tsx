@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { MainNavigation } from "@/components/MainNavigation";
@@ -11,7 +11,8 @@ import { enUS, plPL } from "@clerk/localizations";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
+const geist = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-geist" });
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
@@ -40,7 +41,7 @@ export default async function RootLayout({
             <style>{"[style*='opacity:0']{opacity:1!important;transform:none!important}"}</style>
           </noscript>
         </head>
-        <body className={inter.className}>
+        <body className={`${inter.variable} ${geist.variable} font-sans antialiased`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

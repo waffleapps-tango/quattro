@@ -2,7 +2,7 @@ export const PALETTE_KEY = "quattro-palette";
 
 // swatch = [background, primary, accent] in light mode, for the picker previews.
 export const PALETTES = [
-  { id: "default", label: "Default", swatch: ["oklch(1 0 0)", "oklch(0.205 0 0)", "oklch(0.94 0 0)"] },
+  { id: "default", label: "Default", swatch: ["#f8f9ff", "#091426", "#805533"] },
   { id: "ocean", label: "Ocean", swatch: ["oklch(0.985 0.008 235)", "oklch(0.55 0.15 235)", "oklch(0.93 0.035 235)"] },
   { id: "forest", label: "Forest", swatch: ["oklch(0.985 0.008 150)", "oklch(0.55 0.13 150)", "oklch(0.93 0.035 150)"] },
   { id: "sunset", label: "Sunset", swatch: ["oklch(0.985 0.008 45)", "oklch(0.55 0.17 45)", "oklch(0.93 0.035 45)"] },

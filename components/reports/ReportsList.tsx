@@ -60,7 +60,7 @@ export function ReportsList({
     options: { value: string; label: string }[],
   ) => (
     <Select value={searchParams.get(key) ?? ALL} onValueChange={(v) => setParam(key, v)}>
-      <SelectTrigger className="w-full sm:w-48">
+      <SelectTrigger className="w-full bg-muted sm:w-48">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
@@ -77,12 +77,9 @@ export function ReportsList({
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-semibold">{t("title")}</h2>
-          <p className="text-muted-foreground">
-            {isStaff ? t("subtitleStaff") : t("subtitleResident")}
-          </p>
-        </div>
+        <p className="text-muted-foreground">
+          {isStaff ? t("subtitleStaff") : t("subtitleResident")}
+        </p>
         <CreateReportForm
           communityId={communityId}
           canFilePrivate={canFilePrivate}
@@ -114,11 +111,11 @@ export function ReportsList({
           {filterSelect("urgent", t("filterUrgent"), [{ value: "1", label: t("filterUrgentOnly") }])}
         </div>
       ) : (
-        <div className="flex gap-2">
-          <Button asChild variant={view === "board" ? "default" : "outline"} size="sm">
+        <div className="inline-flex w-fit gap-1 rounded-xl bg-muted p-1">
+          <Button asChild variant={view === "board" ? "default" : "ghost"} size="sm">
             <Link href="/reports?view=board">{t("viewBoard")}</Link>
           </Button>
-          <Button asChild variant={view === "mine" ? "default" : "outline"} size="sm">
+          <Button asChild variant={view === "mine" ? "default" : "ghost"} size="sm">
             <Link href="/reports?view=mine">{t("viewMine")}</Link>
           </Button>
         </div>

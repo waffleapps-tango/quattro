@@ -8,8 +8,9 @@ import { toast } from "sonner";
 import { useFormatter, useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { statusVariant } from "@/components/reports/status";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { changeReportStatusAction } from "@/actions/reports";
 import { getCategory } from "@/domain/reports/catalog";
 import { nextStatuses } from "@/domain/reports/transitions";
@@ -56,47 +57,48 @@ export function ReportCard({
   ].filter(Boolean);
 
   return (
-    <Card className="relative">
+    <Card className="relative gap-4">
       {isUpdating && (
-        <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10">
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-background/50">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       )}
-      <CardHeader>
-        <CardTitle className="flex items-start justify-between gap-2">
-          <span>{report.title}</span>
-          <AnimatePresence mode="wait" initial={false}>
-            <m.span
-              key={report.status}
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 4 }}
-              transition={quick}
-            >
-              <Badge>{t(`status.${report.status}`)}</Badge>
-            </m.span>
-          </AnimatePresence>
-        </CardTitle>
-        <div className="flex flex-wrap gap-1">
-          <Badge variant="outline">{t(`type.${report.type}`)}</Badge>
-          <Badge variant="outline">{getCategory(report.category)
-              ? t(`categories.${report.category}.label` as "categories.other.label")
-              : report.category}</Badge>
-          {report.visibility === "PRIVATE" && <Badge variant="secondary">{t("privateBadge")}</Badge>}
-          {report.urgent && <Badge variant="destructive">{t("urgentBadge")}</Badge>}
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <p className="text-sm whitespace-pre-wrap">{report.description}</p>
-        {place.length > 0 && (
-          <p className="text-sm text-muted-foreground">{place.join(" / ")}</p>
-        )}
+      <div className="flex flex-wrap items-center gap-1.5 px-6">
+        {report.urgent && <Badge variant="danger">{t("urgentBadge")}</Badge>}
+        <span className="rounded bg-secondary px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.06em] text-secondary-foreground">
+          {t(`type.${report.type}`)}
+        </span>
+        <span className="rounded bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+          {getCategory(report.category)
+            ? t(`categories.${report.category}.label` as "categories.other.label")
+            : report.category}
+        </span>
+        {report.visibility === "PRIVATE" && <Badge variant="outline">{t("privateBadge")}</Badge>}
+        <AnimatePresence mode="wait" initial={false}>
+          <m.span
+            key={report.status}
+            className="ml-auto"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={quick}
+          >
+            <Badge variant={statusVariant(report.status)}>{t(`status.${report.status}`)}</Badge>
+          </m.span>
+        </AnimatePresence>
+      </div>
+      <div className="space-y-2 px-6">
+        <h3 className="font-heading text-lg font-semibold leading-snug">{report.title}</h3>
+        <p className="line-clamp-4 whitespace-pre-wrap text-sm text-muted-foreground">{report.description}</p>
         {showAuthor && (
           <p className="text-sm text-muted-foreground">
             {t("reportedBy", { name: report.author.firstName ?? report.author.email })}
           </p>
         )}
-        <p className="text-sm text-muted-foreground">
+      </div>
+      <div className="mx-6 mt-auto flex items-center justify-between gap-3 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">
+        <span className="truncate">{place.join(" / ")}</span>
+        <time className="shrink-0">
           {format.dateTime(new Date(report.createdAt), {
             day: "2-digit",
             month: "2-digit",
@@ -104,23 +106,23 @@ export function ReportCard({
             hour: "2-digit",
             minute: "2-digit",
           })}
-        </p>
-        {actions.length > 0 && (
-          <div className="flex flex-wrap gap-2 pt-1">
-            {actions.map((status) => (
-              <Button
-                key={status}
-                size="sm"
-                variant={status === "REJECTED" ? "outline" : "default"}
-                disabled={isUpdating}
-                onClick={() => handleChange(status)}
-              >
-                {t(`status.${status}`)}
-              </Button>
-            ))}
-          </div>
-        )}
-      </CardContent>
+        </time>
+      </div>
+      {actions.length > 0 && (
+        <div className="flex flex-wrap gap-2 px-6">
+          {actions.map((status) => (
+            <Button
+              key={status}
+              size="sm"
+              variant={status === "REJECTED" ? "secondary" : "default"}
+              disabled={isUpdating}
+              onClick={() => handleChange(status)}
+            >
+              {t(`status.${status}`)}
+            </Button>
+          ))}
+        </div>
+      )}
     </Card>
   );
 }

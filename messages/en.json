@@ -77,6 +77,8 @@
     "locations": "Locations",
     "posts": "Posts",
     "admin": "Administration",
+    "groupModules": "Modules",
+    "groupSystem": "System",
     "profile": "Profile",
     "greeting": "Hi, {name}"
   },
@@ -137,6 +139,13 @@
     "recipientAll": "All residents",
     "recipientOwner": "{name} (owner)",
     "recipientTenant": "{name} (tenant)",
+    "col": {
+      "package": "Package",
+      "location": "Apartment",
+      "received": "Received",
+      "status": "Status",
+      "actions": "Actions"
+    },
     "title": "Packages",
     "subtitleStaff": "Manage packages at the front desk.",
     "subtitleResident": "Your packages.",

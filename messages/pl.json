@@ -77,6 +77,8 @@
     "locations": "Lokalizacje",
     "posts": "Posty",
     "admin": "Administracja",
+    "groupModules": "Moduły",
+    "groupSystem": "System i ustawienia",
     "profile": "Profil",
     "greeting": "Cześć, {name}"
   },
@@ -137,6 +139,13 @@
     "recipientAll": "Wszyscy mieszkańcy",
     "recipientOwner": "{name} (właściciel)",
     "recipientTenant": "{name} (najemca)",
+    "col": {
+      "package": "Przesyłka",
+      "location": "Lokal i odbiorca",
+      "received": "Przyjęcie",
+      "status": "Status",
+      "actions": "Akcje"
+    },
     "title": "Paczki",
     "subtitleStaff": "Zarządzaj paczkami w recepcji.",
     "subtitleResident": "Twoje paczki.",

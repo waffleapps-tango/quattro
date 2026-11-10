@@ -1,140 +1,76 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Package,
-  Home,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  MapPin,
-  Shield, MessageSquare, Megaphone,
-} from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useTranslations } from "next-intl";
-import { PendingIndicator } from "@/components/system/PendingIndicator";
-
-const publicRoutes = [
-  {
-    titleKey: "home" as const,
-    href: "/",
-    icon: Home,
-  },
-  {
-    titleKey: "settings" as const,
-    href: "/settings",
-    icon: Settings,
-  },
-];
-
-const protectedRoutes = [
-  {
-    titleKey: "packages" as const,
-    href: "/packages",
-    icon: Package,
-  },
-  {
-    titleKey: "reports" as const,
-    href: "/reports",
-    icon: Megaphone,
-  },
-  {
-    titleKey: "locations" as const,
-    href: "/locations",
-    icon: MapPin,
-  },
-  {
-    titleKey: "posts" as const,
-    href: "/posts",
-    icon: MessageSquare,
-  },
-];
-
-const adminRoutes = [
-  {
-    titleKey: "admin" as const,
-    href: "/admin",
-    icon: Shield,
-  },
-];
+import { NavList, useRole } from "@/components/NavList";
 
 export function MainNavigation() {
-  const pathname = usePathname();
-  const t = useTranslations("nav");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useUser();
-  const [role, setRole] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!user) {
-      setRole(null);
-      return;
-    }
-    fetch("/api/me")
-      .then((res) => res.json())
-      .then((data: { role: string | null }) => setRole(data.role))
-      .catch(() => setRole(null));
-  }, [user]);
-
-  const routes = user
-    ? role === "ADMIN" || role === "MANAGER"
-      ? [...publicRoutes, ...protectedRoutes, ...adminRoutes]
-      : [...publicRoutes, ...protectedRoutes]
-    : publicRoutes;
+  const role = useRole();
+  const tAdmin = useTranslations("admin");
 
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col h-full border-r bg-background transition-[width] duration-200 ease-(--ease-in-out)",
-        isCollapsed ? "w-16" : "w-64"
+        "hidden md:flex flex-col h-full border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-(--ease-in-out)",
+        isCollapsed ? "w-[72px]" : "w-64",
       )}
     >
-      <div className="flex flex-col border-b min-h-[86px]">
-        <div className="flex items-center justify-between p-4 h-full">
-          <span aria-hidden={isCollapsed} className={cn("font-semibold whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>Quattro</span>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden md:flex"
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
+      <div className="flex h-[86px] items-center justify-between gap-2 px-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground">
+            <Building2 className="h-5 w-5" />
+          </span>
+          <span
+            aria-hidden={isCollapsed}
+            className={cn(
+              "font-heading text-base font-semibold uppercase tracking-wide whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out",
+              isCollapsed && "w-0 opacity-0",
             )}
-          </Button>
+          >
+            Quattro
+          </span>
         </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          aria-label={isCollapsed ? "Expand" : "Collapse"}
+          className={cn("hidden shrink-0 md:flex", isCollapsed && "absolute left-[84px] top-6 z-10 bg-card shadow-sm")}
+        >
+          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </Button>
       </div>
       <ScrollArea className="flex-1">
-        <nav className="space-y-1 p-2">
-          {routes.map((route) => {
-            const Icon = route.icon;
-            return (
-              <Link
-                key={route.href}
-                href={route.href}
-                title={isCollapsed ? t(route.titleKey) : undefined}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                  pathname === route.href
-                    ? "bg-primary text-primary-foreground"
-                    : "hover:bg-accent hover:text-accent-foreground"
-                )}
-              >
-                <Icon className="h-4 w-4" />
-                <span aria-hidden={isCollapsed} className={cn("whitespace-nowrap overflow-hidden transition-opacity duration-150 ease-out", isCollapsed && "opacity-0 w-0")}>{t(route.titleKey)}</span>
-                {!isCollapsed && <PendingIndicator />}
-              </Link>
-            );
-          })}
-        </nav>
+        <NavList collapsed={isCollapsed} />
       </ScrollArea>
+      {user && (
+        <div className="p-3">
+          <div className="flex items-center gap-3 rounded-xl bg-card p-2.5 shadow-[0_1px_2px_rgb(9_20_38/0.05)]">
+            <Avatar className="h-9 w-9 shrink-0">
+              <AvatarFallback className="bg-primary text-xs text-primary-foreground">
+                {user.firstName?.[0]}
+                {user.lastName?.[0]}
+              </AvatarFallback>
+            </Avatar>
+            <div aria-hidden={isCollapsed} className={cn("min-w-0 leading-tight", isCollapsed && "hidden")}>
+              <p className="truncate text-sm font-medium">{user.fullName ?? user.primaryEmailAddress?.emailAddress}</p>
+              {role && (
+                <p className="truncate text-xs text-muted-foreground">
+                  {tAdmin(`role.${role as "ADMIN"}`)}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-} 
+}
