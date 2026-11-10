@@ -784,6 +784,12 @@
     "building": "Building",
     "apartment": "Apartment",
     "floor": "Floor",
+    "privacy": {
+      "shareName": "Show my name to others",
+      "shareNameHint": "When off, neighbours and staff see \"Mieszkaniec\" with your building and apartment instead of your name and email.",
+      "saved": "Saved",
+      "failed": "Could not save the change"
+    },
     "noApartmentTitle": "Your account is not assigned to an apartment",
     "noApartmentHint": "Staff accounts manage the community. Ask a manager to assign you to an apartment.",
     "parkingCard": "Parking spaces",

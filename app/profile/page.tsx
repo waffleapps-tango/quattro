@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser } from "@/auth/session";
 import { getProfile } from "@/domain/profile";
+import { ShareNameToggle } from "@/components/profile/ShareNameToggle";
 import { ApartmentPeople } from "@/components/profile/ApartmentPeople";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
@@ -63,6 +64,10 @@ export default async function ProfilePage() {
           </Badge>
         </div>
       </StaggerItem>
+
+      <div>
+        <ShareNameToggle initial={user.shareName} />
+      </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         {p.apartments.length > 0 ? (

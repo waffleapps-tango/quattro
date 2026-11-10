@@ -784,6 +784,12 @@
     "building": "Budynek",
     "apartment": "Mieszkanie",
     "floor": "Piętro",
+    "privacy": {
+      "shareName": "Pokazuj moje imię i nazwisko innym",
+      "shareNameHint": "Po wyłączeniu sąsiedzi i pracownicy zobaczą \"Mieszkaniec\" z Twoim budynkiem i mieszkaniem zamiast imienia, nazwiska i emaila.",
+      "saved": "Zapisano",
+      "failed": "Nie udało się zapisać zmiany"
+    },
     "noApartmentTitle": "Twoje konto nie jest przypisane do mieszkania",
     "noApartmentHint": "Konta pracowników zarządzają osiedlem. Poproś zarządcę o przypisanie do mieszkania.",
     "parkingCard": "Miejsca parkingowe",
