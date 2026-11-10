@@ -83,6 +83,16 @@ export type NotificationDelivery = $Result.DefaultSelection<Prisma.$Notification
  * 
  */
 export type ApartmentResidency = $Result.DefaultSelection<Prisma.$ApartmentResidencyPayload>
+/**
+ * Model InfoSection
+ * 
+ */
+export type InfoSection = $Result.DefaultSelection<Prisma.$InfoSectionPayload>
+/**
+ * Model InfoContact
+ * 
+ */
+export type InfoContact = $Result.DefaultSelection<Prisma.$InfoContactPayload>
 
 /**
  * Enums
@@ -156,6 +166,14 @@ export const ResidencyKind: {
 
 export type ResidencyKind = (typeof ResidencyKind)[keyof typeof ResidencyKind]
 
+
+export const InfoSectionKind: {
+  CONTACTS: 'CONTACTS',
+  TEXT: 'TEXT'
+};
+
+export type InfoSectionKind = (typeof InfoSectionKind)[keyof typeof InfoSectionKind]
+
 }
 
 export type Role = $Enums.Role
@@ -185,6 +203,10 @@ export const DeliveryStatus: typeof $Enums.DeliveryStatus
 export type ResidencyKind = $Enums.ResidencyKind
 
 export const ResidencyKind: typeof $Enums.ResidencyKind
+
+export type InfoSectionKind = $Enums.InfoSectionKind
+
+export const InfoSectionKind: typeof $Enums.InfoSectionKind
 
 /**
  * ##  Prisma Client ʲˢ
@@ -443,6 +465,26 @@ export class PrismaClient<
     * ```
     */
   get apartmentResidency(): Prisma.ApartmentResidencyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.infoSection`: Exposes CRUD operations for the **InfoSection** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InfoSections
+    * const infoSections = await prisma.infoSection.findMany()
+    * ```
+    */
+  get infoSection(): Prisma.InfoSectionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.infoContact`: Exposes CRUD operations for the **InfoContact** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InfoContacts
+    * const infoContacts = await prisma.infoContact.findMany()
+    * ```
+    */
+  get infoContact(): Prisma.InfoContactDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -897,7 +939,9 @@ export namespace Prisma {
     AuditLog: 'AuditLog',
     Notification: 'Notification',
     NotificationDelivery: 'NotificationDelivery',
-    ApartmentResidency: 'ApartmentResidency'
+    ApartmentResidency: 'ApartmentResidency',
+    InfoSection: 'InfoSection',
+    InfoContact: 'InfoContact'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -916,7 +960,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "user" | "community" | "building" | "apartment" | "membership" | "package" | "parkingSpace" | "storageUnit" | "report" | "auditLog" | "notification" | "notificationDelivery" | "apartmentResidency"
+      modelProps: "post" | "user" | "community" | "building" | "apartment" | "membership" | "package" | "parkingSpace" | "storageUnit" | "report" | "auditLog" | "notification" | "notificationDelivery" | "apartmentResidency" | "infoSection" | "infoContact"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1956,6 +2000,154 @@ export namespace Prisma {
           }
         }
       }
+      InfoSection: {
+        payload: Prisma.$InfoSectionPayload<ExtArgs>
+        fields: Prisma.InfoSectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InfoSectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InfoSectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>
+          }
+          findFirst: {
+            args: Prisma.InfoSectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InfoSectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>
+          }
+          findMany: {
+            args: Prisma.InfoSectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>[]
+          }
+          create: {
+            args: Prisma.InfoSectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>
+          }
+          createMany: {
+            args: Prisma.InfoSectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InfoSectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>[]
+          }
+          delete: {
+            args: Prisma.InfoSectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>
+          }
+          update: {
+            args: Prisma.InfoSectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.InfoSectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InfoSectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InfoSectionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>[]
+          }
+          upsert: {
+            args: Prisma.InfoSectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoSectionPayload>
+          }
+          aggregate: {
+            args: Prisma.InfoSectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInfoSection>
+          }
+          groupBy: {
+            args: Prisma.InfoSectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InfoSectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InfoSectionCountArgs<ExtArgs>
+            result: $Utils.Optional<InfoSectionCountAggregateOutputType> | number
+          }
+        }
+      }
+      InfoContact: {
+        payload: Prisma.$InfoContactPayload<ExtArgs>
+        fields: Prisma.InfoContactFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InfoContactFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InfoContactFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>
+          }
+          findFirst: {
+            args: Prisma.InfoContactFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InfoContactFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>
+          }
+          findMany: {
+            args: Prisma.InfoContactFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>[]
+          }
+          create: {
+            args: Prisma.InfoContactCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>
+          }
+          createMany: {
+            args: Prisma.InfoContactCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InfoContactCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>[]
+          }
+          delete: {
+            args: Prisma.InfoContactDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>
+          }
+          update: {
+            args: Prisma.InfoContactUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>
+          }
+          deleteMany: {
+            args: Prisma.InfoContactDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InfoContactUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InfoContactUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>[]
+          }
+          upsert: {
+            args: Prisma.InfoContactUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InfoContactPayload>
+          }
+          aggregate: {
+            args: Prisma.InfoContactAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInfoContact>
+          }
+          groupBy: {
+            args: Prisma.InfoContactGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InfoContactGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InfoContactCountArgs<ExtArgs>
+            result: $Utils.Optional<InfoContactCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2066,6 +2258,8 @@ export namespace Prisma {
     notification?: NotificationOmit
     notificationDelivery?: NotificationDeliveryOmit
     apartmentResidency?: ApartmentResidencyOmit
+    infoSection?: InfoSectionOmit
+    infoContact?: InfoContactOmit
   }
 
   /* Types for Logging */
@@ -2249,6 +2443,7 @@ export namespace Prisma {
     storageUnits: number
     reports: number
     notifications: number
+    infoSections: number
   }
 
   export type CommunityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2261,6 +2456,7 @@ export namespace Prisma {
     storageUnits?: boolean | CommunityCountOutputTypeCountStorageUnitsArgs
     reports?: boolean | CommunityCountOutputTypeCountReportsArgs
     notifications?: boolean | CommunityCountOutputTypeCountNotificationsArgs
+    infoSections?: boolean | CommunityCountOutputTypeCountInfoSectionsArgs
   }
 
   // Custom InputTypes
@@ -2335,6 +2531,13 @@ export namespace Prisma {
    */
   export type CommunityCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountInfoSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InfoSectionWhereInput
   }
 
 
@@ -2580,6 +2783,37 @@ export namespace Prisma {
    */
   export type NotificationCountOutputTypeCountDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationDeliveryWhereInput
+  }
+
+
+  /**
+   * Count Type InfoSectionCountOutputType
+   */
+
+  export type InfoSectionCountOutputType = {
+    contacts: number
+  }
+
+  export type InfoSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contacts?: boolean | InfoSectionCountOutputTypeCountContactsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InfoSectionCountOutputType without action
+   */
+  export type InfoSectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSectionCountOutputType
+     */
+    select?: InfoSectionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InfoSectionCountOutputType without action
+   */
+  export type InfoSectionCountOutputTypeCountContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InfoContactWhereInput
   }
 
 
@@ -5128,6 +5362,7 @@ export namespace Prisma {
     storageUnits?: boolean | Community$storageUnitsArgs<ExtArgs>
     reports?: boolean | Community$reportsArgs<ExtArgs>
     notifications?: boolean | Community$notificationsArgs<ExtArgs>
+    infoSections?: boolean | Community$infoSectionsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["community"]>
 
@@ -5169,6 +5404,7 @@ export namespace Prisma {
     storageUnits?: boolean | Community$storageUnitsArgs<ExtArgs>
     reports?: boolean | Community$reportsArgs<ExtArgs>
     notifications?: boolean | Community$notificationsArgs<ExtArgs>
+    infoSections?: boolean | Community$infoSectionsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommunityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5186,6 +5422,7 @@ export namespace Prisma {
       storageUnits: Prisma.$StorageUnitPayload<ExtArgs>[]
       reports: Prisma.$ReportPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      infoSections: Prisma.$InfoSectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5597,6 +5834,7 @@ export namespace Prisma {
     storageUnits<T extends Community$storageUnitsArgs<ExtArgs> = {}>(args?: Subset<T, Community$storageUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports<T extends Community$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Community$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Community$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Community$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    infoSections<T extends Community$infoSectionsArgs<ExtArgs> = {}>(args?: Subset<T, Community$infoSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6233,6 +6471,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Community.infoSections
+   */
+  export type Community$infoSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    where?: InfoSectionWhereInput
+    orderBy?: InfoSectionOrderByWithRelationInput | InfoSectionOrderByWithRelationInput[]
+    cursor?: InfoSectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InfoSectionScalarFieldEnum | InfoSectionScalarFieldEnum[]
   }
 
   /**
@@ -19377,6 +19639,2272 @@ export namespace Prisma {
 
 
   /**
+   * Model InfoSection
+   */
+
+  export type AggregateInfoSection = {
+    _count: InfoSectionCountAggregateOutputType | null
+    _avg: InfoSectionAvgAggregateOutputType | null
+    _sum: InfoSectionSumAggregateOutputType | null
+    _min: InfoSectionMinAggregateOutputType | null
+    _max: InfoSectionMaxAggregateOutputType | null
+  }
+
+  export type InfoSectionAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type InfoSectionSumAggregateOutputType = {
+    position: number | null
+  }
+
+  export type InfoSectionMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    title: string | null
+    kind: $Enums.InfoSectionKind | null
+    body: string | null
+    position: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InfoSectionMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    title: string | null
+    kind: $Enums.InfoSectionKind | null
+    body: string | null
+    position: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InfoSectionCountAggregateOutputType = {
+    id: number
+    communityId: number
+    title: number
+    kind: number
+    body: number
+    position: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InfoSectionAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type InfoSectionSumAggregateInputType = {
+    position?: true
+  }
+
+  export type InfoSectionMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    title?: true
+    kind?: true
+    body?: true
+    position?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InfoSectionMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    title?: true
+    kind?: true
+    body?: true
+    position?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InfoSectionCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    title?: true
+    kind?: true
+    body?: true
+    position?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InfoSectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InfoSection to aggregate.
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoSections to fetch.
+     */
+    orderBy?: InfoSectionOrderByWithRelationInput | InfoSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InfoSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoSections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InfoSections
+    **/
+    _count?: true | InfoSectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InfoSectionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InfoSectionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InfoSectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InfoSectionMaxAggregateInputType
+  }
+
+  export type GetInfoSectionAggregateType<T extends InfoSectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateInfoSection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInfoSection[P]>
+      : GetScalarType<T[P], AggregateInfoSection[P]>
+  }
+
+
+
+
+  export type InfoSectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InfoSectionWhereInput
+    orderBy?: InfoSectionOrderByWithAggregationInput | InfoSectionOrderByWithAggregationInput[]
+    by: InfoSectionScalarFieldEnum[] | InfoSectionScalarFieldEnum
+    having?: InfoSectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InfoSectionCountAggregateInputType | true
+    _avg?: InfoSectionAvgAggregateInputType
+    _sum?: InfoSectionSumAggregateInputType
+    _min?: InfoSectionMinAggregateInputType
+    _max?: InfoSectionMaxAggregateInputType
+  }
+
+  export type InfoSectionGroupByOutputType = {
+    id: string
+    communityId: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body: string
+    position: number
+    createdAt: Date
+    updatedAt: Date
+    _count: InfoSectionCountAggregateOutputType | null
+    _avg: InfoSectionAvgAggregateOutputType | null
+    _sum: InfoSectionSumAggregateOutputType | null
+    _min: InfoSectionMinAggregateOutputType | null
+    _max: InfoSectionMaxAggregateOutputType | null
+  }
+
+  type GetInfoSectionGroupByPayload<T extends InfoSectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InfoSectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InfoSectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InfoSectionGroupByOutputType[P]>
+            : GetScalarType<T[P], InfoSectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InfoSectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    kind?: boolean
+    body?: boolean
+    position?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    contacts?: boolean | InfoSection$contactsArgs<ExtArgs>
+    _count?: boolean | InfoSectionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["infoSection"]>
+
+  export type InfoSectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    kind?: boolean
+    body?: boolean
+    position?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["infoSection"]>
+
+  export type InfoSectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    kind?: boolean
+    body?: boolean
+    position?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["infoSection"]>
+
+  export type InfoSectionSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    kind?: boolean
+    body?: boolean
+    position?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InfoSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "title" | "kind" | "body" | "position" | "createdAt" | "updatedAt", ExtArgs["result"]["infoSection"]>
+  export type InfoSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    contacts?: boolean | InfoSection$contactsArgs<ExtArgs>
+    _count?: boolean | InfoSectionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InfoSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+  export type InfoSectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+
+  export type $InfoSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InfoSection"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+      contacts: Prisma.$InfoContactPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      title: string
+      kind: $Enums.InfoSectionKind
+      body: string
+      position: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["infoSection"]>
+    composites: {}
+  }
+
+  type InfoSectionGetPayload<S extends boolean | null | undefined | InfoSectionDefaultArgs> = $Result.GetResult<Prisma.$InfoSectionPayload, S>
+
+  type InfoSectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InfoSectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InfoSectionCountAggregateInputType | true
+    }
+
+  export interface InfoSectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InfoSection'], meta: { name: 'InfoSection' } }
+    /**
+     * Find zero or one InfoSection that matches the filter.
+     * @param {InfoSectionFindUniqueArgs} args - Arguments to find a InfoSection
+     * @example
+     * // Get one InfoSection
+     * const infoSection = await prisma.infoSection.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InfoSectionFindUniqueArgs>(args: SelectSubset<T, InfoSectionFindUniqueArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InfoSection that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InfoSectionFindUniqueOrThrowArgs} args - Arguments to find a InfoSection
+     * @example
+     * // Get one InfoSection
+     * const infoSection = await prisma.infoSection.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InfoSectionFindUniqueOrThrowArgs>(args: SelectSubset<T, InfoSectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InfoSection that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionFindFirstArgs} args - Arguments to find a InfoSection
+     * @example
+     * // Get one InfoSection
+     * const infoSection = await prisma.infoSection.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InfoSectionFindFirstArgs>(args?: SelectSubset<T, InfoSectionFindFirstArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InfoSection that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionFindFirstOrThrowArgs} args - Arguments to find a InfoSection
+     * @example
+     * // Get one InfoSection
+     * const infoSection = await prisma.infoSection.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InfoSectionFindFirstOrThrowArgs>(args?: SelectSubset<T, InfoSectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InfoSections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InfoSections
+     * const infoSections = await prisma.infoSection.findMany()
+     * 
+     * // Get first 10 InfoSections
+     * const infoSections = await prisma.infoSection.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const infoSectionWithIdOnly = await prisma.infoSection.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InfoSectionFindManyArgs>(args?: SelectSubset<T, InfoSectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InfoSection.
+     * @param {InfoSectionCreateArgs} args - Arguments to create a InfoSection.
+     * @example
+     * // Create one InfoSection
+     * const InfoSection = await prisma.infoSection.create({
+     *   data: {
+     *     // ... data to create a InfoSection
+     *   }
+     * })
+     * 
+     */
+    create<T extends InfoSectionCreateArgs>(args: SelectSubset<T, InfoSectionCreateArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InfoSections.
+     * @param {InfoSectionCreateManyArgs} args - Arguments to create many InfoSections.
+     * @example
+     * // Create many InfoSections
+     * const infoSection = await prisma.infoSection.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InfoSectionCreateManyArgs>(args?: SelectSubset<T, InfoSectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InfoSections and returns the data saved in the database.
+     * @param {InfoSectionCreateManyAndReturnArgs} args - Arguments to create many InfoSections.
+     * @example
+     * // Create many InfoSections
+     * const infoSection = await prisma.infoSection.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InfoSections and only return the `id`
+     * const infoSectionWithIdOnly = await prisma.infoSection.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InfoSectionCreateManyAndReturnArgs>(args?: SelectSubset<T, InfoSectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InfoSection.
+     * @param {InfoSectionDeleteArgs} args - Arguments to delete one InfoSection.
+     * @example
+     * // Delete one InfoSection
+     * const InfoSection = await prisma.infoSection.delete({
+     *   where: {
+     *     // ... filter to delete one InfoSection
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InfoSectionDeleteArgs>(args: SelectSubset<T, InfoSectionDeleteArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InfoSection.
+     * @param {InfoSectionUpdateArgs} args - Arguments to update one InfoSection.
+     * @example
+     * // Update one InfoSection
+     * const infoSection = await prisma.infoSection.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InfoSectionUpdateArgs>(args: SelectSubset<T, InfoSectionUpdateArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InfoSections.
+     * @param {InfoSectionDeleteManyArgs} args - Arguments to filter InfoSections to delete.
+     * @example
+     * // Delete a few InfoSections
+     * const { count } = await prisma.infoSection.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InfoSectionDeleteManyArgs>(args?: SelectSubset<T, InfoSectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InfoSections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InfoSections
+     * const infoSection = await prisma.infoSection.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InfoSectionUpdateManyArgs>(args: SelectSubset<T, InfoSectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InfoSections and returns the data updated in the database.
+     * @param {InfoSectionUpdateManyAndReturnArgs} args - Arguments to update many InfoSections.
+     * @example
+     * // Update many InfoSections
+     * const infoSection = await prisma.infoSection.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InfoSections and only return the `id`
+     * const infoSectionWithIdOnly = await prisma.infoSection.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InfoSectionUpdateManyAndReturnArgs>(args: SelectSubset<T, InfoSectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InfoSection.
+     * @param {InfoSectionUpsertArgs} args - Arguments to update or create a InfoSection.
+     * @example
+     * // Update or create a InfoSection
+     * const infoSection = await prisma.infoSection.upsert({
+     *   create: {
+     *     // ... data to create a InfoSection
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InfoSection we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InfoSectionUpsertArgs>(args: SelectSubset<T, InfoSectionUpsertArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InfoSections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionCountArgs} args - Arguments to filter InfoSections to count.
+     * @example
+     * // Count the number of InfoSections
+     * const count = await prisma.infoSection.count({
+     *   where: {
+     *     // ... the filter for the InfoSections we want to count
+     *   }
+     * })
+    **/
+    count<T extends InfoSectionCountArgs>(
+      args?: Subset<T, InfoSectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InfoSectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InfoSection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InfoSectionAggregateArgs>(args: Subset<T, InfoSectionAggregateArgs>): Prisma.PrismaPromise<GetInfoSectionAggregateType<T>>
+
+    /**
+     * Group by InfoSection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoSectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InfoSectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InfoSectionGroupByArgs['orderBy'] }
+        : { orderBy?: InfoSectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InfoSectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInfoSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InfoSection model
+   */
+  readonly fields: InfoSectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InfoSection.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InfoSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    contacts<T extends InfoSection$contactsArgs<ExtArgs> = {}>(args?: Subset<T, InfoSection$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InfoSection model
+   */
+  interface InfoSectionFieldRefs {
+    readonly id: FieldRef<"InfoSection", 'String'>
+    readonly communityId: FieldRef<"InfoSection", 'String'>
+    readonly title: FieldRef<"InfoSection", 'String'>
+    readonly kind: FieldRef<"InfoSection", 'InfoSectionKind'>
+    readonly body: FieldRef<"InfoSection", 'String'>
+    readonly position: FieldRef<"InfoSection", 'Int'>
+    readonly createdAt: FieldRef<"InfoSection", 'DateTime'>
+    readonly updatedAt: FieldRef<"InfoSection", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InfoSection findUnique
+   */
+  export type InfoSectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoSection to fetch.
+     */
+    where: InfoSectionWhereUniqueInput
+  }
+
+  /**
+   * InfoSection findUniqueOrThrow
+   */
+  export type InfoSectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoSection to fetch.
+     */
+    where: InfoSectionWhereUniqueInput
+  }
+
+  /**
+   * InfoSection findFirst
+   */
+  export type InfoSectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoSection to fetch.
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoSections to fetch.
+     */
+    orderBy?: InfoSectionOrderByWithRelationInput | InfoSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InfoSections.
+     */
+    cursor?: InfoSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoSections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InfoSections.
+     */
+    distinct?: InfoSectionScalarFieldEnum | InfoSectionScalarFieldEnum[]
+  }
+
+  /**
+   * InfoSection findFirstOrThrow
+   */
+  export type InfoSectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoSection to fetch.
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoSections to fetch.
+     */
+    orderBy?: InfoSectionOrderByWithRelationInput | InfoSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InfoSections.
+     */
+    cursor?: InfoSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoSections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InfoSections.
+     */
+    distinct?: InfoSectionScalarFieldEnum | InfoSectionScalarFieldEnum[]
+  }
+
+  /**
+   * InfoSection findMany
+   */
+  export type InfoSectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoSections to fetch.
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoSections to fetch.
+     */
+    orderBy?: InfoSectionOrderByWithRelationInput | InfoSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InfoSections.
+     */
+    cursor?: InfoSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoSections.
+     */
+    skip?: number
+    distinct?: InfoSectionScalarFieldEnum | InfoSectionScalarFieldEnum[]
+  }
+
+  /**
+   * InfoSection create
+   */
+  export type InfoSectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InfoSection.
+     */
+    data: XOR<InfoSectionCreateInput, InfoSectionUncheckedCreateInput>
+  }
+
+  /**
+   * InfoSection createMany
+   */
+  export type InfoSectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InfoSections.
+     */
+    data: InfoSectionCreateManyInput | InfoSectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InfoSection createManyAndReturn
+   */
+  export type InfoSectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * The data used to create many InfoSections.
+     */
+    data: InfoSectionCreateManyInput | InfoSectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InfoSection update
+   */
+  export type InfoSectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InfoSection.
+     */
+    data: XOR<InfoSectionUpdateInput, InfoSectionUncheckedUpdateInput>
+    /**
+     * Choose, which InfoSection to update.
+     */
+    where: InfoSectionWhereUniqueInput
+  }
+
+  /**
+   * InfoSection updateMany
+   */
+  export type InfoSectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InfoSections.
+     */
+    data: XOR<InfoSectionUpdateManyMutationInput, InfoSectionUncheckedUpdateManyInput>
+    /**
+     * Filter which InfoSections to update
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * Limit how many InfoSections to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InfoSection updateManyAndReturn
+   */
+  export type InfoSectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * The data used to update InfoSections.
+     */
+    data: XOR<InfoSectionUpdateManyMutationInput, InfoSectionUncheckedUpdateManyInput>
+    /**
+     * Filter which InfoSections to update
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * Limit how many InfoSections to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InfoSection upsert
+   */
+  export type InfoSectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InfoSection to update in case it exists.
+     */
+    where: InfoSectionWhereUniqueInput
+    /**
+     * In case the InfoSection found by the `where` argument doesn't exist, create a new InfoSection with this data.
+     */
+    create: XOR<InfoSectionCreateInput, InfoSectionUncheckedCreateInput>
+    /**
+     * In case the InfoSection was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InfoSectionUpdateInput, InfoSectionUncheckedUpdateInput>
+  }
+
+  /**
+   * InfoSection delete
+   */
+  export type InfoSectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+    /**
+     * Filter which InfoSection to delete.
+     */
+    where: InfoSectionWhereUniqueInput
+  }
+
+  /**
+   * InfoSection deleteMany
+   */
+  export type InfoSectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InfoSections to delete
+     */
+    where?: InfoSectionWhereInput
+    /**
+     * Limit how many InfoSections to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InfoSection.contacts
+   */
+  export type InfoSection$contactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    where?: InfoContactWhereInput
+    orderBy?: InfoContactOrderByWithRelationInput | InfoContactOrderByWithRelationInput[]
+    cursor?: InfoContactWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InfoContactScalarFieldEnum | InfoContactScalarFieldEnum[]
+  }
+
+  /**
+   * InfoSection without action
+   */
+  export type InfoSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoSection
+     */
+    select?: InfoSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoSection
+     */
+    omit?: InfoSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoSectionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InfoContact
+   */
+
+  export type AggregateInfoContact = {
+    _count: InfoContactCountAggregateOutputType | null
+    _avg: InfoContactAvgAggregateOutputType | null
+    _sum: InfoContactSumAggregateOutputType | null
+    _min: InfoContactMinAggregateOutputType | null
+    _max: InfoContactMaxAggregateOutputType | null
+  }
+
+  export type InfoContactAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type InfoContactSumAggregateOutputType = {
+    position: number | null
+  }
+
+  export type InfoContactMinAggregateOutputType = {
+    id: string | null
+    sectionId: string | null
+    name: string | null
+    phone: string | null
+    note: string | null
+    position: number | null
+  }
+
+  export type InfoContactMaxAggregateOutputType = {
+    id: string | null
+    sectionId: string | null
+    name: string | null
+    phone: string | null
+    note: string | null
+    position: number | null
+  }
+
+  export type InfoContactCountAggregateOutputType = {
+    id: number
+    sectionId: number
+    name: number
+    phone: number
+    note: number
+    position: number
+    _all: number
+  }
+
+
+  export type InfoContactAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type InfoContactSumAggregateInputType = {
+    position?: true
+  }
+
+  export type InfoContactMinAggregateInputType = {
+    id?: true
+    sectionId?: true
+    name?: true
+    phone?: true
+    note?: true
+    position?: true
+  }
+
+  export type InfoContactMaxAggregateInputType = {
+    id?: true
+    sectionId?: true
+    name?: true
+    phone?: true
+    note?: true
+    position?: true
+  }
+
+  export type InfoContactCountAggregateInputType = {
+    id?: true
+    sectionId?: true
+    name?: true
+    phone?: true
+    note?: true
+    position?: true
+    _all?: true
+  }
+
+  export type InfoContactAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InfoContact to aggregate.
+     */
+    where?: InfoContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoContacts to fetch.
+     */
+    orderBy?: InfoContactOrderByWithRelationInput | InfoContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InfoContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InfoContacts
+    **/
+    _count?: true | InfoContactCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InfoContactAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InfoContactSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InfoContactMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InfoContactMaxAggregateInputType
+  }
+
+  export type GetInfoContactAggregateType<T extends InfoContactAggregateArgs> = {
+        [P in keyof T & keyof AggregateInfoContact]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInfoContact[P]>
+      : GetScalarType<T[P], AggregateInfoContact[P]>
+  }
+
+
+
+
+  export type InfoContactGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InfoContactWhereInput
+    orderBy?: InfoContactOrderByWithAggregationInput | InfoContactOrderByWithAggregationInput[]
+    by: InfoContactScalarFieldEnum[] | InfoContactScalarFieldEnum
+    having?: InfoContactScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InfoContactCountAggregateInputType | true
+    _avg?: InfoContactAvgAggregateInputType
+    _sum?: InfoContactSumAggregateInputType
+    _min?: InfoContactMinAggregateInputType
+    _max?: InfoContactMaxAggregateInputType
+  }
+
+  export type InfoContactGroupByOutputType = {
+    id: string
+    sectionId: string
+    name: string
+    phone: string
+    note: string | null
+    position: number
+    _count: InfoContactCountAggregateOutputType | null
+    _avg: InfoContactAvgAggregateOutputType | null
+    _sum: InfoContactSumAggregateOutputType | null
+    _min: InfoContactMinAggregateOutputType | null
+    _max: InfoContactMaxAggregateOutputType | null
+  }
+
+  type GetInfoContactGroupByPayload<T extends InfoContactGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InfoContactGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InfoContactGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InfoContactGroupByOutputType[P]>
+            : GetScalarType<T[P], InfoContactGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InfoContactSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    name?: boolean
+    phone?: boolean
+    note?: boolean
+    position?: boolean
+    section?: boolean | InfoSectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["infoContact"]>
+
+  export type InfoContactSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    name?: boolean
+    phone?: boolean
+    note?: boolean
+    position?: boolean
+    section?: boolean | InfoSectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["infoContact"]>
+
+  export type InfoContactSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    name?: boolean
+    phone?: boolean
+    note?: boolean
+    position?: boolean
+    section?: boolean | InfoSectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["infoContact"]>
+
+  export type InfoContactSelectScalar = {
+    id?: boolean
+    sectionId?: boolean
+    name?: boolean
+    phone?: boolean
+    note?: boolean
+    position?: boolean
+  }
+
+  export type InfoContactOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sectionId" | "name" | "phone" | "note" | "position", ExtArgs["result"]["infoContact"]>
+  export type InfoContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | InfoSectionDefaultArgs<ExtArgs>
+  }
+  export type InfoContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | InfoSectionDefaultArgs<ExtArgs>
+  }
+  export type InfoContactIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | InfoSectionDefaultArgs<ExtArgs>
+  }
+
+  export type $InfoContactPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InfoContact"
+    objects: {
+      section: Prisma.$InfoSectionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      sectionId: string
+      name: string
+      phone: string
+      note: string | null
+      position: number
+    }, ExtArgs["result"]["infoContact"]>
+    composites: {}
+  }
+
+  type InfoContactGetPayload<S extends boolean | null | undefined | InfoContactDefaultArgs> = $Result.GetResult<Prisma.$InfoContactPayload, S>
+
+  type InfoContactCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InfoContactFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InfoContactCountAggregateInputType | true
+    }
+
+  export interface InfoContactDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InfoContact'], meta: { name: 'InfoContact' } }
+    /**
+     * Find zero or one InfoContact that matches the filter.
+     * @param {InfoContactFindUniqueArgs} args - Arguments to find a InfoContact
+     * @example
+     * // Get one InfoContact
+     * const infoContact = await prisma.infoContact.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InfoContactFindUniqueArgs>(args: SelectSubset<T, InfoContactFindUniqueArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InfoContact that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InfoContactFindUniqueOrThrowArgs} args - Arguments to find a InfoContact
+     * @example
+     * // Get one InfoContact
+     * const infoContact = await prisma.infoContact.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InfoContactFindUniqueOrThrowArgs>(args: SelectSubset<T, InfoContactFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InfoContact that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactFindFirstArgs} args - Arguments to find a InfoContact
+     * @example
+     * // Get one InfoContact
+     * const infoContact = await prisma.infoContact.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InfoContactFindFirstArgs>(args?: SelectSubset<T, InfoContactFindFirstArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InfoContact that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactFindFirstOrThrowArgs} args - Arguments to find a InfoContact
+     * @example
+     * // Get one InfoContact
+     * const infoContact = await prisma.infoContact.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InfoContactFindFirstOrThrowArgs>(args?: SelectSubset<T, InfoContactFindFirstOrThrowArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InfoContacts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InfoContacts
+     * const infoContacts = await prisma.infoContact.findMany()
+     * 
+     * // Get first 10 InfoContacts
+     * const infoContacts = await prisma.infoContact.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const infoContactWithIdOnly = await prisma.infoContact.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InfoContactFindManyArgs>(args?: SelectSubset<T, InfoContactFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InfoContact.
+     * @param {InfoContactCreateArgs} args - Arguments to create a InfoContact.
+     * @example
+     * // Create one InfoContact
+     * const InfoContact = await prisma.infoContact.create({
+     *   data: {
+     *     // ... data to create a InfoContact
+     *   }
+     * })
+     * 
+     */
+    create<T extends InfoContactCreateArgs>(args: SelectSubset<T, InfoContactCreateArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InfoContacts.
+     * @param {InfoContactCreateManyArgs} args - Arguments to create many InfoContacts.
+     * @example
+     * // Create many InfoContacts
+     * const infoContact = await prisma.infoContact.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InfoContactCreateManyArgs>(args?: SelectSubset<T, InfoContactCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InfoContacts and returns the data saved in the database.
+     * @param {InfoContactCreateManyAndReturnArgs} args - Arguments to create many InfoContacts.
+     * @example
+     * // Create many InfoContacts
+     * const infoContact = await prisma.infoContact.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InfoContacts and only return the `id`
+     * const infoContactWithIdOnly = await prisma.infoContact.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InfoContactCreateManyAndReturnArgs>(args?: SelectSubset<T, InfoContactCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InfoContact.
+     * @param {InfoContactDeleteArgs} args - Arguments to delete one InfoContact.
+     * @example
+     * // Delete one InfoContact
+     * const InfoContact = await prisma.infoContact.delete({
+     *   where: {
+     *     // ... filter to delete one InfoContact
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InfoContactDeleteArgs>(args: SelectSubset<T, InfoContactDeleteArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InfoContact.
+     * @param {InfoContactUpdateArgs} args - Arguments to update one InfoContact.
+     * @example
+     * // Update one InfoContact
+     * const infoContact = await prisma.infoContact.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InfoContactUpdateArgs>(args: SelectSubset<T, InfoContactUpdateArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InfoContacts.
+     * @param {InfoContactDeleteManyArgs} args - Arguments to filter InfoContacts to delete.
+     * @example
+     * // Delete a few InfoContacts
+     * const { count } = await prisma.infoContact.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InfoContactDeleteManyArgs>(args?: SelectSubset<T, InfoContactDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InfoContacts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InfoContacts
+     * const infoContact = await prisma.infoContact.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InfoContactUpdateManyArgs>(args: SelectSubset<T, InfoContactUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InfoContacts and returns the data updated in the database.
+     * @param {InfoContactUpdateManyAndReturnArgs} args - Arguments to update many InfoContacts.
+     * @example
+     * // Update many InfoContacts
+     * const infoContact = await prisma.infoContact.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InfoContacts and only return the `id`
+     * const infoContactWithIdOnly = await prisma.infoContact.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InfoContactUpdateManyAndReturnArgs>(args: SelectSubset<T, InfoContactUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InfoContact.
+     * @param {InfoContactUpsertArgs} args - Arguments to update or create a InfoContact.
+     * @example
+     * // Update or create a InfoContact
+     * const infoContact = await prisma.infoContact.upsert({
+     *   create: {
+     *     // ... data to create a InfoContact
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InfoContact we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InfoContactUpsertArgs>(args: SelectSubset<T, InfoContactUpsertArgs<ExtArgs>>): Prisma__InfoContactClient<$Result.GetResult<Prisma.$InfoContactPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InfoContacts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactCountArgs} args - Arguments to filter InfoContacts to count.
+     * @example
+     * // Count the number of InfoContacts
+     * const count = await prisma.infoContact.count({
+     *   where: {
+     *     // ... the filter for the InfoContacts we want to count
+     *   }
+     * })
+    **/
+    count<T extends InfoContactCountArgs>(
+      args?: Subset<T, InfoContactCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InfoContactCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InfoContact.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InfoContactAggregateArgs>(args: Subset<T, InfoContactAggregateArgs>): Prisma.PrismaPromise<GetInfoContactAggregateType<T>>
+
+    /**
+     * Group by InfoContact.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InfoContactGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InfoContactGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InfoContactGroupByArgs['orderBy'] }
+        : { orderBy?: InfoContactGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InfoContactGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInfoContactGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InfoContact model
+   */
+  readonly fields: InfoContactFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InfoContact.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InfoContactClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    section<T extends InfoSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InfoSectionDefaultArgs<ExtArgs>>): Prisma__InfoSectionClient<$Result.GetResult<Prisma.$InfoSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InfoContact model
+   */
+  interface InfoContactFieldRefs {
+    readonly id: FieldRef<"InfoContact", 'String'>
+    readonly sectionId: FieldRef<"InfoContact", 'String'>
+    readonly name: FieldRef<"InfoContact", 'String'>
+    readonly phone: FieldRef<"InfoContact", 'String'>
+    readonly note: FieldRef<"InfoContact", 'String'>
+    readonly position: FieldRef<"InfoContact", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InfoContact findUnique
+   */
+  export type InfoContactFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoContact to fetch.
+     */
+    where: InfoContactWhereUniqueInput
+  }
+
+  /**
+   * InfoContact findUniqueOrThrow
+   */
+  export type InfoContactFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoContact to fetch.
+     */
+    where: InfoContactWhereUniqueInput
+  }
+
+  /**
+   * InfoContact findFirst
+   */
+  export type InfoContactFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoContact to fetch.
+     */
+    where?: InfoContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoContacts to fetch.
+     */
+    orderBy?: InfoContactOrderByWithRelationInput | InfoContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InfoContacts.
+     */
+    cursor?: InfoContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InfoContacts.
+     */
+    distinct?: InfoContactScalarFieldEnum | InfoContactScalarFieldEnum[]
+  }
+
+  /**
+   * InfoContact findFirstOrThrow
+   */
+  export type InfoContactFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoContact to fetch.
+     */
+    where?: InfoContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoContacts to fetch.
+     */
+    orderBy?: InfoContactOrderByWithRelationInput | InfoContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InfoContacts.
+     */
+    cursor?: InfoContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InfoContacts.
+     */
+    distinct?: InfoContactScalarFieldEnum | InfoContactScalarFieldEnum[]
+  }
+
+  /**
+   * InfoContact findMany
+   */
+  export type InfoContactFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * Filter, which InfoContacts to fetch.
+     */
+    where?: InfoContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InfoContacts to fetch.
+     */
+    orderBy?: InfoContactOrderByWithRelationInput | InfoContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InfoContacts.
+     */
+    cursor?: InfoContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InfoContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InfoContacts.
+     */
+    skip?: number
+    distinct?: InfoContactScalarFieldEnum | InfoContactScalarFieldEnum[]
+  }
+
+  /**
+   * InfoContact create
+   */
+  export type InfoContactCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InfoContact.
+     */
+    data: XOR<InfoContactCreateInput, InfoContactUncheckedCreateInput>
+  }
+
+  /**
+   * InfoContact createMany
+   */
+  export type InfoContactCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InfoContacts.
+     */
+    data: InfoContactCreateManyInput | InfoContactCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InfoContact createManyAndReturn
+   */
+  export type InfoContactCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * The data used to create many InfoContacts.
+     */
+    data: InfoContactCreateManyInput | InfoContactCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InfoContact update
+   */
+  export type InfoContactUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InfoContact.
+     */
+    data: XOR<InfoContactUpdateInput, InfoContactUncheckedUpdateInput>
+    /**
+     * Choose, which InfoContact to update.
+     */
+    where: InfoContactWhereUniqueInput
+  }
+
+  /**
+   * InfoContact updateMany
+   */
+  export type InfoContactUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InfoContacts.
+     */
+    data: XOR<InfoContactUpdateManyMutationInput, InfoContactUncheckedUpdateManyInput>
+    /**
+     * Filter which InfoContacts to update
+     */
+    where?: InfoContactWhereInput
+    /**
+     * Limit how many InfoContacts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InfoContact updateManyAndReturn
+   */
+  export type InfoContactUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * The data used to update InfoContacts.
+     */
+    data: XOR<InfoContactUpdateManyMutationInput, InfoContactUncheckedUpdateManyInput>
+    /**
+     * Filter which InfoContacts to update
+     */
+    where?: InfoContactWhereInput
+    /**
+     * Limit how many InfoContacts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InfoContact upsert
+   */
+  export type InfoContactUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InfoContact to update in case it exists.
+     */
+    where: InfoContactWhereUniqueInput
+    /**
+     * In case the InfoContact found by the `where` argument doesn't exist, create a new InfoContact with this data.
+     */
+    create: XOR<InfoContactCreateInput, InfoContactUncheckedCreateInput>
+    /**
+     * In case the InfoContact was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InfoContactUpdateInput, InfoContactUncheckedUpdateInput>
+  }
+
+  /**
+   * InfoContact delete
+   */
+  export type InfoContactDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+    /**
+     * Filter which InfoContact to delete.
+     */
+    where: InfoContactWhereUniqueInput
+  }
+
+  /**
+   * InfoContact deleteMany
+   */
+  export type InfoContactDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InfoContacts to delete
+     */
+    where?: InfoContactWhereInput
+    /**
+     * Limit how many InfoContacts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InfoContact without action
+   */
+  export type InfoContactDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InfoContact
+     */
+    select?: InfoContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InfoContact
+     */
+    omit?: InfoContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InfoContactInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19596,6 +22124,32 @@ export namespace Prisma {
   export type ApartmentResidencyScalarFieldEnum = (typeof ApartmentResidencyScalarFieldEnum)[keyof typeof ApartmentResidencyScalarFieldEnum]
 
 
+  export const InfoSectionScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    title: 'title',
+    kind: 'kind',
+    body: 'body',
+    position: 'position',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InfoSectionScalarFieldEnum = (typeof InfoSectionScalarFieldEnum)[keyof typeof InfoSectionScalarFieldEnum]
+
+
+  export const InfoContactScalarFieldEnum: {
+    id: 'id',
+    sectionId: 'sectionId',
+    name: 'name',
+    phone: 'phone',
+    note: 'note',
+    position: 'position'
+  };
+
+  export type InfoContactScalarFieldEnum = (typeof InfoContactScalarFieldEnum)[keyof typeof InfoContactScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -19811,6 +22365,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'InfoSectionKind'
+   */
+  export type EnumInfoSectionKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InfoSectionKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'InfoSectionKind[]'
+   */
+  export type ListEnumInfoSectionKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InfoSectionKind[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -19999,6 +22567,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitListRelationFilter
     reports?: ReportListRelationFilter
     notifications?: NotificationListRelationFilter
+    infoSections?: InfoSectionListRelationFilter
   }
 
   export type CommunityOrderByWithRelationInput = {
@@ -20017,6 +22586,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitOrderByRelationAggregateInput
     reports?: ReportOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    infoSections?: InfoSectionOrderByRelationAggregateInput
   }
 
   export type CommunityWhereUniqueInput = Prisma.AtLeast<{
@@ -20038,6 +22608,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitListRelationFilter
     reports?: ReportListRelationFilter
     notifications?: NotificationListRelationFilter
+    infoSections?: InfoSectionListRelationFilter
   }, "id">
 
   export type CommunityOrderByWithAggregationInput = {
@@ -21020,6 +23591,143 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ApartmentResidency"> | Date | string
   }
 
+  export type InfoSectionWhereInput = {
+    AND?: InfoSectionWhereInput | InfoSectionWhereInput[]
+    OR?: InfoSectionWhereInput[]
+    NOT?: InfoSectionWhereInput | InfoSectionWhereInput[]
+    id?: StringFilter<"InfoSection"> | string
+    communityId?: StringFilter<"InfoSection"> | string
+    title?: StringFilter<"InfoSection"> | string
+    kind?: EnumInfoSectionKindFilter<"InfoSection"> | $Enums.InfoSectionKind
+    body?: StringFilter<"InfoSection"> | string
+    position?: IntFilter<"InfoSection"> | number
+    createdAt?: DateTimeFilter<"InfoSection"> | Date | string
+    updatedAt?: DateTimeFilter<"InfoSection"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    contacts?: InfoContactListRelationFilter
+  }
+
+  export type InfoSectionOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    kind?: SortOrder
+    body?: SortOrder
+    position?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    community?: CommunityOrderByWithRelationInput
+    contacts?: InfoContactOrderByRelationAggregateInput
+  }
+
+  export type InfoSectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InfoSectionWhereInput | InfoSectionWhereInput[]
+    OR?: InfoSectionWhereInput[]
+    NOT?: InfoSectionWhereInput | InfoSectionWhereInput[]
+    communityId?: StringFilter<"InfoSection"> | string
+    title?: StringFilter<"InfoSection"> | string
+    kind?: EnumInfoSectionKindFilter<"InfoSection"> | $Enums.InfoSectionKind
+    body?: StringFilter<"InfoSection"> | string
+    position?: IntFilter<"InfoSection"> | number
+    createdAt?: DateTimeFilter<"InfoSection"> | Date | string
+    updatedAt?: DateTimeFilter<"InfoSection"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    contacts?: InfoContactListRelationFilter
+  }, "id">
+
+  export type InfoSectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    kind?: SortOrder
+    body?: SortOrder
+    position?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InfoSectionCountOrderByAggregateInput
+    _avg?: InfoSectionAvgOrderByAggregateInput
+    _max?: InfoSectionMaxOrderByAggregateInput
+    _min?: InfoSectionMinOrderByAggregateInput
+    _sum?: InfoSectionSumOrderByAggregateInput
+  }
+
+  export type InfoSectionScalarWhereWithAggregatesInput = {
+    AND?: InfoSectionScalarWhereWithAggregatesInput | InfoSectionScalarWhereWithAggregatesInput[]
+    OR?: InfoSectionScalarWhereWithAggregatesInput[]
+    NOT?: InfoSectionScalarWhereWithAggregatesInput | InfoSectionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InfoSection"> | string
+    communityId?: StringWithAggregatesFilter<"InfoSection"> | string
+    title?: StringWithAggregatesFilter<"InfoSection"> | string
+    kind?: EnumInfoSectionKindWithAggregatesFilter<"InfoSection"> | $Enums.InfoSectionKind
+    body?: StringWithAggregatesFilter<"InfoSection"> | string
+    position?: IntWithAggregatesFilter<"InfoSection"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"InfoSection"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InfoSection"> | Date | string
+  }
+
+  export type InfoContactWhereInput = {
+    AND?: InfoContactWhereInput | InfoContactWhereInput[]
+    OR?: InfoContactWhereInput[]
+    NOT?: InfoContactWhereInput | InfoContactWhereInput[]
+    id?: StringFilter<"InfoContact"> | string
+    sectionId?: StringFilter<"InfoContact"> | string
+    name?: StringFilter<"InfoContact"> | string
+    phone?: StringFilter<"InfoContact"> | string
+    note?: StringNullableFilter<"InfoContact"> | string | null
+    position?: IntFilter<"InfoContact"> | number
+    section?: XOR<InfoSectionScalarRelationFilter, InfoSectionWhereInput>
+  }
+
+  export type InfoContactOrderByWithRelationInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    note?: SortOrderInput | SortOrder
+    position?: SortOrder
+    section?: InfoSectionOrderByWithRelationInput
+  }
+
+  export type InfoContactWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InfoContactWhereInput | InfoContactWhereInput[]
+    OR?: InfoContactWhereInput[]
+    NOT?: InfoContactWhereInput | InfoContactWhereInput[]
+    sectionId?: StringFilter<"InfoContact"> | string
+    name?: StringFilter<"InfoContact"> | string
+    phone?: StringFilter<"InfoContact"> | string
+    note?: StringNullableFilter<"InfoContact"> | string | null
+    position?: IntFilter<"InfoContact"> | number
+    section?: XOR<InfoSectionScalarRelationFilter, InfoSectionWhereInput>
+  }, "id">
+
+  export type InfoContactOrderByWithAggregationInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    note?: SortOrderInput | SortOrder
+    position?: SortOrder
+    _count?: InfoContactCountOrderByAggregateInput
+    _avg?: InfoContactAvgOrderByAggregateInput
+    _max?: InfoContactMaxOrderByAggregateInput
+    _min?: InfoContactMinOrderByAggregateInput
+    _sum?: InfoContactSumOrderByAggregateInput
+  }
+
+  export type InfoContactScalarWhereWithAggregatesInput = {
+    AND?: InfoContactScalarWhereWithAggregatesInput | InfoContactScalarWhereWithAggregatesInput[]
+    OR?: InfoContactScalarWhereWithAggregatesInput[]
+    NOT?: InfoContactScalarWhereWithAggregatesInput | InfoContactScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InfoContact"> | string
+    sectionId?: StringWithAggregatesFilter<"InfoContact"> | string
+    name?: StringWithAggregatesFilter<"InfoContact"> | string
+    phone?: StringWithAggregatesFilter<"InfoContact"> | string
+    note?: StringNullableWithAggregatesFilter<"InfoContact"> | string | null
+    position?: IntWithAggregatesFilter<"InfoContact"> | number
+  }
+
   export type PostCreateInput = {
     id?: string
     title: string
@@ -21215,6 +23923,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateInput = {
@@ -21233,6 +23942,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUpdateInput = {
@@ -21251,6 +23961,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateInput = {
@@ -21269,6 +23980,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityCreateManyInput = {
@@ -22264,6 +24976,148 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InfoSectionCreateInput = {
+    id?: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutInfoSectionsInput
+    contacts?: InfoContactCreateNestedManyWithoutSectionInput
+  }
+
+  export type InfoSectionUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contacts?: InfoContactUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type InfoSectionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutInfoSectionsNestedInput
+    contacts?: InfoContactUpdateManyWithoutSectionNestedInput
+  }
+
+  export type InfoSectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contacts?: InfoContactUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type InfoSectionCreateManyInput = {
+    id?: string
+    communityId: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InfoSectionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InfoSectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InfoContactCreateInput = {
+    id?: string
+    name: string
+    phone: string
+    note?: string | null
+    position: number
+    section: InfoSectionCreateNestedOneWithoutContactsInput
+  }
+
+  export type InfoContactUncheckedCreateInput = {
+    id?: string
+    sectionId: string
+    name: string
+    phone: string
+    note?: string | null
+    position: number
+  }
+
+  export type InfoContactUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    section?: InfoSectionUpdateOneRequiredWithoutContactsNestedInput
+  }
+
+  export type InfoContactUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InfoContactCreateManyInput = {
+    id?: string
+    sectionId: string
+    name: string
+    phone: string
+    note?: string | null
+    position: number
+  }
+
+  export type InfoContactUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InfoContactUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22538,6 +25392,12 @@ export namespace Prisma {
     none?: StorageUnitWhereInput
   }
 
+  export type InfoSectionListRelationFilter = {
+    every?: InfoSectionWhereInput
+    some?: InfoSectionWhereInput
+    none?: InfoSectionWhereInput
+  }
+
   export type BuildingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -22547,6 +25407,10 @@ export namespace Prisma {
   }
 
   export type StorageUnitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InfoSectionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23389,6 +26253,114 @@ export namespace Prisma {
     _max?: NestedEnumResidencyKindFilter<$PrismaModel>
   }
 
+  export type EnumInfoSectionKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.InfoSectionKind | EnumInfoSectionKindFieldRefInput<$PrismaModel>
+    in?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumInfoSectionKindFilter<$PrismaModel> | $Enums.InfoSectionKind
+  }
+
+  export type InfoContactListRelationFilter = {
+    every?: InfoContactWhereInput
+    some?: InfoContactWhereInput
+    none?: InfoContactWhereInput
+  }
+
+  export type InfoContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InfoSectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    kind?: SortOrder
+    body?: SortOrder
+    position?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InfoSectionAvgOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type InfoSectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    kind?: SortOrder
+    body?: SortOrder
+    position?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InfoSectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    kind?: SortOrder
+    body?: SortOrder
+    position?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InfoSectionSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type EnumInfoSectionKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InfoSectionKind | EnumInfoSectionKindFieldRefInput<$PrismaModel>
+    in?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumInfoSectionKindWithAggregatesFilter<$PrismaModel> | $Enums.InfoSectionKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInfoSectionKindFilter<$PrismaModel>
+    _max?: NestedEnumInfoSectionKindFilter<$PrismaModel>
+  }
+
+  export type InfoSectionScalarRelationFilter = {
+    is?: InfoSectionWhereInput
+    isNot?: InfoSectionWhereInput
+  }
+
+  export type InfoContactCountOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    note?: SortOrder
+    position?: SortOrder
+  }
+
+  export type InfoContactAvgOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type InfoContactMaxOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    note?: SortOrder
+    position?: SortOrder
+  }
+
+  export type InfoContactMinOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    note?: SortOrder
+    position?: SortOrder
+  }
+
+  export type InfoContactSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -23808,6 +26780,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type InfoSectionCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<InfoSectionCreateWithoutCommunityInput, InfoSectionUncheckedCreateWithoutCommunityInput> | InfoSectionCreateWithoutCommunityInput[] | InfoSectionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: InfoSectionCreateOrConnectWithoutCommunityInput | InfoSectionCreateOrConnectWithoutCommunityInput[]
+    createMany?: InfoSectionCreateManyCommunityInputEnvelope
+    connect?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+  }
+
   export type BuildingUncheckedCreateNestedManyWithoutCommunityInput = {
     create?: XOR<BuildingCreateWithoutCommunityInput, BuildingUncheckedCreateWithoutCommunityInput> | BuildingCreateWithoutCommunityInput[] | BuildingUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunityInput | BuildingCreateOrConnectWithoutCommunityInput[]
@@ -23869,6 +26848,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutCommunityInput | NotificationCreateOrConnectWithoutCommunityInput[]
     createMany?: NotificationCreateManyCommunityInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type InfoSectionUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<InfoSectionCreateWithoutCommunityInput, InfoSectionUncheckedCreateWithoutCommunityInput> | InfoSectionCreateWithoutCommunityInput[] | InfoSectionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: InfoSectionCreateOrConnectWithoutCommunityInput | InfoSectionCreateOrConnectWithoutCommunityInput[]
+    createMany?: InfoSectionCreateManyCommunityInputEnvelope
+    connect?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -24005,6 +26991,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type InfoSectionUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<InfoSectionCreateWithoutCommunityInput, InfoSectionUncheckedCreateWithoutCommunityInput> | InfoSectionCreateWithoutCommunityInput[] | InfoSectionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: InfoSectionCreateOrConnectWithoutCommunityInput | InfoSectionCreateOrConnectWithoutCommunityInput[]
+    upsert?: InfoSectionUpsertWithWhereUniqueWithoutCommunityInput | InfoSectionUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: InfoSectionCreateManyCommunityInputEnvelope
+    set?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    disconnect?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    delete?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    connect?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    update?: InfoSectionUpdateWithWhereUniqueWithoutCommunityInput | InfoSectionUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: InfoSectionUpdateManyWithWhereWithoutCommunityInput | InfoSectionUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: InfoSectionScalarWhereInput | InfoSectionScalarWhereInput[]
+  }
+
   export type BuildingUncheckedUpdateManyWithoutCommunityNestedInput = {
     create?: XOR<BuildingCreateWithoutCommunityInput, BuildingUncheckedCreateWithoutCommunityInput> | BuildingCreateWithoutCommunityInput[] | BuildingUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunityInput | BuildingCreateOrConnectWithoutCommunityInput[]
@@ -24129,6 +27129,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutCommunityInput | NotificationUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutCommunityInput | NotificationUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<InfoSectionCreateWithoutCommunityInput, InfoSectionUncheckedCreateWithoutCommunityInput> | InfoSectionCreateWithoutCommunityInput[] | InfoSectionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: InfoSectionCreateOrConnectWithoutCommunityInput | InfoSectionCreateOrConnectWithoutCommunityInput[]
+    upsert?: InfoSectionUpsertWithWhereUniqueWithoutCommunityInput | InfoSectionUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: InfoSectionCreateManyCommunityInputEnvelope
+    set?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    disconnect?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    delete?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    connect?: InfoSectionWhereUniqueInput | InfoSectionWhereUniqueInput[]
+    update?: InfoSectionUpdateWithWhereUniqueWithoutCommunityInput | InfoSectionUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: InfoSectionUpdateManyWithWhereWithoutCommunityInput | InfoSectionUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: InfoSectionScalarWhereInput | InfoSectionScalarWhereInput[]
   }
 
   export type CommunityCreateNestedOneWithoutBuildingsInput = {
@@ -25273,6 +28287,80 @@ export namespace Prisma {
     update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutResidenciesInput, CommunityUpdateWithoutResidenciesInput>, CommunityUncheckedUpdateWithoutResidenciesInput>
   }
 
+  export type CommunityCreateNestedOneWithoutInfoSectionsInput = {
+    create?: XOR<CommunityCreateWithoutInfoSectionsInput, CommunityUncheckedCreateWithoutInfoSectionsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutInfoSectionsInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type InfoContactCreateNestedManyWithoutSectionInput = {
+    create?: XOR<InfoContactCreateWithoutSectionInput, InfoContactUncheckedCreateWithoutSectionInput> | InfoContactCreateWithoutSectionInput[] | InfoContactUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: InfoContactCreateOrConnectWithoutSectionInput | InfoContactCreateOrConnectWithoutSectionInput[]
+    createMany?: InfoContactCreateManySectionInputEnvelope
+    connect?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+  }
+
+  export type InfoContactUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<InfoContactCreateWithoutSectionInput, InfoContactUncheckedCreateWithoutSectionInput> | InfoContactCreateWithoutSectionInput[] | InfoContactUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: InfoContactCreateOrConnectWithoutSectionInput | InfoContactCreateOrConnectWithoutSectionInput[]
+    createMany?: InfoContactCreateManySectionInputEnvelope
+    connect?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+  }
+
+  export type EnumInfoSectionKindFieldUpdateOperationsInput = {
+    set?: $Enums.InfoSectionKind
+  }
+
+  export type CommunityUpdateOneRequiredWithoutInfoSectionsNestedInput = {
+    create?: XOR<CommunityCreateWithoutInfoSectionsInput, CommunityUncheckedCreateWithoutInfoSectionsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutInfoSectionsInput
+    upsert?: CommunityUpsertWithoutInfoSectionsInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutInfoSectionsInput, CommunityUpdateWithoutInfoSectionsInput>, CommunityUncheckedUpdateWithoutInfoSectionsInput>
+  }
+
+  export type InfoContactUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<InfoContactCreateWithoutSectionInput, InfoContactUncheckedCreateWithoutSectionInput> | InfoContactCreateWithoutSectionInput[] | InfoContactUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: InfoContactCreateOrConnectWithoutSectionInput | InfoContactCreateOrConnectWithoutSectionInput[]
+    upsert?: InfoContactUpsertWithWhereUniqueWithoutSectionInput | InfoContactUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: InfoContactCreateManySectionInputEnvelope
+    set?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    disconnect?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    delete?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    connect?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    update?: InfoContactUpdateWithWhereUniqueWithoutSectionInput | InfoContactUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: InfoContactUpdateManyWithWhereWithoutSectionInput | InfoContactUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: InfoContactScalarWhereInput | InfoContactScalarWhereInput[]
+  }
+
+  export type InfoContactUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<InfoContactCreateWithoutSectionInput, InfoContactUncheckedCreateWithoutSectionInput> | InfoContactCreateWithoutSectionInput[] | InfoContactUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: InfoContactCreateOrConnectWithoutSectionInput | InfoContactCreateOrConnectWithoutSectionInput[]
+    upsert?: InfoContactUpsertWithWhereUniqueWithoutSectionInput | InfoContactUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: InfoContactCreateManySectionInputEnvelope
+    set?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    disconnect?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    delete?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    connect?: InfoContactWhereUniqueInput | InfoContactWhereUniqueInput[]
+    update?: InfoContactUpdateWithWhereUniqueWithoutSectionInput | InfoContactUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: InfoContactUpdateManyWithWhereWithoutSectionInput | InfoContactUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: InfoContactScalarWhereInput | InfoContactScalarWhereInput[]
+  }
+
+  export type InfoSectionCreateNestedOneWithoutContactsInput = {
+    create?: XOR<InfoSectionCreateWithoutContactsInput, InfoSectionUncheckedCreateWithoutContactsInput>
+    connectOrCreate?: InfoSectionCreateOrConnectWithoutContactsInput
+    connect?: InfoSectionWhereUniqueInput
+  }
+
+  export type InfoSectionUpdateOneRequiredWithoutContactsNestedInput = {
+    create?: XOR<InfoSectionCreateWithoutContactsInput, InfoSectionUncheckedCreateWithoutContactsInput>
+    connectOrCreate?: InfoSectionCreateOrConnectWithoutContactsInput
+    upsert?: InfoSectionUpsertWithoutContactsInput
+    connect?: InfoSectionWhereUniqueInput
+    update?: XOR<XOR<InfoSectionUpdateToOneWithWhereWithoutContactsInput, InfoSectionUpdateWithoutContactsInput>, InfoSectionUncheckedUpdateWithoutContactsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -25650,6 +28738,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumResidencyKindFilter<$PrismaModel>
     _max?: NestedEnumResidencyKindFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInfoSectionKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.InfoSectionKind | EnumInfoSectionKindFieldRefInput<$PrismaModel>
+    in?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumInfoSectionKindFilter<$PrismaModel> | $Enums.InfoSectionKind
+  }
+
+  export type NestedEnumInfoSectionKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InfoSectionKind | EnumInfoSectionKindFieldRefInput<$PrismaModel>
+    in?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InfoSectionKind[] | ListEnumInfoSectionKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumInfoSectionKindWithAggregatesFilter<$PrismaModel> | $Enums.InfoSectionKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInfoSectionKindFilter<$PrismaModel>
+    _max?: NestedEnumInfoSectionKindFilter<$PrismaModel>
   }
 
   export type MembershipCreateWithoutUserInput = {
@@ -26498,6 +29603,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InfoSectionCreateWithoutCommunityInput = {
+    id?: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contacts?: InfoContactCreateNestedManyWithoutSectionInput
+  }
+
+  export type InfoSectionUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contacts?: InfoContactUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type InfoSectionCreateOrConnectWithoutCommunityInput = {
+    where: InfoSectionWhereUniqueInput
+    create: XOR<InfoSectionCreateWithoutCommunityInput, InfoSectionUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type InfoSectionCreateManyCommunityInputEnvelope = {
+    data: InfoSectionCreateManyCommunityInput | InfoSectionCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BuildingUpsertWithWhereUniqueWithoutCommunityInput = {
     where: BuildingWhereUniqueInput
     update: XOR<BuildingUpdateWithoutCommunityInput, BuildingUncheckedUpdateWithoutCommunityInput>
@@ -26682,6 +29819,36 @@ export namespace Prisma {
     data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutCommunityInput>
   }
 
+  export type InfoSectionUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: InfoSectionWhereUniqueInput
+    update: XOR<InfoSectionUpdateWithoutCommunityInput, InfoSectionUncheckedUpdateWithoutCommunityInput>
+    create: XOR<InfoSectionCreateWithoutCommunityInput, InfoSectionUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type InfoSectionUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: InfoSectionWhereUniqueInput
+    data: XOR<InfoSectionUpdateWithoutCommunityInput, InfoSectionUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type InfoSectionUpdateManyWithWhereWithoutCommunityInput = {
+    where: InfoSectionScalarWhereInput
+    data: XOR<InfoSectionUpdateManyMutationInput, InfoSectionUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type InfoSectionScalarWhereInput = {
+    AND?: InfoSectionScalarWhereInput | InfoSectionScalarWhereInput[]
+    OR?: InfoSectionScalarWhereInput[]
+    NOT?: InfoSectionScalarWhereInput | InfoSectionScalarWhereInput[]
+    id?: StringFilter<"InfoSection"> | string
+    communityId?: StringFilter<"InfoSection"> | string
+    title?: StringFilter<"InfoSection"> | string
+    kind?: EnumInfoSectionKindFilter<"InfoSection"> | $Enums.InfoSectionKind
+    body?: StringFilter<"InfoSection"> | string
+    position?: IntFilter<"InfoSection"> | number
+    createdAt?: DateTimeFilter<"InfoSection"> | Date | string
+    updatedAt?: DateTimeFilter<"InfoSection"> | Date | string
+  }
+
   export type CommunityCreateWithoutBuildingsInput = {
     id?: string
     name: string
@@ -26697,6 +29864,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutBuildingsInput = {
@@ -26714,6 +29882,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutBuildingsInput = {
@@ -26969,6 +30138,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutBuildingsInput = {
@@ -26986,6 +30156,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type ApartmentUpsertWithWhereUniqueWithoutBuildingInput = {
@@ -27536,6 +30707,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutMembershipsInput = {
@@ -27553,6 +30725,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutMembershipsInput = {
@@ -27699,6 +30872,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutMembershipsInput = {
@@ -27716,6 +30890,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutMembershipsInput = {
@@ -27811,6 +30986,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutPackagesInput = {
@@ -27828,6 +31004,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutPackagesInput = {
@@ -28050,6 +31227,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutPackagesInput = {
@@ -28067,6 +31245,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutPackagesInput = {
@@ -28303,6 +31482,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutParkingSpacesInput = {
@@ -28320,6 +31500,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutParkingSpacesInput = {
@@ -28467,6 +31648,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutParkingSpacesInput = {
@@ -28484,6 +31666,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutParkingSpacesInput = {
@@ -28595,6 +31778,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutStorageUnitsInput = {
@@ -28612,6 +31796,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutStorageUnitsInput = {
@@ -28759,6 +31944,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutStorageUnitsInput = {
@@ -28776,6 +31962,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutStorageUnitsInput = {
@@ -28887,6 +32074,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutReportsInput = {
@@ -28904,6 +32092,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutReportsInput = {
@@ -29098,6 +32287,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutReportsInput = {
@@ -29115,6 +32305,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type BuildingUpsertWithoutReportsInput = {
@@ -29323,6 +32514,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutAuditLogsInput = {
@@ -29340,6 +32532,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutAuditLogsInput = {
@@ -29414,6 +32607,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutAuditLogsInput = {
@@ -29431,6 +32625,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type UserUpsertWithoutAuditLogsInput = {
@@ -29495,6 +32690,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutNotificationsInput = {
@@ -29512,6 +32708,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutNotificationsInput = {
@@ -29618,6 +32815,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutNotificationsInput = {
@@ -29635,6 +32833,7 @@ export namespace Prisma {
     parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type UserUpsertWithoutNotificationsInput = {
@@ -29864,6 +33063,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
     reports?: ReportCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutResidenciesInput = {
@@ -29881,6 +33081,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
     reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    infoSections?: InfoSectionUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutResidenciesInput = {
@@ -30000,6 +33201,7 @@ export namespace Prisma {
     storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
     reports?: ReportUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutResidenciesInput = {
@@ -30017,6 +33219,209 @@ export namespace Prisma {
     storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    infoSections?: InfoSectionUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityCreateWithoutInfoSectionsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    reminderAfterDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyCreateNestedManyWithoutCommunityInput
+    packages?: PackageCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitCreateNestedManyWithoutCommunityInput
+    reports?: ReportCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutInfoSectionsInput = {
+    id?: string
+    name: string
+    address?: string | null
+    reminderAfterDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buildings?: BuildingUncheckedCreateNestedManyWithoutCommunityInput
+    memberships?: MembershipUncheckedCreateNestedManyWithoutCommunityInput
+    residencies?: ApartmentResidencyUncheckedCreateNestedManyWithoutCommunityInput
+    packages?: PackageUncheckedCreateNestedManyWithoutCommunityInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutCommunityInput
+    parkingSpaces?: ParkingSpaceUncheckedCreateNestedManyWithoutCommunityInput
+    storageUnits?: StorageUnitUncheckedCreateNestedManyWithoutCommunityInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutInfoSectionsInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutInfoSectionsInput, CommunityUncheckedCreateWithoutInfoSectionsInput>
+  }
+
+  export type InfoContactCreateWithoutSectionInput = {
+    id?: string
+    name: string
+    phone: string
+    note?: string | null
+    position: number
+  }
+
+  export type InfoContactUncheckedCreateWithoutSectionInput = {
+    id?: string
+    name: string
+    phone: string
+    note?: string | null
+    position: number
+  }
+
+  export type InfoContactCreateOrConnectWithoutSectionInput = {
+    where: InfoContactWhereUniqueInput
+    create: XOR<InfoContactCreateWithoutSectionInput, InfoContactUncheckedCreateWithoutSectionInput>
+  }
+
+  export type InfoContactCreateManySectionInputEnvelope = {
+    data: InfoContactCreateManySectionInput | InfoContactCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityUpsertWithoutInfoSectionsInput = {
+    update: XOR<CommunityUpdateWithoutInfoSectionsInput, CommunityUncheckedUpdateWithoutInfoSectionsInput>
+    create: XOR<CommunityCreateWithoutInfoSectionsInput, CommunityUncheckedCreateWithoutInfoSectionsInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutInfoSectionsInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutInfoSectionsInput, CommunityUncheckedUpdateWithoutInfoSectionsInput>
+  }
+
+  export type CommunityUpdateWithoutInfoSectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutInfoSectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buildings?: BuildingUncheckedUpdateManyWithoutCommunityNestedInput
+    memberships?: MembershipUncheckedUpdateManyWithoutCommunityNestedInput
+    residencies?: ApartmentResidencyUncheckedUpdateManyWithoutCommunityNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutCommunityNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutCommunityNestedInput
+    parkingSpaces?: ParkingSpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    storageUnits?: StorageUnitUncheckedUpdateManyWithoutCommunityNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type InfoContactUpsertWithWhereUniqueWithoutSectionInput = {
+    where: InfoContactWhereUniqueInput
+    update: XOR<InfoContactUpdateWithoutSectionInput, InfoContactUncheckedUpdateWithoutSectionInput>
+    create: XOR<InfoContactCreateWithoutSectionInput, InfoContactUncheckedCreateWithoutSectionInput>
+  }
+
+  export type InfoContactUpdateWithWhereUniqueWithoutSectionInput = {
+    where: InfoContactWhereUniqueInput
+    data: XOR<InfoContactUpdateWithoutSectionInput, InfoContactUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type InfoContactUpdateManyWithWhereWithoutSectionInput = {
+    where: InfoContactScalarWhereInput
+    data: XOR<InfoContactUpdateManyMutationInput, InfoContactUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type InfoContactScalarWhereInput = {
+    AND?: InfoContactScalarWhereInput | InfoContactScalarWhereInput[]
+    OR?: InfoContactScalarWhereInput[]
+    NOT?: InfoContactScalarWhereInput | InfoContactScalarWhereInput[]
+    id?: StringFilter<"InfoContact"> | string
+    sectionId?: StringFilter<"InfoContact"> | string
+    name?: StringFilter<"InfoContact"> | string
+    phone?: StringFilter<"InfoContact"> | string
+    note?: StringNullableFilter<"InfoContact"> | string | null
+    position?: IntFilter<"InfoContact"> | number
+  }
+
+  export type InfoSectionCreateWithoutContactsInput = {
+    id?: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutInfoSectionsInput
+  }
+
+  export type InfoSectionUncheckedCreateWithoutContactsInput = {
+    id?: string
+    communityId: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InfoSectionCreateOrConnectWithoutContactsInput = {
+    where: InfoSectionWhereUniqueInput
+    create: XOR<InfoSectionCreateWithoutContactsInput, InfoSectionUncheckedCreateWithoutContactsInput>
+  }
+
+  export type InfoSectionUpsertWithoutContactsInput = {
+    update: XOR<InfoSectionUpdateWithoutContactsInput, InfoSectionUncheckedUpdateWithoutContactsInput>
+    create: XOR<InfoSectionCreateWithoutContactsInput, InfoSectionUncheckedCreateWithoutContactsInput>
+    where?: InfoSectionWhereInput
+  }
+
+  export type InfoSectionUpdateToOneWithWhereWithoutContactsInput = {
+    where?: InfoSectionWhereInput
+    data: XOR<InfoSectionUpdateWithoutContactsInput, InfoSectionUncheckedUpdateWithoutContactsInput>
+  }
+
+  export type InfoSectionUpdateWithoutContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutInfoSectionsNestedInput
+  }
+
+  export type InfoSectionUncheckedUpdateWithoutContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MembershipCreateManyUserInput = {
@@ -30565,6 +33970,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type InfoSectionCreateManyCommunityInput = {
+    id?: string
+    title: string
+    kind: $Enums.InfoSectionKind
+    body?: string
+    position: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BuildingUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -30893,6 +34308,38 @@ export namespace Prisma {
     dedupeKey?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InfoSectionUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contacts?: InfoContactUpdateManyWithoutSectionNestedInput
+  }
+
+  export type InfoSectionUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contacts?: InfoContactUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type InfoSectionUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    kind?: EnumInfoSectionKindFieldUpdateOperationsInput | $Enums.InfoSectionKind
+    body?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApartmentCreateManyBuildingInput = {
@@ -31705,6 +35152,38 @@ export namespace Prisma {
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     nextAttemptAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InfoContactCreateManySectionInput = {
+    id?: string
+    name: string
+    phone: string
+    note?: string | null
+    position: number
+  }
+
+  export type InfoContactUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InfoContactUncheckedUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InfoContactUncheckedUpdateManyWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
 

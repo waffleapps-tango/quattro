@@ -72,6 +72,7 @@ model Community {
   storageUnits  StorageUnit[]
   reports       Report[]
   notifications Notification[]
+  infoSections  InfoSection[]
 }
 
 model Building {
@@ -339,4 +340,38 @@ model ApartmentResidency {
   @@unique([userId, apartmentId])
   @@index([userId])
   @@index([apartmentId])
+}
+
+enum InfoSectionKind {
+  CONTACTS
+  TEXT
+}
+
+model InfoSection {
+  id          String          @id @default(cuid())
+  communityId String
+  title       String
+  kind        InfoSectionKind
+  body        String          @default("")
+  position    Int
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  community Community     @relation(fields: [communityId], references: [id])
+  contacts  InfoContact[]
+
+  @@index([communityId, position])
+}
+
+model InfoContact {
+  id        String  @id @default(cuid())
+  sectionId String
+  name      String
+  phone     String
+  note      String?
+  position  Int
+
+  section InfoSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId, position])
 }
