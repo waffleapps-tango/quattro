@@ -7,7 +7,7 @@ import {
   createCommunityWithBuildingAndApartment,
   createUserWithMembership,
 } from "@/domain/__test-helpers__/fixtures";
-import { getProfile } from "@/domain/profile";
+import { getProfile, setShareName } from "@/domain/profile";
 
 afterEach(async () => {
   await cleanupDatabase();
@@ -149,5 +149,45 @@ describe("getProfile people", () => {
     const card = (await getProfile(owner, community.id)).apartments.find((a) => a.id === apartment.id)!;
 
     expect(card.people.filter((p) => p.isPrimary).map((p) => p.kind)).toEqual(["TENANT"]);
+  });
+});
+
+describe("name privacy", () => {
+  async function pair() {
+    const { community, building, apartment } = await createCommunityWithBuildingAndApartment();
+    const owner = await createUserWithMembership({
+      communityId: community.id, buildingId: building.id, apartmentId: apartment.id, role: Role.RESIDENT, kind: "OWNER",
+    });
+    const tenant = await createUserWithMembership({
+      communityId: community.id, buildingId: building.id, apartmentId: apartment.id, role: Role.RESIDENT, kind: "TENANT",
+    });
+    return { community, owner, tenant };
+  }
+
+  it("masks a hidden co-resident's name and email, even for the owner", async () => {
+    const { community, owner, tenant } = await pair();
+    await prisma.user.update({ where: { id: tenant.id }, data: { firstName: "Tina", lastName: "Tenant", shareName: false } });
+
+    const profile = await getProfile(owner, community.id);
+
+    const person = profile.apartments[0].people.find((p) => !p.isMe)!;
+    expect(person.name).toBe("Mieszkaniec Building A / 101");
+    expect(person.email).toBeNull();
+  });
+
+  it("still shows the user their own name", async () => {
+    const { community, owner } = await pair();
+    await prisma.user.update({ where: { id: owner.id }, data: { firstName: "Olga", lastName: "Owner", shareName: false } });
+
+    const profile = await getProfile({ ...owner, firstName: "Olga", lastName: "Owner", shareName: false }, community.id);
+
+    expect(profile.apartments[0].people.find((p) => p.isMe)!.name).toBe("Olga Owner");
+  });
+
+  it("setShareName updates only the actor", async () => {
+    const { owner, tenant } = await pair();
+    await setShareName(owner, false);
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: owner.id } })).shareName).toBe(false);
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: tenant.id } })).shareName).toBe(true);
   });
 });

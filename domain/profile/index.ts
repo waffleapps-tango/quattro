@@ -3,6 +3,7 @@ import type { SessionUser } from "@/auth/session";
 import { UnauthorizedError } from "@/domain/errors";
 import { listOwnedSpaces } from "@/domain/reports";
 import { listResidentApartments } from "@/domain/residencies";
+import { maskPerson } from "@/domain/privacy/person";
 import { livesHere } from "@/domain/residencies/occupancy";
 
 export async function getProfile(actor: SessionUser, communityId: string) {
@@ -60,12 +61,13 @@ export async function getProfile(actor: SessionUser, communityId: string) {
             }
           : null,
         people: aptLinks.map((l) => {
-          const fullName = [l.user.firstName, l.user.lastName].filter(Boolean).join(" ");
+          const u = maskPerson(l.user, actor.id, { buildingName: a.building.name, apartmentNumber: a.number });
+          const fullName = [u.firstName, u.lastName].filter(Boolean).join(" ");
           return {
             residencyId: l.id,
             // Owners see everyone's email; tenants only see names (null when unnamed).
-            name: fullName || (iAmOwner ? l.user.email : null),
-            email: iAmOwner ? l.user.email : null,
+            name: fullName || (iAmOwner ? u.email : null),
+            email: iAmOwner ? u.email || null : null,
             kind: l.kind,
             isPrimary: l.isPrimary,
             receivesPackages: l.receivesPackages,
@@ -86,3 +88,7 @@ export async function getProfile(actor: SessionUser, communityId: string) {
 }
 
 export type Profile = Awaited<ReturnType<typeof getProfile>>;
+
+export async function setShareName(actor: SessionUser, share: boolean): Promise<void> {
+  await prisma.user.update({ where: { id: actor.id }, data: { shareName: share } });
+}
