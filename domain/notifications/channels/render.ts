@@ -14,7 +14,7 @@ export function renderNotification(notification: Notification, user: User) {
   const types = createTranslator({ locale, messages, namespace: "notifications.types" });
   const email = createTranslator({ locale, messages, namespace: "notifications.email" });
   const values = notification.payload as Record<string, string | number>;
-  const url = `${process.env.APP_URL ?? ""}/settings`;
+  const url = `${(process.env.APP_URL ?? "").replace(/\/+$/, "")}/settings`;
   return {
     title: types(`${notification.type}.title` as never, values as never),
     body: types(`${notification.type}.body` as never, values as never),

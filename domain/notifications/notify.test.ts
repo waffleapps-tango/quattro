@@ -101,6 +101,15 @@ describe("notify channel resolution", () => {
     expect(channelsUsed).toEqual(["in-app"]);
   });
 
+  it("gives only in-app when a preference row exists but all channels are disabled", async () => {
+    const { community, resident } = await createPackageScenario();
+    await prisma.notificationPreference.create({
+      data: { userId: resident.id, emailEnabled: false, smsEnabled: false, phone: "+48123456789" },
+    });
+    await send(community.id, [resident.id]);
+    expect((await prisma.notificationDelivery.findMany()).map((d) => d.channel)).toEqual(["in-app"]);
+  });
+
   it("adds PENDING email and sms deliveries for opted-in users", async () => {
     const { community, resident } = await createPackageScenario();
     await prisma.notificationPreference.create({

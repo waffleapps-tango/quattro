@@ -19,7 +19,7 @@ export const smsChannel: ChannelAdapter = {
     if (!token) return { status: "fail", error: "SMSAPI_TOKEN not set" };
 
     const pref = await prisma.notificationPreference.findUnique({ where: { userId: user.id } });
-    if (!pref?.phone) return { status: "fail", error: "No phone number stored" };
+    if (!pref?.smsEnabled || !pref.phone) return { status: "fail", error: "SMS not enabled" };
 
     const { body } = renderNotification(notification, user);
     const form = new URLSearchParams({
@@ -34,6 +34,7 @@ export const smsChannel: ChannelAdapter = {
       () =>
         fetch("https://api.smsapi.pl/sms.do", {
           method: "POST",
+          signal: AbortSignal.timeout(10_000),
           headers: { Authorization: `Bearer ${token}` },
           body: form,
         }),

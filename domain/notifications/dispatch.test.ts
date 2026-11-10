@@ -65,6 +65,20 @@ describe("dispatchPending", () => {
     expect(row.lastError).toContain("boom");
   });
 
+  it("re-claims a delivery whose lease expired and skips one still leased", async () => {
+    const now = new Date();
+    const expired = await pendingDelivery("fake", { attempts: 1, nextAttemptAt: new Date(now.getTime() - 60_000) });
+    const leased = await pendingDelivery("fake", { attempts: 1, nextAttemptAt: new Date(now.getTime() + 60_000) });
+
+    const result = await dispatchPending(fake({ status: "ok" }), now);
+
+    expect(result.sent).toBe(1);
+    const a = await prisma.notificationDelivery.findUniqueOrThrow({ where: { id: expired.id } });
+    expect([a.status, a.attempts]).toEqual(["SENT", 2]);
+    const b = await prisma.notificationDelivery.findUniqueOrThrow({ where: { id: leased.id } });
+    expect([b.status, b.attempts]).toEqual(["PENDING", 1]);
+  });
+
   it("fails a delivery after MAX_ATTEMPTS retries", async () => {
     const d = await pendingDelivery("fake", { attempts: MAX_ATTEMPTS - 1 });
     const result = await dispatchPending(fake({ status: "retry", error: "still down" }));

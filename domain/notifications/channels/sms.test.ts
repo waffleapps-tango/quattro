@@ -77,4 +77,13 @@ describe("smsChannel", () => {
     expect((await smsChannel.send(notification, noPhone)).status).toBe("fail");
     expect(fetchMock).not.toHaveBeenCalled();
   });
+
+  it("fails without calling the API when sms is disabled even if a phone is stored", async () => {
+    const { resident } = await createPackageScenario();
+    await prisma.notificationPreference.create({
+      data: { userId: resident.id, smsEnabled: false, phone: "+48123456789" },
+    });
+    expect((await smsChannel.send(notification, { ...resident, locale: "en" })).status).toBe("fail");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
 });
