@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getFormatter, getTranslations } from "next-intl/server";
-import { AlertTriangle, ArrowRight, Megaphone, Package } from "lucide-react";
+import { AlertTriangle, ArrowRight, Megaphone, Package, Plus } from "lucide-react";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listReports } from "@/domain/reports";
@@ -21,6 +21,8 @@ export default async function Home() {
   const tc = await getTranslations("common");
   const tr = await getTranslations("reports");
   const tp = await getTranslations("packages");
+  const tProfile = await getTranslations("profile");
+  const tPeople = await getTranslations("profile.people");
   const user = await getCurrentUser();
 
   if (!user) {
@@ -59,26 +61,14 @@ export default async function Home() {
   const format = await getFormatter();
   const s = summarizeDashboard({ userId: user.id, packages, reports });
 
-  const extras = [
-    profile.parkingSpaces.length &&
-      t("parkingShort", { numbers: profile.parkingSpaces.map((x) => x.number).join(", ") }),
-    profile.storageUnits.length &&
-      t("storageShort", { numbers: profile.storageUnits.map((x) => x.number).join(", ") }),
-  ]
-    .filter(Boolean)
-    .join(" · ");
-  const aptLines = [
-    ...profile.apartments.map((a) =>
-      t("myApartmentLine", { building: a.building.name, apartment: a.number }),
-    ),
-    ...(extras ? [extras] : []),
-  ];
-
   const daysSince = (d: Date) => Math.floor((Date.now() - new Date(d).getTime()) / 86_400_000);
 
   return (
     <Stagger className="space-y-6">
       <StaggerItem index={0}>
+        <p className="mb-1 text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          {profile.community.name}
+        </p>
         <h1 className="text-3xl font-semibold">{t("greeting", { name: user.firstName ?? user.email })}</h1>
       </StaggerItem>
 
@@ -86,17 +76,43 @@ export default async function Home() {
         <StaggerItem index={1}>
           <Card>
             <CardContent className="flex flex-wrap items-center justify-between gap-4">
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">
                   {t("myApartment")}
                 </p>
-                <ul className="space-y-1">
-                  {aptLines.map((line, idx) => (
-                    <li key={line} className={idx === 0 ? "font-heading text-xl font-semibold" : "text-sm text-muted-foreground"}>
-                      {line}
-                    </li>
-                  ))}
-                </ul>
+                {profile.apartments.map((a) => (
+                  <div key={a.id} className="flex flex-wrap items-center gap-2">
+                    <span className="font-heading text-2xl font-semibold tracking-tight">
+                      {a.building.name} / {a.number}
+                    </span>
+                    {a.myLink && <Badge variant="secondary">{tPeople(`kind.${a.myLink.kind}`)}</Badge>}
+                    {a.floor != null && (
+                      <Badge variant="warm">
+                        {tProfile("floor")} {a.floor}
+                      </Badge>
+                    )}
+                  </div>
+                ))}
+                {(profile.parkingSpaces.length > 0 || profile.storageUnits.length > 0) && (
+                  <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                    {profile.parkingSpaces.length > 0 && (
+                      <span>
+                        {tProfile("parkingCard")}:{" "}
+                        <span className="font-medium text-foreground tabular-nums">
+                          {profile.parkingSpaces.map((x) => x.number).join(", ")}
+                        </span>
+                      </span>
+                    )}
+                    {profile.storageUnits.length > 0 && (
+                      <span>
+                        {tProfile("storageCard")}:{" "}
+                        <span className="font-medium text-foreground tabular-nums">
+                          {profile.storageUnits.map((x) => x.number).join(", ")}
+                        </span>
+                      </span>
+                    )}
+                  </p>
+                )}
               </div>
               <Button asChild variant="secondary">
                 <Link href="/profile">{t("viewProfile")}</Link>
@@ -153,12 +169,16 @@ export default async function Home() {
             <StaggerItem index={2} className="h-full [&>*]:h-full">
               <Card className="gap-0 overflow-hidden py-0">
                 <div className="flex items-center gap-3 bg-muted px-6 py-4">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-info text-info-foreground">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-info text-info-foreground">
                     <Package className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h2 className="font-heading text-lg font-semibold">
-                    {t("packagesToPickup", { count: s.waitingPackageCount })}
-                  </h2>
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-heading text-lg font-semibold leading-tight">{t("packagesHeading")}</h2>
+                    <p className="truncate text-sm text-muted-foreground">{t("packagesSubtitle")}</p>
+                  </div>
+                  <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold tabular-nums text-primary-foreground">
+                    {s.waitingPackageCount}
+                  </span>
                 </div>
                 <CardContent className="space-y-2 py-5">
                   {s.waitingPackages.length === 0 ? (
@@ -197,29 +217,45 @@ export default async function Home() {
             <StaggerItem index={3} className="h-full [&>*]:h-full">
               <Card className="gap-0 overflow-hidden py-0">
                 <div className="flex items-center gap-3 bg-muted px-6 py-4">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-warm text-warm-foreground">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm text-warm-foreground">
                     <Megaphone className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h2 className="font-heading text-lg font-semibold">
-                    {t("myReports", { count: s.myOpenReportCount })}
-                  </h2>
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-heading text-lg font-semibold leading-tight">{t("reportsHeading")}</h2>
+                    <p className="truncate text-sm text-muted-foreground">{t("reportsSubtitle")}</p>
+                  </div>
+                  <Button asChild size="sm">
+                    <Link href="/reports">
+                      <Plus className="mr-1 h-4 w-4" />
+                      {t("newReport")}
+                    </Link>
+                  </Button>
                 </div>
                 <CardContent className="space-y-2 py-5">
                   {s.myOpenReports.length === 0 ? (
                     <EmptyState icon={Megaphone} title={t("noOpenReports")} />
                   ) : (
                     s.myOpenReports.map((r) => (
-                      <div key={r.id} className="flex items-center justify-between gap-3 rounded-lg bg-muted px-4 py-3 text-sm">
-                        <span className="min-w-0 truncate font-medium">{r.title}</span>
-                        <Badge variant={statusVariant(r.status)}>{tr(`status.${r.status}`)}</Badge>
+                      <div key={r.id} className="rounded-lg bg-muted px-4 py-3 text-sm">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="flex min-w-0 items-center gap-2">
+                            <span className="shrink-0 rounded bg-secondary px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-[0.06em]">
+                              {tr(`type.${r.type}`)}
+                            </span>
+                            <span className="truncate font-medium">{r.title}</span>
+                          </span>
+                          <Badge variant={statusVariant(r.status)}>{tr(`status.${r.status}`)}</Badge>
+                        </div>
+                        <p className="mt-1 text-muted-foreground">
+                          {t("reportedOn", {
+                            date: format.dateTime(new Date(r.createdAt), { day: "2-digit", month: "2-digit", year: "numeric" }),
+                          })}
+                        </p>
                       </div>
                     ))
                   )}
                 </CardContent>
-                <CardFooter className="gap-2 pb-6">
-                  <Button asChild>
-                    <Link href="/reports">{t("newReport")}</Link>
-                  </Button>
+                <CardFooter className="pb-6">
                   <Button asChild variant="secondary">
                     <Link href="/reports?view=mine">{t("viewReports")}<ArrowRight className="ml-1 h-4 w-4" /></Link>
                   </Button>
