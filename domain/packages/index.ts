@@ -5,6 +5,7 @@ import { NotFoundError, TenantMismatchError, UnauthorizedError } from "@/domain/
 import { notify } from "@/domain/notifications";
 import { resolvePackageRecipients } from "@/domain/packages/reminders";
 import { STAFF_ROLES } from "@/domain/packages/roles";
+import { maskPerson, type Maskable } from "@/domain/privacy/person";
 import { PackageStatus, type Prisma } from "@/lib/generated/prisma";
 
 export async function createPackage(
@@ -124,6 +125,21 @@ export async function markPickedUp(actor: SessionUser, packageId: string) {
   });
 }
 
+function maskRecipient(viewerId: string) {
+  return <P extends { recipient: Maskable | null; apartment: { number: string }; building: { name: string } }>(
+    pkg: P,
+  ): P =>
+    pkg.recipient
+      ? {
+          ...pkg,
+          recipient: maskPerson(pkg.recipient, viewerId, {
+            buildingName: pkg.building.name,
+            apartmentNumber: pkg.apartment.number,
+          }),
+        }
+      : pkg;
+}
+
 export async function listPackagesForViewer(
   actor: SessionUser,
   communityId: string,
@@ -141,22 +157,23 @@ export async function listPackagesForViewer(
           { apartment: { number: { contains: search, mode: "insensitive" } } },
           // Residents must not be able to probe co-residents' emails through search.
           ...(staffMembership
-            ? [{ recipient: { email: { contains: search, mode: "insensitive" as const } } }]
+            ? [{ recipient: { email: { contains: search, mode: "insensitive" as const }, shareName: true } }]
             : []),
         ],
       }
     : {};
 
   if (staffMembership) {
-    return prisma.package.findMany({
+    const rows = await prisma.package.findMany({
       where: { communityId, ...searchFilter },
       include: {
         apartment: true,
         building: true,
-        recipient: { select: { id: true, firstName: true, lastName: true, email: true } },
+        recipient: { select: { id: true, firstName: true, lastName: true, email: true, shareName: true } },
       },
       orderBy: { createdAt: "desc" },
     });
+    return rows.map(maskRecipient(actor.id));
   }
 
   const residentMembership = actor.memberships.find(
@@ -176,13 +193,14 @@ export async function listPackagesForViewer(
     residentFilters.push({ apartmentId: { in: apartmentIds } });
   }
 
-  return prisma.package.findMany({
+  const rows = await prisma.package.findMany({
     where: { communityId, OR: residentFilters },
     include: {
       apartment: true,
       building: true,
-      recipient: { select: { id: true, firstName: true, lastName: true } },
+      recipient: { select: { id: true, firstName: true, lastName: true, shareName: true } },
     },
     orderBy: { createdAt: "desc" },
   });
+  return rows.map(maskRecipient(actor.id));
 }

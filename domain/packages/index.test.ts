@@ -279,6 +279,44 @@ describe("listPackagesForViewer with owners and tenants", () => {
     expect(asStaff.recipient).not.toHaveProperty("clerkUserId");
   });
 
+  it("masks a hidden recipient for staff and other residents, but not for themself", async () => {
+    const s = await setup();
+    await prisma.apartmentResidency.updateMany({ where: { userId: s.owner.id }, data: { isPrimary: true } });
+    await prisma.user.update({
+      where: { id: s.owner.id },
+      data: { firstName: "Jan", lastName: "Kowalski", shareName: false },
+    });
+    await createPackage(s.receptionist, {
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+    });
+
+    const placeholder = "Mieszkaniec Building A / 101";
+    const [asStaff] = await listPackagesForViewer(s.receptionist, s.community.id);
+    expect(asStaff.recipient).toMatchObject({ firstName: placeholder, lastName: null, email: "" });
+
+    const [asTenant] = await listPackagesForViewer(s.tenant, s.community.id);
+    expect(asTenant.recipient).toMatchObject({ firstName: placeholder, lastName: null });
+
+    const [asOwner] = await listPackagesForViewer(s.owner, s.community.id);
+    expect(asOwner.recipient).toMatchObject({ firstName: "Jan", lastName: "Kowalski" });
+  });
+
+  it("does not let staff find a hidden recipient by email search", async () => {
+    const s = await setup();
+    await prisma.apartmentResidency.updateMany({ where: { userId: s.owner.id }, data: { isPrimary: true } });
+    await prisma.user.update({ where: { id: s.owner.id }, data: { shareName: false } });
+    await createPackage(s.receptionist, {
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+    });
+
+    const found = await listPackagesForViewer(s.receptionist, s.community.id, { search: s.owner.email });
+    expect(found).toHaveLength(0);
+  });
+
   it("shows the apartment's package to a renting-out owner and to an opted-out tenant", async () => {
     const s = await setup();
     await prisma.apartmentResidency.updateMany({ where: { userId: s.tenant.id }, data: { receivesPackages: false } });
