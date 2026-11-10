@@ -1,12 +1,14 @@
 import type { Prisma } from "@/lib/generated/prisma";
 import { emailChannel } from "./email";
 import { inAppChannel } from "./in-app";
+import { smsChannel } from "./sms";
 import type { ChannelAdapter } from "./types";
 
 // Register new channels (email, sms, push, ...) here.
 export const channels: Record<string, ChannelAdapter> = {
   [inAppChannel.id]: inAppChannel,
   [emailChannel.id]: emailChannel,
+  [smsChannel.id]: smsChannel,
 };
 
 // In-app is always included and cannot be opted out. Email / sms are added per the
