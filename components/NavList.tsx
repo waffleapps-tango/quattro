@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { useUser } from "@clerk/nextjs";
 import {
   Home,
+  Info,
   MapPin,
   Megaphone,
   MessageSquare,
@@ -18,7 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { PendingIndicator } from "@/components/system/PendingIndicator";
 
-type Item = { titleKey: "home" | "packages" | "reports" | "posts" | "locations" | "admin" | "profile" | "settings"; href: string; icon: typeof Home };
+type Item = { titleKey: "home" | "packages" | "reports" | "posts" | "locations" | "info" | "admin" | "profile" | "settings"; href: string; icon: typeof Home };
 
 const home: Item = { titleKey: "home", href: "/", icon: Home };
 const settings: Item = { titleKey: "settings", href: "/settings", icon: Settings };
@@ -27,6 +28,7 @@ const modules: Item[] = [
   { titleKey: "reports", href: "/reports", icon: Megaphone },
   { titleKey: "posts", href: "/posts", icon: MessageSquare },
   { titleKey: "locations", href: "/locations", icon: MapPin },
+  { titleKey: "info", href: "/info", icon: Info },
 ];
 const admin: Item = { titleKey: "admin", href: "/admin", icon: Shield };
 const profile: Item = { titleKey: "profile", href: "/profile", icon: UserRound };

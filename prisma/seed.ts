@@ -166,6 +166,43 @@ async function main() {
     data: { communityId: community.id, number: "P-S1", level: "naziemny" },
   });
 
+  await prisma.infoSection.create({
+    data: {
+      communityId: community.id,
+      title: "Telefony alarmowe",
+      kind: "CONTACTS",
+      position: 0,
+      contacts: {
+        create: [
+          { name: "Numer alarmowy", phone: "112", position: 0 },
+          { name: "Serwis wind", phone: "600 100 200", note: "całodobowo", position: 1 },
+        ],
+      },
+    },
+  });
+  await prisma.infoSection.create({
+    data: {
+      communityId: community.id,
+      title: "Telefony interwencyjne",
+      kind: "CONTACTS",
+      position: 1,
+      contacts: {
+        create: [
+          { name: "Policja", phone: "997", position: 0 },
+          { name: "Administracja", phone: "22 000 00 00", position: 1 },
+        ],
+      },
+    },
+  });
+  await prisma.infoSection.create({
+    data: {
+      communityId: community.id,
+      title: "Wywóz śmieci",
+      kind: "TEXT",
+      body: "Zmieszane: wtorek i piątek\nPlastik i metal: środa\nPapier: pierwszy czwartek miesiąca",
+      position: 2,
+    },
+  });
   await prisma.report.createMany({
     data: [
       {
