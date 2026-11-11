@@ -1,3 +1,8 @@
 .idea
 .superpowers
 .claude
+# Local secrets: env vars live in Vercel project settings, never in the upload
+.env
+.env.*
+!.env.example
+!.env.gcp.example
