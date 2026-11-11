@@ -92,7 +92,11 @@
     "groupSystem": "System",
     "profile": "Profile",
     "greeting": "Hi, {name}",
-    "info": "Info"
+    "info": "Info",
+    "menu": "Menu",
+    "account": "Account",
+    "expand": "Expand menu",
+    "collapse": "Collapse menu"
   },
   "system": {
     "errorCode": "Error code: {digest}",
@@ -148,7 +152,8 @@
     "notSignedIn": "You are not signed in",
     "fieldRequired": "This field is required",
     "fillRequired": "Fill in the required fields",
-    "invalidForm": "Invalid form data"
+    "invalidForm": "Invalid form data",
+    "forbidden": "You don't have permission to do this"
   },
   "packages": {
     "recipient": "Recipient",
@@ -226,7 +231,8 @@
       "days": "After (days)",
       "save": "Save",
       "readOnly": "Only managers can change this."
-    }
+    },
+    "copy": "Copy tracking number"
   },
   "notifications": {
     "title": "Notifications",
@@ -738,7 +744,9 @@
       "apartmentRequired": "Choose a building and an apartment for a resident",
       "alreadyResident": "This person is already linked to that apartment",
       "residencyRemoved": "Apartment removed from this person"
-    }
+    },
+    "unassignedTitle": "Unassigned users (newest {limit})",
+    "unassignedNone": "None."
   },
   "locations": {
     "title": "Locations",
@@ -823,7 +831,8 @@
       "body": "Enter the text",
       "contactName": "Enter a name",
       "contactPhone": "Enter a phone number",
-      "noContacts": "Add at least one phone with a name and number"
+      "noContacts": "Add at least one phone with a name and number",
+      "contactPhoneInvalid": "Invalid phone number"
     }
   },
   "auth": {

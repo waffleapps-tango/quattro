@@ -1,6 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { UnauthorizedError } from "@/domain/errors";
+import { impersonatedEmail } from "@/auth/dev-impersonation";
 import { Prisma, type ApartmentResidency, type Membership, type Role, type User } from "@/lib/generated/prisma";
 
 export type SessionUser = User & {
@@ -14,6 +15,11 @@ const sessionInclude = {
 } satisfies Prisma.UserInclude;
 
 export async function getCurrentUser(): Promise<SessionUser | null> {
+  const impersonated = await impersonatedEmail();
+  if (impersonated) {
+    return prisma.user.findUnique({ where: { email: impersonated }, include: sessionInclude });
+  }
+
   const { userId: clerkUserId } = await auth();
   if (!clerkUserId) return null;
 

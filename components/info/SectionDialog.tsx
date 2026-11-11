@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { saveInfoSectionAction } from "@/actions/info";
 import type { SectionWithContacts } from "@/domain/info";
+import { isValidPhone } from "@/lib/text";
 
 type ActionState = { message: string; success: boolean };
 type Row = { id: number; name: string; phone: string; note: string };
@@ -72,7 +73,11 @@ function SectionForm({
   const filled = rows.filter((r) => r.name.trim() || r.phone.trim());
   const rowErrors = rows.map((r) => {
     const used = r.name.trim() || r.phone.trim();
-    return { name: Boolean(used) && !r.name.trim(), phone: Boolean(used) && !r.phone.trim() };
+    return {
+      name: Boolean(used) && !r.name.trim(),
+      phone: Boolean(used) && !r.phone.trim(),
+      phoneFormat: Boolean(r.phone.trim()) && !isValidPhone(r.phone),
+    };
   });
   const errors = {
     title: !title.trim(),
@@ -80,7 +85,7 @@ function SectionForm({
     noContacts: kind === "CONTACTS" && filled.length === 0,
   };
   const invalid =
-    errors.title || errors.body || errors.noContacts || rowErrors.some((r) => r.name || r.phone);
+    errors.title || errors.body || errors.noContacts || rowErrors.some((r) => r.name || r.phone || r.phoneFormat);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (!invalid) return;
@@ -178,9 +183,10 @@ function SectionForm({
                   maxLength={30}
                   inputMode="tel"
                   onChange={(e) => setRow(i, { phone: e.target.value })}
-                  aria-invalid={showErrors && rowErrors[i].phone}
+                  aria-invalid={showErrors && (rowErrors[i].phone || rowErrors[i].phoneFormat)}
                 />
                 {fieldError(rowErrors[i].phone, t("errors.contactPhone"))}
+                {fieldError(rowErrors[i].phoneFormat, t("errors.contactPhoneInvalid"))}
                 <Input
                   aria-label={t("contactNote")}
                   placeholder={t("contactNote")}

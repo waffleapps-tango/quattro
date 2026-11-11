@@ -131,7 +131,7 @@ export function CreatePackageForm({
                 </SelectContent>
               </Select>
               <input type="hidden" name="apartmentId" value={apartmentId} />
-              <Collapse show={Boolean(state.fieldErrors?.apartmentId)}>
+              <Collapse show={Boolean(state.fieldErrors?.apartmentId) && !apartmentId}>
                 <p className="text-sm text-destructive">
                   {apartments.length === 0
                     ? t("apartmentRequiredNoApartments")

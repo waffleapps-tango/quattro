@@ -27,21 +27,21 @@ async function main() {
   );
 
   const admin = await prisma.user.create({
-    data: { clerkUserId: "pending:admin@quattro.dev", email: "admin@quattro.dev", firstName: "Anna", lastName: "Admin" },
+    data: { clerkUserId: "pending:admin+clerk_test@quattro.dev", email: "admin+clerk_test@quattro.dev", firstName: "Anna", lastName: "Admin" },
   });
   await prisma.membership.create({
     data: { userId: admin.id, communityId: community.id, role: Role.ADMIN },
   });
 
   const manager = await prisma.user.create({
-    data: { clerkUserId: "pending:manager@quattro.dev", email: "manager@quattro.dev", firstName: "Marek", lastName: "Manager" },
+    data: { clerkUserId: "pending:manager+clerk_test@quattro.dev", email: "manager+clerk_test@quattro.dev", firstName: "Marek", lastName: "Manager" },
   });
   await prisma.membership.create({
     data: { userId: manager.id, communityId: community.id, role: Role.MANAGER },
   });
 
   const receptionist = await prisma.user.create({
-    data: { clerkUserId: "pending:reception@quattro.dev", email: "reception@quattro.dev", firstName: "Renata", lastName: "Recepcja" },
+    data: { clerkUserId: "pending:reception+clerk_test@quattro.dev", email: "reception+clerk_test@quattro.dev", firstName: "Renata", lastName: "Recepcja" },
   });
   await prisma.membership.create({
     data: {
@@ -56,8 +56,8 @@ async function main() {
     [0, 1, 2].map((i) =>
       prisma.user.create({
         data: {
-          clerkUserId: `pending:resident${i + 1}@quattro.dev`,
-          email: `resident${i + 1}@quattro.dev`,
+          clerkUserId: `pending:resident${i + 1}+clerk_test@quattro.dev`,
+          email: `resident${i + 1}+clerk_test@quattro.dev`,
           firstName: `Resident`,
           lastName: `${i + 1}`,
         },
@@ -93,8 +93,8 @@ async function main() {
 
   const tenant = await prisma.user.create({
     data: {
-      clerkUserId: "pending:tenant1@quattro.dev",
-      email: "tenant1@quattro.dev",
+      clerkUserId: "pending:tenant1+clerk_test@quattro.dev",
+      email: "tenant1+clerk_test@quattro.dev",
       firstName: "Tenant",
       lastName: "1",
     },
@@ -109,6 +109,11 @@ async function main() {
       communityId: community.id,
       kind: "TENANT",
     },
+  });
+
+  // Signed-in user without a membership: lands on the waiting screen / admin "unassigned" list.
+  await prisma.user.create({
+    data: { clerkUserId: "pending:waiting+clerk_test@quattro.dev", email: "waiting+clerk_test@quattro.dev", firstName: "Waldek", lastName: "Oczekujący" },
   });
 
   await prisma.package.create({

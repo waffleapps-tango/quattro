@@ -33,27 +33,54 @@ const modules: Item[] = [
 const admin: Item = { titleKey: "admin", href: "/admin", icon: Shield };
 const profile: Item = { titleKey: "profile", href: "/profile", icon: UserRound };
 
-export function useRole() {
-  const { user } = useUser();
-  const [role, setRole] = useState<string | null>(null);
+type Me = {
+  role: string | null;
+  impersonated?: boolean;
+  user?: { firstName: string | null; lastName: string | null; email: string };
+};
+
+export type ViewerUser = {
+  firstName: string | null;
+  lastName: string | null;
+  fullName: string | null;
+  imageUrl?: string;
+  primaryEmailAddress?: { emailAddress: string } | null;
+};
+
+// TEMPORARY E2E: inlined at build time, so false (and the extra fetch gone) on Vercel.
+const E2E = process.env.NEXT_PUBLIC_E2E_IMPERSONATE === "1";
+
+// The signed-in user (Clerk, or the dev impersonation stand-in) plus their role from /api/me.
+export function useViewer(): { user: ViewerUser | null; role: string | null; impersonated: boolean } {
+  const { user: clerkUser } = useUser();
+  const [me, setMe] = useState<Me | null>(null);
   useEffect(() => {
-    if (!user) {
-      setRole(null);
+    if (!clerkUser && !E2E) {
+      setMe(null);
       return;
     }
     fetch("/api/me")
       .then((res) => res.json())
-      .then((data: { role: string | null }) => setRole(data.role))
-      .catch(() => setRole(null));
-  }, [user]);
-  return role;
+      .then((data: Me) => setMe(data))
+      .catch(() => setMe(null));
+  }, [clerkUser]);
+
+  const stand = me?.impersonated && me.user ? me.user : null;
+  const user: ViewerUser | null =
+    clerkUser ??
+    (stand && {
+      firstName: stand.firstName,
+      lastName: stand.lastName,
+      fullName: [stand.firstName, stand.lastName].filter(Boolean).join(" ") || null,
+      primaryEmailAddress: { emailAddress: stand.email },
+    });
+  return { user, role: me?.role ?? null, impersonated: !!stand };
 }
 
 export function NavList({ collapsed = false }: { collapsed?: boolean }) {
   const pathname = usePathname();
   const t = useTranslations("nav");
-  const { user } = useUser();
-  const role = useRole();
+  const { user, role } = useViewer();
 
   const canAdmin = role === "ADMIN" || role === "MANAGER";
   const groups: { label?: string; items: Item[] }[] = user
@@ -80,7 +107,7 @@ export function NavList({ collapsed = false }: { collapsed?: boolean }) {
           )}
           {group.items.map((route) => {
             const Icon = route.icon;
-            const active = pathname === route.href;
+            const active = route.href === "/" ? pathname === "/" : pathname === route.href || pathname.startsWith(`${route.href}/`);
             return (
               <Link
                 key={route.href}

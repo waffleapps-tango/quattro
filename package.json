@@ -13,7 +13,8 @@
     "dev:gcp": "concurrently -k \"cloud-sql-proxy quattro-510922:europe-central2:quattro-db --port 5433\" \"dotenv -e .env.gcp -- next dev\"",
     "db:migrate:gcp": "dotenv -e .env.gcp -- prisma migrate deploy",
     "db:seed:gcp": "dotenv -e .env.gcp -- tsx prisma/seed.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:seed:test-users:gcp": "dotenv -e .env.gcp -- tsx prisma/seed-test-users.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

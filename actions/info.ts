@@ -7,12 +7,13 @@ import { getCurrentUser } from "@/auth/session";
 import { createSection, deleteSection, moveSection, updateSection } from "@/domain/info";
 import { NotFoundError, UnauthorizedError } from "@/domain/errors";
 import { InfoSectionKind } from "@/lib/generated/prisma";
+import { isValidPhone } from "@/lib/text";
 
 type ActionState = { message: string; success: boolean };
 
 const contactSchema = z.object({
   name: z.string().trim().min(1).max(100),
-  phone: z.string().trim().min(1).max(30),
+  phone: z.string().trim().max(30).refine(isValidPhone),
   note: z.string().trim().max(200).optional(),
 });
 

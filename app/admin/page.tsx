@@ -45,9 +45,9 @@ export default async function AdminPage() {
   );
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">{t("title")}</h1>
+    <div className="container mx-auto pb-8">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
         <CreateMembershipForm
           communityId={membership.communityId}
           buildings={buildings}

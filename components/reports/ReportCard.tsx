@@ -92,12 +92,15 @@ export function ReportCard({
         <p className="line-clamp-4 whitespace-pre-wrap text-sm text-muted-foreground">{report.description}</p>
         {showAuthor && (
           <p className="text-sm text-muted-foreground">
-            {t("reportedBy", { name: report.author.firstName ?? report.author.email })}
+            {t("reportedBy", {
+              name:
+                [report.author.firstName, report.author.lastName].filter(Boolean).join(" ") || report.author.email,
+            })}
           </p>
         )}
       </div>
-      <div className="mx-6 mt-auto flex items-center justify-between gap-3 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">
-        <span className="truncate">{place.join(" / ")}</span>
+      <div className="mx-6 mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">
+        <span className="min-w-0 break-words">{place.join(" / ")}</span>
         <time className="shrink-0">
           {format.dateTime(new Date(report.createdAt), {
             day: "2-digit",

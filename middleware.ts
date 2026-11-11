@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { IMPERSONATION_COOKIE, IMPERSONATION_ENABLED } from '@/auth/dev-impersonation';
 
 const isProtectedRoute = createRouteMatcher([
   '/packages(.*)',
@@ -13,7 +14,8 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
+  const impersonating = IMPERSONATION_ENABLED && req.cookies.has(IMPERSONATION_COOKIE);
+  if (isProtectedRoute(req) && !impersonating) await auth.protect();
 });
 
 export const config = {

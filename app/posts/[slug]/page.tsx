@@ -4,8 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
+import { getCurrentUser } from "@/auth/session";
+import { canWritePosts } from "@/domain/posts";
+import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EditPostForm } from "@/components/posts/EditPostForm";
 import { DeletePostButton } from "@/components/posts/DeletePostButton";
 
@@ -25,6 +28,10 @@ export async function generateMetadata({ params }: PostPageParams): Promise<Meta
 
 export default async function PostPage({ params }: PostPageParams) {
   const { slug } = await params;
+  const user = await getCurrentUser();
+  if (!user) redirect("/sign-in");
+  if (!user.memberships[0]) return <WaitingScreen />;
+  const canWrite = canWritePosts(user);
   const t = await getTranslations("posts");
   const format = await getFormatter();
   const post = await prisma.post.findUnique({
@@ -42,10 +49,12 @@ export default async function PostPage({ params }: PostPageParams) {
             {t("back")}
           </Link>
         </Button>
-        <div className="flex gap-2">
-          <EditPostForm post={post} />
-          <DeletePostButton postId={post.id} />
-        </div>
+        {canWrite && (
+          <div className="flex gap-2">
+            <EditPostForm post={post} />
+            <DeletePostButton postId={post.id} />
+          </div>
+        )}
       </div>
 
       <Card className="gap-6">

@@ -92,7 +92,11 @@
     "groupSystem": "System i ustawienia",
     "profile": "Profil",
     "greeting": "Cześć, {name}",
-    "info": "Informacje"
+    "info": "Informacje",
+    "menu": "Menu",
+    "account": "Konto",
+    "expand": "Rozwiń menu",
+    "collapse": "Zwiń menu"
   },
   "system": {
     "errorCode": "Kod błędu: {digest}",
@@ -148,7 +152,8 @@
     "notSignedIn": "Nie jesteś zalogowany",
     "fieldRequired": "To pole jest wymagane",
     "fillRequired": "Uzupełnij wymagane pola",
-    "invalidForm": "Nieprawidłowe dane formularza"
+    "invalidForm": "Nieprawidłowe dane formularza",
+    "forbidden": "Nie masz uprawnień do tej operacji"
   },
   "packages": {
     "recipient": "Odbiorca",
@@ -226,7 +231,8 @@
       "days": "Po (dniach)",
       "save": "Zapisz",
       "readOnly": "Tylko zarządca może to zmienić."
-    }
+    },
+    "copy": "Kopiuj numer przesyłki"
   },
   "notifications": {
     "title": "Powiadomienia",
@@ -738,7 +744,9 @@
       "apartmentRequired": "Wybierz budynek i mieszkanie dla mieszkańca",
       "alreadyResident": "Ta osoba jest już przypisana do tego mieszkania",
       "residencyRemoved": "Usunięto powiązanie z mieszkaniem"
-    }
+    },
+    "unassignedTitle": "Nieprzypisani użytkownicy (najnowsi {limit})",
+    "unassignedNone": "Brak."
   },
   "locations": {
     "title": "Lokalizacje",
@@ -823,7 +831,8 @@
       "body": "Wpisz treść",
       "contactName": "Podaj nazwę",
       "contactPhone": "Podaj numer telefonu",
-      "noContacts": "Dodaj przynajmniej jeden telefon z nazwą i numerem"
+      "noContacts": "Dodaj przynajmniej jeden telefon z nazwą i numerem",
+      "contactPhoneInvalid": "Nieprawidłowy numer telefonu"
     }
   },
   "auth": {

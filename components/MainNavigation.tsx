@@ -6,20 +6,19 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
 import { useTranslations } from "next-intl";
-import { NavList, useRole } from "@/components/NavList";
+import { NavList, useViewer } from "@/components/NavList";
 
 export function MainNavigation() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { user } = useUser();
-  const role = useRole();
+  const { user, role } = useViewer();
   const tAdmin = useTranslations("admin");
+  const tNav = useTranslations("nav");
 
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col h-full border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-(--ease-in-out)",
+        "hidden lg:flex flex-col h-full border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-(--ease-in-out)",
         isCollapsed ? "w-[72px]" : "w-64",
       )}
     >
@@ -42,8 +41,8 @@ export function MainNavigation() {
           variant="ghost"
           size="icon"
           onClick={() => setIsCollapsed(!isCollapsed)}
-          aria-label={isCollapsed ? "Expand" : "Collapse"}
-          className={cn("hidden shrink-0 md:flex", isCollapsed && "absolute left-[84px] top-6 z-10 bg-card shadow-sm")}
+          aria-label={isCollapsed ? tNav("expand") : tNav("collapse")}
+          className={cn("hidden shrink-0 lg:flex", isCollapsed && "absolute left-[84px] top-6 z-10 bg-card shadow-sm")}
         >
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>

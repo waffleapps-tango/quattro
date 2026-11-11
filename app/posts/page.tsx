@@ -10,6 +10,10 @@ import { CreatePostForm } from "@/components/posts/CreatePostForm";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { Interactive } from "@/components/motion/Interactive";
 import { FadeIn } from "@/components/motion/FadeIn";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/auth/session";
+import { canWritePosts } from "@/domain/posts";
+import { WaitingScreen } from "@/components/system/WaitingScreen";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
@@ -19,6 +23,10 @@ export async function generateMetadata() {
 export default async function PostsPage() {
   const t = await getTranslations("posts");
   const format = await getFormatter();
+  const user = await getCurrentUser();
+  if (!user) redirect("/sign-in");
+  if (!user.memberships[0]) return <WaitingScreen />;
+  const canWrite = canWritePosts(user);
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
@@ -39,11 +47,11 @@ export default async function PostsPage() {
           </h1>
           <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
-        <CreatePostForm />
+        {canWrite && <CreatePostForm />}
       </FadeIn>
 
       {posts.length === 0 && (
-        <EmptyState icon={MessageSquare} title={t("empty")} description={t("emptyHint")} />
+        <EmptyState icon={MessageSquare} title={t("empty")} description={canWrite ? t("emptyHint") : undefined} />
       )}
       <AnimatedList className="grid gap-4">
         {posts.map((post) => (

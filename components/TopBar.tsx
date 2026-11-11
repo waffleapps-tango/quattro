@@ -18,14 +18,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Settings, LogOut } from "lucide-react";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import { useTranslations } from "next-intl";
+import { useViewer } from "@/components/NavList";
 
 export function TopBar() {
   const t = useTranslations("nav");
   const tc = useTranslations("common");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useUser();
+  const { user, impersonated } = useViewer();
   const { signOut } = useClerk();
   const pathname = usePathname();
 
@@ -33,11 +34,11 @@ export function TopBar() {
   useEffect(() => setIsMobileMenuOpen(false), [pathname]);
 
   return (
-    <div className="flex h-16 items-center md:h-[86px] justify-between border-b bg-background px-4">
+    <div className="flex h-16 items-center lg:h-[86px] justify-between border-b bg-background px-4">
       <div className="flex items-center gap-4">
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t("menu")}>
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -62,7 +63,7 @@ export function TopBar() {
             <NotificationBell />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full" aria-label={t("account")}>
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.imageUrl} alt={user.fullName || ""} />
                     <AvatarFallback>
@@ -95,7 +96,9 @@ export function TopBar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
+                <DropdownMenuItem
+                  onClick={() => (impersonated ? (window.location.href = "/api/dev/impersonate") : signOut())}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>{tc("signOut")}</span>
                 </DropdownMenuItem>

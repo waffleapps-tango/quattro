@@ -1,6 +1,7 @@
 "use client";
 
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
+import { useViewer } from "@/components/NavList";
 import { LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -9,7 +10,7 @@ import { Button } from "@/components/ui/button";
 export function WaitingScreen() {
   const t = useTranslations("system.waiting");
   const tc = useTranslations("common");
-  const { user } = useUser();
+  const { user } = useViewer();
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background px-6 py-10">
       <div className="flex flex-col items-center gap-3">

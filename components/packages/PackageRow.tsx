@@ -78,7 +78,7 @@ export function PackageRow({
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label={t("copied")}
+                aria-label={t("copy")}
                 onClick={() => copyToClipboard(pkg.trackingNumber!)}
                 className="h-6 w-6"
               >
@@ -124,8 +124,8 @@ export function PackageRow({
                 {t("pickUp")}
               </Button>
               <Button size="sm" variant="secondary" onClick={() => run(remindPackageAction)} aria-label={t("remind")}>
-                <Bell className="h-4 w-4 sm:mr-1.5" />
-                <span className="hidden sm:inline">{t("remind")}</span>
+                <Bell className="h-4 w-4 sm:max-lg:mr-1.5 xl:mr-1.5" />
+                <span className="hidden sm:max-lg:inline xl:inline">{t("remind")}</span>
               </Button>
             </div>
           )

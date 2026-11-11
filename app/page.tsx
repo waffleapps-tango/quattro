@@ -139,7 +139,7 @@ export default async function Home() {
                           <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">{c.label}</p>
                           <p className="font-heading text-4xl font-semibold tabular-nums">{c.value}</p>
                         </div>
-                        <span className={`grid h-11 w-11 place-items-center rounded-xl ${c.tint}`}>
+                        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${c.tint}`}>
                           <c.icon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       </CardContent>
@@ -166,7 +166,7 @@ export default async function Home() {
       ) : (
         <>
           <div className="grid gap-4 md:grid-cols-2">
-            <StaggerItem index={2} className="h-full [&>*]:h-full">
+            <StaggerItem index={2} className="h-full min-w-0 [&>*]:h-full">
               <Card className="gap-0 overflow-hidden py-0">
                 <div className="flex items-center gap-3 bg-muted px-6 py-4">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-info text-info-foreground">
@@ -200,9 +200,11 @@ export default async function Home() {
                             {format.dateTime(new Date(p.receivedAt), { day: "2-digit", month: "2-digit", year: "numeric" })}
                           </p>
                         </div>
-                        <span className="shrink-0 text-xs font-medium text-warm-foreground">
-                          {tp("waitingDays", { count: daysSince(p.receivedAt) })}
-                        </span>
+                        {daysSince(p.receivedAt) >= 1 && (
+                          <span className="shrink-0 text-xs font-medium text-warm-foreground">
+                            {tp("waitingDays", { count: daysSince(p.receivedAt) })}
+                          </span>
+                        )}
                       </div>
                     ))
                   )}
@@ -214,15 +216,16 @@ export default async function Home() {
                 </CardFooter>
               </Card>
             </StaggerItem>
-            <StaggerItem index={3} className="h-full [&>*]:h-full">
+            <StaggerItem index={3} className="h-full min-w-0 [&>*]:h-full">
               <Card className="gap-0 overflow-hidden py-0">
-                <div className="flex items-center gap-3 bg-muted px-6 py-4">
+                <div className="flex flex-wrap items-center gap-3 bg-muted px-6 py-4">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm text-warm-foreground">
                     <Megaphone className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <div className="min-w-0 flex-1">
+                  {/* basis keeps the title readable; the button wraps to its own row instead of squeezing it */}
+                  <div className="min-w-0 flex-1 basis-40">
                     <h2 className="font-heading text-lg font-semibold leading-tight">{t("reportsHeading")}</h2>
-                    <p className="truncate text-sm text-muted-foreground">{t("reportsSubtitle")}</p>
+                    <p className="text-sm text-muted-foreground">{t("reportsSubtitle")}</p>
                   </div>
                   <Button asChild size="sm">
                     <Link href="/reports">

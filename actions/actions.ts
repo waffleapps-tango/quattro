@@ -5,13 +5,8 @@ import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/auth/session";
-import { Role } from "@/lib/generated/prisma";
-
-// Posts are global (no communityId), so any manager/admin may write; everyone else is refused.
-async function canWritePosts() {
-  const user = await getCurrentUser();
-  return !!user?.memberships.some((m) => m.role === Role.MANAGER || m.role === Role.ADMIN);
-}
+import { canWritePosts } from "@/domain/posts";
+import { slugify } from "@/lib/text";
 
 const postSchema = z.object({
   title: z.string().min(1),
@@ -24,7 +19,7 @@ export async function createPost(
 ) {
   const t = await getTranslations("posts.actions");
   const te = await getTranslations("errors");
-  if (!(await canWritePosts())) return { message: te("notSignedIn"), success: false };
+  if (!canWritePosts(await getCurrentUser())) return { message: te("forbidden"), success: false };
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
@@ -42,12 +37,7 @@ export async function createPost(
       data: {
         ...validatedFields.data,
         // Suffix keeps slugs unique and non-empty (e.g. titles with only Polish letters).
-        slug: `${validatedFields.data.title
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)/g, "")}-${Date.now().toString(36)}`.replace(/^-/, ""),
+        slug: [slugify(validatedFields.data.title), Date.now().toString(36)].filter(Boolean).join("-"),
         published: true,
       },
     });
@@ -74,6 +64,7 @@ export async function updatePost(
 ) {
   const t = await getTranslations("posts.actions");
   const te = await getTranslations("errors");
+  if (!canWritePosts(await getCurrentUser())) return { message: te("forbidden"), success: false };
   const postId = formData.get("id") as string;
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
@@ -115,7 +106,9 @@ export async function updatePost(
 
 export async function deletePost(postId: string) {
   const t = await getTranslations("posts.actions");
-  if (!(await canWritePosts())) return { message: t("deleteFailed"), success: false };
+  if (!canWritePosts(await getCurrentUser())) {
+    return { message: (await getTranslations("errors"))("forbidden"), success: false };
+  }
   try {
     await prisma.post.delete({
       where: {

@@ -4,7 +4,25 @@
     {
       "name": "quattro-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "quattro-dev-gcp",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "dotenv",
+        "-e",
+        ".env.gcp",
+        "-v",
+        "NEXT_PUBLIC_E2E_IMPERSONATE=1",
+        "--",
+        "next",
+        "dev"
+      ],
       "port": 3000
     }
   ]

@@ -13,6 +13,7 @@ import { getProfile } from "@/domain/profile";
 import { ShareNameToggle } from "@/components/profile/ShareNameToggle";
 import { ApartmentPeople } from "@/components/profile/ApartmentPeople";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { initials } from "@/lib/text";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
@@ -41,7 +42,7 @@ export default async function ProfilePage() {
 
   const p = await getProfile(user, membership.communityId);
   const name = [p.firstName, p.lastName].filter(Boolean).join(" ") || p.email;
-  const initials = (name.match(/\p{L}/gu) ?? []).slice(0, 2).join("").toUpperCase() || "?";
+  const avatar = initials(name);
   const reportLink = (
     <CardFooter>
       <Button asChild variant="outline" size="sm">
@@ -54,7 +55,7 @@ export default async function ProfilePage() {
     <Stagger className="container mx-auto space-y-6 pb-8">
       <StaggerItem index={0} className="flex items-center gap-4">
         <Avatar className="h-16 w-16">
-          <AvatarFallback className="text-xl">{initials}</AvatarFallback>
+          <AvatarFallback className="text-xl">{avatar}</AvatarFallback>
         </Avatar>
         <div className="min-w-0 space-y-1">
           <h1 className="truncate text-2xl font-bold">{name}</h1>

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Bell } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
+import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -27,6 +27,7 @@ type Item = {
 export function NotificationBell() {
   const t = useTranslations("notifications");
   const format = useFormatter();
+  const now = useNow({ updateInterval: 60_000 });
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -111,7 +112,7 @@ export function NotificationBell() {
                 {t(`types.${item.type}.body`, item.payload)}
               </span>
               <span className="text-xs text-muted-foreground">
-                {format.relativeTime(new Date(item.createdAt))}
+                {format.relativeTime(new Date(item.createdAt), now)}
               </span>
             </DropdownMenuItem>
           ))
