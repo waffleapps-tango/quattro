@@ -3,6 +3,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Bell, CheckCircle2, Copy, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -119,10 +130,31 @@ export function PackageRow({
           canMarkPickedUp &&
           !picked && (
             <div className="flex gap-2 md:justify-end">
-              <Button size="sm" onClick={() => run(markPickedUpAction)}>
-                <CheckCircle2 className="mr-1.5 h-4 w-4" />
-                {t("pickUp")}
-              </Button>
+              {/* Pickup cannot be undone, so it asks first (wrong row = package marked for the wrong person). */}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button size="sm">
+                    <CheckCircle2 className="mr-1.5 h-4 w-4" />
+                    {t("pickUp")}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t("pickUpConfirmTitle")}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t("pickUpConfirmDescription", {
+                        tracking: pkg.trackingNumber ?? "—",
+                        place: `${pkg.building.name} / ${pkg.apartment.number}`,
+                        recipient: recipientName || "—",
+                      })}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => run(markPickedUpAction)}>{t("pickUp")}</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
               <Button size="sm" variant="secondary" onClick={() => run(remindPackageAction)} aria-label={t("remind")}>
                 <Bell className="h-4 w-4 sm:max-lg:mr-1.5 xl:mr-1.5" />
                 <span className="hidden sm:max-lg:inline xl:inline">{t("remind")}</span>

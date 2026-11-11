@@ -495,3 +495,22 @@ describe("several apartments", () => {
     ).rejects.toThrow(ValidationError);
   });
 });
+
+describe("changeStatus notifications", () => {
+  it("notifies the author in-app when staff changes the status", async () => {
+    const report = await createReport(resident, publicInput());
+    await changeStatus(receptionist, report.id, "IN_PROGRESS");
+
+    const notes = await prisma.notification.findMany({ where: { recipientUserId: resident.id } });
+    expect(notes).toHaveLength(1);
+    expect(notes[0].type).toBe("REPORT_STATUS_CHANGED");
+    expect(notes[0].payload).toEqual({ reportId: report.id, title: "Awaria windy", status: "IN_PROGRESS" });
+  });
+
+  it("does not notify an author who changes their own report", async () => {
+    const report = await createReport(receptionist, publicInput());
+    await changeStatus(receptionist, report.id, "IN_PROGRESS");
+
+    expect(await prisma.notification.count({ where: { recipientUserId: receptionist.id } })).toBe(0);
+  });
+});

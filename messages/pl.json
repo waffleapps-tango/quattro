@@ -232,7 +232,9 @@
       "save": "Zapisz",
       "readOnly": "Tylko zarządca może to zmienić."
     },
-    "copy": "Kopiuj numer przesyłki"
+    "copy": "Kopiuj numer przesyłki",
+    "pickUpConfirmTitle": "Wydać paczkę?",
+    "pickUpConfirmDescription": "Przesyłka {tracking} dla {place} (odbiorca: {recipient}) zostanie oznaczona jako odebrana. Tej operacji nie można cofnąć."
   },
   "notifications": {
     "title": "Powiadomienia",
@@ -254,6 +256,10 @@
       "PACKAGE_REMINDER_AUTO": {
         "title": "Paczka czeka",
         "body": "Twoja paczka dla {buildingName} / {apartmentNumber} czeka{daysWaiting, plural, =0 { od dziś} one { już # dzień} few { już # dni} many { już # dni} other { już # dni}}."
+      },
+      "REPORT_STATUS_CHANGED": {
+        "title": "Zmiana statusu zgłoszenia",
+        "body": "Twoje zgłoszenie „{title}” ma teraz status:{status, select, NEW { nowe} IN_PROGRESS { w trakcie} RESOLVED { załatwione} APPROVED { zatwierdzone} REJECTED { odrzucone} CLOSED { zamknięte} other { {status}}}."
       }
     }
   },
@@ -746,7 +752,9 @@
       "residencyRemoved": "Usunięto powiązanie z mieszkaniem"
     },
     "unassignedTitle": "Nieprzypisani użytkownicy (najnowsi {limit})",
-    "unassignedNone": "Brak."
+    "unassignedNone": "Brak.",
+    "removeConfirmTitle": "Usunąć członka?",
+    "removeConfirmDescription": "{email} straci dostęp do wspólnoty i powiązania z mieszkaniami. Konto zostaje, możesz dodać tę osobę ponownie."
   },
   "locations": {
     "title": "Lokalizacje",

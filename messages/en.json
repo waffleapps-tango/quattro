@@ -232,7 +232,9 @@
       "save": "Save",
       "readOnly": "Only managers can change this."
     },
-    "copy": "Copy tracking number"
+    "copy": "Copy tracking number",
+    "pickUpConfirmTitle": "Hand over the package?",
+    "pickUpConfirmDescription": "Package {tracking} for {place} (recipient: {recipient}) will be marked as picked up. This cannot be undone."
   },
   "notifications": {
     "title": "Notifications",
@@ -254,6 +256,10 @@
       "PACKAGE_REMINDER_AUTO": {
         "title": "Package waiting",
         "body": "Your package for {buildingName} / {apartmentNumber} has been waiting{daysWaiting, plural, =0 { since today} one { # day} other { # days}}."
+      },
+      "REPORT_STATUS_CHANGED": {
+        "title": "Report status changed",
+        "body": "Your report “{title}” is now{status, select, NEW { new} IN_PROGRESS { in progress} RESOLVED { resolved} APPROVED { approved} REJECTED { rejected} CLOSED { closed} other { {status}}}."
       }
     }
   },
@@ -746,7 +752,9 @@
       "residencyRemoved": "Apartment removed from this person"
     },
     "unassignedTitle": "Unassigned users (newest {limit})",
-    "unassignedNone": "None."
+    "unassignedNone": "None.",
+    "removeConfirmTitle": "Remove member?",
+    "removeConfirmDescription": "{email} will lose access to the community and their apartment links. The account stays; you can add them again."
   },
   "locations": {
     "title": "Locations",

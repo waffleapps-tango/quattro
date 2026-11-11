@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { requireMembership, residentApartmentIds, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
+import { notify } from "@/domain/notifications";
 import {
   InvalidTransitionError,
   NotFoundError,
@@ -279,6 +280,16 @@ export async function changeStatus(
       entityId: reportId,
       metadata: { from: report.status, to: status },
     });
+
+    // The author learns about staff decisions on their report; changing your own needs no ping.
+    if (report.authorId !== actor.id) {
+      await notify(tx, {
+        communityId: report.communityId,
+        type: "REPORT_STATUS_CHANGED",
+        recipientUserIds: [report.authorId],
+        payload: { reportId: report.id, title: report.title, status },
+      });
+    }
 
     return updated;
   });

@@ -57,7 +57,7 @@ export function NotificationBell() {
     } catch (error) {
       console.error(error);
     }
-    router.push("/packages");
+    router.push(item.type.startsWith("REPORT_") ? "/reports?view=mine" : "/packages");
     void load();
   };
 
