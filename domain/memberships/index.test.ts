@@ -134,4 +134,18 @@ describe("listMembershipsForCommunity", () => {
       expect(Object.keys(row.user).sort()).toEqual(["email", "residencies"]);
     }
   });
+
+  it("flags pending placeholders and never ships the clerk id to the client", async () => {
+    const { community, building } = await createCommunityWithBuildingAndApartment();
+    const admin = await createUserWithMembership({ communityId: community.id, role: Role.ADMIN });
+    await createMembership(admin, { communityId: community.id, buildingId: building.id, role: Role.RESIDENT, email: "pending@example.com" });
+
+    const rows = await listMembershipsForCommunity(admin, community.id);
+
+    const pending = rows.find((r) => r.user.email === "pending@example.com")!;
+    expect(pending.pending).toBe(true);
+    expect(pending.inviteSentAt).toBeNull();
+    expect(rows.find((r) => r.userId === admin.id)!.pending).toBe(false);
+    expect(JSON.stringify(rows)).not.toContain("clerkUserId");
+  });
 });

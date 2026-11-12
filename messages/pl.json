@@ -830,7 +830,10 @@
       "removeForbidden": "Nie masz uprawnień do usuwania członków",
       "apartmentRequired": "Wybierz budynek i mieszkanie dla mieszkańca",
       "alreadyResident": "Ta osoba jest już przypisana do tego mieszkania",
-      "residencyRemoved": "Usunięto powiązanie z mieszkaniem"
+      "residencyRemoved": "Usunięto powiązanie z mieszkaniem",
+      "inviteSent": "Zaproszenie wysłane",
+      "inviteTooSoon": "Zaproszenie wysłano przed chwilą — spróbuj za 10 minut",
+      "inviteFailed": "Nie udało się wysłać zaproszenia"
     },
     "unassignedTitle": "Nieprzypisani użytkownicy (najnowsi {limit})",
     "unassignedNone": "Brak.",

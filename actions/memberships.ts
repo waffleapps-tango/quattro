@@ -10,6 +10,7 @@ import {
   removeMembership,
 } from "@/domain/memberships";
 import { UnauthorizedError, NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
+import { inviteIfPending, sendInvite } from "@/domain/memberships/invites";
 import { addResidency, removeResidency } from "@/domain/residencies";
 import { ResidencyKind, Role } from "@/lib/generated/prisma";
 
@@ -56,6 +57,7 @@ export async function createMembershipAction(
     } else {
       await createMembership(actor, { communityId, email, buildingId, role });
     }
+    await inviteIfPending(actor, communityId, email);
     revalidatePath("/admin/users");
     return { message: t("created"), success: true };
   } catch (error) {
@@ -70,6 +72,24 @@ export async function createMembershipAction(
     }
     console.error(error);
     return { message: t("createFailed"), success: false };
+  }
+}
+
+export async function resendInviteAction(membershipId: string): Promise<ActionState> {
+  const t = await getTranslations("admin.actions");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  try {
+    await sendInvite(actor, membershipId);
+    revalidatePath("/admin/users");
+    return { message: t("inviteSent"), success: true };
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return { message: te("forbidden"), success: false };
+    if (error instanceof ValidationError) return { message: t("inviteTooSoon"), success: false };
+    console.error(error);
+    return { message: t("inviteFailed"), success: false };
   }
 }
 

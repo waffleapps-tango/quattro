@@ -3,6 +3,7 @@ import { requireMembership, type SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, TenantMismatchError } from "@/domain/errors";
 import { Role } from "@/lib/generated/prisma";
+import { isPendingUser } from "@/domain/memberships/invites";
 
 export async function listMembershipsForCommunity(
   actor: SessionUser,
@@ -10,14 +11,16 @@ export async function listMembershipsForCommunity(
 ) {
   requireMembership(actor, communityId, [Role.ADMIN, Role.MANAGER]);
 
-  return prisma.membership.findMany({
+  const rows = await prisma.membership.findMany({
     where: { communityId },
     include: {
       building: true,
-      // Narrow select: this goes to a client component, so no names/clerk ids.
+      // Narrow select: this goes to a client component, so no names. clerkUserId is only
+      // read to derive `pending` below and is stripped from the returned rows.
       user: {
         select: {
           email: true,
+          clerkUserId: true,
           residencies: {
             where: { communityId },
             select: {
@@ -34,6 +37,12 @@ export async function listMembershipsForCommunity(
     },
     orderBy: { createdAt: "desc" },
   });
+
+  return rows.map(({ user: { clerkUserId, ...user }, ...row }) => ({
+    ...row,
+    user,
+    pending: isPendingUser({ clerkUserId }),
+  }));
 }
 
 export async function createMembership(

@@ -7,8 +7,15 @@ export async function generateMetadata() {
   return { title: t("signUp") };
 }
 
-export default async function SignUpPage() {
+export default async function SignUpPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string }>;
+}) {
   const t = await getTranslations("auth");
+  // Invitation links carry ?email= so the invitee signs up with the address we already know.
+  const { email } = await searchParams;
+  const emailAddress = typeof email === "string" && email.length <= 254 && email.includes("@") ? email : undefined;
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background p-4">
       <div className="flex flex-col items-center gap-2 text-center">
@@ -18,6 +25,7 @@ export default async function SignUpPage() {
         </p>
       </div>
       <SignUp
+        initialValues={emailAddress ? { emailAddress } : undefined}
         appearance={{
           elements: {
             rootBox: "mx-auto",

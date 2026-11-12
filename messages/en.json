@@ -830,7 +830,10 @@
       "removeForbidden": "You are not allowed to remove members",
       "apartmentRequired": "Choose a building and an apartment for a resident",
       "alreadyResident": "This person is already linked to that apartment",
-      "residencyRemoved": "Apartment removed from this person"
+      "residencyRemoved": "Apartment removed from this person",
+      "inviteSent": "Invitation sent",
+      "inviteTooSoon": "Invitation sent moments ago — try again in 10 minutes",
+      "inviteFailed": "Could not send the invitation"
     },
     "unassignedTitle": "Unassigned users (newest {limit})",
     "unassignedNone": "None.",
