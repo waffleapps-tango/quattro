@@ -507,6 +507,15 @@ Add import `import { parsePackageQuery } from "@/domain/packages/query";`. Repla
       />
 ```
 
+- [ ] **Step 1b: Fix the dashboard caller `app/page.tsx`** (also calls `listPackagesForViewer`, found during Task 2). The default query already means "not picked up, newest first", which is what the dashboard shows. Replace the destructuring so the count stays accurate beyond one page:
+
+```tsx
+  const [{ items: packages, total: waitingTotal }, reports, profile] = await Promise.all([
+    listPackagesForViewer(user, membership.communityId),
+```
+
+and after `const s = summarizeDashboard({ userId: user.id, packages, reports });` change `s.waitingPackageCount` usages to `waitingTotal` (the only one is the stat tile at ~line 134 and the badge at ~line 181). Leave `summarizeDashboard` and its tests untouched.
+
 - [ ] **Step 2: Edit `components/packages/PackagesList.tsx` props.** Replace the props block and import:
 
 ```tsx
