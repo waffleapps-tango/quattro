@@ -133,9 +133,46 @@ describe("comments", () => {
 
   it("masks names and hides emails from residents", async () => {
     const s = await setup();
+    const t = postT(s.post.id);
+    const manager = await createUserWithMembership({ communityId: s.community.id, role: Role.MANAGER });
+    const nameOf = async (viewer: typeof s.author) => (await listComments(viewer, t))[0].author.name;
+
     await prisma.user.update({ where: { id: s.neighbor.id }, data: { shareName: false } });
-    await addComment(s.neighbor, postT(s.post.id), { body: "anonimowo" });
-    const [c] = await listComments(s.author, postT(s.post.id));
-    expect(c.author.name).not.toContain("@");
+    await addComment(s.neighbor, t, { body: "anonimowo" });
+    expect(await nameOf(s.author)).toBe("Mieszkaniec");
+
+    // shared name but no first/last name: residents get null, staff and the author see the email
+    await prisma.user.update({ where: { id: s.neighbor.id }, data: { shareName: true, firstName: null, lastName: null } });
+    expect(await nameOf(s.author)).toBeNull();
+    expect(await nameOf(manager)).toBe(s.neighbor.email);
+    expect(await nameOf(s.neighbor)).toBe(s.neighbor.email);
+
+    await prisma.user.update({ where: { id: s.neighbor.id }, data: { firstName: "Jan", lastName: "Kowalski" } });
+    for (const v of [s.author, manager, s.neighbor]) expect(await nameOf(v)).toBe("Jan Kowalski");
+  });
+
+  it("rejects comment ids from another target", async () => {
+    const s = await setup();
+    const postB = await createPost(s.author, s.community.id, { kind: PostKind.NEIGHBOR, title: "B", content: "c" });
+    const manager = await createUserWithMembership({ communityId: s.community.id, role: Role.MANAGER });
+    const [a] = await addComment(s.neighbor, postT(s.post.id), { body: "na A" });
+    await expect(editComment(s.neighbor, postT(postB.id), a.id, "x")).rejects.toThrow(NotFoundError);
+    await expect(deleteComment(manager, postT(postB.id), a.id)).rejects.toThrow(NotFoundError);
+
+    const report = await privateReport(s);
+    const [pc] = await addComment(s.author, { type: "report", id: report.id }, { body: "prywatne" });
+    await expect(deleteComment(s.neighbor, postT(s.post.id), pc.id)).rejects.toThrow(NotFoundError);
+    expect((await prisma.comment.findUnique({ where: { id: pc.id } }))?.deletedAt).toBeNull();
+  });
+
+  it("omits deleted replies and refuses to edit deleted comments", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    const [top] = await addComment(s.neighbor, t, { body: "góra" });
+    const thread = await addComment(s.author, t, { body: "odp", parentId: top.id });
+    const reply = thread[0].replies[0];
+    expect((await deleteComment(s.author, t, reply.id))[0].replies).toHaveLength(0);
+    expect((await listComments(s.neighbor, t))[0].replies).toHaveLength(0);
+    await expect(editComment(s.author, t, reply.id, "x")).rejects.toThrow(ValidationError);
   });
 });
