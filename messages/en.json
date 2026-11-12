@@ -1012,6 +1012,7 @@
     "confirmDelete": "Delete for sure?",
     "deleted": "Comment deleted",
     "edited": "(edited)",
+    "reporter": "Reporter",
     "neighbor": "Neighbor",
     "privateThread": "Only you and the management can see this conversation."
   }

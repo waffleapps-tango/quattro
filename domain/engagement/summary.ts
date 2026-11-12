@@ -23,14 +23,18 @@ export async function engagementSummary(
     ...(postIds.length ? [{ postId: { in: postIds } }] : []),
     ...(reportIds.length ? [{ reportId: { in: reportIds } }] : []),
   ];
-  const [reactions, comments] = await Promise.all([
+  const [reactions, comments, reports] = await Promise.all([
     prisma.reaction.findMany({ where: { OR: or }, select: { userId: true, postId: true, reportId: true, kind: true } }),
     prisma.comment.findMany({
       where: { OR: or, deletedAt: null },
       include: { author: { select: commentAuthorSelect } },
       orderBy: [{ createdAt: "asc" }, { id: "asc" }],
     }),
+    reportIds.length
+      ? prisma.report.findMany({ where: { id: { in: reportIds } }, select: { id: true, authorId: true } })
+      : [],
   ]);
+  const reporterOf = new Map(reports.map((r) => [r.id, r.authorId]));
   // Staff differs per target type: posts MANAGER/ADMIN, reports STAFF_ROLES.
   const role = actor.memberships.find((m) => m.communityId === communityId)?.role;
   const has = (roles: string[]) => !!role && roles.includes(role);
@@ -50,7 +54,9 @@ export async function engagementSummary(
   for (const c of comments) {
     const s = out[keyOf(c)];
     s.commentCount++;
-    s.preview.push({ ...toCommentView(c, actor, c.postId ? postStaff : reportStaff), canEdit: false, canDelete: false });
+    s.preview.push({ ...toCommentView(c, actor, c.postId ? postStaff : reportStaff, {
+        maskAsReporterId: c.reportId ? reporterOf.get(c.reportId) : null,
+      }), canEdit: false, canDelete: false });
     if (s.preview.length > 2) s.preview.shift();
   }
   return out;

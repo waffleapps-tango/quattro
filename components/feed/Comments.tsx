@@ -181,7 +181,7 @@ function CommentItem({
           <p className="italic text-muted-foreground">{t("deleted")}</p>
         ) : (
           <>
-            <p className="font-medium">{comment.author.name ?? t("neighbor")}</p>
+            <p className="font-medium">{comment.author.reporter ? t("reporter") : (comment.author.name ?? t("neighbor"))}</p>
             {editing ? (
               <form
                 className="mt-1 space-y-2"

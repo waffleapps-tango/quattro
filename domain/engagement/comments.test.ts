@@ -9,7 +9,7 @@ import {
 } from "@/domain/__test-helpers__/fixtures";
 import { createPost } from "@/domain/posts";
 import { createReport } from "@/domain/reports";
-import { addComment, editComment, deleteComment, listComments } from "@/domain/engagement";
+import { addComment, editComment, deleteComment, listComments, engagementSummary } from "@/domain/engagement";
 
 afterEach(async () => {
   await cleanupDatabase();
@@ -148,6 +148,26 @@ describe("comments", () => {
     await prisma.membership.deleteMany({ where: { userId: s.neighbor.id } });
     await addComment(s.author, t, { body: "Super", parentId: top.id });
     expect(await prisma.notification.count({ where: { type: "COMMENT_ADDED", recipientUserId: s.neighbor.id } })).toBe(0);
+  });
+
+  it("labels the reporter on a public report for other residents only", async () => {
+    const s = await setup();
+    const report = await createReport(s.author, {
+      communityId: s.community.id,
+      categoryKey: "technical",
+      type: "DEFECT",
+      title: "Winda",
+      description: "Stoi",
+    });
+    const t = { type: "report" as const, id: report.id };
+    await prisma.user.update({ where: { id: s.author.id }, data: { shareName: true, firstName: "Jan", lastName: "Kowalski" } });
+    await addComment(s.author, t, { body: "ja zgłaszałem" });
+    expect((await listComments(s.neighbor, t))[0].author).toEqual({ name: null, own: false, reporter: true });
+    expect((await listComments(s.author, t))[0].author).toEqual({ name: "Jan Kowalski", own: true });
+    expect((await listComments(s.receptionist, t))[0].author.reporter).toBeUndefined();
+    expect((await listComments(s.receptionist, t))[0].author.name).toBe("Jan Kowalski");
+    const preview = (await engagementSummary(s.neighbor, s.community.id, [t]))[`report:${report.id}`].preview;
+    expect(preview[0].author.reporter).toBe(true);
   });
 
   it("masks names and hides emails from residents", async () => {

@@ -25,7 +25,7 @@ export type CommentView = {
   deleted: boolean;
   createdAt: Date;
   editedAt: Date | null;
-  author: { name: string | null; own: boolean };
+  author: { name: string | null; own: boolean; reporter?: boolean };
   canEdit: boolean;
   canDelete: boolean;
   replies: CommentView[];
@@ -33,7 +33,12 @@ export type CommentView = {
 
 type CommentRow = Prisma.CommentGetPayload<{ include: { author: { select: typeof commentAuthorSelect } } }>;
 
-export function toCommentView(c: CommentRow, actor: SessionUser, viewerIsStaff: boolean): CommentView {
+export function toCommentView(
+  c: CommentRow,
+  actor: SessionUser,
+  viewerIsStaff: boolean,
+  ctx: { maskAsReporterId?: string | null } = {},
+): CommentView {
   const p = maskPerson(c.author, actor.id);
   const full = [p.firstName, p.lastName].filter(Boolean).join(" ");
   const own = c.authorId === actor.id;
@@ -47,7 +52,9 @@ export function toCommentView(c: CommentRow, actor: SessionUser, viewerIsStaff: 
     editedAt: c.editedAt,
     author: deleted
       ? { name: null, own: false }
-      : { name: full || (viewerIsStaff || own ? p.email || null : null), own },
+      : ctx.maskAsReporterId && c.authorId === ctx.maskAsReporterId && !own && !viewerIsStaff
+        ? { name: null, own: false, reporter: true }
+        : { name: full || (viewerIsStaff || own ? p.email || null : null), own },
     canEdit: own && !deleted,
     canDelete: !deleted && (own || viewerIsStaff),
     replies: [],
@@ -65,19 +72,19 @@ const sameTarget = (c: { postId: string | null; reportId: string | null }, t: Ta
 
 export async function listComments(actor: SessionUser, t: Target): Promise<CommentView[]> {
   const target = await resolveTarget(actor, t);
-  return loadThread(actor, t, target.viewerIsStaff);
+  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
 }
 
-async function loadThread(actor: SessionUser, t: Target, viewerIsStaff: boolean): Promise<CommentView[]> {
+async function loadThread(actor: SessionUser, t: Target, viewerIsStaff: boolean, reporterId: string | null): Promise<CommentView[]> {
   const rows = await prisma.comment.findMany({
     where: targetWhere(t),
     include: { author: { select: commentAuthorSelect } },
     orderBy: [{ createdAt: "asc" }, { id: "asc" }],
   });
   const tops = new Map<string, CommentView>();
-  for (const r of rows) if (!r.parentId) tops.set(r.id, toCommentView(r, actor, viewerIsStaff));
+  for (const r of rows) if (!r.parentId) tops.set(r.id, toCommentView(r, actor, viewerIsStaff, { maskAsReporterId: reporterId }));
   for (const r of rows) {
-    if (r.parentId && !r.deletedAt) tops.get(r.parentId)?.replies.push(toCommentView(r, actor, viewerIsStaff));
+    if (r.parentId && !r.deletedAt) tops.get(r.parentId)?.replies.push(toCommentView(r, actor, viewerIsStaff, { maskAsReporterId: reporterId }));
   }
   return [...tops.values()].filter((c) => !c.deleted || c.replies.length > 0);
 }
@@ -125,7 +132,7 @@ export async function addComment(
       });
     }
   });
-  return loadThread(actor, t, target.viewerIsStaff);
+  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
 }
 
 async function loadComment(t: Target, commentId: string) {
@@ -140,7 +147,7 @@ export async function editComment(actor: SessionUser, t: Target, commentId: stri
   if (c.authorId !== actor.id) throw new UnauthorizedError(`User ${actor.id} cannot edit comment ${commentId}`);
   if (c.deletedAt) throw new ValidationError("comment was deleted");
   await prisma.comment.update({ where: { id: c.id }, data: { body: cleanBody(body), editedAt: new Date() } });
-  return loadThread(actor, t, target.viewerIsStaff);
+  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
 }
 
 export async function deleteComment(actor: SessionUser, t: Target, commentId: string) {
@@ -163,5 +170,5 @@ export async function deleteComment(actor: SessionUser, t: Target, commentId: st
       }
     });
   }
-  return loadThread(actor, t, target.viewerIsStaff);
+  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
 }
