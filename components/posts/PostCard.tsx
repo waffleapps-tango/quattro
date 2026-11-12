@@ -1,39 +1,56 @@
-import { CalendarDays } from "lucide-react";
+import { UserRound } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { FeedCard } from "@/components/feed/FeedCard";
 import { cn } from "@/lib/utils";
+import type { PostView } from "@/domain/posts";
 
-// The post card shared by the board (/posts, text clamped) and the detail page (/posts/[slug], full text).
+type PostCardPost = Pick<PostView, "title" | "content" | "createdAt" | "kind" | "pinned" | "pinnedUntil" | "author">;
+
 export function PostCard({
   post,
   clamp,
   className,
+  footer,
 }: {
-  post: { title: string; content: string; createdAt: Date };
+  post: PostCardPost;
   clamp?: boolean;
   className?: string;
+  footer?: React.ReactNode;
 }) {
   const t = useTranslations("posts");
   const format = useFormatter();
+  const a = post.author;
+  const authorName =
+    post.kind === "ANNOUNCEMENT"
+      ? t("boardAuthor")
+      : (a && ([a.firstName, a.lastName].filter(Boolean).join(" ") || a.email)) || t("neighborFallback");
   return (
-    <Card className={cn("gap-6", className)}>
-      <CardHeader className="gap-2">
-        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
-          {t("eyebrow")}
-        </p>
-        <CardTitle className="font-heading text-2xl leading-tight sm:text-3xl">{post.title}</CardTitle>
-        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <CalendarDays className="h-4 w-4" aria-hidden="true" />
-          <time dateTime={post.createdAt.toISOString()} className="tabular-nums">
-            {format.dateTime(post.createdAt, { dateStyle: "long" })}
-          </time>
-        </div>
-      </CardHeader>
-      <CardContent className="border-t pt-6">
-        <p className={cn("whitespace-pre-line text-base leading-relaxed", clamp && "line-clamp-6")}>
-          {post.content}
-        </p>
-      </CardContent>
-    </Card>
+    <FeedCard
+      eyebrow={t(`kind.${post.kind}`)}
+      badges={
+        post.pinned && post.pinnedUntil ? (
+          <Badge variant="info" className="ml-auto">
+            {/* pinnedUntil is stored as end of the chosen day in CET (22:59:59 UTC), so the UTC calendar date is the day the user picked. */}
+            {t("pinnedBadge", {
+              date: format.dateTime(new Date(post.pinnedUntil), { dateStyle: "medium", timeZone: "UTC" }),
+            })}
+          </Badge>
+        ) : null
+      }
+      title={post.title}
+      date={post.createdAt}
+      meta={
+        <span className="flex items-center gap-1.5">
+          <UserRound className="h-4 w-4" aria-hidden="true" />
+          {authorName}
+        </span>
+      }
+      highlighted={post.pinned}
+      className={className}
+      footer={footer}
+    >
+      <p className={cn("whitespace-pre-line text-base leading-relaxed", clamp && "line-clamp-6")}>{post.content}</p>
+    </FeedCard>
   );
 }
