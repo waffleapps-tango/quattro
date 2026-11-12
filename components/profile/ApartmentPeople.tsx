@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { X } from "lucide-react";
+import { Illustration } from "@/components/system/Illustration";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -79,7 +80,10 @@ export function ApartmentPeople({
 
   return (
     <div className="mt-4 space-y-4 border-t pt-4">
-      <h3 className="text-sm font-medium">{t("title")}</h3>
+      <h3 className="flex items-center gap-3 text-sm font-medium">
+        <Illustration name="residents" size={64} />
+        {t("title")}
+      </h3>
 
       <div role="radiogroup" aria-label={t("primary")} className="space-y-4">
       <ul className="space-y-2">

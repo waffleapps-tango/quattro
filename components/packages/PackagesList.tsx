@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { PackageRow, type PackageWithRelations } from "./PackageRow";
 import { CreatePackageForm } from "./CreatePackageForm";
 import { ReminderSettings } from "./ReminderSettings";
-import { Package as PackageIcon, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -87,13 +87,13 @@ export function PackagesList({
       {packages.length === 0 ? (
         searchParams.get("q") ? (
           <EmptyState
-            icon={PackageIcon}
+            illustration="search-empty"
             title={t("noResults")}
             description={t("noResultsHint")}
           />
         ) : (
           <EmptyState
-            icon={PackageIcon}
+            illustration="locker"
             title={t("empty")}
             description={
               isStaff ? t("emptyStaff") : t("emptyResident")

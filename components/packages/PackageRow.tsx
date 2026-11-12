@@ -15,6 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Bell, CheckCircle2, Copy, Loader2 } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useFormatter, useTranslations } from "next-intl";
@@ -139,7 +140,7 @@ export function PackageRow({
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
-                  <AlertDialogHeader>
+                  <AlertDialogHeader className="sm:text-center">
                     <AlertDialogTitle>{t("pickUpConfirmTitle")}</AlertDialogTitle>
                     <AlertDialogDescription>
                       {t("pickUpConfirmDescription", {
@@ -149,6 +150,7 @@ export function PackageRow({
                       })}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
+                  <HeroIllustration name="handover" />
                   <AlertDialogFooter>
                     <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                     <AlertDialogAction onClick={() => run(markPickedUpAction)}>{t("pickUp")}</AlertDialogAction>

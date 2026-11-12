@@ -15,6 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Trash } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { deletePost } from "@/actions/actions";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -49,12 +50,13 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogHeader>
+        <AlertDialogHeader className="sm:text-center">
           <AlertDialogTitle>{t("deleteTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
             {t("deleteDescription")}
           </AlertDialogDescription>
         </AlertDialogHeader>
+        <HeroIllustration name="trash" />
         <AlertDialogFooter>
           <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction

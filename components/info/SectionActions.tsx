@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Trash } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -68,10 +69,11 @@ export function SectionActions({
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
-          <AlertDialogHeader>
+          <AlertDialogHeader className="sm:text-center">
             <AlertDialogTitle>{t("deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>{t("deleteDescription")}</AlertDialogDescription>
           </AlertDialogHeader>
+          <HeroIllustration name="trash" />
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction

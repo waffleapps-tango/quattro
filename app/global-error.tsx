@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import { useEffect } from "react";
-import { StatusIllustration } from "@/components/system/StatusIllustration";
+import { HeroIllustration } from "@/components/system/Illustration";
 
 export default function GlobalError({
   error,
@@ -20,7 +20,7 @@ export default function GlobalError({
       <body>
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-auto bg-background px-6 py-10 text-center">
           <div className="flex w-full max-w-sm flex-col items-center">
-            <StatusIllustration variant="error" />
+            <HeroIllustration name="broken" />
             <h1 className="mt-3 text-xl font-semibold">Coś poszło nie tak / Something went wrong</h1>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               <button

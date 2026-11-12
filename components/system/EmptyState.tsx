@@ -1,22 +1,20 @@
-import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { HeroIllustration, type IllustrationName } from "./Illustration";
 
 export function EmptyState({
-  icon: Icon,
+  illustration,
   title,
   description,
   children,
 }: {
-  icon: LucideIcon;
+  illustration: IllustrationName;
   title: string;
   description?: string;
   children?: ReactNode;
 }) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-10 text-center">
-      <div className="rounded-full bg-muted p-3">
-        <Icon className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
-      </div>
+      <HeroIllustration name={illustration} />
       <p className="font-medium">{title}</p>
       {description && <p className="max-w-sm text-sm text-muted-foreground">{description}</p>}
       {children}

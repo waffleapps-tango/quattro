@@ -28,8 +28,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Users, X } from "lucide-react";
+import { X } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { toast } from "sonner";
 import { updateMembershipRoleAction, removeMembershipAction, removeResidencyAction } from "@/actions/memberships";
 import { useTranslations } from "next-intl";
@@ -69,7 +70,7 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
   if (memberships.length === 0) {
     return (
       <EmptyState
-        icon={Users}
+        illustration="residents"
         title={t("empty")}
         description={t("emptyHint")}
       />
@@ -128,12 +129,13 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogHeader>
+        <AlertDialogHeader className="sm:text-center">
           <AlertDialogTitle>{t("removeConfirmTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
             {t("removeConfirmDescription", { email: membership.user.email })}
           </AlertDialogDescription>
         </AlertDialogHeader>
+        <HeroIllustration name="trash" />
         <AlertDialogFooter>
           <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction

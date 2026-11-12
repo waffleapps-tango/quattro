@@ -3,8 +3,16 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Building2 } from "lucide-react";
-import { StatusIllustration, type StatusVariant } from "./StatusIllustration";
+import { HeroIllustration, type IllustrationName } from "./Illustration";
 
+export type StatusVariant = "not-found" | "error" | "forbidden" | "waiting";
+
+const ART: Record<StatusVariant, IllustrationName> = {
+  "not-found": "elevator",
+  error: "broken",
+  forbidden: "keys",
+  waiting: "doorbell",
+};
 const CODE: Record<StatusVariant, string | undefined> = {
   "not-found": "404",
   error: undefined,
@@ -41,7 +49,7 @@ export function StatusScreen({
         <span className="font-heading text-lg font-semibold uppercase tracking-wide">Quattro</span>
       </div>
       <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-card px-8 py-10 shadow-[0_1px_2px_rgb(9_20_38/0.04),0_8px_32px_rgb(9_20_38/0.06)]">
-        <StatusIllustration variant={variant} />
+        <HeroIllustration name={ART[variant]} priority />
         {code && (
           <p className="mt-2 font-heading text-6xl font-semibold leading-none tracking-tight">{code}</p>
         )}

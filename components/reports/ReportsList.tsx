@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ReportCard } from "./ReportCard";
 import { CreateReportForm } from "./CreateReportForm";
-import { Megaphone } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { Button } from "@/components/ui/button";
@@ -123,7 +122,11 @@ export function ReportsList({
 
       {reports.length === 0 ? (
         <EmptyState
-          icon={Megaphone}
+          illustration={
+            ["visibility", "status", "category", "urgent"].some((k) => searchParams.has(k))
+              ? "search-empty"
+              : "maintenance"
+          }
           title={t("empty")}
           description={
             isStaff

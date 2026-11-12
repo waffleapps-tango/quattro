@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { PostFields } from "@/components/posts/PostFields";
 import { Plus } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { createPost } from "@/actions/actions";
 import { useActionState } from "react";
 import { useTranslations } from "next-intl";
@@ -46,12 +47,13 @@ export function CreatePostForm() {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="sm:text-center">
           <DialogTitle>{t("newTitle")}</DialogTitle>
           <DialogDescription>
             {t("newDescription")}
           </DialogDescription>
         </DialogHeader>
+        <HeroIllustration name="bulletin" />
         <form action={formAction}>
           <PostFields />
           <Collapse show={Boolean(state.message) && !state.success}>

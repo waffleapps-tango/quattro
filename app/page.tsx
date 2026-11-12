@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getFormatter, getTranslations } from "next-intl/server";
-import { AlertTriangle, ArrowRight, Megaphone, Package, Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listReports } from "@/domain/reports";
@@ -8,6 +8,7 @@ import { getProfile } from "@/domain/profile";
 import { summarizeDashboard } from "@/domain/dashboard/summary";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EmptyState } from "@/components/system/EmptyState";
+import { HeroIllustration, Illustration } from "@/components/system/Illustration";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -28,6 +29,7 @@ export default async function Home() {
   if (!user) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
+        <HeroIllustration name="building" priority />
         <h1 className="text-2xl font-bold sm:text-3xl">{t("welcome")}</h1>
         <p className="text-muted-foreground">
           {t("tagline")}
@@ -76,6 +78,8 @@ export default async function Home() {
         <StaggerItem index={1}>
           <Card>
             <CardContent className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+              <Illustration name="floor-plan" size={96} className="hidden sm:block" />
               <div className="space-y-3">
                 <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">
                   {t("myApartment")}
@@ -114,6 +118,7 @@ export default async function Home() {
                   </p>
                 )}
               </div>
+              </div>
               <Button asChild variant="secondary">
                 <Link href="/profile">{t("viewProfile")}</Link>
               </Button>
@@ -125,11 +130,11 @@ export default async function Home() {
       {isStaff ? (
         <>
           <div className="grid gap-4 md:grid-cols-3">
-            {[
-              { label: t("waitingForPickup"), value: s.waitingPackageCount, href: "/packages", icon: Package, tint: "bg-info text-info-foreground" },
-              { label: t("newReports"), value: s.newReportCount, href: "/reports?status=NEW", icon: Megaphone, tint: "bg-warm text-warm-foreground" },
-              { label: t("urgentReports"), value: s.urgentReportCount, href: "/reports?urgent=1", icon: AlertTriangle, tint: "bg-danger text-danger-foreground" },
-            ].map((c, i) => (
+            {([
+              { label: t("waitingForPickup"), value: s.waitingPackageCount, href: "/packages", art: "parcel" },
+              { label: t("newReports"), value: s.newReportCount, href: "/reports?status=NEW", art: "maintenance" },
+              { label: t("urgentReports"), value: s.urgentReportCount, href: "/reports?urgent=1", art: "urgent" },
+            ] as const).map((c, i) => (
               <StaggerItem key={c.label} index={2 + i} className="h-full">
                 <Interactive className="h-full">
                   <Link href={c.href} className="block h-full">
@@ -139,9 +144,7 @@ export default async function Home() {
                           <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">{c.label}</p>
                           <p className="font-heading text-4xl font-semibold tabular-nums">{c.value}</p>
                         </div>
-                        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${c.tint}`}>
-                          <c.icon className="h-5 w-5" aria-hidden="true" />
-                        </span>
+                        <Illustration name={c.art} size={96} />
                       </CardContent>
                     </Card>
                   </Link>
@@ -169,9 +172,7 @@ export default async function Home() {
             <StaggerItem index={2} className="h-full min-w-0 [&>*]:h-full">
               <Card className="gap-0 overflow-hidden py-0">
                 <div className="flex items-center gap-3 bg-muted px-6 py-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-info text-info-foreground">
-                    <Package className="h-5 w-5" aria-hidden="true" />
-                  </span>
+                  <Illustration name="parcel" size={72} />
                   <div className="min-w-0 flex-1">
                     <h2 className="font-heading text-lg font-semibold leading-tight">{t("packagesHeading")}</h2>
                     <p className="truncate text-sm text-muted-foreground">{t("packagesSubtitle")}</p>
@@ -182,7 +183,7 @@ export default async function Home() {
                 </div>
                 <CardContent className="space-y-2 py-5">
                   {s.waitingPackages.length === 0 ? (
-                    <EmptyState icon={Package} title={t("nothingWaiting")} />
+                    <EmptyState illustration="locker" title={t("nothingWaiting")} />
                   ) : (
                     s.waitingPackages.map((p) => (
                       <div key={p.id} className="flex items-center justify-between gap-3 rounded-lg bg-muted px-4 py-3 text-sm">
@@ -219,9 +220,7 @@ export default async function Home() {
             <StaggerItem index={3} className="h-full min-w-0 [&>*]:h-full">
               <Card className="gap-0 overflow-hidden py-0">
                 <div className="flex flex-wrap items-center gap-3 bg-muted px-6 py-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm text-warm-foreground">
-                    <Megaphone className="h-5 w-5" aria-hidden="true" />
-                  </span>
+                  <Illustration name="maintenance" size={72} />
                   {/* basis keeps the title readable; the button wraps to its own row instead of squeezing it */}
                   <div className="min-w-0 flex-1 basis-40">
                     <h2 className="font-heading text-lg font-semibold leading-tight">{t("reportsHeading")}</h2>
@@ -236,7 +235,7 @@ export default async function Home() {
                 </div>
                 <CardContent className="space-y-2 py-5">
                   {s.myOpenReports.length === 0 ? (
-                    <EmptyState icon={Megaphone} title={t("noOpenReports")} />
+                    <EmptyState illustration="all-clear" title={t("noOpenReports")} />
                   ) : (
                     s.myOpenReports.map((r) => (
                       <div key={r.id} className="rounded-lg bg-muted px-4 py-3 text-sm">

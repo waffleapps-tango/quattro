@@ -6,6 +6,7 @@ import { LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { HeroIllustration } from "./Illustration";
 
 export function WaitingScreen() {
   const t = useTranslations("system.waiting");
@@ -20,6 +21,7 @@ export function WaitingScreen() {
         <span className="font-heading text-lg font-semibold uppercase tracking-wide">Quattro</span>
       </div>
       <div className="flex w-full max-w-[680px] flex-col gap-6 rounded-2xl bg-card p-8 shadow-[0_1px_2px_rgb(9_20_38/0.04),0_8px_32px_rgb(9_20_38/0.06)]">
+        <HeroIllustration name="doorbell" priority />
         <div className="flex items-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm">
           <span className="h-2 w-2 rounded-full bg-[#805533]" aria-hidden="true" />
           <span className="font-medium">{t("status")}</span>

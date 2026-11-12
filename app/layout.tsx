@@ -10,6 +10,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { enUS, plPL } from "@clerk/localizations";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
+import { IllustrationProvider } from "@/components/system/Illustration";
+import { ILLUSTRATIONS_COOKIE, parseIllustrationPref } from "@/components/system/illustration-prefs";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
 const geist = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-geist" });
@@ -28,6 +31,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
+  const illustrations = parseIllustrationPref((await cookies()).get(ILLUSTRATIONS_COOKIE)?.value);
   return (
     <ClerkProvider localization={locale === "pl" ? plPL : enUS}>
       <html lang={locale} suppressHydrationWarning>
@@ -49,6 +53,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <NextIntlClientProvider>
+              <IllustrationProvider value={illustrations}>
               <MotionProvider>
                 <div className="flex h-screen">
                   <MainNavigation />
@@ -63,6 +68,7 @@ export default async function RootLayout({
                 </div>
                 <Toaster />
               </MotionProvider>
+              </IllustrationProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
         </body>

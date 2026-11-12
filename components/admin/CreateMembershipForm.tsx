@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { createMembershipAction } from "@/actions/memberships";
 import { useTranslations } from "next-intl";
 import { ResidencyKind, Role, type Building, type Apartment } from "@/lib/generated/prisma";
@@ -67,12 +68,13 @@ export function CreateMembershipForm({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className="sm:text-center">
           <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
             {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
+        <HeroIllustration name="keys" />
         <form action={formAction}>
           <input type="hidden" name="communityId" value={communityId} />
           <div className="space-y-4 py-4">

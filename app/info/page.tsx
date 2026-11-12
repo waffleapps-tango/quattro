@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
-import { Info } from "lucide-react";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EmptyState } from "@/components/system/EmptyState";
 import { getCurrentUser } from "@/auth/session";
@@ -36,7 +35,7 @@ export default async function InfoPage() {
       </div>
       {sections.length === 0 ? (
         <EmptyState
-          icon={Info}
+          illustration="concierge"
           title={t("empty")}
           description={canEdit ? t("emptyHint") : t("emptyResident")}
         />

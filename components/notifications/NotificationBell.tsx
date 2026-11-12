@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Bell } from "lucide-react";
+import { Illustration } from "@/components/system/Illustration";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -97,7 +98,10 @@ export function NotificationBell() {
         )}
         <DropdownMenuSeparator />
         {items.length === 0 ? (
-          <p className="px-2 py-6 text-center text-sm text-muted-foreground">{t("empty")}</p>
+          <div className="flex flex-col items-center gap-2 px-2 py-6 text-center text-sm text-muted-foreground">
+            <Illustration name="bell" size={128} />
+            {t("empty")}
+          </div>
         ) : (
           items.map((item) => (
             <DropdownMenuItem

@@ -179,6 +179,15 @@ a[href] {
   cursor: pointer;
 }
 
+/* Slow idle float for the large illustrations (transform only; used behind motion-safe:). */
+@theme {
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+}
+
 :disabled,
 [aria-disabled="true"],
 [data-disabled] {

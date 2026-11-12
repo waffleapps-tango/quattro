@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { Globe, Lock, Plus } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Collapse } from "@/components/motion/Collapse";
@@ -105,8 +106,8 @@ export function CreateReportForm({
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90dvh] gap-0 overflow-y-auto p-0 sm:max-w-[660px]">
-        <DialogHeader className="px-6 pt-6 pb-4">
-          <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+        <DialogHeader className="px-6 pt-6 pb-4 sm:text-center">
+          <p className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-[#805533]" aria-hidden="true" />
             {t("dialogEyebrow")}
           </p>
@@ -115,6 +116,7 @@ export function CreateReportForm({
             {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
+        <HeroIllustration name="maintenance" className="px-6 pb-4" />
         <form action={formAction}>
           <input type="hidden" name="communityId" value={communityId} />
           <input type="hidden" name="categoryKey" value={categoryKey} />

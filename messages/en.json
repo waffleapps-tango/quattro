@@ -61,6 +61,15 @@
       "label": "Language",
       "placeholder": "Choose a language"
     },
+    "illustrations": {
+      "title": "Illustrations",
+      "description": "Colourful art in dialogs, empty states and status pages",
+      "show": "Show illustrations",
+      "showHint": "Turn off for a plainer, lighter interface",
+      "set": "Icon set",
+      "setName": "Set {n}",
+      "error": "Could not save the illustration setting"
+    },
     "languageError": "Could not change the language",
     "save": "Save changes",
     "saved": "Settings saved",

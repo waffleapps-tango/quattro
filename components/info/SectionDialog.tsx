@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Pencil, Plus, Trash2 } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -257,11 +258,12 @@ export function SectionDialog({
         )}
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="sm:text-center">
           <DialogTitle>
             {section ? t("dialogEditTitle") : t("dialogAddTitle")}
           </DialogTitle>
         </DialogHeader>
+        <HeroIllustration name={section?.kind === "TEXT" ? "lease" : "concierge"} />
         <SectionForm
           communityId={communityId}
           section={section}

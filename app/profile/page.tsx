@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
-import { Home } from "lucide-react";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EmptyState } from "@/components/system/EmptyState";
+import { Illustration } from "@/components/system/Illustration";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -76,7 +76,8 @@ export default async function ProfilePage() {
             <StaggerItem key={a.id} index={1 + i} className="md:col-span-2 h-full [&>*]:h-full">
               <Card>
                 <CardHeader>
-                  <CardTitle>
+                  <CardTitle className="flex items-center gap-3">
+                    <Illustration name="floor-plan" size={72} />
                     {p.apartments.length > 1
                       ? t("apartmentCardNumbered", { building: a.building.name, number: a.number })
                       : t("apartmentCard")}
@@ -103,7 +104,7 @@ export default async function ProfilePage() {
                 <CardTitle>{t("apartmentCard")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <EmptyState icon={Home} title={t("noApartmentTitle")} description={t("noApartmentHint")} />
+                <EmptyState illustration="floor-plan" title={t("noApartmentTitle")} description={t("noApartmentHint")} />
               </CardContent>
             </Card>
           </StaggerItem>
@@ -112,7 +113,10 @@ export default async function ProfilePage() {
         <StaggerItem index={2 + p.apartments.length} className="h-full [&>*]:h-full">
           <Card>
             <CardHeader>
-              <CardTitle>{t("parkingCard")}</CardTitle>
+              <CardTitle className="flex items-center gap-3">
+                <Illustration name="parking" size={72} />
+                {t("parkingCard")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {p.parkingSpaces.length ? (
@@ -138,7 +142,10 @@ export default async function ProfilePage() {
         <StaggerItem index={3 + p.apartments.length} className="h-full [&>*]:h-full">
           <Card>
             <CardHeader>
-              <CardTitle>{t("storageCard")}</CardTitle>
+              <CardTitle className="flex items-center gap-3">
+                <Illustration name="storage" size={72} />
+                {t("storageCard")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {p.storageUnits.length ? (

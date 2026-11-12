@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { PostFields } from "@/components/posts/PostFields";
 import { Check, Edit } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { updatePost } from "@/actions/actions";
 import { useActionState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -55,12 +56,13 @@ export function EditPostForm({ post }: EditPostFormProps) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="sm:text-center">
           <DialogTitle>{t("editTitle")}</DialogTitle>
           <DialogDescription>
             {t("editDescription")}
           </DialogDescription>
         </DialogHeader>
+        <HeroIllustration name="bulletin" />
         <form action={formAction}>
           <input type="hidden" name="id" value={post.id} />
           <PostFields defaultTitle={post.title} defaultContent={post.content} />

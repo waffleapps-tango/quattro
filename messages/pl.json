@@ -61,6 +61,15 @@
       "label": "Język",
       "placeholder": "Wybierz język"
     },
+    "illustrations": {
+      "title": "Ilustracje",
+      "description": "Kolorowe grafiki w oknach, pustych stanach i stronach statusu",
+      "show": "Pokazuj ilustracje",
+      "showHint": "Wyłącz, by interfejs był prostszy i lżejszy",
+      "set": "Zestaw ikon",
+      "setName": "Zestaw {n}",
+      "error": "Nie udało się zapisać ustawienia ilustracji"
+    },
     "languageError": "Nie udało się zmienić języka",
     "save": "Zapisz zmiany",
     "saved": "Ustawienia zapisane",

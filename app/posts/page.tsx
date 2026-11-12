@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Card } from "@/components/ui/card";
 
-import { ArrowRight, MessageSquare } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
@@ -51,7 +51,7 @@ export default async function PostsPage() {
       </FadeIn>
 
       {posts.length === 0 && (
-        <EmptyState icon={MessageSquare} title={t("empty")} description={canWrite ? t("emptyHint") : undefined} />
+        <EmptyState illustration="bulletin" title={t("empty")} description={canWrite ? t("emptyHint") : undefined} />
       )}
       <AnimatedList className="grid gap-4">
         {posts.map((post) => (

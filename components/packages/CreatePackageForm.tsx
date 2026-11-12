@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
+import { HeroIllustration } from "@/components/system/Illustration";
 import { createPackageAction, getPackageRecipientOptionsAction } from "@/actions/packages";
 import type { PackageRecipientOptions } from "@/domain/residencies/recipients";
 import type { Building, Apartment } from "@/lib/generated/prisma";
@@ -84,12 +85,13 @@ export function CreatePackageForm({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className="sm:text-center">
           <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
             {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
+        <HeroIllustration name="parcel" />
         <form action={formAction}>
           <input type="hidden" name="communityId" value={communityId} />
           <div className="space-y-4 py-4">
