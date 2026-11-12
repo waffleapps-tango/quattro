@@ -235,7 +235,33 @@
     },
     "copy": "Kopiuj numer przesyłki",
     "pickUpConfirmTitle": "Wydać paczkę?",
-    "pickUpConfirmDescription": "Przesyłka {tracking} dla {place} (odbiorca: {recipient}) zostanie oznaczona jako odebrana. Tej operacji nie można cofnąć."
+    "pickUpConfirmDescription": "Przesyłka {tracking} dla {place} (odbiorca: {recipient}) zostanie oznaczona jako odebrana. Tej operacji nie można cofnąć.",
+    "filters": {
+      "openOnly": "Tylko nieodebrane",
+      "building": "Budynek",
+      "allBuildings": "Wszystkie budynki",
+      "apartment": "Mieszkanie",
+      "recipient": "Odbiorca (imię, nazwisko, email)",
+      "search": "Szukaj",
+      "reset": "Wyczyść filtry",
+      "sort": "Sortuj"
+    },
+    "sortOptions": {
+      "received:desc": "Najnowsze",
+      "received:asc": "Najstarsze",
+      "apartment:asc": "Lokal A → Z",
+      "apartment:desc": "Lokal Z → A",
+      "status:asc": "Status ↑",
+      "status:desc": "Status ↓"
+    },
+    "pagination": {
+      "summary": "Pokazano {from}–{to} z {total}",
+      "previous": "Poprzednia",
+      "next": "Następna",
+      "page": "Strona {page} z {count}"
+    },
+    "noOpen": "Brak nieodebranych paczek",
+    "noOpenHint": "Wyłącz „Tylko nieodebrane”, aby zobaczyć historię."
   },
   "notifications": {
     "title": "Powiadomienia",

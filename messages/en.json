@@ -235,7 +235,33 @@
     },
     "copy": "Copy tracking number",
     "pickUpConfirmTitle": "Hand over the package?",
-    "pickUpConfirmDescription": "Package {tracking} for {place} (recipient: {recipient}) will be marked as picked up. This cannot be undone."
+    "pickUpConfirmDescription": "Package {tracking} for {place} (recipient: {recipient}) will be marked as picked up. This cannot be undone.",
+    "filters": {
+      "openOnly": "Not picked up only",
+      "building": "Building",
+      "allBuildings": "All buildings",
+      "apartment": "Apartment",
+      "recipient": "Recipient (name, email)",
+      "search": "Search",
+      "reset": "Clear filters",
+      "sort": "Sort"
+    },
+    "sortOptions": {
+      "received:desc": "Newest",
+      "received:asc": "Oldest",
+      "apartment:asc": "Apartment A → Z",
+      "apartment:desc": "Apartment Z → A",
+      "status:asc": "Status ↑",
+      "status:desc": "Status ↓"
+    },
+    "pagination": {
+      "summary": "Showing {from}–{to} of {total}",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {count}"
+    },
+    "noOpen": "No packages waiting for pickup",
+    "noOpenHint": "Turn off “Not picked up only” to see the history."
   },
   "notifications": {
     "title": "Notifications",
