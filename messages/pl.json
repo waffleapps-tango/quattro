@@ -1027,5 +1027,19 @@
     "reporter": "Zgłaszający",
     "neighbor": "Sąsiad",
     "privateThread": "Rozmowa widoczna tylko dla Ciebie i administracji."
+  },
+  "emails": {
+    "approved": {
+      "subject": "Masz dostęp do {communityName}",
+      "text": "Zarząd zatwierdził Twoją prośbę. Zaloguj się: {url}"
+    },
+    "rejected": {
+      "subject": "Prośba o dostęp do {communityName}",
+      "text": "Zarząd odrzucił prośbę. {reason}\n\nMożesz wysłać nową prośbę: {url}"
+    },
+    "invite": {
+      "subject": "Zaproszenie do Quattro – {communityName}",
+      "text": "Zarząd zaprasza Cię do aplikacji osiedla {communityName}.\n{place}\n\nZałóż konto: {url}"
+    }
   }
 }

@@ -9,12 +9,16 @@ import {
   createCommunityWithBuildingAndApartment,
   createUserWithMembership,
 } from "@/domain/__test-helpers__/fixtures";
+import { sendEmail } from "@/lib/email";
+import { decisionEmail, inviteEmail } from "@/domain/join-requests/emails";
 import {
+  approveJoinRequest,
   cancelJoinRequest,
   createJoinRequest,
   getJoinOptions,
   listJoinRequests,
   listUsersWithoutRequest,
+  rejectJoinRequest,
   setReceptionCanApprove,
 } from "@/domain/join-requests";
 
@@ -173,5 +177,93 @@ describe("listing", () => {
     await createJoinRequest(me, s.input);
     opts = await getJoinOptions(me);
     expect(opts.requests[0]).toMatchObject({ status: "PENDING", apartmentNumber: "101", kind: "OWNER" });
+  });
+});
+
+describe("approve / reject", () => {
+  it("approves into a resident membership + residency atomically and tells the requester", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, { ...s.input, kind: "TENANT" });
+    await approveJoinRequest(s.manager, req.id);
+
+    const membership = await prisma.membership.findUniqueOrThrow({ where: { userId_communityId: { userId: me.id, communityId: s.community.id } } });
+    expect(membership).toMatchObject({ role: "RESIDENT", buildingId: s.building.id });
+    const residency = await prisma.apartmentResidency.findFirstOrThrow({ where: { userId: me.id } });
+    expect(residency).toMatchObject({ apartmentId: s.apartment.id, kind: "TENANT" });
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("APPROVED");
+    expect(await prisma.notification.count({ where: { type: "JOIN_REQUEST_APPROVED", recipientUserId: me.id } })).toBe(1);
+    expect(vi.mocked(sendEmail)).toHaveBeenCalledWith(expect.objectContaining({ to: me.email }));
+  });
+
+  it("applies overrides from 'edit and approve'", async () => {
+    const s = await setup();
+    const other = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "102" } });
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await approveJoinRequest(s.manager, req.id, { buildingId: s.building.id, apartmentId: other.id, kind: "TENANT" });
+    expect(await prisma.apartmentResidency.findFirstOrThrow({ where: { userId: me.id } })).toMatchObject({ apartmentId: other.id, kind: "TENANT" });
+  });
+
+  it("enforces who may decide", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await expect(approveJoinRequest(s.reception, req.id)).rejects.toThrow(UnauthorizedError);
+    await expect(approveJoinRequest(s.resident, req.id)).rejects.toThrow(UnauthorizedError);
+    const elsewhere = await createCommunityWithBuildingAndApartment();
+    const outsider = await createUserWithMembership({ communityId: elsewhere.community.id, role: Role.MANAGER });
+    await expect(approveJoinRequest(outsider, req.id)).rejects.toThrow();
+    await setReceptionCanApprove(s.manager, s.community.id, true);
+    await rejectJoinRequest(s.reception, req.id, "  nie znamy tej osoby ");
+    const stored = await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } });
+    expect(stored).toMatchObject({ status: "REJECTED", rejectReason: "nie znamy tej osoby", decidedById: s.reception.id });
+    expect(await prisma.notification.count({ where: { type: "JOIN_REQUEST_REJECTED", recipientUserId: me.id } })).toBe(1);
+  });
+
+  it("leaves the request pending when the user became a member meanwhile", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await prisma.membership.create({ data: { userId: me.id, communityId: s.community.id, role: Role.RESIDENT } });
+    await expect(approveJoinRequest(s.manager, req.id)).rejects.toThrow(ValidationError);
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("PENDING");
+  });
+
+  it("does not fail the decision when the email fails", async () => {
+    const s = await setup();
+    vi.mocked(sendEmail).mockResolvedValueOnce({ ok: false, error: "down", retry: true });
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await approveJoinRequest(s.manager, req.id);
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("APPROVED");
+  });
+});
+
+describe("decision / invite emails", () => {
+  it("render in pl and en with the community name and the encoded sign-up url", () => {
+    const prev = process.env.APP_URL;
+    process.env.APP_URL = "https://app.example.com/";
+    try {
+      for (const locale of ["pl", "en"]) {
+        for (const approved of [true, false]) {
+          const mail = decisionEmail(locale, { approved, communityName: "Osiedle Słoneczne", reason: "brak danych" });
+          expect(mail.subject).toContain("Osiedle Słoneczne");
+          expect(mail.text).toContain("https://app.example.com");
+          if (!approved) expect(mail.text).toContain("brak danych");
+        }
+        const invite = inviteEmail(locale, { email: "a+b@example.com", communityName: "Osiedle Słoneczne", place: "Budynek A, m. 12" });
+        expect(invite.subject).toContain("Osiedle Słoneczne");
+        expect(invite.text).toContain("Osiedle Słoneczne");
+        expect(invite.text).toContain("Budynek A, m. 12");
+        expect(invite.text).toContain("https://app.example.com/sign-up?email=a%2Bb%40example.com");
+      }
+      expect(decisionEmail("pl", { approved: true, communityName: "X" }).subject).toMatch(/dostęp/);
+      expect(decisionEmail("en", { approved: true, communityName: "X" }).subject).toMatch(/access/);
+      expect(decisionEmail(null, { approved: true, communityName: "X" }).subject).toMatch(/dostęp/);
+    } finally {
+      if (prev === undefined) delete process.env.APP_URL;
+      else process.env.APP_URL = prev;
+    }
   });
 });

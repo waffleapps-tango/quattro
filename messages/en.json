@@ -1027,5 +1027,19 @@
     "reporter": "Reporter",
     "neighbor": "Neighbor",
     "privateThread": "Only you and the management can see this conversation."
+  },
+  "emails": {
+    "approved": {
+      "subject": "You now have access to {communityName}",
+      "text": "The management approved your request. Sign in: {url}"
+    },
+    "rejected": {
+      "subject": "Your request to join {communityName}",
+      "text": "The management declined your request. {reason}\n\nYou can send a new request: {url}"
+    },
+    "invite": {
+      "subject": "Invitation to Quattro – {communityName}",
+      "text": "The management invites you to the {communityName} app.\n{place}\n\nCreate your account: {url}"
+    }
   }
 }
