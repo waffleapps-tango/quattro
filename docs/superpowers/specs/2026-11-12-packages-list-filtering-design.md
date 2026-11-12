@@ -51,8 +51,9 @@ place, never trusted).
 - `PackagesList` toolbar: search box (existing), "Tylko nieodebrane" switch, and for staff a
   collapsible filter row with building select, apartment input, recipient input and a reset
   button. Every control updates the URL (`router.push`, resets `page` to 1).
-- Table headers for Package/Apartment-location/Received/Status become sort buttons with an
-  aria-sort indicator; clicking toggles dir. Actions column is not sortable.
+- Table headers "Lokal i odbiorca" (apartment), "Przyjęcie" (received) and "Status" become sort
+  buttons with an aria-sort indicator; clicking toggles dir. Package and Actions columns are not
+  sortable (no sort key for them).
 - Footer: "Pokazano X–Y z N" with previous/next buttons. Empty states reuse existing ones
   (no results vs none yet vs none open).
 - Mobile card layout (existing `max-md` table) keeps working; sort control on mobile is a
