@@ -86,10 +86,14 @@ export async function getPostBySlug(actor: SessionUser, slug: string, now = new 
   return view(post, actor, canPostAnnouncement(m), now);
 }
 
+const MAX_TITLE = 200;
+const MAX_SLUG_BASE = 80;
+
 function cleanText(input: { title: string; content: string }) {
   const title = input.title.trim();
   const content = input.content.trim();
   if (!title || !content) throw new ValidationError("title and content are required");
+  if (title.length > MAX_TITLE) throw new ValidationError(`title is longer than ${MAX_TITLE} characters`);
   return { title, content };
 }
 
@@ -115,7 +119,7 @@ export async function createPost(
         published: true,
         pinnedUntil: input.kind === PostKind.ANNOUNCEMENT ? (input.pinnedUntil ?? null) : null,
         // Suffix keeps slugs unique and non-empty (titles of only Polish letters, same titles).
-        slug: [slugify(title), Date.now().toString(36) + Math.random().toString(36).slice(2, 6)]
+        slug: [slugify(title).slice(0, MAX_SLUG_BASE).replace(/-+$/, ""), Date.now().toString(36) + Math.random().toString(36).slice(2, 6)]
           .filter(Boolean)
           .join("-"),
       },

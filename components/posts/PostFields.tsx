@@ -56,8 +56,8 @@ export function PostFields({
       {selectedKind === "ANNOUNCEMENT" && (
         <div className="space-y-2">
           <label htmlFor="pinnedUntil" className="text-sm font-medium">{t("pinnedUntilLabel")}</label>
-          <Input id="pinnedUntil" name="pinnedUntil" type="date" defaultValue={pinnedDefault} className="w-48" />
-          <p className="text-xs text-muted-foreground">{t("pinnedUntilHint")}</p>
+          <Input id="pinnedUntil" name="pinnedUntil" type="date" defaultValue={pinnedDefault} className="w-48" aria-describedby="pinnedUntil-hint" />
+          <p id="pinnedUntil-hint" className="text-xs text-muted-foreground">{t("pinnedUntilHint")}</p>
         </div>
       )}
       <div className="space-y-2">
@@ -73,6 +73,7 @@ export function PostFields({
           defaultValue={defaultTitle}
           placeholder={t("titlePlaceholder")}
           required
+          maxLength={200}
         />
       </div>
       <div className="space-y-2">

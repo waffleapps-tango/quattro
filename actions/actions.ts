@@ -9,9 +9,10 @@ import * as posts from "@/domain/posts";
 import { dispatchPending } from "@/domain/notifications/dispatch";
 import { NotFoundError, UnauthorizedError, ValidationError } from "@/domain/errors";
 import { PostKind } from "@/lib/generated/prisma";
+import { endOfPinDay } from "@/lib/pin-date";
 
 const postSchema = z.object({
-  title: z.string().trim().min(1),
+  title: z.string().trim().min(1).max(200),
   content: z.string().trim().min(1),
   kind: z.nativeEnum(PostKind).default(PostKind.NEIGHBOR),
   pinnedUntil: z
@@ -20,10 +21,6 @@ const postSchema = z.object({
     .optional()
     .or(z.literal("").transform(() => undefined)),
 });
-
-// "YYYY-MM-DD" from <input type="date"> means "until the end of that day" in Poland.
-// ponytail: fixed +01:00 (CET); during CEST the pin ends an hour later, harmless.
-const endOfDay = (d: string | undefined) => (d ? new Date(`${d}T23:59:59+01:00`) : null);
 
 type State = { message: string; success?: boolean };
 
@@ -50,7 +47,7 @@ export async function createPost(_prev: State, formData: FormData): Promise<Stat
   });
   if (!parsed.success) return { message: te("invalidForm"), success: false };
   try {
-    await posts.createPost(actor, communityId, { ...parsed.data, pinnedUntil: endOfDay(parsed.data.pinnedUntil) });
+    await posts.createPost(actor, communityId, { ...parsed.data, pinnedUntil: endOfPinDay(parsed.data.pinnedUntil) });
     revalidatePath("/posts");
     after(() => dispatchPending().catch(console.error));
     return { message: t("created"), success: true };
@@ -75,7 +72,7 @@ export async function updatePost(_prev: State, formData: FormData): Promise<Stat
       title: parsed.data.title,
       content: parsed.data.content,
       // field absent (neighbor post form) → leave the pin alone
-      pinnedUntil: formData.has("pinnedUntil") ? endOfDay(parsed.data.pinnedUntil) : undefined,
+      pinnedUntil: formData.has("pinnedUntil") ? endOfPinDay(parsed.data.pinnedUntil) : undefined,
     });
     revalidatePath("/posts");
     revalidatePath(`/posts/${post.slug}`);

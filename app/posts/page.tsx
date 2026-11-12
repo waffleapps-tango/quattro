@@ -35,6 +35,7 @@ export default async function PostsPage({
     kindParam === "announcement" ? PostKind.ANNOUNCEMENT : kindParam === "neighbor" ? PostKind.NEIGHBOR : undefined;
   const posts = await listPosts(user, membership.communityId, { kind });
   const canAnnounce = canPostAnnouncement(membership);
+  const emptyDescription = !kind || (kind === PostKind.ANNOUNCEMENT && canAnnounce) ? t("emptyHint") : undefined;
   const chips = [
     { href: "/posts", label: t("filterAll"), active: !kind },
     { href: "/posts?kind=announcement", label: t("filterAnnouncements"), active: kind === PostKind.ANNOUNCEMENT },
@@ -68,7 +69,7 @@ export default async function PostsPage({
 
       {posts.length === 0 && (
         <EmptyState illustration="bulletin" title={kind === PostKind.NEIGHBOR ? t("emptyNeighbors") : t("empty")}
-          description={kind === PostKind.NEIGHBOR ? undefined : t("emptyHint")} />
+          description={emptyDescription} />
       )}
       <AnimatedList className="grid gap-4">
         {posts.map((post) => (

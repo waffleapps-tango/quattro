@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import prisma from "@/lib/prisma";
 import { PostKind, Role } from "@/lib/generated/prisma";
-import { NotFoundError, UnauthorizedError } from "@/domain/errors";
+import { NotFoundError, UnauthorizedError, ValidationError } from "@/domain/errors";
 import {
   cleanupDatabase,
   createCommunityWithBuildingAndApartment,
@@ -74,6 +74,16 @@ describe("createPost", () => {
     expect(n.pinnedUntil).toBeNull();
     const a = await createPost(s.manager, s.community.id, input(PostKind.ANNOUNCEMENT, { pinnedUntil: until }));
     expect(a.pinnedUntil?.getTime()).toBe(until.getTime());
+  });
+
+  it("rejects a 201-char title; a 200-char title works with a capped slug", async () => {
+    const s = await setup();
+    await expect(
+      createPost(s.resident, s.community.id, input(PostKind.NEIGHBOR, { title: "a".repeat(201) })),
+    ).rejects.toThrow(ValidationError);
+    const title = Array.from({ length: 40 }, () => "słowo").join(" ").slice(0, 200);
+    const post = await createPost(s.resident, s.community.id, input(PostKind.NEIGHBOR, { title }));
+    expect(post.slug.split("-").slice(0, -1).join("-").length).toBeLessThanOrEqual(80);
   });
 
   it("rejects a non-member", async () => {
@@ -155,6 +165,17 @@ describe("updatePost / deletePost", () => {
     expect(updated.title).toBe("Nowy");
     await deletePost(s.resident, post.id);
     expect(await prisma.post.count()).toBe(0);
+  });
+
+  it("ignores pinnedUntil when updating a neighbor post", async () => {
+    const s = await setup();
+    const post = await createPost(s.resident, s.community.id, input(PostKind.NEIGHBOR));
+    const updated = await updatePost(s.resident, post.id, {
+      title: "Nowy",
+      content: "z",
+      pinnedUntil: new Date(Date.now() + 3 * DAY),
+    });
+    expect(updated.pinnedUntil).toBeNull();
   });
 
   it("stops other residents; staff may delete any post but edit only announcements", async () => {
