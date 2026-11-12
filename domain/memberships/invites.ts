@@ -7,6 +7,8 @@ import { sendEmail } from "@/lib/email";
 import { Role } from "@/lib/generated/prisma";
 
 const RESEND_AFTER_MS = 10 * 60_000;
+export const ALREADY_REGISTERED = "user already has an account";
+export const INVITE_THROTTLED = "invite sent less than 10 minutes ago";
 
 export const isPendingUser = (user: { clerkUserId: string }) => user.clerkUserId.startsWith("pending:");
 
@@ -25,30 +27,40 @@ export async function sendInvite(actor: SessionUser, membershipId: string, opts:
   if (!actorMembership || (actorMembership.role !== Role.MANAGER && actorMembership.role !== Role.ADMIN)) {
     throw new UnauthorizedError(`User ${actor.id} cannot send invites`);
   }
-  if (!isPendingUser(membership.user)) throw new ValidationError("user already has an account");
-  if (membership.inviteSentAt && Date.now() - membership.inviteSentAt.getTime() < RESEND_AFTER_MS) {
-    throw new ValidationError("invite sent less than 10 minutes ago");
-  }
+  if (!isPendingUser(membership.user)) throw new ValidationError(ALREADY_REGISTERED);
+
+  // Claim the resend slot atomically, so concurrent clicks cannot both pass the throttle.
+  const prev = membership.inviteSentAt;
+  const claimedAt = new Date();
+  const claimed = await prisma.membership.updateMany({
+    where: {
+      id: membershipId,
+      OR: [{ inviteSentAt: null }, { inviteSentAt: { lt: new Date(claimedAt.getTime() - RESEND_AFTER_MS) } }],
+    },
+    data: { inviteSentAt: claimedAt },
+  });
+  if (claimed.count === 0) throw new ValidationError(INVITE_THROTTLED);
 
   const residency = membership.user.residencies.find((r) => r.communityId === membership.communityId);
   const place = residency ? `${residency.apartment.building.name} / ${residency.apartment.number}` : "";
   const mail = inviteEmail(actor.locale, { email: membership.user.email, communityName: membership.community.name, place });
-  const res = await sendEmail({ to: membership.user.email, ...mail });
+  // Without APP_URL the sign-up link would be relative and useless, so that counts as a failed send.
+  const res = process.env.APP_URL
+    ? await sendEmail({ to: membership.user.email, ...mail }).catch((e) => ({ ok: false as const, error: String(e) }))
+    : { ok: false as const, error: "APP_URL not set" };
   if (!res.ok) {
     console.error("invite email failed", res.error);
+    await prisma.membership.updateMany({ where: { id: membershipId }, data: { inviteSentAt: prev } });
     if (opts.auto) return { sent: false };
     throw new Error(`invite email failed: ${res.error}`);
   }
-  await prisma.$transaction(async (tx) => {
-    await tx.membership.update({ where: { id: membership.id }, data: { inviteSentAt: new Date() } });
-    await writeAuditLog(tx, {
-      communityId: membership.communityId,
-      userId: actor.id,
-      action: "MEMBERSHIP_INVITE_SENT",
-      entity: "Membership",
-      entityId: membership.id,
-      metadata: { targetEmail: membership.user.email },
-    });
+  await writeAuditLog(prisma, {
+    communityId: membership.communityId,
+    userId: actor.id,
+    action: "MEMBERSHIP_INVITE_SENT",
+    entity: "Membership",
+    entityId: membership.id,
+    metadata: { targetEmail: membership.user.email },
   });
   return { sent: true };
 }

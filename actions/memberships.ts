@@ -10,7 +10,7 @@ import {
   removeMembership,
 } from "@/domain/memberships";
 import { UnauthorizedError, NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
-import { inviteIfPending, sendInvite } from "@/domain/memberships/invites";
+import { ALREADY_REGISTERED, inviteIfPending, sendInvite } from "@/domain/memberships/invites";
 import { addResidency, removeResidency } from "@/domain/residencies";
 import { ResidencyKind, Role } from "@/lib/generated/prisma";
 
@@ -87,7 +87,9 @@ export async function resendInviteAction(membershipId: string): Promise<ActionSt
     return { message: t("inviteSent"), success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) return { message: te("forbidden"), success: false };
-    if (error instanceof ValidationError) return { message: t("inviteTooSoon"), success: false };
+    if (error instanceof ValidationError) {
+      return { message: t(error.message === ALREADY_REGISTERED ? "inviteAlreadyRegistered" : "inviteTooSoon"), success: false };
+    }
     console.error(error);
     return { message: t("inviteFailed"), success: false };
   }

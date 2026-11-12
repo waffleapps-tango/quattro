@@ -833,7 +833,8 @@
       "residencyRemoved": "Apartment removed from this person",
       "inviteSent": "Invitation sent",
       "inviteTooSoon": "Invitation sent moments ago — try again in 10 minutes",
-      "inviteFailed": "Could not send the invitation"
+      "inviteFailed": "Could not send the invitation",
+      "inviteAlreadyRegistered": "This person already has an account"
     },
     "unassignedTitle": "Unassigned users (newest {limit})",
     "unassignedNone": "None.",

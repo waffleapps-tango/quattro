@@ -32,6 +32,7 @@ export function inviteEmail(
   const url = `${appUrl()}/sign-up?email=${encodeURIComponent(input.email)}`;
   return {
     subject: t("invite.subject" as never, { communityName: input.communityName } as never),
-    text: t("invite.text" as never, { communityName: input.communityName, place: input.place, url } as never),
+    // An empty place leaves a double blank line.
+    text: t("invite.text" as never, { communityName: input.communityName, place: input.place, url } as never).replace(/\n{3,}/g, "\n\n"),
   };
 }

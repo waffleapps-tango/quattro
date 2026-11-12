@@ -833,7 +833,8 @@
       "residencyRemoved": "Usunięto powiązanie z mieszkaniem",
       "inviteSent": "Zaproszenie wysłane",
       "inviteTooSoon": "Zaproszenie wysłano przed chwilą — spróbuj za 10 minut",
-      "inviteFailed": "Nie udało się wysłać zaproszenia"
+      "inviteFailed": "Nie udało się wysłać zaproszenia",
+      "inviteAlreadyRegistered": "Ta osoba ma już konto"
     },
     "unassignedTitle": "Nieprzypisani użytkownicy (najnowsi {limit})",
     "unassignedNone": "Brak.",

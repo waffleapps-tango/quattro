@@ -329,6 +329,7 @@ describe("decision / invite emails", () => {
         expect(invite.text).toContain("Osiedle Słoneczne");
         expect(invite.text).toContain("Budynek A, m. 12");
         expect(invite.text).toContain("https://app.example.com/sign-up?email=a%2Bb%40example.com");
+        expect(inviteEmail(locale, { email: "a@example.com", communityName: "X", place: "" }).text).not.toMatch(/\n{3,}/);
       }
       expect(decisionEmail("en", { approved: false, communityName: "X" }).text).not.toMatch(/ \n/);
       expect(decisionEmail("pl", { approved: true, communityName: "X" }).subject).toMatch(/dostęp/);
