@@ -7,7 +7,6 @@ import { listMembershipsForCommunity } from "@/domain/memberships";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { MembershipsTable } from "@/components/admin/MembershipsTable";
 import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
-import { UnassignedClerkUsers } from "@/components/admin/UnassignedClerkUsers";
 import { Role, type Apartment } from "@/lib/generated/prisma";
 import { UnauthorizedError } from "@/domain/errors";
 
@@ -16,7 +15,11 @@ export async function generateMetadata() {
   return { title: t("admin") };
 }
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
@@ -29,6 +32,10 @@ export default async function AdminPage() {
     if (error instanceof UnauthorizedError) return <AccessDenied />;
     throw error;
   }
+
+  // "Przypisz" on the requests tab lands here with the person's email to prefill the add dialog.
+  const { invite } = await searchParams;
+  const defaultEmail = typeof invite === "string" && invite.length <= 254 && invite.includes("@") ? invite : undefined;
 
   const memberships = await listMembershipsForCommunity(user, membership.communityId);
   const buildings = await listBuildingsForCommunity(membership.communityId);
@@ -47,12 +54,14 @@ export default async function AdminPage() {
     <div>
       <div className="mb-6 flex justify-end">
         <CreateMembershipForm
+          key={defaultEmail ?? ""}
+          defaultEmail={defaultEmail}
+          defaultOpen={Boolean(defaultEmail)}
           communityId={membership.communityId}
           buildings={buildings}
           apartmentsByBuilding={apartmentsByBuilding}
         />
       </div>
-      <UnassignedClerkUsers />
       <MembershipsTable memberships={memberships} />
     </div>
   );

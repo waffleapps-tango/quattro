@@ -34,13 +34,17 @@ export function CreateMembershipForm({
   communityId,
   buildings,
   apartmentsByBuilding,
+  defaultEmail,
+  defaultOpen = false,
 }: {
   communityId: string;
   buildings: Building[];
   apartmentsByBuilding: Record<string, Apartment[]>;
+  defaultEmail?: string;
+  defaultOpen?: boolean;
 }) {
   const t = useTranslations("admin");
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [buildingId, setBuildingId] = useState<string>("");
   const [apartmentId, setApartmentId] = useState("");
   const [kind, setKind] = useState<ResidencyKind>(ResidencyKind.OWNER);
@@ -81,7 +85,7 @@ export function CreateMembershipForm({
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="email">{t("email")}</Label>
-              <Input id="email" name="email" type="email" required />
+              <Input id="email" name="email" type="email" defaultValue={defaultEmail} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="role">{t("roleLabel")}</Label>

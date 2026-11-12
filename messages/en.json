@@ -773,6 +773,7 @@
   "admin": {
     "tabs": {
       "users": "Users",
+      "requests": "Requests",
       "notifications": "Notifications"
     },
     "reminderSettings": {
@@ -836,8 +837,35 @@
       "inviteFailed": "Could not send the invitation",
       "inviteAlreadyRegistered": "This person already has an account"
     },
-    "unassignedTitle": "Unassigned users (newest {limit})",
-    "unassignedNone": "None.",
+    "pending": "Awaiting sign-up",
+    "resendInvite": "Resend",
+    "sendInvite": "Send invitation",
+    "requests": {
+      "receptionCanApprove": "Reception can approve requests",
+      "empty": "No pending requests",
+      "emptyHint": "When someone asks to join the community, the request will show up here.",
+      "approve": "Approve",
+      "editAndApprove": "Edit and approve",
+      "reject": "Decline",
+      "requestedOn": "Requested {date}",
+      "note": "Message: {note}",
+      "editTitle": "Edit and approve",
+      "editDescription": "Correct the apartment details before approving the request from {name}.",
+      "rejectTitle": "Decline this request?",
+      "rejectDescription": "{name} will be told the request was declined.",
+      "reasonLabel": "Reason (optional)",
+      "recent": "Recent decisions",
+      "status": {
+        "APPROVED": "Approved",
+        "REJECTED": "Declined"
+      },
+      "reason": "Reason: {reason}",
+      "withoutRequest": "Signed up without a request",
+      "withoutRequestHint": "They have an account but have not asked for access. You can assign them manually.",
+      "withoutRequestNone": "None.",
+      "signedUp": "Signed up: {date}",
+      "assign": "Assign"
+    },
     "removeConfirmTitle": "Remove member?",
     "removeConfirmDescription": "{email} will lose access to the community and their apartment links. The account stays; you can add them again."
   },

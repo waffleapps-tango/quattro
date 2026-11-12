@@ -111,7 +111,7 @@ async function main() {
     },
   });
 
-  // Signed-in user without a membership: lands on the waiting screen / admin "unassigned" list.
+  // Signed-in user without a membership: lands on the waiting screen.
   await prisma.user.create({
     data: { clerkUserId: "pending:waiting+clerk_test@quattro.dev", email: "waiting+clerk_test@quattro.dev", firstName: "Waldek", lastName: "Oczekujący" },
   });

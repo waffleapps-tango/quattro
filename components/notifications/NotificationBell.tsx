@@ -25,6 +25,15 @@ type Item = {
   createdAt: string;
 };
 
+function href(type: NotificationType, p: Record<string, string>) {
+  if (type === "POST_ANNOUNCEMENT") return `/posts/${p.slug}`;
+  if (type === "COMMENT_ADDED" || type === "REACTIONS_ADDED") return p.targetType === "post" ? `/posts/${p.slug}` : "/reports";
+  if (type.startsWith("REPORT_")) return "/reports?view=mine";
+  if (type === "JOIN_REQUEST_CREATED") return "/admin/requests";
+  if (type.startsWith("JOIN_REQUEST_")) return "/";
+  return "/packages";
+}
+
 export function NotificationBell() {
   const t = useTranslations("notifications");
   const format = useFormatter();
@@ -59,17 +68,7 @@ export function NotificationBell() {
       console.error(error);
     }
     const p = item.payload as Record<string, string>;
-    router.push(
-      item.type === "POST_ANNOUNCEMENT"
-        ? `/posts/${p.slug}`
-        : item.type === "COMMENT_ADDED" || item.type === "REACTIONS_ADDED"
-          ? p.targetType === "post"
-            ? `/posts/${p.slug}`
-            : "/reports"
-          : item.type.startsWith("REPORT_")
-            ? "/reports?view=mine"
-            : "/packages",
-    );
+    router.push(href(item.type, p));
     void load();
   };
 

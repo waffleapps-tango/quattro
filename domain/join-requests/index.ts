@@ -205,6 +205,11 @@ export async function listJoinRequests(actor: SessionUser, communityId: string) 
   return { pending: pending.map(toView), decided: decided.map(toView) };
 }
 
+// Badge on the admin "Prośby" tab; callers have already checked the viewer may see it.
+export function countPendingJoinRequests(communityId: string): Promise<number> {
+  return prisma.joinRequest.count({ where: { communityId, status: JoinRequestStatus.PENDING } });
+}
+
 export async function listUsersWithoutRequest(actor: SessionUser, communityId: string) {
   await requireApprover(actor, communityId);
   return prisma.user.findMany({

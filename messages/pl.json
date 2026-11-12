@@ -773,6 +773,7 @@
   "admin": {
     "tabs": {
       "users": "Użytkownicy",
+      "requests": "Prośby",
       "notifications": "Powiadomienia"
     },
     "reminderSettings": {
@@ -836,8 +837,35 @@
       "inviteFailed": "Nie udało się wysłać zaproszenia",
       "inviteAlreadyRegistered": "Ta osoba ma już konto"
     },
-    "unassignedTitle": "Nieprzypisani użytkownicy (najnowsi {limit})",
-    "unassignedNone": "Brak.",
+    "pending": "Oczekuje na rejestrację",
+    "resendInvite": "Wyślij ponownie",
+    "sendInvite": "Wyślij zaproszenie",
+    "requests": {
+      "receptionCanApprove": "Recepcja może zatwierdzać prośby",
+      "empty": "Brak oczekujących próśb",
+      "emptyHint": "Gdy ktoś poprosi o dostęp do wspólnoty, prośba pojawi się tutaj.",
+      "approve": "Zatwierdź",
+      "editAndApprove": "Edytuj i zatwierdź",
+      "reject": "Odrzuć",
+      "requestedOn": "Prośba z {date}",
+      "note": "Wiadomość: {note}",
+      "editTitle": "Edytuj i zatwierdź",
+      "editDescription": "Popraw dane mieszkania przed zatwierdzeniem prośby od {name}.",
+      "rejectTitle": "Odrzucić prośbę?",
+      "rejectDescription": "{name} dostanie informację o odrzuceniu prośby.",
+      "reasonLabel": "Powód (opcjonalnie)",
+      "recent": "Ostatnie decyzje",
+      "status": {
+        "APPROVED": "Zatwierdzona",
+        "REJECTED": "Odrzucona"
+      },
+      "reason": "Powód: {reason}",
+      "withoutRequest": "Zarejestrowani bez prośby",
+      "withoutRequestHint": "Mają konto, ale nie poprosili o dostęp. Możesz ich przypisać ręcznie.",
+      "withoutRequestNone": "Brak.",
+      "signedUp": "Rejestracja: {date}",
+      "assign": "Przypisz"
+    },
     "removeConfirmTitle": "Usunąć członka?",
     "removeConfirmDescription": "{email} straci dostęp do wspólnoty i powiązania z mieszkaniami. Konto zostaje, możesz dodać tę osobę ponownie."
   },

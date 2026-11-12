@@ -14,6 +14,7 @@ import { decisionEmail, inviteEmail } from "@/domain/join-requests/emails";
 import {
   approveJoinRequest,
   cancelJoinRequest,
+  countPendingJoinRequests,
   createJoinRequest,
   getJoinOptions,
   listJoinRequests,
@@ -137,6 +138,20 @@ describe("listing", () => {
     await expect(listJoinRequests(s.resident, s.community.id)).rejects.toThrow(UnauthorizedError);
     await setReceptionCanApprove(s.manager, s.community.id, true);
     expect((await listJoinRequests(s.reception, s.community.id)).pending).toHaveLength(1);
+  });
+
+  it("counts only pending requests of the given community", async () => {
+    const s = await setup();
+    const other = await createCommunityWithBuildingAndApartment();
+    expect(await countPendingJoinRequests(s.community.id)).toBe(0);
+    const a = await newcomer();
+    const b = await newcomer();
+    await createJoinRequest(a, s.input);
+    const second = await createJoinRequest(b, s.input);
+    expect(await countPendingJoinRequests(s.community.id)).toBe(2);
+    expect(await countPendingJoinRequests(other.community.id)).toBe(0);
+    await rejectJoinRequest(s.manager, second.id);
+    expect(await countPendingJoinRequests(s.community.id)).toBe(1);
   });
 
   it("excludes pending: placeholder users from the users-without-request list", async () => {

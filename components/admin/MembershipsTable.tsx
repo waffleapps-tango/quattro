@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -32,7 +33,12 @@ import { X } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { HeroIllustration } from "@/components/system/Illustration";
 import { toast } from "sonner";
-import { updateMembershipRoleAction, removeMembershipAction, removeResidencyAction } from "@/actions/memberships";
+import {
+  updateMembershipRoleAction,
+  removeMembershipAction,
+  removeResidencyAction,
+  resendInviteAction,
+} from "@/actions/memberships";
 import { useTranslations } from "next-intl";
 import { Role } from "@/lib/generated/prisma";
 import type { listMembershipsForCommunity } from "@/domain/memberships";
@@ -62,6 +68,14 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
   const handleRemoveResidency = async (residencyId: string) => {
     setPendingId(residencyId);
     const result = await removeResidencyAction(residencyId);
+    setPendingId(null);
+    if (result.success) toast.success(result.message);
+    else toast.error(result.message);
+  };
+
+  const handleResend = async (membershipId: string) => {
+    setPendingId(membershipId);
+    const result = await resendInviteAction(membershipId);
     setPendingId(null);
     if (result.success) toast.success(result.message);
     else toast.error(result.message);
@@ -120,6 +134,21 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
     </Select>
   );
 
+  // Placeholder accounts that never signed in: show it, and let the admin (re)send the invite email.
+  const pendingBadge = (membership: MembershipRow) =>
+    membership.pending && (
+      <Badge variant="warm" className="ml-2 align-middle">
+        {t("pending")}
+      </Badge>
+    );
+
+  const resendButton = (membership: MembershipRow) =>
+    membership.pending && (
+      <Button variant="outline" size="sm" disabled={pendingId === membership.id} onClick={() => handleResend(membership.id)}>
+        {membership.inviteSentAt ? t("resendInvite") : t("sendInvite")}
+      </Button>
+    );
+
   // Removing a member drops their community access, so it asks first.
   const removeButton = (membership: MembershipRow) => (
     <AlertDialog>
@@ -156,7 +185,10 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
         {memberships.map((membership) => (
           <li key={membership.id} className="space-y-3 p-4">
             <div className="min-w-0">
-              <p className="break-all font-medium">{membership.user.email}</p>
+              <p className="break-all font-medium">
+                {membership.user.email}
+                {pendingBadge(membership)}
+              </p>
               <p className="text-sm text-muted-foreground">
                 {t("colBuilding")}: {membership.building?.name ?? "—"}
               </p>
@@ -164,6 +196,7 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
             <div className="text-sm">{apartments(membership)}</div>
             <div className="flex flex-wrap items-center gap-2">
               {roleSelect(membership, "w-[180px]")}
+              {resendButton(membership)}
               {removeButton(membership)}
             </div>
           </li>
@@ -184,11 +217,19 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
           <TableBody>
             {memberships.map((membership) => (
               <TableRow key={membership.id}>
-                <TableCell>{membership.user.email}</TableCell>
+                <TableCell>
+                  {membership.user.email}
+                  {pendingBadge(membership)}
+                </TableCell>
                 <TableCell>{membership.building?.name ?? "—"}</TableCell>
                 <TableCell>{apartments(membership)}</TableCell>
                 <TableCell>{roleSelect(membership, "w-[180px]")}</TableCell>
-                <TableCell>{removeButton(membership)}</TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {resendButton(membership)}
+                    {removeButton(membership)}
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
