@@ -16,14 +16,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CATEGORIES } from "@/domain/reports/catalog";
+import type { EngagementSummary } from "@/domain/engagement";
 import type { ReportListItem } from "@/domain/reports";
 import type { ReportStatus, ParkingSpace, StorageUnit } from "@/lib/generated/prisma";
 
 const ALL = "all";
+const EMPTY: EngagementSummary = { counts: {}, total: 0, mine: null, commentCount: 0, preview: [] };
 const STATUSES: ReportStatus[] = ["NEW", "IN_PROGRESS", "RESOLVED", "APPROVED", "REJECTED", "CLOSED"];
 
 export function ReportsList({
   reports,
+  engagement,
   communityId,
   isStaff,
   canApprove,
@@ -33,6 +36,7 @@ export function ReportsList({
   storageUnits,
 }: {
   reports: ReportListItem[];
+  engagement: Record<string, EngagementSummary>;
   communityId: string;
   isStaff: boolean;
   canApprove: boolean;
@@ -142,6 +146,7 @@ export function ReportsList({
             <AnimatedItem key={report.id}>
               <ReportCard
                 report={report}
+                engagement={engagement[`report:${report.id}`] ?? EMPTY}
                 canChangeStatus={isStaff}
                 canApprove={canApprove}
                 showAuthor={isStaff}

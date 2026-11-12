@@ -985,6 +985,34 @@
       "forbidden": "You are not allowed to do that.",
       "invalid": "A comment must be 1 to 2000 characters.",
       "generic": "Could not save. Please try again."
-    }
+    },
+    "react": {
+      "LIKE": "Like",
+      "LOVE": "Love",
+      "HAHA": "Haha",
+      "WOW": "Wow",
+      "SAD": "Sad"
+    },
+    "like": "Like",
+    "chooseReaction": "Choose a reaction",
+    "reactionsCount": "{count, plural, one {# reaction} other {# reactions}}",
+    "comment": "Comment",
+    "comments": "{count, plural, =0 {No comments} one {# comment} other {# comments}}",
+    "showAll": "Show all ({count})",
+    "hide": "Collapse",
+    "placeholder": "Write a comment…",
+    "replyPlaceholder": "Write a reply…",
+    "send": "Send",
+    "reply": "Reply",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirmDelete": "Delete for sure?",
+    "deleted": "Comment deleted",
+    "edited": "(edited)",
+    "neighbor": "Neighbor",
+    "you": "You",
+    "privateThread": "Only you and the management can see this conversation."
   }
 }

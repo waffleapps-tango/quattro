@@ -10,20 +10,24 @@ import { Loader2, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { statusVariant } from "@/components/reports/status";
 import { Button } from "@/components/ui/button";
+import { Engagement } from "@/components/feed/Engagement";
 import { FeedCard } from "@/components/feed/FeedCard";
 import { changeReportStatusAction } from "@/actions/reports";
 import { getCategory } from "@/domain/reports/catalog";
 import { nextStatuses } from "@/domain/reports/transitions";
+import type { EngagementSummary } from "@/domain/engagement";
 import type { ReportListItem } from "@/domain/reports";
 import type { ReportStatus } from "@/lib/generated/prisma";
 
 export function ReportCard({
   report,
+  engagement,
   canChangeStatus,
   canApprove,
   showAuthor,
 }: {
   report: ReportListItem;
+  engagement: EngagementSummary;
   canChangeStatus: boolean;
   canApprove: boolean;
   showAuthor: boolean;
@@ -100,21 +104,29 @@ export function ReportCard({
           )
         }
         footer={
-          actions.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {actions.map((status) => (
-                <Button
-                  key={status}
-                  size="sm"
-                  variant={status === "REJECTED" ? "secondary" : "default"}
-                  disabled={isUpdating}
-                  onClick={() => handleChange(status)}
-                >
-                  {t(`status.${status}`)}
-                </Button>
-              ))}
-            </div>
-          )
+          <>
+            {actions.length > 0 && (
+              <div className="flex flex-wrap gap-2 pb-3">
+                {actions.map((status) => (
+                  <Button
+                    key={status}
+                    size="sm"
+                    variant={status === "REJECTED" ? "secondary" : "default"}
+                    disabled={isUpdating}
+                    onClick={() => handleChange(status)}
+                  >
+                    {t(`status.${status}`)}
+                  </Button>
+                ))}
+              </div>
+            )}
+            <Engagement
+              target={{ type: "report", id: report.id }}
+              initial={engagement}
+              canReact={report.visibility === "PUBLIC"}
+              privateThread={report.visibility === "PRIVATE"}
+            />
+          </>
         }
       >
         <p className="line-clamp-6 whitespace-pre-line text-base leading-relaxed">{report.description}</p>

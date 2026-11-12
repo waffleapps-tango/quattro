@@ -4,6 +4,7 @@ import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { getCurrentUser } from "@/auth/session";
 import { listOwnedSpaces, listReports } from "@/domain/reports";
 import { listResidentApartments } from "@/domain/residencies";
+import { engagementSummary } from "@/domain/engagement";
 import { ReportsList } from "@/components/reports/ReportsList";
 import {
   ReportStatus,
@@ -61,6 +62,8 @@ export default async function ReportsPage({
         : { visibility: ReportVisibility.PUBLIC },
   );
 
+  const engagement = await engagementSummary(user, reports.map((r) => ({ type: "report" as const, id: r.id })));
+
   const { parkingSpaces, storageUnits } = await listOwnedSpaces(user, membership.communityId);
   const apartments = (await listResidentApartments(user, membership.communityId)).map((a) => ({
     id: a.id,
@@ -72,6 +75,7 @@ export default async function ReportsPage({
       <h1 className="text-2xl font-bold mb-6 sm:text-3xl">{t("title")}</h1>
       <ReportsList
         reports={reports}
+        engagement={engagement}
         communityId={membership.communityId}
         isStaff={isStaff}
         canApprove={canApprove}

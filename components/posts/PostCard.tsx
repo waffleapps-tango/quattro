@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { UserRound } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
@@ -10,11 +11,13 @@ type PostCardPost = Pick<PostView, "title" | "content" | "createdAt" | "kind" | 
 export function PostCard({
   post,
   clamp,
+  href,
   className,
   footer,
 }: {
   post: PostCardPost;
   clamp?: boolean;
+  href?: string;
   className?: string;
   footer?: React.ReactNode;
 }) {
@@ -38,7 +41,7 @@ export function PostCard({
           </Badge>
         ) : null
       }
-      title={post.title}
+      title={href ? <Link href={href} className="hover:underline">{post.title}</Link> : post.title}
       date={post.createdAt}
       meta={
         <span className="flex items-center gap-1.5">

@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { PostKind } from "@/lib/generated/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
-import { Interactive } from "@/components/motion/Interactive";
+import { Engagement } from "@/components/feed/Engagement";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth/session";
 import { canPostAnnouncement, listPosts } from "@/domain/posts";
+import { EMPTY_ENGAGEMENT, engagementSummary } from "@/domain/engagement";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 
 export async function generateMetadata() {
@@ -34,6 +35,7 @@ export default async function PostsPage({
   const kind =
     kindParam === "announcement" ? PostKind.ANNOUNCEMENT : kindParam === "neighbor" ? PostKind.NEIGHBOR : undefined;
   const posts = await listPosts(user, membership.communityId, { kind });
+  const summaries = await engagementSummary(user, posts.map((p) => ({ type: "post" as const, id: p.id })));
   const canAnnounce = canPostAnnouncement(membership);
   const emptyDescription = !kind || (kind === PostKind.ANNOUNCEMENT && canAnnounce) ? t("emptyHint") : undefined;
   const chips = [
@@ -74,15 +76,18 @@ export default async function PostsPage({
       <AnimatedList className="grid gap-4">
         {posts.map((post) => (
           <AnimatedItem key={post.id}>
-            <Interactive>
-              <Link href={`/posts/${post.slug}`} className="group block">
-                <PostCard
-                  post={post}
-                  clamp
-                  className="transition-[border-color,box-shadow] group-hover:border-border group-hover:shadow-[0_4px_12px_-2px_rgb(9_20_38/0.08)]"
+            <PostCard
+              post={post}
+              clamp
+              href={`/posts/${post.slug}`}
+              className="transition-[border-color,box-shadow] hover:border-border hover:shadow-[0_4px_12px_-2px_rgb(9_20_38/0.08)]"
+              footer={
+                <Engagement
+                  target={{ type: "post", id: post.id }}
+                  initial={summaries[`post:${post.id}`] ?? EMPTY_ENGAGEMENT}
                 />
-              </Link>
-            </Interactive>
+              }
+            />
           </AnimatedItem>
         ))}
       </AnimatedList>

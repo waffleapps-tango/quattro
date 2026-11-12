@@ -10,6 +10,8 @@ import { NotFoundError } from "@/domain/errors";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EditPostForm } from "@/components/posts/EditPostForm";
 import { DeletePostButton } from "@/components/posts/DeletePostButton";
+import { Engagement } from "@/components/feed/Engagement";
+import { EMPTY_ENGAGEMENT, engagementSummary } from "@/domain/engagement";
 import { PostCard } from "@/components/posts/PostCard";
 
 type PostPageParams = {
@@ -47,6 +49,7 @@ export default async function PostPage({ params }: PostPageParams) {
   }
   const canEdit = canEditPost(user, post);
   const canDelete = canDeletePost(user, post);
+  const summaries = await engagementSummary(user, [{ type: "post", id: post.id }]);
 
   return (
     <div className="container mx-auto max-w-3xl pb-8">
@@ -65,7 +68,16 @@ export default async function PostPage({ params }: PostPageParams) {
         )}
       </div>
 
-      <PostCard post={post} />
+      <PostCard
+        post={post}
+        footer={
+          <Engagement
+            target={{ type: "post", id: post.id }}
+            initial={summaries[`post:${post.id}`] ?? EMPTY_ENGAGEMENT}
+            defaultExpanded
+          />
+        }
+      />
     </div>
   );
 }

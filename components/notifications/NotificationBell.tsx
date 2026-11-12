@@ -58,12 +58,17 @@ export function NotificationBell() {
     } catch (error) {
       console.error(error);
     }
+    const p = item.payload as Record<string, string>;
     router.push(
       item.type === "POST_ANNOUNCEMENT"
-        ? `/posts/${item.payload.slug}`
-        : item.type.startsWith("REPORT_")
-          ? "/reports?view=mine"
-          : "/packages",
+        ? `/posts/${p.slug}`
+        : item.type === "COMMENT_ADDED" || item.type === "REACTIONS_ADDED"
+          ? p.targetType === "post"
+            ? `/posts/${p.slug}`
+            : "/reports?view=mine"
+          : item.type.startsWith("REPORT_")
+            ? "/reports?view=mine"
+            : "/packages",
     );
     void load();
   };

@@ -985,6 +985,34 @@
       "forbidden": "Nie masz uprawnień do tej operacji.",
       "invalid": "Komentarz musi mieć od 1 do 2000 znaków.",
       "generic": "Nie udało się zapisać. Spróbuj ponownie."
-    }
+    },
+    "react": {
+      "LIKE": "Lubię to",
+      "LOVE": "Super",
+      "HAHA": "Haha",
+      "WOW": "Wow",
+      "SAD": "Przykro mi"
+    },
+    "like": "Lubię",
+    "chooseReaction": "Wybierz reakcję",
+    "reactionsCount": "{count, plural, one {# reakcja} few {# reakcje} many {# reakcji} other {# reakcji}}",
+    "comment": "Komentuj",
+    "comments": "{count, plural, =0 {Brak komentarzy} one {# komentarz} few {# komentarze} many {# komentarzy} other {# komentarza}}",
+    "showAll": "Pokaż wszystkie ({count})",
+    "hide": "Zwiń",
+    "placeholder": "Napisz komentarz…",
+    "replyPlaceholder": "Napisz odpowiedź…",
+    "send": "Wyślij",
+    "reply": "Odpowiedz",
+    "edit": "Edytuj",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "confirmDelete": "Na pewno usunąć?",
+    "deleted": "Komentarz usunięty",
+    "edited": "(edytowano)",
+    "neighbor": "Sąsiad",
+    "you": "Ty",
+    "privateThread": "Rozmowa widoczna tylko dla Ciebie i administracji."
   }
 }
