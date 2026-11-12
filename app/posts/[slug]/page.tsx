@@ -4,9 +4,9 @@ import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/auth/session";
-import { canWritePosts } from "@/domain/posts";
+import { canDeletePost, canEditPost, getPostBySlug } from "@/domain/posts";
+import { NotFoundError } from "@/domain/errors";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EditPostForm } from "@/components/posts/EditPostForm";
 import { DeletePostButton } from "@/components/posts/DeletePostButton";
@@ -22,8 +22,14 @@ type PostPageParams = {
 export async function generateMetadata({ params }: PostPageParams): Promise<Metadata> {
   const { slug } = await params;
   const t = await getTranslations("meta");
-  const post = await prisma.post.findUnique({ where: { slug }, select: { title: true } });
-  return { title: post?.title ?? t("postNotFound") };
+  const user = await getCurrentUser();
+  if (!user) return { title: t("postNotFound") };
+  try {
+    return { title: (await getPostBySlug(user, slug)).title };
+  } catch (error) {
+    if (error instanceof NotFoundError) return { title: t("postNotFound") };
+    throw error;
+  }
 }
 
 export default async function PostPage({ params }: PostPageParams) {
@@ -31,13 +37,16 @@ export default async function PostPage({ params }: PostPageParams) {
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
   if (!user.memberships[0]) return <WaitingScreen />;
-  const canWrite = canWritePosts(user);
   const t = await getTranslations("posts");
-  const post = await prisma.post.findUnique({
-    where: { slug },
-  });
-
-  if (!post) notFound();
+  let post;
+  try {
+    post = await getPostBySlug(user, slug);
+  } catch (error) {
+    if (error instanceof NotFoundError) notFound();
+    throw error;
+  }
+  const canEdit = canEditPost(user, post);
+  const canDelete = canDeletePost(user, post);
 
   return (
     <div className="container mx-auto max-w-3xl pb-8">
@@ -48,10 +57,10 @@ export default async function PostPage({ params }: PostPageParams) {
             {t("back")}
           </Link>
         </Button>
-        {canWrite && (
+        {(canEdit || canDelete) && (
           <div className="flex gap-2">
-            <EditPostForm post={post} />
-            <DeletePostButton postId={post.id} />
+            {canEdit && <EditPostForm post={post} />}
+            {canDelete && <DeletePostButton postId={post.id} />}
           </div>
         )}
       </div>

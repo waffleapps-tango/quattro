@@ -58,7 +58,13 @@ export function NotificationBell() {
     } catch (error) {
       console.error(error);
     }
-    router.push(item.type.startsWith("REPORT_") ? "/reports?view=mine" : "/packages");
+    router.push(
+      item.type === "POST_ANNOUNCEMENT"
+        ? `/posts/${item.payload.slug}`
+        : item.type.startsWith("REPORT_")
+          ? "/reports?view=mine"
+          : "/packages",
+    );
     void load();
   };
 
