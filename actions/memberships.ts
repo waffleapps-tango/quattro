@@ -56,7 +56,7 @@ export async function createMembershipAction(
     } else {
       await createMembership(actor, { communityId, email, buildingId, role });
     }
-    revalidatePath("/admin");
+    revalidatePath("/admin/users");
     return { message: t("created"), success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) {
@@ -84,7 +84,7 @@ export async function updateMembershipRoleAction(
 
   try {
     await updateMembershipRole(actor, membershipId, newRole);
-    revalidatePath("/admin");
+    revalidatePath("/admin/users");
     return { message: t("roleChanged"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
@@ -106,7 +106,7 @@ export async function removeMembershipAction(membershipId: string): Promise<Acti
 
   try {
     await removeMembership(actor, membershipId);
-    revalidatePath("/admin");
+    revalidatePath("/admin/users");
     return { message: t("removed"), success: true };
   } catch (error) {
     if (error instanceof NotFoundError) {
@@ -128,7 +128,7 @@ export async function removeResidencyAction(residencyId: string): Promise<Action
 
   try {
     await removeResidency(actor, residencyId);
-    revalidatePath("/admin");
+    revalidatePath("/admin/users");
     revalidatePath("/profile");
     return { message: t("residencyRemoved"), success: true };
   } catch (error) {

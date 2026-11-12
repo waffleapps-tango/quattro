@@ -22,7 +22,7 @@ export function ReminderSettings({
   reminderAfterDays: number | null;
   canEdit: boolean;
 }) {
-  const t = useTranslations("packages.reminderSettings");
+  const t = useTranslations("admin.reminderSettings");
   const [enabled, setEnabled] = useState(reminderAfterDays !== null);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     updateReminderSettingsAction,

@@ -233,14 +233,6 @@
       "settingsNoPermission": "Nie masz uprawnień do zmiany tego ustawienia",
       "settingsFailed": "Nie udało się zapisać ustawień"
     },
-    "reminderSettings": {
-      "title": "Automatyczne przypomnienie",
-      "description": "Jednorazowo przypomnij mieszkańcom, gdy paczka czeka zbyt długo.",
-      "enabled": "Przypominaj automatycznie",
-      "days": "Po (dniach)",
-      "save": "Zapisz",
-      "readOnly": "Tylko zarządca może to zmienić."
-    },
     "copy": "Kopiuj numer przesyłki",
     "pickUpConfirmTitle": "Wydać paczkę?",
     "pickUpConfirmDescription": "Przesyłka {tracking} dla {place} (odbiorca: {recipient}) zostanie oznaczona jako odebrana. Tej operacji nie można cofnąć."
@@ -711,6 +703,18 @@
     "publishedOn": "Opublikowano {date}"
   },
   "admin": {
+    "tabs": {
+      "users": "Użytkownicy",
+      "notifications": "Powiadomienia"
+    },
+    "reminderSettings": {
+      "title": "Automatyczne przypomnienie",
+      "description": "Jednorazowo przypomnij mieszkańcom, gdy paczka czeka zbyt długo.",
+      "enabled": "Przypominaj automatycznie",
+      "days": "Po (dniach)",
+      "save": "Zapisz",
+      "readOnly": "Tylko zarządca może to zmienić."
+    },
     "title": "Zarządzanie członkami",
     "kindLabel": "Relacja z mieszkaniem",
     "kind": {

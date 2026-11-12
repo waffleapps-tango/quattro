@@ -52,7 +52,7 @@ export async function updateReminderSettingsAction(
       validated.data.communityId,
       validated.data.enabled ? validated.data.days : null,
     );
-    revalidatePath("/packages");
+    revalidatePath("/admin/notifications");
     return { message: t("settingsSaved"), success: true };
   } catch (error) {
     if (error instanceof UnauthorizedError) {

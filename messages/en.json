@@ -233,14 +233,6 @@
       "settingsNoPermission": "You do not have permission to change this setting",
       "settingsFailed": "Could not save the settings"
     },
-    "reminderSettings": {
-      "title": "Automatic reminder",
-      "description": "Remind residents once when a package has been waiting too long.",
-      "enabled": "Remind automatically",
-      "days": "After (days)",
-      "save": "Save",
-      "readOnly": "Only managers can change this."
-    },
     "copy": "Copy tracking number",
     "pickUpConfirmTitle": "Hand over the package?",
     "pickUpConfirmDescription": "Package {tracking} for {place} (recipient: {recipient}) will be marked as picked up. This cannot be undone."
@@ -711,6 +703,18 @@
     "publishedOn": "Published {date}"
   },
   "admin": {
+    "tabs": {
+      "users": "Users",
+      "notifications": "Notifications"
+    },
+    "reminderSettings": {
+      "title": "Automatic reminder",
+      "description": "Remind residents once when a package has been waiting too long.",
+      "enabled": "Remind automatically",
+      "days": "After (days)",
+      "save": "Save",
+      "readOnly": "Only managers can change this."
+    },
     "title": "Member management",
     "kindLabel": "Apartment relationship",
     "kind": {
