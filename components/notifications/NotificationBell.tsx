@@ -65,7 +65,7 @@ export function NotificationBell() {
         : item.type === "COMMENT_ADDED" || item.type === "REACTIONS_ADDED"
           ? p.targetType === "post"
             ? `/posts/${p.slug}`
-            : "/reports?view=mine"
+            : "/reports"
           : item.type.startsWith("REPORT_")
             ? "/reports?view=mine"
             : "/packages",
@@ -121,7 +121,7 @@ export function NotificationBell() {
               className="flex flex-col items-start gap-0.5"
             >
               <span className={item.readAt ? "text-sm" : "text-sm font-semibold"}>
-                {t(`types.${item.type}.title`)}
+                {t(`types.${item.type}.title`, item.payload)}
               </span>
               <span className="text-xs text-muted-foreground">
                 {t(`types.${item.type}.body`, item.payload)}

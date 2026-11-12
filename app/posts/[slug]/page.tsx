@@ -49,7 +49,7 @@ export default async function PostPage({ params }: PostPageParams) {
   }
   const canEdit = canEditPost(user, post);
   const canDelete = canDeletePost(user, post);
-  const summaries = await engagementSummary(user, [{ type: "post", id: post.id }]);
+  const summaries = await engagementSummary(user, post.communityId, [{ type: "post", id: post.id }]);
 
   return (
     <div className="container mx-auto max-w-3xl pb-8">

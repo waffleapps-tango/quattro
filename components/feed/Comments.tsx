@@ -198,7 +198,7 @@ function CommentItem({
                 </div>
               </form>
             ) : (
-              <p className="whitespace-pre-line">{comment.body}</p>
+              <p className="whitespace-pre-line break-words [overflow-wrap:anywhere]">{comment.body}</p>
             )}
           </>
         )}

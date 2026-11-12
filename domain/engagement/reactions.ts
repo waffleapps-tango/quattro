@@ -3,7 +3,7 @@ import type { SessionUser } from "@/auth/session";
 import { ValidationError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
 import { NOTIFICATION_TYPES } from "@/domain/notifications/types";
-import { Prisma } from "@/lib/generated/prisma";
+import type { Prisma } from "@/lib/generated/prisma";
 import type { ReactionKindName, ReactionSummary } from "@/lib/engagement";
 import {
   resolveTarget,
@@ -105,10 +105,8 @@ export async function setReaction(
   try {
     await run();
   } catch (e) {
-    if (!(
-      e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002"
-    ))
-      throw e;
+    // Structural check: instanceof breaks when Next loads Prisma twice (see auth/session.ts).
+    if ((e as { code?: unknown })?.code !== "P2002") throw e;
     await run();
   }
   return reactionSummary(actor, t);

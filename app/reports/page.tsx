@@ -62,7 +62,7 @@ export default async function ReportsPage({
         : { visibility: ReportVisibility.PUBLIC },
   );
 
-  const engagement = await engagementSummary(user, reports.map((r) => ({ type: "report" as const, id: r.id })));
+  const engagement = await engagementSummary(user, membership.communityId, reports.map((r) => ({ type: "report" as const, id: r.id })));
 
   const { parkingSpaces, storageUnits } = await listOwnedSpaces(user, membership.communityId);
   const apartments = (await listResidentApartments(user, membership.communityId)).map((a) => ({

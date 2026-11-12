@@ -60,7 +60,7 @@ it("summarises reactions, comment counts and previews for many targets in one ca
   const thread = await addComment(s.neighbor, postT(s.post.id), { body: "3" });
   await deleteComment(s.neighbor, postT(s.post.id), thread[0].id); // "1" deleted, no replies
 
-  const map = await engagementSummary(s.author, [postT(s.post.id), postT(second.id)]);
+  const map = await engagementSummary(s.author, s.community.id, [postT(s.post.id), postT(second.id)]);
   expect(map[`post:${s.post.id}`]).toMatchObject({
     counts: { LIKE: 2, LOVE: 1 },
     total: 3,
@@ -69,11 +69,11 @@ it("summarises reactions, comment counts and previews for many targets in one ca
   });
   expect(map[`post:${s.post.id}`].preview.map((c) => c.body)).toEqual(["2", "3"]);
   expect(map[`post:${second.id}`]).toEqual(EMPTY_ENGAGEMENT);
-  expect(await engagementSummary(s.author, [])).toEqual({});
+  expect(await engagementSummary(s.author, s.community.id, [])).toEqual({});
 
   // viewer-aware names: a sharing commenter without a name shows no email to a receptionist on posts
   await prisma.user.update({ where: { id: s.neighbor.id }, data: { shareName: true } });
-  const asReceptionist = await engagementSummary(s.receptionist, [postT(s.post.id)]);
+  const asReceptionist = await engagementSummary(s.receptionist, s.community.id, [postT(s.post.id)]);
   expect(asReceptionist[`post:${s.post.id}`].preview[0].author.name).toBeNull();
 });
 
@@ -92,9 +92,23 @@ it("covers reports and lists replies flat in the preview", async () => {
   const [top] = await addComment(s.neighbor, postT(s.post.id), { body: "root" });
   await addComment(s.author, postT(s.post.id), { body: "reply", parentId: top.id });
 
-  const map = await engagementSummary(s.author, [rt, postT(s.post.id)]);
+  const map = await engagementSummary(s.author, s.community.id, [rt, postT(s.post.id)]);
   expect(map[`report:${report.id}`]).toMatchObject({ counts: { WOW: 1 }, total: 1, mine: null, commentCount: 1 });
   expect(map[`report:${report.id}`].preview.map((c) => c.body)).toEqual(["top"]);
   expect(map[`post:${s.post.id}`].preview.map((c) => c.body)).toEqual(["root", "reply"]);
   expect(map[`post:${s.post.id}`].commentCount).toBe(2);
+});
+
+it("takes the staff role from the viewed community only", async () => {
+  const s = await setup();
+  const other = await createCommunityWithBuildingAndApartment();
+  await prisma.user.update({ where: { id: s.neighbor.id }, data: { shareName: true, firstName: null, lastName: null } });
+  await addComment(s.neighbor, postT(s.post.id), { body: "hej" });
+  const viewer = await createUserWithMembership({ communityId: s.community.id, role: Role.RESIDENT });
+  const membershipB = await prisma.membership.create({
+    data: { userId: viewer.id, communityId: other.community.id, role: Role.MANAGER },
+  });
+  const both = { ...viewer, memberships: [...viewer.memberships, membershipB] };
+  const map = await engagementSummary(both, s.community.id, [postT(s.post.id)]);
+  expect(map[`post:${s.post.id}`].preview[0].author.name).toBeNull();
 });

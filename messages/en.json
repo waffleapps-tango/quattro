@@ -984,6 +984,8 @@
       "notFound": "This item is no longer available.",
       "forbidden": "You are not allowed to do that.",
       "invalid": "A comment must be 1 to 2000 characters.",
+      "invalidReaction": "This reaction can't be added.",
+      "invalidRequest": "Invalid request.",
       "generic": "Could not save. Please try again."
     },
     "react": {
@@ -999,7 +1001,6 @@
     "comment": "Comment",
     "comments": "{count, plural, =0 {No comments} one {# comment} other {# comments}}",
     "showAll": "Show all ({count})",
-    "hide": "Collapse",
     "placeholder": "Write a comment…",
     "replyPlaceholder": "Write a reply…",
     "send": "Send",
@@ -1012,7 +1013,6 @@
     "deleted": "Comment deleted",
     "edited": "(edited)",
     "neighbor": "Neighbor",
-    "you": "You",
     "privateThread": "Only you and the management can see this conversation."
   }
 }

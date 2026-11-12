@@ -14,7 +14,7 @@ const idSchema = z.string().min(1).max(64);
 const targetSchema = z.object({ type: z.enum(["post", "report"]), id: z.string().min(1).max(64) });
 type Result<T> = { ok: true; data: T } | { ok: false; message: string };
 
-async function run<T>(rawTarget: unknown, fn: (actor: SessionUser, t: engagement.Target) => Promise<T>, revalidate = true): Promise<Result<T>> {
+async function run<T>(rawTarget: unknown, fn: (actor: SessionUser, t: engagement.Target) => Promise<T>, revalidate = true, invalidKey: "invalidReaction" | "invalidRequest" = "invalidRequest"): Promise<Result<T>> {
   const t = await getTranslations("engagement.errors");
   const actor = await getCurrentUser();
   const target = targetSchema.safeParse(rawTarget);
@@ -26,7 +26,7 @@ async function run<T>(rawTarget: unknown, fn: (actor: SessionUser, t: engagement
   } catch (error) {
     if (error instanceof NotFoundError) return { ok: false, message: t("notFound") };
     if (error instanceof UnauthorizedError) return { ok: false, message: t("forbidden") };
-    if (error instanceof ValidationError) return { ok: false, message: t("invalid") };
+    if (error instanceof ValidationError) return { ok: false, message: t(error.message.startsWith("comment must") ? "invalid" : invalidKey) };
     console.error(error);
     return { ok: false, message: t("generic") };
   }
@@ -34,8 +34,8 @@ async function run<T>(rawTarget: unknown, fn: (actor: SessionUser, t: engagement
 
 export async function setReactionAction(target: unknown, kind: unknown): Promise<Result<ReactionSummary>> {
   const k = parseReactionKind(kind);
-  if (k === "invalid") return { ok: false, message: (await getTranslations("engagement.errors"))("invalid") };
-  return run(target, (actor, t) => engagement.setReaction(actor, t, k));
+  if (k === "invalid") return { ok: false, message: (await getTranslations("engagement.errors"))("invalidReaction") };
+  return run(target, (actor, t) => engagement.setReaction(actor, t, k), true, "invalidReaction");
 }
 
 export async function listCommentsAction(target: unknown) {
@@ -46,7 +46,7 @@ const text = (v: unknown) => (typeof v === "string" ? v : "");
 
 export async function addCommentAction(target: unknown, body: unknown, parentId?: unknown) {
   const parent = idSchema.optional().safeParse(parentId ?? undefined);
-  if (!parent.success) return { ok: false as const, message: (await getTranslations("engagement.errors"))("invalid") };
+  if (!parent.success) return { ok: false as const, message: (await getTranslations("engagement.errors"))("invalidRequest") };
   const res = await run(target, (actor, t) => engagement.addComment(actor, t, { body: text(body), parentId: parent.data }));
   if (res.ok) after(() => dispatchPending().catch(console.error));
   return res;

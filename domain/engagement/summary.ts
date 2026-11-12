@@ -13,6 +13,7 @@ export const EMPTY_ENGAGEMENT: EngagementSummary = { counts: {}, total: 0, mine:
 // query if a single page ever carries thousands of them.
 export async function engagementSummary(
   actor: SessionUser,
+  communityId: string,
   targets: Target[],
 ): Promise<Record<string, EngagementSummary>> {
   if (targets.length === 0) return {};
@@ -31,7 +32,8 @@ export async function engagementSummary(
     }),
   ]);
   // Staff differs per target type: posts MANAGER/ADMIN, reports STAFF_ROLES.
-  const has = (roles: string[]) => actor.memberships.some((m) => roles.includes(m.role));
+  const role = actor.memberships.find((m) => m.communityId === communityId)?.role;
+  const has = (roles: string[]) => !!role && roles.includes(role);
   const postStaff = has(["MANAGER", "ADMIN"]);
   const reportStaff = has(STAFF_ROLES);
   const keyOf = (r: { postId: string | null; reportId: string | null }) =>

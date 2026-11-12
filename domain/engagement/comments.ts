@@ -3,6 +3,7 @@ import type { SessionUser } from "@/auth/session";
 import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, UnauthorizedError, ValidationError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
+import { STAFF_ROLES } from "@/domain/packages/roles";
 import { maskPerson } from "@/domain/privacy/person";
 import type { Prisma } from "@/lib/generated/prisma";
 import { resolveTarget, targetWhere, type Target } from "./targets";
@@ -24,7 +25,7 @@ export type CommentView = {
   deleted: boolean;
   createdAt: Date;
   editedAt: Date | null;
-  author: { id: string; name: string | null };
+  author: { name: string | null; own: boolean };
   canEdit: boolean;
   canDelete: boolean;
   replies: CommentView[];
@@ -44,7 +45,9 @@ export function toCommentView(c: CommentRow, actor: SessionUser, viewerIsStaff: 
     deleted,
     createdAt: c.createdAt,
     editedAt: c.editedAt,
-    author: { id: c.authorId, name: full || (viewerIsStaff || own ? p.email || null : null) },
+    author: deleted
+      ? { name: null, own: false }
+      : { name: full || (viewerIsStaff || own ? p.email || null : null), own },
     canEdit: own && !deleted,
     canDelete: !deleted && (own || viewerIsStaff),
     replies: [],
@@ -101,6 +104,17 @@ export async function addComment(
     if (target.authorId) recipients.set(target.authorId, "comment");
     if (parent && !recipients.has(parent.authorId)) recipients.set(parent.authorId, "reply");
     recipients.delete(actor.id);
+    // Former members (and, on private reports, non-staff non-authors) must not hear about it.
+    const members = await tx.membership.findMany({
+      where: { communityId: target.communityId, userId: { in: [...recipients.keys()] } },
+      select: { userId: true, role: true },
+    });
+    const allowed = new Set(
+      members
+        .filter((m) => !target.isPrivate || m.userId === target.authorId || STAFF_ROLES.includes(m.role))
+        .map((m) => m.userId),
+    );
+    for (const id of [...recipients.keys()]) if (!allowed.has(id)) recipients.delete(id);
     for (const [recipientId, kind] of recipients) {
       await notify(tx, {
         communityId: target.communityId,

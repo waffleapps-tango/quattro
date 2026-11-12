@@ -35,7 +35,7 @@ export default async function PostsPage({
   const kind =
     kindParam === "announcement" ? PostKind.ANNOUNCEMENT : kindParam === "neighbor" ? PostKind.NEIGHBOR : undefined;
   const posts = await listPosts(user, membership.communityId, { kind });
-  const summaries = await engagementSummary(user, posts.map((p) => ({ type: "post" as const, id: p.id })));
+  const summaries = await engagementSummary(user, membership.communityId, posts.map((p) => ({ type: "post" as const, id: p.id })));
   const canAnnounce = canPostAnnouncement(membership);
   const emptyDescription = !kind || (kind === PostKind.ANNOUNCEMENT && canAnnounce) ? t("emptyHint") : undefined;
   const chips = [

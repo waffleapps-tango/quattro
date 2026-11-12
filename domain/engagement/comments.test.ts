@@ -131,6 +131,25 @@ describe("comments", () => {
     ]);
   });
 
+  it("shows no author for a deleted placeholder and never exposes author ids", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    const [top] = await addComment(s.neighbor, t, { body: "x" });
+    await addComment(s.author, t, { body: "r", parentId: top.id });
+    const thread = await deleteComment(s.neighbor, t, top.id);
+    expect(thread[0]).toMatchObject({ deleted: true, author: { name: null, own: false } });
+    expect(Object.keys(thread[0].replies[0].author).sort()).toEqual(["name", "own"]);
+  });
+
+  it("does not notify a parent author who is no longer a member", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    const [top] = await addComment(s.neighbor, t, { body: "Mam cukier" });
+    await prisma.membership.deleteMany({ where: { userId: s.neighbor.id } });
+    await addComment(s.author, t, { body: "Super", parentId: top.id });
+    expect(await prisma.notification.count({ where: { type: "COMMENT_ADDED", recipientUserId: s.neighbor.id } })).toBe(0);
+  });
+
   it("masks names and hides emails from residents", async () => {
     const s = await setup();
     const t = postT(s.post.id);

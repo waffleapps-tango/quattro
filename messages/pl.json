@@ -984,6 +984,8 @@
       "notFound": "Ten wpis nie jest już dostępny.",
       "forbidden": "Nie masz uprawnień do tej operacji.",
       "invalid": "Komentarz musi mieć od 1 do 2000 znaków.",
+      "invalidReaction": "Nie można dodać tej reakcji.",
+      "invalidRequest": "Nieprawidłowe żądanie.",
       "generic": "Nie udało się zapisać. Spróbuj ponownie."
     },
     "react": {
@@ -999,7 +1001,6 @@
     "comment": "Komentuj",
     "comments": "{count, plural, =0 {Brak komentarzy} one {# komentarz} few {# komentarze} many {# komentarzy} other {# komentarza}}",
     "showAll": "Pokaż wszystkie ({count})",
-    "hide": "Zwiń",
     "placeholder": "Napisz komentarz…",
     "replyPlaceholder": "Napisz odpowiedź…",
     "send": "Wyślij",
@@ -1012,7 +1013,6 @@
     "deleted": "Komentarz usunięty",
     "edited": "(edytowano)",
     "neighbor": "Sąsiad",
-    "you": "Ty",
     "privateThread": "Rozmowa widoczna tylko dla Ciebie i administracji."
   }
 }
