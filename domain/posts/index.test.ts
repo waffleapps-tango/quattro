@@ -105,8 +105,8 @@ describe("listPosts", () => {
     const plain = await createPost(s.manager, s.community.id, input(PostKind.ANNOUNCEMENT));
     const pinLater = await createPost(s.manager, s.community.id, input(PostKind.ANNOUNCEMENT, { pinnedUntil: new Date(now.getTime() + 5 * DAY) }));
     const pinSooner = await createPost(s.manager, s.community.id, input(PostKind.ANNOUNCEMENT, { pinnedUntil: new Date(now.getTime() + 2 * DAY) }));
-    // deterministic creation order, oldest -> newest; plain is newer than both pins
-    const order = [pinLater, expired, neighborPost, pinSooner, plain];
+    // deterministic creation order, oldest -> newest; pinSooner oldest, plain newer than both pins
+    const order = [pinSooner, expired, neighborPost, pinLater, plain];
     for (const [i, p] of order.entries()) {
       await prisma.post.update({ where: { id: p.id }, data: { createdAt: new Date(now.getTime() - (10 - i) * 60_000) } });
     }
