@@ -4,25 +4,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { PackageRow, type PackageWithRelations } from "./PackageRow";
-import { CreatePackageForm } from "./CreatePackageForm";
 import { Search } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import type { Apartment, Building } from "@/lib/generated/prisma";
 
 export function PackagesList({
   packages,
-  communityId,
-  buildings,
-  apartmentsByBuilding,
   isStaff,
 }: {
   packages: PackageWithRelations[];
-  communityId: string;
-  buildings: Building[];
-  apartmentsByBuilding: Record<string, Apartment[]>;
   isStaff: boolean;
 }) {
   const t = useTranslations("packages");
@@ -60,13 +52,6 @@ export function PackagesList({
                 />
               </div>
             </form>
-          )}
-          {isStaff && (
-            <CreatePackageForm
-              communityId={communityId}
-              buildings={buildings}
-              apartmentsByBuilding={apartmentsByBuilding}
-            />
           )}
         </div>
       </div>

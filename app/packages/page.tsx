@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { PackagesList } from "@/components/packages/PackagesList";
+import { CreatePackageForm } from "@/components/packages/CreatePackageForm";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import { type Apartment } from "@/lib/generated/prisma";
 
@@ -50,14 +51,17 @@ export default async function PackagesPage({
 
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="text-2xl font-bold mb-6 sm:text-3xl">{t("title")}</h1>
-      <PackagesList
-        packages={packages}
-        communityId={membership.communityId}
-        buildings={buildings}
-        apartmentsByBuilding={apartmentsByBuilding}
-        isStaff={isStaff}
-      />
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
+        {isStaff && (
+          <CreatePackageForm
+            communityId={membership.communityId}
+            buildings={buildings}
+            apartmentsByBuilding={apartmentsByBuilding}
+          />
+        )}
+      </div>
+      <PackagesList packages={packages} isStaff={isStaff} />
     </div>
   );
 }
