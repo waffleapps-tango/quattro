@@ -48,7 +48,7 @@ function requireMember(actor: SessionUser, communityId: string) {
 const isPinned = (p: Pick<Post, "kind" | "pinnedUntil">, now: Date) =>
   p.kind === PostKind.ANNOUNCEMENT && p.pinnedUntil !== null && p.pinnedUntil >= now;
 
-// Names follow maskPerson; only staff ever receive another author's email (the fallback name).
+// Names follow maskPerson (hidden names and their emails are blanked for everyone); non-staff never receive another author's email even when the name is shared.
 function view(post: PostListItem, actor: SessionUser, isStaff: boolean, now: Date): PostView {
   let author = post.author;
   if (author && author.id !== actor.id) {
