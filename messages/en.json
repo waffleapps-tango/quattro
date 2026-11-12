@@ -1045,5 +1045,39 @@
       "subject": "Invitation to Quattro – {communityName}",
       "text": "The management invites you to the {communityName} app.\n{place}\n\nCreate your account: {url}"
     }
+  },
+  "joinRequests": {
+    "form": {
+      "title": "Request access",
+      "community": "Community",
+      "building": "Building",
+      "buildingPlaceholder": "Choose a building",
+      "apartment": "Apartment",
+      "apartmentPlaceholder": "Choose an apartment",
+      "kind": "I am",
+      "owner": "the owner",
+      "tenant": "a tenant",
+      "note": "Message to the management (optional)",
+      "submit": "Send request"
+    },
+    "status": {
+      "pending": "Request sent {date} · waiting for the management",
+      "place": "{building} / {apartment} · {kind}",
+      "rejected": "Request declined",
+      "rejectedReason": "Reason: {reason}",
+      "cancel": "Cancel request"
+    },
+    "actions": {
+      "sent": "Request sent",
+      "cancelled": "Request cancelled",
+      "approved": "Request approved",
+      "rejected": "Request declined",
+      "settingSaved": "Saved"
+    },
+    "errors": {
+      "invalid": "Check the request details",
+      "notFound": "This request is no longer open",
+      "generic": "Could not save. Please try again."
+    }
   }
 }

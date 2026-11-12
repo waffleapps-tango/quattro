@@ -1045,5 +1045,39 @@
       "subject": "Zaproszenie do Quattro – {communityName}",
       "text": "Zarząd zaprasza Cię do aplikacji osiedla {communityName}.\n{place}\n\nZałóż konto: {url}"
     }
+  },
+  "joinRequests": {
+    "form": {
+      "title": "Poproś o dostęp",
+      "community": "Wspólnota",
+      "building": "Budynek",
+      "buildingPlaceholder": "Wybierz budynek",
+      "apartment": "Mieszkanie",
+      "apartmentPlaceholder": "Wybierz mieszkanie",
+      "kind": "Jestem",
+      "owner": "właścicielem",
+      "tenant": "najemcą",
+      "note": "Wiadomość do zarządu (opcjonalnie)",
+      "submit": "Wyślij prośbę"
+    },
+    "status": {
+      "pending": "Prośba wysłana {date} · czeka na zarząd",
+      "place": "{building} / {apartment} · {kind}",
+      "rejected": "Prośba odrzucona",
+      "rejectedReason": "Powód: {reason}",
+      "cancel": "Anuluj prośbę"
+    },
+    "actions": {
+      "sent": "Prośba wysłana",
+      "cancelled": "Prośba anulowana",
+      "approved": "Prośba zatwierdzona",
+      "rejected": "Prośba odrzucona",
+      "settingSaved": "Zapisano"
+    },
+    "errors": {
+      "invalid": "Sprawdź dane prośby",
+      "notFound": "Prośba nie jest już aktualna",
+      "generic": "Nie udało się zapisać. Spróbuj ponownie."
+    }
   }
 }
