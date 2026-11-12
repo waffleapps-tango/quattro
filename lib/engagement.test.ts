@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyReaction, topReactions, type ReactionSummary } from "@/lib/engagement";
+import { applyReaction, parseReactionKind, topReactions, type ReactionSummary } from "@/lib/engagement";
 
 const empty: ReactionSummary = { counts: {}, total: 0, mine: null };
 
@@ -10,6 +10,14 @@ describe("applyReaction", () => {
     const loved = applyReaction({ counts: { LIKE: 3 }, total: 3, mine: "LIKE" }, "LOVE");
     expect(loved).toEqual({ counts: { LIKE: 2, LOVE: 1 }, total: 3, mine: "LOVE" });
     expect(applyReaction(liked, "LIKE")).toEqual(empty);
+  });
+});
+
+describe("parseReactionKind", () => {
+  it("accepts kinds and null, flags everything else", () => {
+    expect(parseReactionKind("LIKE")).toBe("LIKE");
+    expect(parseReactionKind(null)).toBeNull();
+    for (const bad of [undefined, "", "like", "ANGRY", 1, {}]) expect(parseReactionKind(bad)).toBe("invalid");
   });
 });
 

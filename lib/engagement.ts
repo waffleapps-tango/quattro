@@ -2,6 +2,12 @@
 export const REACTION_KINDS = ["LIKE", "LOVE", "HAHA", "WOW", "SAD"] as const;
 export type ReactionKindName = (typeof REACTION_KINDS)[number];
 
+// Untrusted input -> a kind, null (remove), or "invalid" (must not touch the user's reaction).
+export function parseReactionKind(input: unknown): ReactionKindName | null | "invalid" {
+  if (input === null) return null;
+  return (REACTION_KINDS as readonly unknown[]).includes(input) ? (input as ReactionKindName) : "invalid";
+}
+
 export const REACTION_EMOJI: Record<ReactionKindName, string> = {
   LIKE: "👍",
   LOVE: "❤️",

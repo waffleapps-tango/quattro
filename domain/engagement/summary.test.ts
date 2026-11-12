@@ -7,6 +7,7 @@ import {
   createUserWithMembership,
 } from "@/domain/__test-helpers__/fixtures";
 import { createPost } from "@/domain/posts";
+import { createReport } from "@/domain/reports";
 import { addComment, deleteComment, setReaction, engagementSummary, EMPTY_ENGAGEMENT } from "@/domain/engagement";
 
 afterEach(async () => {
@@ -74,4 +75,26 @@ it("summarises reactions, comment counts and previews for many targets in one ca
   await prisma.user.update({ where: { id: s.neighbor.id }, data: { shareName: true } });
   const asReceptionist = await engagementSummary(s.receptionist, [postT(s.post.id)]);
   expect(asReceptionist[`post:${s.post.id}`].preview[0].author.name).toBeNull();
+});
+
+it("covers reports and lists replies flat in the preview", async () => {
+  const s = await setup();
+  const report = await createReport(s.author, {
+    communityId: s.community.id,
+    categoryKey: "technical",
+    type: "DEFECT",
+    title: "Winda",
+    description: "Stoi",
+  });
+  const rt = { type: "report" as const, id: report.id };
+  await setReaction(s.neighbor, rt, "WOW");
+  await addComment(s.neighbor, rt, { body: "top" });
+  const [top] = await addComment(s.neighbor, postT(s.post.id), { body: "root" });
+  await addComment(s.author, postT(s.post.id), { body: "reply", parentId: top.id });
+
+  const map = await engagementSummary(s.author, [rt, postT(s.post.id)]);
+  expect(map[`report:${report.id}`]).toMatchObject({ counts: { WOW: 1 }, total: 1, mine: null, commentCount: 1 });
+  expect(map[`report:${report.id}`].preview.map((c) => c.body)).toEqual(["top"]);
+  expect(map[`post:${s.post.id}`].preview.map((c) => c.body)).toEqual(["root", "reply"]);
+  expect(map[`post:${s.post.id}`].commentCount).toBe(2);
 });
