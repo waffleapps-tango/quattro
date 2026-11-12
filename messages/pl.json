@@ -293,6 +293,14 @@
       "POST_ANNOUNCEMENT": {
         "title": "Nowe ogłoszenie",
         "body": "„{title}”"
+      },
+      "COMMENT_ADDED": {
+        "title": "{kind, select, reply {Nowa odpowiedź na Twój komentarz} other {Nowy komentarz}}",
+        "body": "„{title}”"
+      },
+      "REACTIONS_ADDED": {
+        "title": "Nowe reakcje",
+        "body": "{count, plural, one {# osoba zareagowała} few {# osoby zareagowały} many {# osób zareagowało} other {# osoby zareagowały}} na „{title}”"
       }
     }
   },

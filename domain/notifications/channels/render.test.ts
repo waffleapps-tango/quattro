@@ -17,3 +17,23 @@ describe("renderNotification REPORT_STATUS_CHANGED", () => {
     );
   });
 });
+
+describe("renderNotification comment and reaction types", () => {
+  const target = { targetType: "post", targetId: "p1", title: "Remont", slug: "remont" };
+  const pl = { locale: "pl" } as User;
+  const react = (count: number) =>
+    renderNotification({ type: "REACTIONS_ADDED", payload: { ...target, count } } as unknown as Notification, pl).body;
+  const comment = (kind: string) =>
+    renderNotification({ type: "COMMENT_ADDED", payload: { ...target, kind } } as unknown as Notification, pl).title;
+
+  it("pluralises reactions in pl", () => {
+    expect(react(1)).toBe("1 osoba zareagowała na „Remont”");
+    expect(react(2)).toBe("2 osoby zareagowały na „Remont”");
+    expect(react(5)).toBe("5 osób zareagowało na „Remont”");
+  });
+
+  it("selects the comment title by kind", () => {
+    expect(comment("reply")).toBe("Nowa odpowiedź na Twój komentarz");
+    expect(comment("comment")).toBe("Nowy komentarz");
+  });
+});

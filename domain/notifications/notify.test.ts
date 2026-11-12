@@ -142,4 +142,35 @@ describe("notify channel resolution", () => {
     expect(await prisma.notificationDelivery.count()).toBe(3);
     expect(await prisma.notificationDelivery.count({ where: { channel: "email" } })).toBe(1);
   });
+
+  it("sends in-app-only types to the inbox only, even when email and sms are on", async () => {
+    const { community, resident } = await createPackageScenario();
+    await prisma.notificationPreference.create({
+      data: { userId: resident.id, emailEnabled: true, smsEnabled: true, phone: "+48123456789" },
+    });
+    const base = { targetType: "post" as const, targetId: "p1", title: "T", slug: "t" };
+    await prisma.$transaction((tx) =>
+      notify(tx, {
+        communityId: community.id,
+        type: "REACTIONS_ADDED",
+        recipientUserIds: [resident.id],
+        payload: { ...base, count: 2 },
+        dedupeKey: "REACTIONS:post:p1",
+      }),
+    );
+    expect((await prisma.notificationDelivery.findMany()).map((d) => d.channel)).toEqual(["in-app"]);
+
+    // contrast: a normal type still honours preferences
+    await prisma.notificationDelivery.deleteMany();
+    await prisma.$transaction((tx) =>
+      notify(tx, {
+        communityId: community.id,
+        type: "COMMENT_ADDED",
+        recipientUserIds: [resident.id],
+        payload: { ...base, kind: "comment" },
+      }),
+    );
+    const channelsUsed = (await prisma.notificationDelivery.findMany()).map((d) => d.channel).sort();
+    expect(channelsUsed).toEqual(["email", "in-app", "sms"]);
+  });
 });

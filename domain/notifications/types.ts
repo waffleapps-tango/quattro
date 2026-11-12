@@ -22,6 +22,13 @@ const postAnnouncementPayload = z.object({
   title: z.string(),
 });
 
+const targetPayload = z.object({
+  targetType: z.enum(["post", "report"]),
+  targetId: z.string(),
+  title: z.string(),
+  slug: z.string(),
+});
+
 // One entry per notification type. Message text lives in messages/*.json under
 // notifications.types.<TYPE>.{title,body}.
 export const NOTIFICATION_TYPES = {
@@ -30,6 +37,8 @@ export const NOTIFICATION_TYPES = {
   PACKAGE_REMINDER_AUTO: reminderPayload,
   REPORT_STATUS_CHANGED: reportStatusPayload,
   POST_ANNOUNCEMENT: postAnnouncementPayload,
+  COMMENT_ADDED: targetPayload.extend({ kind: z.enum(["comment", "reply"]) }),
+  REACTIONS_ADDED: targetPayload.extend({ count: z.number().int().min(1) }),
 } as const;
 
 export type NotificationType = keyof typeof NOTIFICATION_TYPES;
@@ -37,3 +46,6 @@ export type NotificationType = keyof typeof NOTIFICATION_TYPES;
 export type NotificationPayload<T extends NotificationType> = z.infer<
   (typeof NOTIFICATION_TYPES)[T]
 >;
+
+// Types that only ever go to the in-app inbox (never email/SMS), whatever the user's preferences.
+export const IN_APP_ONLY: ReadonlySet<NotificationType> = new Set<NotificationType>(["REACTIONS_ADDED"]);
