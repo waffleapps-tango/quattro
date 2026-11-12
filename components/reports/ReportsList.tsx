@@ -137,9 +137,9 @@ export function ReportsList({
           }
         />
       ) : (
-        <AnimatedList className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <AnimatedList className="grid gap-4">
           {reports.map((report) => (
-            <AnimatedItem key={report.id} className="h-full [&>*]:h-full">
+            <AnimatedItem key={report.id}>
               <ReportCard
                 report={report}
                 canChangeStatus={isStaff}

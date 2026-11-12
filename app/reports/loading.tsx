@@ -12,8 +12,8 @@ export default async function Loading() {
         <Skeleton className="h-4 w-56" />
         <Skeleton className="h-9 w-32" />
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {Array.from({ length: 6 }).map((_, i) => (
+      <div className="grid gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i}>
             <CardHeader>
               <Skeleton className="h-5 w-2/3" />

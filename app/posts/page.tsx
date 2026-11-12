@@ -1,9 +1,7 @@
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-import { Card } from "@/components/ui/card";
-
-import { ArrowRight } from "lucide-react";
+import { PostCard } from "@/components/posts/PostCard";
 import { EmptyState } from "@/components/system/EmptyState";
 import prisma from "@/lib/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
@@ -22,7 +20,6 @@ export async function generateMetadata() {
 
 export default async function PostsPage() {
   const t = await getTranslations("posts");
-  const format = await getFormatter();
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
   if (!user.memberships[0]) return <WaitingScreen />;
@@ -58,26 +55,11 @@ export default async function PostsPage() {
           <AnimatedItem key={post.id}>
             <Interactive>
               <Link href={`/posts/${post.slug}`} className="group block">
-                <Card className="gap-3 transition-[border-color,box-shadow] group-hover:border-border group-hover:shadow-[0_4px_12px_-2px_rgb(9_20_38/0.08)]">
-                  <div className="flex items-start justify-between gap-4 px-6">
-                    <div className="min-w-0 space-y-1.5">
-                      <time
-                        dateTime={post.createdAt.toISOString()}
-                        className="block text-[11px] font-medium uppercase tracking-[0.06em] text-muted-foreground tabular-nums"
-                      >
-                        {format.dateTime(post.createdAt, { dateStyle: "long" })}
-                      </time>
-                      <h2 className="font-heading text-lg font-semibold leading-snug">
-                        {post.title}
-                      </h2>
-                    </div>
-                    <ArrowRight
-                      className="mt-1 h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <p className="line-clamp-2 px-6 text-sm text-muted-foreground">{post.content}</p>
-                </Card>
+                <PostCard
+                  post={post}
+                  clamp
+                  className="transition-[border-color,box-shadow] group-hover:border-border group-hover:shadow-[0_4px_12px_-2px_rgb(9_20_38/0.08)]"
+                />
               </Link>
             </Interactive>
           </AnimatedItem>

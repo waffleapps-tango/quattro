@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getFormatter, getTranslations } from "next-intl/server";
-import { ArrowLeft, CalendarDays } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
@@ -11,6 +10,7 @@ import { canWritePosts } from "@/domain/posts";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { EditPostForm } from "@/components/posts/EditPostForm";
 import { DeletePostButton } from "@/components/posts/DeletePostButton";
+import { PostCard } from "@/components/posts/PostCard";
 
 type PostPageParams = {
   params: Promise<{
@@ -33,7 +33,6 @@ export default async function PostPage({ params }: PostPageParams) {
   if (!user.memberships[0]) return <WaitingScreen />;
   const canWrite = canWritePosts(user);
   const t = await getTranslations("posts");
-  const format = await getFormatter();
   const post = await prisma.post.findUnique({
     where: { slug },
   });
@@ -57,25 +56,7 @@ export default async function PostPage({ params }: PostPageParams) {
         )}
       </div>
 
-      <Card className="gap-6">
-        <CardHeader className="gap-2">
-          <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
-            {t("eyebrow")}
-          </p>
-          <CardTitle className="font-heading text-2xl leading-tight sm:text-3xl">
-            {post.title}
-          </CardTitle>
-          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            <CalendarDays className="h-4 w-4" aria-hidden="true" />
-            <time dateTime={post.createdAt.toISOString()} className="tabular-nums">
-              {format.dateTime(post.createdAt, { dateStyle: "long" })}
-            </time>
-          </div>
-        </CardHeader>
-        <CardContent className="border-t pt-6">
-          <p className="whitespace-pre-line text-base leading-relaxed">{post.content}</p>
-        </CardContent>
-      </Card>
+      <PostCard post={post} />
     </div>
   );
 }

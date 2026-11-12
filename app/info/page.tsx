@@ -40,7 +40,7 @@ export default async function InfoPage() {
           description={canEdit ? t("emptyHint") : t("emptyResident")}
         />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4">
           {sections.map((section, i) => (
             <InfoSectionCard
               key={section.id}
