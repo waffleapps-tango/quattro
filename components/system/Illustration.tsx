@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { createContext, useContext, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { ILLUSTRATION_SETS, type IllustrationPref } from "./illustration-prefs";
+import { ILLUSTRATION_SETS, type IllustrationPref, type IllustrationSet } from "./illustration-prefs";
+
+// Set 1 is flat SVG (served as is); set 2 is clay 3D WebP, 512px with transparency, which
+// next/image downsizes for the small spots so a 72px icon doesn't fetch the full file.
+const FORMAT: Record<IllustrationSet, "svg" | "webp"> = { "1": "svg", "2": "webp" };
 
 // Spot illustrations from the Stitch project, served from public/icons/<set>/.
 export type IllustrationName =
@@ -53,7 +57,7 @@ export function Illustration({
   if (set === "off") return null;
   return (
     <Image
-      src={`/icons/${set}/${name}.svg`}
+      src={`/icons/${set}/${name}.${FORMAT[set]}`}
       width={size}
       height={size}
       alt=""
@@ -66,7 +70,7 @@ export function Illustration({
 }
 
 // The large centred art for dialogs, empty states and status screens: 192px on phones, 256px
-// from sm up, with a slow float that reduced-motion turns off. SVGs scale for free.
+// from sm up, with a slow float that reduced-motion turns off.
 export function HeroIllustration({
   name,
   priority,
@@ -83,7 +87,8 @@ export function HeroIllustration({
         name={name}
         size={256}
         priority={priority}
-        className="size-48 motion-safe:animate-float sm:size-64"
+        // px, not rem: a larger browser font size must not inflate the art past 192/256.
+        className="size-[192px] motion-safe:animate-float sm:size-[256px]"
       />
     </div>
   );

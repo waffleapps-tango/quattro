@@ -3,8 +3,8 @@
 export const ILLUSTRATIONS_COOKIE = "quattro-illustrations";
 
 // Each set is a folder in public/icons/<id>/ with the same file names. To add a set, drop the
-// folder there and append its id here.
-export const ILLUSTRATION_SETS = ["1"] as const;
+// folder there, add its id here and its file format in Illustration.tsx. The first one is the default.
+export const ILLUSTRATION_SETS = ["2", "1"] as const;
 export type IllustrationSet = (typeof ILLUSTRATION_SETS)[number];
 export type IllustrationPref = IllustrationSet | "off";
 
