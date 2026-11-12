@@ -24,7 +24,7 @@ type PostState = {
   success?: boolean;
 };
 
-export function CreatePostForm() {
+export function CreatePostForm({ canAnnounce }: { canAnnounce: boolean }) {
   const t = useTranslations("posts");
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<PostState, FormData>(createPost, {
@@ -55,7 +55,7 @@ export function CreatePostForm() {
         </DialogHeader>
         <HeroIllustration name="bulletin" />
         <form action={formAction}>
-          <PostFields />
+          <PostFields canAnnounce={canAnnounce} />
           <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
           </Collapse>

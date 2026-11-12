@@ -732,7 +732,23 @@
     "plainTextHint": "Tylko czysty tekst. Podziały wierszy są zachowane.",
     "chars": "{count} znaków",
     "edit": "Edytuj",
-    "publishedOn": "Opublikowano {date}"
+    "publishedOn": "Opublikowano {date}",
+    "kind": {
+      "ANNOUNCEMENT": "Ogłoszenie",
+      "NEIGHBOR": "Sąsiedzi"
+    },
+    "kindLabel": "Rodzaj",
+    "kindNeighborOption": "Wiadomość do sąsiadów",
+    "kindAnnouncementOption": "Ogłoszenie zarządu",
+    "pinnedUntilLabel": "Przypięte do (opcjonalnie)",
+    "pinnedUntilHint": "Do tego dnia ogłoszenie jest na górze tablicy.",
+    "pinnedBadge": "Przypięte do {date}",
+    "boardAuthor": "Ogłoszenie zarządu",
+    "neighborFallback": "Sąsiad",
+    "filterAll": "Wszystko",
+    "filterAnnouncements": "Ogłoszenia",
+    "filterNeighbors": "Sąsiedzi",
+    "emptyNeighbors": "Brak wiadomości od sąsiadów. Napisz pierwszą: zapytaj, zaproponuj, podziel się."
   },
   "admin": {
     "tabs": {

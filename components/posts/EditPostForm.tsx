@@ -30,6 +30,8 @@ type EditPostFormProps = {
     title: string;
     content: string;
     createdAt: Date;
+    kind: "ANNOUNCEMENT" | "NEIGHBOR";
+    pinnedUntil: Date | null;
   };
 };
 
@@ -65,7 +67,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
         <HeroIllustration name="bulletin" />
         <form action={formAction}>
           <input type="hidden" name="id" value={post.id} />
-          <PostFields defaultTitle={post.title} defaultContent={post.content} />
+          <PostFields defaultTitle={post.title} defaultContent={post.content} kind={post.kind} defaultPinnedUntil={post.pinnedUntil} />
           <Collapse show={Boolean(state.message) && !state.success}>
             <p className="text-sm text-destructive mb-2">{state.message}</p>
           </Collapse>

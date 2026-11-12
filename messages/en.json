@@ -732,7 +732,23 @@
     "plainTextHint": "Plain text only. Line breaks are kept.",
     "chars": "{count, plural, one {# character} other {# characters}}",
     "edit": "Edit",
-    "publishedOn": "Published {date}"
+    "publishedOn": "Published {date}",
+    "kind": {
+      "ANNOUNCEMENT": "Announcement",
+      "NEIGHBOR": "Neighbors"
+    },
+    "kindLabel": "Type",
+    "kindNeighborOption": "Message to neighbors",
+    "kindAnnouncementOption": "Board announcement",
+    "pinnedUntilLabel": "Pinned until (optional)",
+    "pinnedUntilHint": "Until this day the announcement stays on top of the board.",
+    "pinnedBadge": "Pinned until {date}",
+    "boardAuthor": "Board announcement",
+    "neighborFallback": "Neighbor",
+    "filterAll": "All",
+    "filterAnnouncements": "Announcements",
+    "filterNeighbors": "Neighbors",
+    "emptyNeighbors": "No messages from neighbors yet. Write the first one: ask, offer, share."
   },
   "admin": {
     "tabs": {
