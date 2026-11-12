@@ -20,7 +20,11 @@ export type AuditAction =
   | "PACKAGE_REMINDER_SENT"
   | "COMMUNITY_SETTINGS_CHANGED"
   | "RESIDENCY_ADDED"
-  | "RESIDENCY_REMOVED";
+  | "RESIDENCY_REMOVED"
+  | "JOIN_REQUEST_CREATED"
+  | "JOIN_REQUEST_APPROVED"
+  | "JOIN_REQUEST_REJECTED"
+  | "MEMBERSHIP_INVITE_SENT";
 
 export async function writeAuditLog(
   tx: Prisma.TransactionClient,

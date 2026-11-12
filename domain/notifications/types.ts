@@ -29,6 +29,15 @@ const targetPayload = z.object({
   slug: z.string(),
 });
 
+const joinCreatedPayload = z.object({
+  requestId: z.string(),
+  name: z.string(),
+  buildingName: z.string(),
+  apartmentNumber: z.string(),
+});
+
+const joinDecisionPayload = z.object({ requestId: z.string(), communityName: z.string() });
+
 // One entry per notification type. Message text lives in messages/*.json under
 // notifications.types.<TYPE>.{title,body}.
 export const NOTIFICATION_TYPES = {
@@ -39,6 +48,9 @@ export const NOTIFICATION_TYPES = {
   POST_ANNOUNCEMENT: postAnnouncementPayload,
   COMMENT_ADDED: targetPayload.extend({ kind: z.enum(["comment", "reply"]) }),
   REACTIONS_ADDED: targetPayload.extend({ count: z.number().int().min(1) }),
+  JOIN_REQUEST_CREATED: joinCreatedPayload,
+  JOIN_REQUEST_APPROVED: joinDecisionPayload,
+  JOIN_REQUEST_REJECTED: joinDecisionPayload.extend({ reason: z.string() }),
 } as const;
 
 export type NotificationType = keyof typeof NOTIFICATION_TYPES;

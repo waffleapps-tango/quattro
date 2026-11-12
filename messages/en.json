@@ -301,6 +301,18 @@
       "REACTIONS_ADDED": {
         "title": "New reactions",
         "body": "{count, plural, one {# person reacted} other {# people reacted}} to “{title}”"
+      },
+      "JOIN_REQUEST_CREATED": {
+        "title": "New access request",
+        "body": "{name} · {buildingName} / {apartmentNumber}"
+      },
+      "JOIN_REQUEST_APPROVED": {
+        "title": "Access granted",
+        "body": "Welcome to {communityName}!"
+      },
+      "JOIN_REQUEST_REJECTED": {
+        "title": "Request declined",
+        "body": "{communityName}: {reason}"
       }
     }
   },

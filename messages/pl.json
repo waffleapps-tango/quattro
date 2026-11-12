@@ -301,6 +301,18 @@
       "REACTIONS_ADDED": {
         "title": "Nowe reakcje",
         "body": "{count, plural, one {# osoba zareagowała} few {# osoby zareagowały} many {# osób zareagowało} other {# osoby zareagowały}} na „{title}”"
+      },
+      "JOIN_REQUEST_CREATED": {
+        "title": "Nowa prośba o dostęp",
+        "body": "{name} · {buildingName} / {apartmentNumber}"
+      },
+      "JOIN_REQUEST_APPROVED": {
+        "title": "Dostęp przyznany",
+        "body": "Witamy w {communityName}!"
+      },
+      "JOIN_REQUEST_REJECTED": {
+        "title": "Prośba odrzucona",
+        "body": "{communityName}: {reason}"
       }
     }
   },
