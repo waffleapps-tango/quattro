@@ -16,6 +16,12 @@ const reportStatusPayload = z.object({
   status: z.enum(["NEW", "IN_PROGRESS", "RESOLVED", "APPROVED", "REJECTED", "CLOSED"]),
 });
 
+const postAnnouncementPayload = z.object({
+  postId: z.string(),
+  slug: z.string(),
+  title: z.string(),
+});
+
 // One entry per notification type. Message text lives in messages/*.json under
 // notifications.types.<TYPE>.{title,body}.
 export const NOTIFICATION_TYPES = {
@@ -23,6 +29,7 @@ export const NOTIFICATION_TYPES = {
   PACKAGE_REMINDER: reminderPayload,
   PACKAGE_REMINDER_AUTO: reminderPayload,
   REPORT_STATUS_CHANGED: reportStatusPayload,
+  POST_ANNOUNCEMENT: postAnnouncementPayload,
 } as const;
 
 export type NotificationType = keyof typeof NOTIFICATION_TYPES;

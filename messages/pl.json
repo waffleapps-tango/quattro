@@ -289,6 +289,10 @@
       "REPORT_STATUS_CHANGED": {
         "title": "Zmiana statusu zgłoszenia",
         "body": "Twoje zgłoszenie „{title}” ma teraz status:{status, select, NEW { nowe} IN_PROGRESS { w trakcie} RESOLVED { załatwione} APPROVED { zatwierdzone} REJECTED { odrzucone} CLOSED { zamknięte} other { {status}}}."
+      },
+      "POST_ANNOUNCEMENT": {
+        "title": "Nowe ogłoszenie",
+        "body": "„{title}”"
       }
     }
   },

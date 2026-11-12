@@ -289,6 +289,10 @@
       "REPORT_STATUS_CHANGED": {
         "title": "Report status changed",
         "body": "Your report “{title}” is now{status, select, NEW { new} IN_PROGRESS { in progress} RESOLVED { resolved} APPROVED { approved} REJECTED { rejected} CLOSED { closed} other { {status}}}."
+      },
+      "POST_ANNOUNCEMENT": {
+        "title": "New announcement",
+        "body": "“{title}”"
       }
     }
   },
