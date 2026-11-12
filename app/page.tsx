@@ -54,7 +54,7 @@ export default async function Home() {
   const isStaff = membership.role !== Role.RESIDENT;
   const canAdmin = membership.role === Role.ADMIN || membership.role === Role.MANAGER;
 
-  // ponytail: counts in memory from the full lists; switch to count() queries if lists grow.
+  // ponytail: report counts are in memory from the full list; switch to count() queries if lists grow.
   const [{ items: packages, total: waitingTotal }, reports, profile] = await Promise.all([
     listPackagesForViewer(user, membership.communityId),
     listReports(user, membership.communityId),

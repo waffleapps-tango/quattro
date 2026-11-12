@@ -77,7 +77,7 @@ export function PackagesList({
       <PackagesToolbar query={query} isStaff={isStaff} buildings={buildings} />
 
       {packages.length === 0 ? (
-        query.q || query.building || query.apartment || query.recipient ? (
+        query.q || (isStaff && (query.building || query.apartment || query.recipient)) ? (
           <EmptyState illustration="search-empty" title={t("noResults")} description={t("noResultsHint")} />
         ) : query.status === "open" ? (
           <EmptyState illustration="all-clear" title={t("noOpen")} description={t("noOpenHint")} />

@@ -491,4 +491,52 @@ describe("listPackagesForViewer filters, sorting and pagination", () => {
     expect(ids(result)).toEqual([own.id]);
     expect(result.total).toBe(1);
   });
+
+  it("does not let a resident probe a co-resident's email through q", async () => {
+    const s = await seed();
+    const neighbor = await createUserWithMembership({
+      communityId: s.community.id,
+      buildingId: s.building.id,
+      apartmentId: s.apartment.id,
+      role: Role.RESIDENT,
+      email: "neighbor-probe@example.com",
+    });
+    const pkg = await s.make(s.apartment.id, s.building.id, { recipientUserId: neighbor.id });
+    const q = parsePackageQuery({ q: "neighbor-probe", status: "all" });
+
+    // Access is fine: the resident sees the package when not searching by email.
+    const plain = await listPackagesForViewer(s.resident, s.community.id, parsePackageQuery({ status: "all" }));
+    expect(ids(plain)).toEqual([pkg.id]);
+    expect((await listPackagesForViewer(s.resident, s.community.id, q)).items).toHaveLength(0);
+    expect(ids(await listPackagesForViewer(s.receptionist, s.community.id, q))).toEqual([pkg.id]);
+  });
+
+  it("sorts by status in both directions", async () => {
+    const s = await seed();
+    const received = await s.make(s.apartment.id, s.building.id);
+    const ready = await s.make(s.apt202.id, s.building.id);
+    const done = await s.make(s.aptB1.id, s.buildingB.id);
+    await prisma.package.update({ where: { id: ready.id }, data: { status: "READY_FOR_PICKUP" } });
+    await markPickedUp(s.receptionist, done.id);
+
+    const asc = await listPackagesForViewer(
+      s.receptionist, s.community.id, parsePackageQuery({ status: "all", sort: "status", dir: "asc" }),
+    );
+    expect(ids(asc)).toEqual([received.id, ready.id, done.id]);
+    const desc = await listPackagesForViewer(
+      s.receptionist, s.community.id, parsePackageQuery({ status: "all", sort: "status", dir: "desc" }),
+    );
+    expect(ids(desc)).toEqual([done.id, ready.id, received.id]);
+  });
+
+  it("hides picked-up packages from a resident's default view", async () => {
+    const s = await seed();
+    const open = await s.make(s.apartment.id, s.building.id);
+    const done = await s.make(s.apartment.id, s.building.id);
+    await markPickedUp(s.receptionist, done.id);
+
+    expect(ids(await listPackagesForViewer(s.resident, s.community.id))).toEqual([open.id]);
+    const all = await listPackagesForViewer(s.resident, s.community.id, parsePackageQuery({ status: "all" }));
+    expect(ids(all).sort()).toEqual([open.id, done.id].sort());
+  });
 });

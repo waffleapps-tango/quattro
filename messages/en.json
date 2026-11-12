@@ -182,7 +182,7 @@
     "title": "Packages",
     "subtitleStaff": "Manage packages at the front desk.",
     "subtitleResident": "Your packages.",
-    "searchPlaceholder": "Search (number, apartment, email)...",
+    "searchPlaceholder": "Search (number, courier, apartment, email)...",
     "noResults": "Nothing found",
     "noResultsHint": "Change your search phrase.",
     "empty": "No packages",

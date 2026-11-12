@@ -24,7 +24,7 @@ export function PackagesToolbar({
 }) {
   const t = useTranslations("packages");
   const update = usePackageParams();
-  const filtersActive = Boolean(query.q || query.building || query.apartment || query.recipient);
+  const filtersActive = Boolean(query.q || (isStaff && (query.building || query.apartment || query.recipient)));
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +50,7 @@ export function PackagesToolbar({
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 name="q"
+                aria-label={t("searchPlaceholder")}
                 defaultValue={query.q}
                 placeholder={t("searchPlaceholder")}
                 className="bg-muted pl-9"
