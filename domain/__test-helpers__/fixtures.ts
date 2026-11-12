@@ -46,6 +46,7 @@ export async function createUserWithMembership(params: {
 }
 
 export async function cleanupDatabase() {
+  await prisma.joinRequest.deleteMany();
   await prisma.reaction.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.infoContact.deleteMany();

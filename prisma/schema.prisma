@@ -74,16 +74,19 @@ model User {
   notificationPreference NotificationPreference?
   reactions              Reaction[]
   comments               Comment[]
+  joinRequests           JoinRequest[]           @relation("JoinRequestUser")
+  decidedJoinRequests    JoinRequest[]           @relation("JoinRequestDecidedBy")
 }
 
 model Community {
-  posts             Post[]
-  id                String   @id @default(cuid())
-  name              String
-  address           String?
-  reminderAfterDays Int?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  posts                           Post[]
+  id                              String   @id @default(cuid())
+  name                            String
+  address                         String?
+  reminderAfterDays               Int?
+  receptionCanApproveJoinRequests Boolean  @default(false)
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
 
   buildings     Building[]
   memberships   Membership[]
@@ -95,6 +98,7 @@ model Community {
   reports       Report[]
   notifications Notification[]
   infoSections  InfoSection[]
+  joinRequests  JoinRequest[]
 }
 
 model Building {
@@ -112,6 +116,7 @@ model Building {
   parkingSpaces ParkingSpace[]
   storageUnits  StorageUnit[]
   reports       Report[]
+  joinRequests  JoinRequest[]
 
   @@index([communityId])
 }
@@ -131,19 +136,21 @@ model Apartment {
   parkingSpaces ParkingSpace[]
   storageUnits  StorageUnit[]
   reports       Report[]
+  joinRequests  JoinRequest[]
 
   @@unique([buildingId, number])
 }
 
 model Membership {
-  id          String   @id @default(cuid())
-  userId      String
-  communityId String
-  buildingId  String?
+  id           String    @id @default(cuid())
+  userId       String
+  communityId  String
+  buildingId   String?
   // DEPRECATED: apartment links live in ApartmentResidency. Not read or written by the app.
-  apartmentId String?
-  role        Role
-  createdAt   DateTime @default(now())
+  apartmentId  String?
+  role         Role
+  inviteSentAt DateTime?
+  createdAt    DateTime  @default(now())
 
   user      User       @relation(fields: [userId], references: [id])
   community Community  @relation(fields: [communityId], references: [id])
@@ -458,4 +465,35 @@ model Comment {
   @@index([postId, createdAt])
   @@index([reportId, createdAt])
   @@index([parentId])
+}
+
+enum JoinRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model JoinRequest {
+  id           String            @id @default(cuid())
+  userId       String
+  communityId  String
+  buildingId   String
+  apartmentId  String
+  kind         ResidencyKind
+  note         String?
+  status       JoinRequestStatus @default(PENDING)
+  decidedById  String?
+  decidedAt    DateTime?
+  rejectReason String?
+  createdAt    DateTime          @default(now())
+
+  user      User      @relation("JoinRequestUser", fields: [userId], references: [id], onDelete: Cascade)
+  decidedBy User?     @relation("JoinRequestDecidedBy", fields: [decidedById], references: [id], onDelete: SetNull)
+  community Community @relation(fields: [communityId], references: [id])
+  building  Building  @relation(fields: [buildingId], references: [id])
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+
+  @@index([communityId, status, createdAt])
+  @@index([userId])
 }

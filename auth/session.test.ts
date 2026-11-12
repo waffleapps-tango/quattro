@@ -27,6 +27,7 @@ describe("requireMembership", () => {
       buildingId: null,
       apartmentId: null,
       role: Role.ADMIN,
+      inviteSentAt: null,
       createdAt: new Date(),
     };
     const user = makeUser([membership]);
@@ -50,6 +51,7 @@ describe("requireMembership", () => {
       buildingId: null,
       apartmentId: null,
       role: Role.RESIDENT,
+      inviteSentAt: null,
       createdAt: new Date(),
     };
     const user = makeUser([membership]);
