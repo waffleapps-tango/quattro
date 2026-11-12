@@ -237,7 +237,7 @@ export async function setReceptionCanApprove(actor: SessionUser, communityId: st
   });
 }
 
-async function loadPending(requestId: string) {
+async function loadRequest(requestId: string) {
   const req = await prisma.joinRequest.findUnique({
     where: { id: requestId },
     include: { user: true, community: true },
@@ -257,41 +257,50 @@ export async function approveJoinRequest(
   requestId: string,
   overrides?: { buildingId: string; apartmentId: string; kind: ResidencyKind },
 ): Promise<void> {
-  const req = await loadPending(requestId);
+  const req = await loadRequest(requestId);
   await requireApprover(actor, req.communityId);
   if (req.status !== JoinRequestStatus.PENDING) throw new ValidationError("request is not pending");
   const target = overrides ?? { buildingId: req.buildingId, apartmentId: req.apartmentId, kind: req.kind };
+  if (target.kind !== "OWNER" && target.kind !== "TENANT") throw new ValidationError("invalid residency kind");
 
-  await prisma.$transaction(async (tx) => {
-    const apartment = await tx.apartment.findUnique({ where: { id: target.apartmentId }, include: { building: true } });
-    if (!apartment || apartment.buildingId !== target.buildingId || apartment.building.communityId !== req.communityId) {
-      throw new TenantMismatchError(`Apartment ${target.apartmentId} is not in building ${target.buildingId}`);
-    }
-    const existing = await tx.membership.findUnique({ where: { userId_communityId: { userId: req.userId, communityId: req.communityId } } });
-    if (existing) throw new ValidationError("user is already a member");
-    await tx.membership.create({ data: { userId: req.userId, communityId: req.communityId, buildingId: target.buildingId, role: Role.RESIDENT } });
-    await tx.apartmentResidency.create({
-      data: { userId: req.userId, apartmentId: target.apartmentId, communityId: req.communityId, kind: target.kind },
+  try {
+    await prisma.$transaction(async (tx) => {
+      const apartment = await tx.apartment.findUnique({ where: { id: target.apartmentId }, include: { building: true } });
+      if (!apartment || apartment.buildingId !== target.buildingId || apartment.building.communityId !== req.communityId) {
+        throw new TenantMismatchError(`Apartment ${target.apartmentId} is not in building ${target.buildingId}`);
+      }
+      // Claim the request first: a concurrent approval blocks on this row lock, re-checks PENDING and loses
+      // with a clean ValidationError instead of a unique violation on the membership. Any later failure rolls the claim back.
+      const claimed = await tx.joinRequest.updateMany({
+        where: { id: req.id, status: JoinRequestStatus.PENDING },
+        data: { status: JoinRequestStatus.APPROVED, decidedById: actor.id, decidedAt: new Date(), buildingId: target.buildingId, apartmentId: target.apartmentId, kind: target.kind },
+      });
+      if (claimed.count === 0) throw new ValidationError("request is not pending");
+      const existing = await tx.membership.findUnique({ where: { userId_communityId: { userId: req.userId, communityId: req.communityId } } });
+      if (existing) throw new ValidationError("user is already a member");
+      await tx.membership.create({ data: { userId: req.userId, communityId: req.communityId, buildingId: target.buildingId, role: Role.RESIDENT } });
+      await tx.apartmentResidency.create({
+        data: { userId: req.userId, apartmentId: target.apartmentId, communityId: req.communityId, kind: target.kind },
+      });
+      await writeAuditLog(tx, { communityId: req.communityId, userId: actor.id, action: "JOIN_REQUEST_APPROVED", entity: "JoinRequest", entityId: req.id, metadata: target });
+      await notify(tx, {
+        communityId: req.communityId,
+        type: "JOIN_REQUEST_APPROVED",
+        recipientUserIds: [req.userId],
+        payload: { requestId: req.id, communityName: req.community.name },
+        dedupeKey: `JOIN_REQUEST_APPROVED:${req.id}`,
+      });
     });
-    const updated = await tx.joinRequest.updateMany({
-      where: { id: req.id, status: JoinRequestStatus.PENDING },
-      data: { status: JoinRequestStatus.APPROVED, decidedById: actor.id, decidedAt: new Date(), buildingId: target.buildingId, apartmentId: target.apartmentId, kind: target.kind },
-    });
-    if (updated.count === 0) throw new ValidationError("request is not pending");
-    await writeAuditLog(tx, { communityId: req.communityId, userId: actor.id, action: "JOIN_REQUEST_APPROVED", entity: "JoinRequest", entityId: req.id, metadata: target });
-    await notify(tx, {
-      communityId: req.communityId,
-      type: "JOIN_REQUEST_APPROVED",
-      recipientUserIds: [req.userId],
-      payload: { requestId: req.id, communityName: req.community.name },
-      dedupeKey: `JOIN_REQUEST_APPROVED:${req.id}`,
-    });
-  });
+  } catch (e) {
+    // Structural check (see createJoinRequest): a unique violation here means a concurrent decision won.
+    if ((e as { code?: unknown } | null)?.code === "P2002") throw new ValidationError("request is not pending");
+    throw e;
+  }
   await emailDecision(req.user, true, req.community.name);
 }
 
 export async function rejectJoinRequest(actor: SessionUser, requestId: string, reason?: string): Promise<void> {
-  const req = await loadPending(requestId);
+  const req = await loadRequest(requestId);
   await requireApprover(actor, req.communityId);
   const rejectReason = cleanText(reason);
   await prisma.$transaction(async (tx) => {

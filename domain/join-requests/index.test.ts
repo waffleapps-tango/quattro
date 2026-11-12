@@ -184,6 +184,7 @@ describe("approve / reject", () => {
   it("approves into a resident membership + residency atomically and tells the requester", async () => {
     const s = await setup();
     const me = await newcomer();
+    await prisma.notificationPreference.create({ data: { userId: me.id, emailEnabled: true, smsEnabled: true, phone: "+48123456789" } });
     const req = await createJoinRequest(me, { ...s.input, kind: "TENANT" });
     await approveJoinRequest(s.manager, req.id);
 
@@ -194,6 +195,9 @@ describe("approve / reject", () => {
     expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("APPROVED");
     expect(await prisma.notification.count({ where: { type: "JOIN_REQUEST_APPROVED", recipientUserId: me.id } })).toBe(1);
     expect(vi.mocked(sendEmail)).toHaveBeenCalledWith(expect.objectContaining({ to: me.email }));
+    // the dedicated decision email replaces the preference-driven email/SMS
+    const deliveries = await prisma.notificationDelivery.findMany({ where: { notification: { type: "JOIN_REQUEST_APPROVED", recipientUserId: me.id } } });
+    expect(deliveries.map((d) => d.channel)).toEqual(["in-app"]);
   });
 
   it("applies overrides from 'edit and approve'", async () => {
@@ -203,22 +207,88 @@ describe("approve / reject", () => {
     const req = await createJoinRequest(me, s.input);
     await approveJoinRequest(s.manager, req.id, { buildingId: s.building.id, apartmentId: other.id, kind: "TENANT" });
     expect(await prisma.apartmentResidency.findFirstOrThrow({ where: { userId: me.id } })).toMatchObject({ apartmentId: other.id, kind: "TENANT" });
+    expect(await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).toMatchObject({ status: "APPROVED", apartmentId: other.id, kind: "TENANT" });
+  });
+
+  it("refuses overrides pointing at another community's apartment and writes nothing", async () => {
+    const s = await setup();
+    const elsewhere = await createCommunityWithBuildingAndApartment();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await expect(
+      approveJoinRequest(s.manager, req.id, { buildingId: elsewhere.building.id, apartmentId: elsewhere.apartment.id, kind: "OWNER" }),
+    ).rejects.toThrow(TenantMismatchError);
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("PENDING");
+    expect(await prisma.membership.count({ where: { userId: me.id } })).toBe(0);
+    expect(await prisma.apartmentResidency.count({ where: { userId: me.id } })).toBe(0);
+  });
+
+  it("refuses an invalid override kind", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await expect(
+      approveJoinRequest(s.manager, req.id, { buildingId: s.building.id, apartmentId: s.apartment.id, kind: "SQUATTER" as never }),
+    ).rejects.toThrow(ValidationError);
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("PENDING");
+    expect(await prisma.membership.count({ where: { userId: me.id } })).toBe(0);
   });
 
   it("enforces who may decide", async () => {
     const s = await setup();
     const me = await newcomer();
+    await prisma.notificationPreference.create({ data: { userId: me.id, emailEnabled: true, smsEnabled: true, phone: "+48123456789" } });
     const req = await createJoinRequest(me, s.input);
     await expect(approveJoinRequest(s.reception, req.id)).rejects.toThrow(UnauthorizedError);
     await expect(approveJoinRequest(s.resident, req.id)).rejects.toThrow(UnauthorizedError);
     const elsewhere = await createCommunityWithBuildingAndApartment();
     const outsider = await createUserWithMembership({ communityId: elsewhere.community.id, role: Role.MANAGER });
-    await expect(approveJoinRequest(outsider, req.id)).rejects.toThrow();
+    await expect(approveJoinRequest(outsider, req.id)).rejects.toThrow(UnauthorizedError);
+    await expect(rejectJoinRequest(outsider, req.id)).rejects.toThrow(UnauthorizedError);
     await setReceptionCanApprove(s.manager, s.community.id, true);
     await rejectJoinRequest(s.reception, req.id, "  nie znamy tej osoby ");
     const stored = await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } });
     expect(stored).toMatchObject({ status: "REJECTED", rejectReason: "nie znamy tej osoby", decidedById: s.reception.id });
     expect(await prisma.notification.count({ where: { type: "JOIN_REQUEST_REJECTED", recipientUserId: me.id } })).toBe(1);
+    const deliveries = await prisma.notificationDelivery.findMany({ where: { notification: { type: "JOIN_REQUEST_REJECTED", recipientUserId: me.id } } });
+    expect(deliveries.map((d) => d.channel)).toEqual(["in-app"]);
+  });
+
+  it("only decides a pending request, once", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const rejected = await createJoinRequest(me, s.input);
+    await rejectJoinRequest(s.manager, rejected.id);
+    await expect(approveJoinRequest(s.manager, rejected.id)).rejects.toThrow(ValidationError);
+    expect(await prisma.membership.count({ where: { userId: me.id } })).toBe(0);
+
+    const approved = await createJoinRequest(me, s.input);
+    await approveJoinRequest(s.manager, approved.id);
+    await expect(rejectJoinRequest(s.manager, approved.id)).rejects.toThrow(ValidationError);
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: approved.id } })).status).toBe("APPROVED");
+
+    const other = await newcomer();
+    const cancelled = await createJoinRequest(other, s.input);
+    await cancelJoinRequest(other, cancelled.id);
+    await expect(approveJoinRequest(s.manager, cancelled.id)).rejects.toThrow(ValidationError);
+    await expect(rejectJoinRequest(s.manager, cancelled.id)).rejects.toThrow(ValidationError);
+    expect(await prisma.membership.count({ where: { userId: other.id } })).toBe(0);
+    expect(await prisma.apartmentResidency.count({ where: { userId: other.id } })).toBe(0);
+  });
+
+  it("lets only one of two concurrent approvals win, with a clean ValidationError for the other", async () => {
+    const s = await setup();
+    const second = await createUserWithMembership({ communityId: s.community.id, role: Role.MANAGER });
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    const results = await Promise.allSettled([approveJoinRequest(s.manager, req.id), approveJoinRequest(second, req.id)]);
+    const rejected = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0].reason).toBeInstanceOf(ValidationError);
+    expect(await prisma.membership.count({ where: { userId: me.id } })).toBe(1);
+    expect(await prisma.apartmentResidency.count({ where: { userId: me.id } })).toBe(1);
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("APPROVED");
   });
 
   it("leaves the request pending when the user became a member meanwhile", async () => {
@@ -227,7 +297,9 @@ describe("approve / reject", () => {
     const req = await createJoinRequest(me, s.input);
     await prisma.membership.create({ data: { userId: me.id, communityId: s.community.id, role: Role.RESIDENT } });
     await expect(approveJoinRequest(s.manager, req.id)).rejects.toThrow(ValidationError);
-    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("PENDING");
+    const stored = await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } });
+    expect(stored).toMatchObject({ status: "PENDING", decidedById: null, decidedAt: null });
+    expect(await prisma.apartmentResidency.count({ where: { userId: me.id } })).toBe(0);
   });
 
   it("does not fail the decision when the email fails", async () => {
@@ -258,6 +330,7 @@ describe("decision / invite emails", () => {
         expect(invite.text).toContain("Budynek A, m. 12");
         expect(invite.text).toContain("https://app.example.com/sign-up?email=a%2Bb%40example.com");
       }
+      expect(decisionEmail("en", { approved: false, communityName: "X" }).text).not.toMatch(/ \n/);
       expect(decisionEmail("pl", { approved: true, communityName: "X" }).subject).toMatch(/dostęp/);
       expect(decisionEmail("en", { approved: true, communityName: "X" }).subject).toMatch(/access/);
       expect(decisionEmail(null, { approved: true, communityName: "X" }).subject).toMatch(/dostęp/);

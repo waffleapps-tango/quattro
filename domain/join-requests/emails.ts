@@ -19,7 +19,8 @@ export function decisionEmail(
   const key = input.approved ? "approved" : "rejected";
   return {
     subject: t(`${key}.subject` as never, { communityName: input.communityName } as never),
-    text: t(`${key}.text` as never, { communityName: input.communityName, reason: input.reason ?? "", url: appUrl() } as never),
+    // ICU select cannot test for an empty reason, so drop the dangling space it leaves before the line break.
+    text: t(`${key}.text` as never, { communityName: input.communityName, reason: input.reason ?? "", url: appUrl() } as never).replace(/ +$/gm, ""),
   };
 }
 

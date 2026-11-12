@@ -60,4 +60,9 @@ export type NotificationPayload<T extends NotificationType> = z.infer<
 >;
 
 // Types that only ever go to the in-app inbox (never email/SMS), whatever the user's preferences.
-export const IN_APP_ONLY: ReadonlySet<NotificationType> = new Set<NotificationType>(["REACTIONS_ADDED"]);
+// JOIN_REQUEST_APPROVED/REJECTED already get a dedicated transactional email from the join-requests domain.
+export const IN_APP_ONLY: ReadonlySet<NotificationType> = new Set<NotificationType>([
+  "REACTIONS_ADDED",
+  "JOIN_REQUEST_APPROVED",
+  "JOIN_REQUEST_REJECTED",
+]);
