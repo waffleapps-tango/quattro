@@ -33,6 +33,9 @@ model Post {
   community Community @relation(fields: [communityId], references: [id])
   author    User?     @relation("PostAuthor", fields: [authorId], references: [id], onDelete: SetNull)
 
+  reactions Reaction[]
+  comments  Comment[]
+
   @@index([communityId, kind, createdAt])
 }
 
@@ -69,6 +72,8 @@ model User {
   reports                Report[]
   notifications          Notification[]          @relation("NotificationRecipient")
   notificationPreference NotificationPreference?
+  reactions              Reaction[]
+  comments               Comment[]
 }
 
 model Community {
@@ -270,6 +275,9 @@ model Report {
   storageUnit  StorageUnit?  @relation(fields: [storageUnitId], references: [id])
   author       User          @relation(fields: [authorId], references: [id])
 
+  reactions Reaction[]
+  comments  Comment[]
+
   @@index([communityId, visibility, status])
   @@index([authorId])
 }
@@ -401,4 +409,53 @@ model InfoContact {
   section InfoSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
   @@index([sectionId, position])
+}
+
+enum ReactionKind {
+  LIKE
+  LOVE
+  HAHA
+  WOW
+  SAD
+}
+
+model Reaction {
+  id        String       @id @default(cuid())
+  userId    String
+  postId    String?
+  reportId  String?
+  kind      ReactionKind
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  report Report? @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, reportId])
+  @@index([postId])
+  @@index([reportId])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  authorId  String
+  postId    String?
+  reportId  String?
+  parentId  String?
+  body      String
+  createdAt DateTime  @default(now())
+  editedAt  DateTime?
+  deletedAt DateTime?
+
+  author  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post    Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  report  Report?   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([postId, createdAt])
+  @@index([reportId, createdAt])
+  @@index([parentId])
 }
