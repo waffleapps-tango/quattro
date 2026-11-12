@@ -14,7 +14,7 @@ function flatten(tree: Tree, prefix = ""): Record<string, string | string[]> {
 }
 
 const placeholders = (s: string) =>
-  [...s.matchAll(/\{(\w+)/g)].map((m) => m[1]).sort().join(",");
+  [...s.matchAll(/\{(\w+)\s*[,}]/g)].map((m) => m[1]).sort().join(",");
 
 const plFlat = flatten(pl as Tree);
 const enFlat = flatten(en as Tree);

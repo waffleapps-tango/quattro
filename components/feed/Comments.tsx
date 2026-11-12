@@ -13,6 +13,8 @@ import {
 } from "@/actions/engagement";
 import type { CommentView, Target } from "@/domain/engagement";
 
+type Res = { ok: true; data: CommentView[] } | { ok: false; message: string };
+
 const visibleCount = (list: CommentView[]) =>
   list.reduce((n, c) => n + (c.deleted ? 0 : 1) + c.replies.length, 0);
 
@@ -37,7 +39,15 @@ export function Comments({
   const [thread, setThread] = useState<CommentView[] | null>(null);
   const [pending, startTransition] = useTransition();
 
-  const apply = (res: { ok: true; data: CommentView[] } | { ok: false; message: string }) => {
+  const run = async (call: () => Promise<Res>): Promise<Res> => {
+    try {
+      return await call();
+    } catch {
+      return { ok: false, message: t("errors.generic") };
+    }
+  };
+
+  const apply = (res: Res) => {
     if (!res.ok) {
       toast.error(res.message);
       return;
@@ -47,14 +57,14 @@ export function Comments({
   };
 
   useEffect(() => {
-    if (expanded && thread === null) startTransition(async () => apply(await listCommentsAction(target)));
+    if (expanded && thread === null) startTransition(async () => apply(await run(() => listCommentsAction(target))));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
 
   const send = (body: string, parentId?: string) =>
     new Promise<boolean>((resolve) =>
       startTransition(async () => {
-        const res = await addCommentAction(target, body, parentId);
+        const res = await run(() => addCommentAction(target, body, parentId));
         apply(res);
         if (res.ok) onExpand();
         resolve(res.ok);
@@ -77,9 +87,9 @@ export function Comments({
             comment={c}
             busy={pending}
             onReply={(body) => send(body, c.id)}
-            onEdit={(id, body) => startTransition(async () => apply(await editCommentAction(target, id, body)))}
-            onDelete={(id) => startTransition(async () => apply(await deleteCommentAction(target, id)))}
-            canReply={expanded}
+            onEdit={(id, body) => startTransition(async () => apply(await run(() => editCommentAction(target, id, body))))}
+            onDelete={(id) => startTransition(async () => apply(await run(() => deleteCommentAction(target, id))))}
+            canReply={expanded && thread !== null}
           />
         ))}
       </ul>
@@ -181,7 +191,7 @@ function CommentItem({
                   setEditing(false);
                 }}
               >
-                <Textarea value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={2000} rows={2} />
+                <Textarea aria-label={t("edit")} autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={2000} rows={2} />
                 <div className="flex gap-2">
                   <Button type="submit" size="sm" disabled={busy || !draft.trim()}>{t("save")}</Button>
                   <Button type="button" size="sm" variant="ghost" onClick={() => setEditing(false)}>{t("cancel")}</Button>
@@ -214,7 +224,10 @@ function CommentItem({
               {t("confirmDelete")}
             </button>
           ) : (
-            <button type="button" className="font-medium hover:underline" onClick={() => setConfirming(true)}>
+            <button type="button" className="font-medium hover:underline" onClick={() => {
+              setConfirming(true);
+              setTimeout(() => setConfirming(false), 4000);
+            }}>
               {t("delete")}
             </button>
           ))}

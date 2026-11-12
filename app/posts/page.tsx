@@ -80,7 +80,6 @@ export default async function PostsPage({
               post={post}
               clamp
               href={`/posts/${post.slug}`}
-              className="transition-[border-color,box-shadow] hover:border-border hover:shadow-[0_4px_12px_-2px_rgb(9_20_38/0.08)]"
               footer={
                 <Engagement
                   target={{ type: "post", id: post.id }}

@@ -39,19 +39,24 @@ export function Engagement({
   const [, startTransition] = useTransition();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressed = useRef(false);
+  const confirmed = useRef<ReactionSummary>(initial);
+  const requestSeq = useRef(0);
   const composer = useRef<HTMLTextAreaElement>(null);
 
   const react = (kind: ReactionKindName) => {
-    const before = summary;
     setSummary(applyReaction(summary, kind));
     setPickerOpen(false);
+    const seq = ++requestSeq.current;
     startTransition(async () => {
-      const res = await setReactionAction(target, kind);
-      if (res.ok) setSummary(res.data);
-      else {
-        setSummary(before);
-        toast.error(res.message);
+      let res;
+      try {
+        res = await setReactionAction(target, kind);
+      } catch {
+        res = { ok: false as const, message: t("errors.generic") };
       }
+      if (res.ok) confirmed.current = res.data;
+      else toast.error(res.message);
+      if (seq === requestSeq.current) setSummary(confirmed.current);
     });
   };
   const startPress = () => {
@@ -71,14 +76,15 @@ export function Engagement({
     <div className="space-y-3 pb-4">
       <div className="flex items-center justify-between gap-3 text-sm text-muted-foreground">
         {summary.total > 0 ? (
-          <span className="flex items-center gap-1" aria-label={t("reactionsCount", { count: summary.total })}>
+          <span className="flex items-center gap-1">
             <span aria-hidden="true">{top.map((k) => REACTION_EMOJI[k]).join("")}</span>
-            <span className="tabular-nums">{summary.total}</span>
+            <span className="tabular-nums" aria-hidden="true">{summary.total}</span>
+            <span className="sr-only">{t("reactionsCount", { count: summary.total })}</span>
           </span>
         ) : (
           <span />
         )}
-        <button type="button" className="hover:underline" onClick={() => setExpanded((e) => !e)}>
+        <button type="button" className="hover:underline" aria-expanded={expanded} onClick={() => setExpanded((e) => !e)}>
           {t("comments", { count: commentCount })}
         </button>
       </div>
@@ -89,13 +95,17 @@ export function Engagement({
             <Button
               type="button"
               variant="ghost"
-              className="flex-1"
+              className="flex-1 select-none [-webkit-touch-callout:none]"
+              onContextMenu={(e) => e.preventDefault()}
               aria-pressed={mine !== null}
               onPointerDown={startPress}
               onPointerUp={endPress}
               onPointerLeave={endPress}
               onClick={() => {
-                if (longPressed.current) return;
+                if (longPressed.current) {
+                  longPressed.current = false;
+                  return;
+                }
                 react(mine ?? "LIKE");
               }}
             >
@@ -112,12 +122,25 @@ export function Engagement({
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="flex gap-1 p-1">
+              <DropdownMenuContent
+                align="start"
+                loop
+                className="flex gap-1 p-1"
+                onKeyDown={(e) => {
+                  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+                  e.preventDefault();
+                  const items = [...e.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]')];
+                  const i = items.indexOf(document.activeElement as HTMLElement);
+                  const step = e.key === "ArrowRight" ? 1 : -1;
+                  items[(i + step + items.length) % items.length]?.focus();
+                }}
+              >
                 {REACTION_KINDS.map((k) => (
                   <DropdownMenuItem
                     key={k}
                     onSelect={() => react(k)}
                     aria-label={t(`react.${k}`)}
+                    aria-current={k === mine ? "true" : undefined}
                     className="text-2xl transition-transform hover:scale-125 focus:scale-125"
                   >
                     {REACTION_EMOJI[k]}
