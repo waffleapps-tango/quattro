@@ -978,5 +978,13 @@
     "noStorage": "No storage units assigned",
     "reportProblem": "Report a problem",
     "role": "Role"
+  },
+  "engagement": {
+    "errors": {
+      "notFound": "This item is no longer available.",
+      "forbidden": "You are not allowed to do that.",
+      "invalid": "A comment must be 1 to 2000 characters.",
+      "generic": "Could not save. Please try again."
+    }
   }
 }

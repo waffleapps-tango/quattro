@@ -978,5 +978,13 @@
     "noStorage": "Brak przypisanych komórek lokatorskich",
     "reportProblem": "Zgłoś problem",
     "role": "Rola"
+  },
+  "engagement": {
+    "errors": {
+      "notFound": "Ten wpis nie jest już dostępny.",
+      "forbidden": "Nie masz uprawnień do tej operacji.",
+      "invalid": "Komentarz musi mieć od 1 do 2000 znaków.",
+      "generic": "Nie udało się zapisać. Spróbuj ponownie."
+    }
   }
 }
