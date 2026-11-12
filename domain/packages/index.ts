@@ -4,6 +4,7 @@ import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, TenantMismatchError, UnauthorizedError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
 import { resolvePackageRecipients } from "@/domain/packages/reminders";
+import { PACKAGE_PAGE_SIZE, parsePackageQuery, type PackageQuery } from "@/domain/packages/query";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import { maskPerson, type Maskable } from "@/domain/privacy/person";
 import { PackageStatus, type Prisma } from "@/lib/generated/prisma";
@@ -140,67 +141,101 @@ function maskRecipient(viewerId: string) {
       : pkg;
 }
 
+function packageOrderBy(q: PackageQuery): Prisma.PackageOrderByWithRelationInput[] {
+  // ponytail: apartment numbers are strings, so "10" sorts before "2"; add a numeric column if it matters.
+  switch (q.sort) {
+    case "apartment":
+      return [{ building: { name: q.dir } }, { apartment: { number: q.dir } }, { receivedAt: "desc" }, { id: "asc" }];
+    case "status":
+      return [{ status: q.dir }, { receivedAt: "desc" }, { id: "asc" }];
+    default:
+      return [{ receivedAt: q.dir }, { id: "asc" }];
+  }
+}
+
 export async function listPackagesForViewer(
   actor: SessionUser,
   communityId: string,
-  filters: { search?: string } = {},
+  query: PackageQuery = parsePackageQuery(),
 ) {
-  const staffMembership = actor.memberships.find(
+  const staff = actor.memberships.some(
     (m) => m.communityId === communityId && STAFF_ROLES.includes(m.role),
   );
+  if (!staff && !actor.memberships.some((m) => m.communityId === communityId)) {
+    throw new UnauthorizedError(`User ${actor.id} has no membership in community ${communityId}`);
+  }
 
-  const search = filters.search?.trim();
-  const searchFilter: Prisma.PackageWhereInput = search
-    ? {
-        OR: [
-          { trackingNumber: { contains: search, mode: "insensitive" } },
-          { apartment: { number: { contains: search, mode: "insensitive" } } },
-          // Residents must not be able to probe co-residents' emails through search.
-          ...(staffMembership
-            ? [{ recipient: { email: { contains: search, mode: "insensitive" as const }, shareName: true } }]
-            : []),
-        ],
-      }
-    : {};
+  const and: Prisma.PackageWhereInput[] = [];
 
-  if (staffMembership) {
-    const rows = await prisma.package.findMany({
-      where: { communityId, ...searchFilter },
-      include: {
-        apartment: true,
-        building: true,
-        recipient: { select: { id: true, firstName: true, lastName: true, email: true, shareName: true } },
-      },
-      orderBy: { createdAt: "desc" },
+  if (!staff) {
+    const access: Prisma.PackageWhereInput[] = [{ recipientUserId: actor.id }];
+    const apartmentIds = residentApartmentIds(actor, communityId);
+    if (apartmentIds.length > 0) access.push({ apartmentId: { in: apartmentIds } });
+    and.push({ OR: access });
+  }
+
+  if (query.status === "open") and.push({ status: { not: PackageStatus.PICKED_UP } });
+
+  if (query.q) {
+    and.push({
+      OR: [
+        { trackingNumber: { contains: query.q, mode: "insensitive" } },
+        { courier: { contains: query.q, mode: "insensitive" } },
+        { apartment: { number: { contains: query.q, mode: "insensitive" } } },
+        // Residents must not be able to probe co-residents' emails through search.
+        ...(staff
+          ? [{ recipient: { email: { contains: query.q, mode: "insensitive" as const }, shareName: true } }]
+          : []),
+      ],
     });
-    return rows.map(maskRecipient(actor.id));
   }
 
-  const residentMembership = actor.memberships.find(
-    (m) => m.communityId === communityId,
-  );
-  if (!residentMembership) {
-    throw new UnauthorizedError(
-      `User ${actor.id} has no membership in community ${communityId}`,
-    );
+  if (staff) {
+    if (query.building) and.push({ buildingId: query.building });
+    if (query.apartment) {
+      and.push({ apartment: { number: { contains: query.apartment, mode: "insensitive" } } });
+    }
+    const terms = query.recipient.split(/\s+/).filter(Boolean).slice(0, 4);
+    if (terms.length > 0) {
+      // Only people who share their name are findable by it (privacy setting).
+      and.push({
+        recipient: {
+          shareName: true,
+          AND: terms.map((term) => ({
+            OR: [
+              { firstName: { contains: term, mode: "insensitive" as const } },
+              { lastName: { contains: term, mode: "insensitive" as const } },
+              { email: { contains: term, mode: "insensitive" as const } },
+            ],
+          })),
+        },
+      });
+    }
   }
 
-  const residentFilters: Prisma.PackageWhereInput[] = [
-    { recipientUserId: actor.id },
-  ];
-  const apartmentIds = residentApartmentIds(actor, communityId);
-  if (apartmentIds.length > 0) {
-    residentFilters.push({ apartmentId: { in: apartmentIds } });
-  }
+  const where: Prisma.PackageWhereInput = { communityId, AND: and };
+  const total = await prisma.package.count({ where });
+  const page = Math.min(query.page, Math.max(1, Math.ceil(total / PACKAGE_PAGE_SIZE)));
 
   const rows = await prisma.package.findMany({
-    where: { communityId, OR: residentFilters },
+    where,
     include: {
       apartment: true,
       building: true,
-      recipient: { select: { id: true, firstName: true, lastName: true, shareName: true } },
+      recipient: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          shareName: true,
+          ...(staff ? { email: true } : {}),
+        },
+      },
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: packageOrderBy(query),
+    skip: (page - 1) * PACKAGE_PAGE_SIZE,
+    take: PACKAGE_PAGE_SIZE,
   });
-  return rows.map(maskRecipient(actor.id));
+
+  return { items: rows.map(maskRecipient(actor.id)), total, page, pageSize: PACKAGE_PAGE_SIZE };
 }

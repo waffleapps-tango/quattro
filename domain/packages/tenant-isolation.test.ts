@@ -42,7 +42,7 @@ describe("spec §31 critical business rules", () => {
       recipientUserId: residentA.id,
     });
 
-    const visibleToB = await listPackagesForViewer(residentB, community.id);
+    const { items: visibleToB } = await listPackagesForViewer(residentB, community.id);
     expect(visibleToB).toHaveLength(0);
   });
 
