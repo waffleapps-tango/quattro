@@ -55,7 +55,7 @@ export default async function Home() {
   const canAdmin = membership.role === Role.ADMIN || membership.role === Role.MANAGER;
 
   // ponytail: counts in memory from the full lists; switch to count() queries if lists grow.
-  const [packages, reports, profile] = await Promise.all([
+  const [{ items: packages, total: waitingTotal }, reports, profile] = await Promise.all([
     listPackagesForViewer(user, membership.communityId),
     listReports(user, membership.communityId),
     getProfile(user, membership.communityId),
@@ -131,7 +131,7 @@ export default async function Home() {
         <>
           <div className="grid gap-4 md:grid-cols-3">
             {([
-              { label: t("waitingForPickup"), value: s.waitingPackageCount, href: "/packages", art: "parcel" },
+              { label: t("waitingForPickup"), value: waitingTotal, href: "/packages", art: "parcel" },
               { label: t("newReports"), value: s.newReportCount, href: "/reports?status=NEW", art: "maintenance" },
               { label: t("urgentReports"), value: s.urgentReportCount, href: "/reports?urgent=1", art: "urgent" },
             ] as const).map((c, i) => (
@@ -178,7 +178,7 @@ export default async function Home() {
                     <p className="truncate text-sm text-muted-foreground">{t("packagesSubtitle")}</p>
                   </div>
                   <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold tabular-nums text-primary-foreground">
-                    {s.waitingPackageCount}
+                    {waitingTotal}
                   </span>
                 </div>
                 <CardContent className="space-y-2 py-5">

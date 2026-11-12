@@ -6,6 +6,7 @@ import { listPackagesForViewer } from "@/domain/packages";
 import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
 import { PackagesList } from "@/components/packages/PackagesList";
 import { CreatePackageForm } from "@/components/packages/CreatePackageForm";
+import { parsePackageQuery } from "@/domain/packages/query";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import { type Apartment } from "@/lib/generated/prisma";
 
@@ -17,7 +18,7 @@ export async function generateMetadata() {
 export default async function PackagesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const t = await getTranslations("packages");
   const user = await getCurrentUser();
@@ -29,8 +30,8 @@ export default async function PackagesPage({
   const membership = user.memberships[0];
   if (!membership) return <WaitingScreen />;
 
-  const { q } = await searchParams;
-  const packages = await listPackagesForViewer(user, membership.communityId, { search: q });
+  const query = parsePackageQuery(await searchParams);
+  const { items, total, page, pageSize } = await listPackagesForViewer(user, membership.communityId, query);
 
   const isStaff = STAFF_ROLES.includes(membership.role);
 
@@ -61,7 +62,15 @@ export default async function PackagesPage({
           />
         )}
       </div>
-      <PackagesList packages={packages} isStaff={isStaff} />
+      <PackagesList
+        packages={items}
+        total={total}
+        page={page}
+        pageSize={pageSize}
+        query={query}
+        buildings={buildings}
+        isStaff={isStaff}
+      />
     </div>
   );
 }

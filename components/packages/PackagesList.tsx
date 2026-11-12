@@ -9,12 +9,24 @@ import { EmptyState } from "@/components/system/EmptyState";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
+import type { Building } from "@/lib/generated/prisma";
+import type { PackageQuery } from "@/domain/packages/query";
 
 export function PackagesList({
   packages,
+  total,
+  page,
+  pageSize,
+  query,
+  buildings,
   isStaff,
 }: {
   packages: PackageWithRelations[];
+  total: number;
+  page: number;
+  pageSize: number;
+  query: PackageQuery;
+  buildings: Pick<Building, "id" | "name">[];
   isStaff: boolean;
 }) {
   const t = useTranslations("packages");
