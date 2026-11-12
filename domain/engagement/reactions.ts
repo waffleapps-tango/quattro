@@ -3,20 +3,41 @@ import type { SessionUser } from "@/auth/session";
 import { ValidationError } from "@/domain/errors";
 import { notify } from "@/domain/notifications";
 import { NOTIFICATION_TYPES } from "@/domain/notifications/types";
-import type { Prisma } from "@/lib/generated/prisma";
+import { Prisma } from "@/lib/generated/prisma";
 import type { ReactionKindName, ReactionSummary } from "@/lib/engagement";
-import { resolveTarget, targetWhere, type ResolvedTarget, type Target } from "./targets";
+import {
+  resolveTarget,
+  targetWhere,
+  type ResolvedTarget,
+  type Target,
+} from "./targets";
 
-export async function reactionSummary(actor: SessionUser, t: Target): Promise<ReactionSummary> {
-  const rows = await prisma.reaction.findMany({ where: targetWhere(t), select: { userId: true, kind: true } });
+export async function reactionSummary(
+  actor: SessionUser,
+  t: Target,
+): Promise<ReactionSummary> {
+  const rows = await prisma.reaction.findMany({
+    where: targetWhere(t),
+    select: { userId: true, kind: true },
+  });
   const counts: ReactionSummary["counts"] = {};
   for (const r of rows) counts[r.kind] = (counts[r.kind] ?? 0) + 1;
-  return { counts, total: rows.length, mine: rows.find((r) => r.userId === actor.id)?.kind ?? null };
+  return {
+    counts,
+    total: rows.length,
+    mine: rows.find((r) => r.userId === actor.id)?.kind ?? null,
+  };
 }
 
-async function notifyReactions(tx: Prisma.TransactionClient, target: ResolvedTarget, t: Target) {
+async function notifyReactions(
+  tx: Prisma.TransactionClient,
+  target: ResolvedTarget,
+  t: Target,
+) {
   if (!target.authorId) return;
-  const count = await tx.reaction.count({ where: { ...targetWhere(t), userId: { not: target.authorId } } });
+  const count = await tx.reaction.count({
+    where: { ...targetWhere(t), userId: { not: target.authorId } },
+  });
   const payload = NOTIFICATION_TYPES.REACTIONS_ADDED.parse({
     targetType: t.type,
     targetId: t.id,
@@ -26,7 +47,12 @@ async function notifyReactions(tx: Prisma.TransactionClient, target: ResolvedTar
   });
   const dedupeKey = `REACTIONS:${t.type}:${t.id}`;
   const existing = await tx.notification.findUnique({
-    where: { recipientUserId_dedupeKey: { recipientUserId: target.authorId, dedupeKey } },
+    where: {
+      recipientUserId_dedupeKey: {
+        recipientUserId: target.authorId,
+        dedupeKey,
+      },
+    },
   });
   if (existing) {
     await tx.notification.update({
@@ -51,22 +77,39 @@ export async function setReaction(
   kind: ReactionKindName | null,
 ): Promise<ReactionSummary> {
   const target = await resolveTarget(actor, t);
-  if (target.isPrivate) throw new ValidationError("Private reports take no reactions");
+  if (target.isPrivate)
+    throw new ValidationError("Private reports take no reactions");
   const where =
     t.type === "post"
       ? { userId_postId: { userId: actor.id, postId: t.id } }
       : { userId_reportId: { userId: actor.id, reportId: t.id } };
 
-  await prisma.$transaction(async (tx) => {
-    const existing = await tx.reaction.findUnique({ where });
-    if (kind === null || existing?.kind === kind) {
-      if (existing) await tx.reaction.delete({ where: { id: existing.id } });
-    } else if (existing) {
-      await tx.reaction.update({ where: { id: existing.id }, data: { kind } });
-    } else {
-      await tx.reaction.create({ data: { userId: actor.id, kind, ...targetWhere(t) } });
-      if (target.authorId !== actor.id) await notifyReactions(tx, target, t);
-    }
-  });
+  const run = () =>
+    prisma.$transaction(async (tx) => {
+      const existing = await tx.reaction.findUnique({ where });
+      if (kind === null || existing?.kind === kind) {
+        if (existing) await tx.reaction.delete({ where: { id: existing.id } });
+      } else if (existing) {
+        await tx.reaction.update({
+          where: { id: existing.id },
+          data: { kind },
+        });
+      } else {
+        await tx.reaction.create({
+          data: { userId: actor.id, kind, ...targetWhere(t) },
+        });
+        if (target.authorId !== actor.id) await notifyReactions(tx, target, t);
+      }
+    });
+  // Concurrent first reactions (double-click, two tabs) race on the unique; retry once and it sees the row.
+  try {
+    await run();
+  } catch (e) {
+    if (!(
+      e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002"
+    ))
+      throw e;
+    await run();
+  }
   return reactionSummary(actor, t);
 }
