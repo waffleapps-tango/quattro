@@ -56,6 +56,7 @@ export async function cleanupDatabase() {
   await prisma.parkingSpace.deleteMany();
   await prisma.storageUnit.deleteMany();
   await prisma.package.deleteMany();
+  await prisma.post.deleteMany();
   await prisma.membership.deleteMany();
   await prisma.apartment.deleteMany();
   await prisma.building.deleteMany();
