@@ -261,7 +261,9 @@
       "page": "Page {page} of {count}"
     },
     "noOpen": "No packages waiting for pickup",
-    "noOpenHint": "Turn off “Not picked up only” to see the history."
+    "noOpenHint": "Turn off “Not picked up only” to see the history.",
+    "recipientMaskedOwner": "{name} (owner since {since})",
+    "recipientMaskedTenant": "{name} (tenant since {since})"
   },
   "notifications": {
     "title": "Notifications",

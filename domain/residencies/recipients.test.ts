@@ -167,6 +167,19 @@ describe("getPackageRecipientOptions", () => {
     expect(names.join(" ")).not.toContain("Jan");
     expect(names.join(" ")).not.toContain(owner.email);
   });
+
+  it("marks hidden-name recipients as masked and gives each a since date", async () => {
+    await prisma.user.update({ where: { id: owner.id }, data: { shareName: false } });
+
+    const { options } = await getPackageRecipientOptions(receptionist, community.id, apartment.id);
+
+    const o = options.find((x) => x.userId === owner.id)!;
+    const t = options.find((x) => x.userId === tenant.id)!;
+    expect(o.masked).toBe(true);
+    expect(t.masked).toBe(false);
+    const link = await prisma.apartmentResidency.findFirstOrThrow({ where: { userId: owner.id } });
+    expect(o.since).toBe(link.createdAt.toISOString());
+  });
 });
 
 describe("stale stored recipients", () => {

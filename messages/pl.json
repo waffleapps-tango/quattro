@@ -261,7 +261,9 @@
       "page": "Strona {page} z {count}"
     },
     "noOpen": "Brak nieodebranych paczek",
-    "noOpenHint": "Wyłącz „Tylko nieodebrane”, aby zobaczyć historię."
+    "noOpenHint": "Wyłącz „Tylko nieodebrane”, aby zobaczyć historię.",
+    "recipientMaskedOwner": "{name} (właściciel od {since})",
+    "recipientMaskedTenant": "{name} (najemca od {since})"
   },
   "notifications": {
     "title": "Powiadomienia",

@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { submitKeepingValues } from "@/lib/form-submit";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Collapse } from "@/components/motion/Collapse";
 import {
@@ -41,6 +41,7 @@ export function CreatePackageForm({
   apartmentsByBuilding: Record<string, Apartment[]>;
 }) {
   const t = useTranslations("packages");
+  const format = useFormatter();
   const [open, setOpen] = useState(false);
   const [buildingId, setBuildingId] = useState(buildings[0]?.id ?? "");
   const [apartmentId, setApartmentId] = useState("");
@@ -158,13 +159,17 @@ export function CreatePackageForm({
                           : t("recipientDefaultAll")}
                     </SelectItem>
                     <SelectItem value="ALL">{t("recipientAll")}</SelectItem>
-                    {recipientOptions?.options.map((o) => (
-                      <SelectItem key={o.userId} value={o.userId}>
-                        {o.kind === "OWNER"
-                          ? t("recipientOwner", { name: o.name })
-                          : t("recipientTenant", { name: o.name })}
-                      </SelectItem>
-                    ))}
+                    {recipientOptions?.options.map((o) => {
+                      const since = format.dateTime(new Date(o.since), { month: "2-digit", year: "numeric" });
+                      const key = o.masked
+                        ? o.kind === "OWNER" ? "recipientMaskedOwner" : "recipientMaskedTenant"
+                        : o.kind === "OWNER" ? "recipientOwner" : "recipientTenant";
+                      return (
+                        <SelectItem key={o.userId} value={o.userId}>
+                          {t(key, { name: o.name, since })}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 <input type="hidden" name="recipient" value={recipient === "DEFAULT" ? "" : recipient} />

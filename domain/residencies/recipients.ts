@@ -7,7 +7,7 @@ import type { ResidencyKind } from "@/lib/generated/prisma";
 
 export type PackageRecipientOptions = {
   default: { type: "primary"; userId: string; name: string } | { type: "all" };
-  options: { userId: string; name: string; kind: ResidencyKind }[];
+  options: { userId: string; name: string; kind: ResidencyKind; masked: boolean; since: string }[];
 };
 
 const displayName = (u: { firstName: string | null; lastName: string | null; email: string }) =>
@@ -37,7 +37,13 @@ export async function getPackageRecipientOptions(
   const ctx = { buildingName: apartment.building.name, apartmentNumber: apartment.number };
   const nameOf = (u: (typeof links)[number]["user"]) => displayName(maskPerson(u, actor.id, ctx));
 
-  const options = links.map((l) => ({ userId: l.userId, name: nameOf(l.user), kind: l.kind }));
+  const options = links.map((l) => ({
+    userId: l.userId,
+    name: nameOf(l.user),
+    kind: l.kind,
+    masked: !l.user.shareName && l.user.id !== actor.id,
+    since: l.createdAt.toISOString(),
+  }));
   const primary = links.find((l) => l.isPrimary);
   return {
     default: primary
