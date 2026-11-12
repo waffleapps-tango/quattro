@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import { quick } from "@/lib/motion";
 import { toast } from "sonner";
@@ -79,18 +78,17 @@ export function ReportCard({
                 : report.category}
             </span>
             {report.visibility === "PRIVATE" && <Badge variant="outline">{t("privateBadge")}</Badge>}
-            <AnimatePresence mode="wait" initial={false}>
-              <m.span
-                key={report.status}
-                className="ml-auto"
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 4 }}
-                transition={quick}
-              >
-                <Badge variant={statusVariant(report.status)}>{t(`status.${report.status}`)}</Badge>
-              </m.span>
-            </AnimatePresence>
+            {/* Re-keyed on status so the new badge fades in. No AnimatePresence: its "wait" exit
+                never completed after a server-action refresh and left the old status on screen. */}
+            <m.span
+              key={report.status}
+              className="ml-auto"
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={quick}
+            >
+              <Badge variant={statusVariant(report.status)}>{t(`status.${report.status}`)}</Badge>
+            </m.span>
           </>
         }
         title={report.title}
