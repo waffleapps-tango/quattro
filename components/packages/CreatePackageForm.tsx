@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { submitKeepingValues } from "@/lib/form-submit";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Collapse } from "@/components/motion/Collapse";
@@ -92,7 +93,7 @@ export function CreatePackageForm({
           </DialogDescription>
         </DialogHeader>
         <HeroIllustration name="parcel" />
-        <form action={formAction}>
+        <form onSubmit={submitKeepingValues(formAction)}>
           <input type="hidden" name="communityId" value={communityId} />
           <div className="space-y-4 py-4">
             <div className="space-y-2">

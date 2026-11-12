@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { submitKeepingValues } from "@/lib/form-submit";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ export function ReminderSettings({
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={formAction} className="flex flex-wrap items-end gap-4">
+        <form onSubmit={submitKeepingValues(formAction)} className="flex flex-wrap items-end gap-4">
           <input type="hidden" name="communityId" value={communityId} />
           <div className="flex items-center gap-2">
             <Switch

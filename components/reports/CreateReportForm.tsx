@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { submitKeepingValues } from "@/lib/form-submit";
 import { Globe, Lock, Plus } from "lucide-react";
 import { HeroIllustration } from "@/components/system/Illustration";
 import { useTranslations } from "next-intl";
@@ -90,9 +91,13 @@ export function CreateReportForm({
     }
   }, [state, pending]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Kind depends on category only; resetting it on apartment change silently emptied a picked kind.
+  useEffect(() => {
+    setType(category?.types.length === 1 ? category.types[0] : "");
+  }, [categoryKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     // Auto-pick the only choice so a resident with one space isn't asked to choose.
-    setType(category?.types.length === 1 ? category.types[0] : "");
     setParkingSpaceId(category?.subject === "parking" && visibleParking.length === 1 ? visibleParking[0].id : "");
     setStorageUnitId(category?.subject === "storage" && visibleStorage.length === 1 ? visibleStorage[0].id : "");
   }, [categoryKey, apartmentId]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -117,7 +122,7 @@ export function CreateReportForm({
           </DialogDescription>
         </DialogHeader>
         <HeroIllustration name="maintenance" className="px-6 pb-4" />
-        <form action={formAction}>
+        <form onSubmit={submitKeepingValues(formAction)}>
           <input type="hidden" name="communityId" value={communityId} />
           <input type="hidden" name="categoryKey" value={categoryKey} />
           <input type="hidden" name="type" value={type} />
