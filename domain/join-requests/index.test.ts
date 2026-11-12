@@ -3,7 +3,7 @@ vi.mock("@/lib/email", () => ({ sendEmail: vi.fn().mockResolvedValue({ ok: true 
 import prisma from "@/lib/prisma";
 import { Role } from "@/lib/generated/prisma";
 import type { SessionUser } from "@/auth/session";
-import { UnauthorizedError, ValidationError } from "@/domain/errors";
+import { TenantMismatchError, UnauthorizedError, ValidationError } from "@/domain/errors";
 import {
   cleanupDatabase,
   createCommunityWithBuildingAndApartment,
@@ -67,7 +67,40 @@ describe("createJoinRequest", () => {
     const other = await newcomer();
     await expect(createJoinRequest(other, { ...s.input, note: "x".repeat(501) })).rejects.toThrow(ValidationError);
     const elsewhere = await createCommunityWithBuildingAndApartment();
-    await expect(createJoinRequest(other, { ...s.input, apartmentId: elsewhere.apartment.id })).rejects.toThrow();
+    await expect(createJoinRequest(other, { ...s.input, apartmentId: elsewhere.apartment.id })).rejects.toThrow(TenantMismatchError);
+    // a valid building+apartment of community B submitted with community A's id
+    await expect(
+      createJoinRequest(other, {
+        communityId: s.community.id,
+        buildingId: elsewhere.building.id,
+        apartmentId: elsewhere.apartment.id,
+        kind: "OWNER",
+      }),
+    ).rejects.toThrow(TenantMismatchError);
+  });
+
+  it("rejects an invalid residency kind", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    await expect(createJoinRequest(me, { ...s.input, kind: "SQUATTER" as never })).rejects.toThrow(ValidationError);
+    expect(await prisma.joinRequest.count()).toBe(0);
+  });
+
+  it("maps a concurrent double submit to a ValidationError and keeps one pending row", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const results = await Promise.allSettled([createJoinRequest(me, s.input), createJoinRequest(me, s.input)]);
+    const rejected = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0].reason).toBeInstanceOf(ValidationError);
+    expect(await prisma.joinRequest.count({ where: { userId: me.id, status: "PENDING" } })).toBe(1);
+  });
+
+  it("writes one audit row per request", async () => {
+    const s = await setup();
+    await createJoinRequest(await newcomer(), s.input);
+    expect(await prisma.auditLog.count({ where: { action: "JOIN_REQUEST_CREATED" } })).toBe(1);
   });
 });
 
@@ -102,9 +135,33 @@ describe("listing", () => {
     expect((await listJoinRequests(s.reception, s.community.id)).pending).toHaveLength(1);
   });
 
+  it("excludes pending: placeholder users from the users-without-request list", async () => {
+    const s = await setup();
+    await prisma.user.create({ data: { email: "placeholder@example.com", clerkUserId: "pending:placeholder@example.com" } });
+    const real = await newcomer("real@example.com");
+    const emails = (await listUsersWithoutRequest(s.manager, s.community.id)).map((u) => u.email);
+    expect(emails).toContain(real.email);
+    expect(emails).not.toContain("placeholder@example.com");
+  });
+
+  it("refuses a manager of a different community", async () => {
+    const s = await setup();
+    const otherBase = await createCommunityWithBuildingAndApartment();
+    const outsider = await createUserWithMembership({ communityId: otherBase.community.id, role: Role.MANAGER });
+    await expect(listJoinRequests(outsider, s.community.id)).rejects.toThrow(UnauthorizedError);
+    await expect(listUsersWithoutRequest(outsider, s.community.id)).rejects.toThrow(UnauthorizedError);
+    await expect(setReceptionCanApprove(outsider, s.community.id, true)).rejects.toThrow(UnauthorizedError);
+  });
+
   it("only managers/admins change the reception setting", async () => {
     const s = await setup();
     await expect(setReceptionCanApprove(s.reception, s.community.id, true)).rejects.toThrow(UnauthorizedError);
+    expect(await prisma.auditLog.count({ where: { action: "COMMUNITY_SETTINGS_CHANGED" } })).toBe(0);
+
+    await setReceptionCanApprove(s.manager, s.community.id, true);
+    const rows = await prisma.auditLog.findMany({ where: { action: "COMMUNITY_SETTINGS_CHANGED" } });
+    expect(rows).toHaveLength(1);
+    expect(rows[0].metadata).toMatchObject({ receptionCanApproveJoinRequests: true });
   });
 
   it("gives a newcomer the community's buildings/apartments and their latest request", async () => {

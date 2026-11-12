@@ -104,6 +104,7 @@ export async function createJoinRequest(
   actor: SessionUser,
   input: { communityId: string; buildingId: string; apartmentId: string; kind: ResidencyKind; note?: string },
 ): Promise<JoinRequest> {
+  if (input.kind !== "OWNER" && input.kind !== "TENANT") throw new ValidationError("invalid residency kind");
   if (actor.memberships.some((m) => m.communityId === input.communityId)) {
     throw new ValidationError("already a member of this community");
   }
@@ -112,33 +113,40 @@ export async function createJoinRequest(
   if (!apartment || apartment.buildingId !== input.buildingId || apartment.building.communityId !== input.communityId) {
     throw new TenantMismatchError(`Apartment ${input.apartmentId} is not in building ${input.buildingId}`);
   }
-  return prisma.$transaction(async (tx) => {
-    const open = await tx.joinRequest.findFirst({ where: { userId: actor.id, communityId: input.communityId, status: JoinRequestStatus.PENDING } });
-    if (open) throw new ValidationError("a pending request already exists");
-    const request = await tx.joinRequest.create({
-      data: { userId: actor.id, communityId: input.communityId, buildingId: input.buildingId, apartmentId: input.apartmentId, kind: input.kind, note },
+  try {
+    return await prisma.$transaction(async (tx) => {
+      const open = await tx.joinRequest.findFirst({ where: { userId: actor.id, communityId: input.communityId, status: JoinRequestStatus.PENDING } });
+      if (open) throw new ValidationError("a pending request already exists");
+      const request = await tx.joinRequest.create({
+        data: { userId: actor.id, communityId: input.communityId, buildingId: input.buildingId, apartmentId: input.apartmentId, kind: input.kind, note },
+      });
+      await writeAuditLog(tx, {
+        communityId: input.communityId,
+        userId: actor.id,
+        action: "JOIN_REQUEST_CREATED",
+        entity: "JoinRequest",
+        entityId: request.id,
+      });
+      await notify(tx, {
+        communityId: input.communityId,
+        type: "JOIN_REQUEST_CREATED",
+        recipientUserIds: await approverIds(tx, input.communityId),
+        payload: {
+          requestId: request.id,
+          name: displayName(actor) ?? actor.email,
+          buildingName: apartment.building.name,
+          apartmentNumber: apartment.number,
+        },
+        dedupeKey: `JOIN_REQUEST_CREATED:${request.id}`,
+      });
+      return request;
     });
-    await writeAuditLog(tx, {
-      communityId: input.communityId,
-      userId: actor.id,
-      action: "JOIN_REQUEST_CREATED",
-      entity: "JoinRequest",
-      entityId: request.id,
-    });
-    await notify(tx, {
-      communityId: input.communityId,
-      type: "JOIN_REQUEST_CREATED",
-      recipientUserIds: await approverIds(tx, input.communityId),
-      payload: {
-        requestId: request.id,
-        name: displayName(actor) ?? actor.email,
-        buildingName: apartment.building.name,
-        apartmentNumber: apartment.number,
-      },
-      dedupeKey: `JOIN_REQUEST_CREATED:${request.id}`,
-    });
-    return request;
-  });
+  } catch (e) {
+    // Concurrent double submit loses on the JoinRequest_one_pending partial unique index.
+    // Structural check: instanceof breaks when Next loads Prisma twice (see domain/engagement/reactions.ts).
+    if ((e as { code?: unknown } | null)?.code === "P2002") throw new ValidationError("a pending request already exists");
+    throw e;
+  }
 }
 
 export async function cancelJoinRequest(actor: SessionUser, requestId: string): Promise<void> {
