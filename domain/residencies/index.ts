@@ -11,7 +11,7 @@ import { closePendingJoinRequests } from "@/domain/join-requests";
 import { Role, type Prisma, type ResidencyKind } from "@/lib/generated/prisma";
 import { canManageApartment, isApartmentOwner, isCommunityManager, MANAGE_ROLES } from "./access";
 
-async function linkResident(
+export async function linkResident(
   tx: Prisma.TransactionClient,
   p: {
     actorId: string;

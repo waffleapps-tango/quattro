@@ -1,3 +1,4 @@
+import { getAppUrl } from "@/lib/app-url";
 import prisma from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { renderNotification } from "./render";
@@ -6,7 +7,7 @@ import type { ChannelAdapter } from "./types";
 export const emailChannel: ChannelAdapter = {
   id: "email",
   async send(notification, user) {
-    if (!process.env.RESEND_API_KEY || !process.env.EMAIL_FROM || !process.env.APP_URL) {
+    if (!process.env.RESEND_API_KEY || !process.env.EMAIL_FROM || !getAppUrl()) {
       return { status: "fail", error: "RESEND_API_KEY / EMAIL_FROM / APP_URL not set" };
     }
 

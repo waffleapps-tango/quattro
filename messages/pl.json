@@ -773,11 +773,34 @@
   "admin": {
     "tabs": {
       "users": "Użytkownicy",
+      "apartments": "Mieszkania",
       "requests": "Prośby",
       "notifications": "Powiadomienia",
       "community": "Wspólnota"
     },
+    "apartments": {
+      "invite": "Zaproś",
+      "inviteTitle": "Zaproś do {place}",
+      "inviteDescription": "Wyślemy zaproszenie e-mailem. Po rejestracji na ten adres osoba zostanie przypisana do tego mieszkania.",
+      "email": "E-mail",
+      "kind": "Relacja",
+      "OWNER": "Właściciel",
+      "TENANT": "Najemca",
+      "send": "Wyślij zaproszenie",
+      "onlyEmpty": "Tylko wolne mieszkania",
+      "noBuildings": "Brak budynków.",
+      "noneEmpty": "Brak wolnych mieszkań.",
+      "summary": "Mieszkań: {total}, wolnych: {empty}",
+      "vacant": "Wolne",
+      "pending": "Zaproszony",
+      "invited": "Wysłano zaproszenie",
+      "linkedNoEmail": "Zapisano, ale e-mail nie został wysłany. Wyślij ponownie w zakładce Użytkownicy.",
+      "alreadyLinked": "Ta osoba jest już przypisana do tego mieszkania.",
+      "notFound": "Nie znaleziono mieszkania.",
+      "failed": "Nie udało się wysłać zaproszenia. Spróbuj ponownie."
+    },
     "communitySettings": {
+      "receptionCanInvite": "Recepcja może zapraszać mieszkańców",
       "title": "Nazwa wspólnoty",
       "description": "Wyświetlana na stronie głównej i w nawigacji.",
       "name": "Nazwa",

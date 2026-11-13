@@ -85,6 +85,7 @@ model Community {
   address                         String?
   reminderAfterDays               Int?
   receptionCanApproveJoinRequests Boolean  @default(false)
+  receptionCanInvite              Boolean  @default(false)
   createdAt                       DateTime @default(now())
   updatedAt                       DateTime @updatedAt
 

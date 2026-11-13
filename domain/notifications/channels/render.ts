@@ -1,3 +1,4 @@
+import { getAppUrl } from "@/lib/app-url";
 import { createTranslator } from "next-intl";
 import type { Notification, User } from "@/lib/generated/prisma";
 import { resolveLocale } from "@/i18n/locale";
@@ -14,7 +15,7 @@ export function renderNotification(notification: Notification, user: User) {
   const types = createTranslator({ locale, messages, namespace: "notifications.types" });
   const email = createTranslator({ locale, messages, namespace: "notifications.email" });
   const values = notification.payload as Record<string, string | number>;
-  const url = `${(process.env.APP_URL ?? "").replace(/\/+$/, "")}/settings`;
+  const url = `${getAppUrl()}/settings`;
   return {
     title: types(`${notification.type}.title` as never, values as never),
     body: types(`${notification.type}.body` as never, values as never),

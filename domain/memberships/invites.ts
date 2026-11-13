@@ -4,11 +4,32 @@ import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, UnauthorizedError, ValidationError } from "@/domain/errors";
 import { inviteEmail } from "@/domain/join-requests/emails";
 import { sendEmail } from "@/lib/email";
-import { Role } from "@/lib/generated/prisma";
+import { getAppUrl } from "@/lib/app-url";
+import { linkResident } from "@/domain/residencies";
+import { Role, type Community, type Membership, type ResidencyKind } from "@/lib/generated/prisma";
 
 const RESEND_AFTER_MS = 10 * 60_000;
 export const ALREADY_REGISTERED = "user already has an account";
 export const INVITE_THROTTLED = "invite sent less than 10 minutes ago";
+
+const MANAGERS: Role[] = [Role.MANAGER, Role.ADMIN];
+
+// Managers always; reception only while the community switch is on.
+export function canInviteResidents(
+  membership: Pick<Membership, "role">,
+  community: Pick<Community, "receptionCanInvite">,
+): boolean {
+  return MANAGERS.includes(membership.role) || (membership.role === Role.RECEPTIONIST && community.receptionCanInvite);
+}
+
+export async function requireInviter(actor: SessionUser, communityId: string) {
+  const membership = actor.memberships.find((m) => m.communityId === communityId);
+  const community = await prisma.community.findUnique({ where: { id: communityId } });
+  if (!membership || !community || !canInviteResidents(membership, community)) {
+    throw new UnauthorizedError(`User ${actor.id} cannot invite residents in ${communityId}`);
+  }
+  return { membership, community };
+}
 
 export const isPendingUser = (user: { clerkUserId: string }) => user.clerkUserId.startsWith("pending:");
 
@@ -23,9 +44,10 @@ export async function sendInvite(actor: SessionUser, membershipId: string, opts:
     },
   });
   if (!membership) throw new NotFoundError(`Membership ${membershipId} not found`);
-  const actorMembership = actor.memberships.find((m) => m.communityId === membership.communityId);
-  if (!actorMembership || (actorMembership.role !== Role.MANAGER && actorMembership.role !== Role.ADMIN)) {
-    throw new UnauthorizedError(`User ${actor.id} cannot send invites`);
+  const { membership: actorMembership } = await requireInviter(actor, membership.communityId);
+  // Reception may only (re)invite residents, never staff.
+  if (!MANAGERS.includes(actorMembership.role) && membership.role !== Role.RESIDENT) {
+    throw new UnauthorizedError(`User ${actor.id} cannot invite role ${membership.role}`);
   }
   if (!isPendingUser(membership.user)) throw new ValidationError(ALREADY_REGISTERED);
 
@@ -45,7 +67,7 @@ export async function sendInvite(actor: SessionUser, membershipId: string, opts:
   const place = residency ? `${residency.apartment.building.name} / ${residency.apartment.number}` : "";
   const mail = inviteEmail(actor.locale, { email: membership.user.email, communityName: membership.community.name, place });
   // Without APP_URL the sign-up link would be relative and useless, so that counts as a failed send.
-  const res = process.env.APP_URL
+  const res = getAppUrl()
     ? await sendEmail({ to: membership.user.email, ...mail }).catch((e) => ({ ok: false as const, error: String(e) }))
     : { ok: false as const, error: "APP_URL not set" };
   if (!res.ok) {
@@ -78,4 +100,43 @@ export async function inviteIfPending(actor: SessionUser, communityId: string, e
   } catch (error) {
     console.error("auto invite failed", error);
   }
+}
+
+// Invites someone to a specific apartment: links them (creating a no-account placeholder if needed) and emails them.
+// The link is saved even if the email fails; `sent` tells the caller which happened.
+export async function inviteToApartment(
+  actor: SessionUser,
+  input: { communityId: string; apartmentId: string; email: string; kind: ResidencyKind },
+) {
+  await requireInviter(actor, input.communityId);
+  const apartment = await prisma.apartment.findUnique({ where: { id: input.apartmentId } });
+  if (!apartment) throw new NotFoundError(`Apartment ${input.apartmentId} not found`);
+
+  await prisma.$transaction((tx) =>
+    linkResident(tx, { actorId: actor.id, ...input, buildingId: apartment.buildingId }),
+  );
+  const membership = await prisma.membership.findFirst({
+    where: { communityId: input.communityId, user: { email: input.email } },
+    include: { user: { select: { clerkUserId: true } } },
+  });
+  if (!membership || !isPendingUser(membership.user)) return { sent: false, registered: true };
+  return sendInvite(actor, membership.id, { auto: true });
+}
+
+export async function setReceptionCanInvite(actor: SessionUser, communityId: string, value: boolean) {
+  const membership = actor.memberships.find((m) => m.communityId === communityId);
+  if (!membership || !MANAGERS.includes(membership.role)) {
+    throw new UnauthorizedError(`User ${actor.id} cannot change community settings`);
+  }
+  await prisma.$transaction(async (tx) => {
+    await tx.community.update({ where: { id: communityId }, data: { receptionCanInvite: value } });
+    await writeAuditLog(tx, {
+      communityId,
+      userId: actor.id,
+      action: "COMMUNITY_SETTINGS_CHANGED",
+      entity: "Community",
+      entityId: communityId,
+      metadata: { receptionCanInvite: value },
+    });
+  });
 }

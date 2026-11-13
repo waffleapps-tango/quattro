@@ -773,11 +773,34 @@
   "admin": {
     "tabs": {
       "users": "Users",
+      "apartments": "Apartments",
       "requests": "Requests",
       "notifications": "Notifications",
       "community": "Community"
     },
+    "apartments": {
+      "invite": "Invite",
+      "inviteTitle": "Invite to {place}",
+      "inviteDescription": "We email an invitation. They join this apartment after signing up with this address.",
+      "email": "Email",
+      "kind": "Relationship",
+      "OWNER": "Owner",
+      "TENANT": "Tenant",
+      "send": "Send invitation",
+      "onlyEmpty": "Only vacant apartments",
+      "noBuildings": "No buildings yet.",
+      "noneEmpty": "No vacant apartments.",
+      "summary": "{total} apartments, {empty} vacant",
+      "vacant": "Vacant",
+      "pending": "Invited",
+      "invited": "Invitation sent",
+      "linkedNoEmail": "Saved, but the email was not sent. Resend it from the Users tab.",
+      "alreadyLinked": "This person is already linked to this apartment.",
+      "notFound": "Apartment not found.",
+      "failed": "Could not send the invitation. Try again."
+    },
     "communitySettings": {
+      "receptionCanInvite": "Reception can invite residents",
       "title": "Community name",
       "description": "Shown on the home page and in the navigation.",
       "name": "Name",

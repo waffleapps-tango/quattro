@@ -1,10 +1,11 @@
+import { getAppUrl } from "@/lib/app-url";
 import { createTranslator } from "next-intl";
 import { resolveLocale } from "@/i18n/locale";
 import en from "@/messages/en.json";
 import pl from "@/messages/pl.json";
 
 const catalogs = { en, pl };
-const appUrl = () => (process.env.APP_URL ?? "").replace(/\/+$/, "");
+const appUrl = getAppUrl;
 
 function tr(userLocale: string | null | undefined) {
   const locale = resolveLocale({ userLocale });

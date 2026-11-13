@@ -35,6 +35,7 @@ const profile: Item = { titleKey: "profile", href: "/profile", icon: UserRound }
 
 type Me = {
   role: string | null;
+  adminAccess?: boolean;
   impersonated?: boolean;
   user?: { firstName: string | null; lastName: string | null; email: string };
 };
@@ -51,7 +52,7 @@ export type ViewerUser = {
 const E2E = process.env.NEXT_PUBLIC_E2E_IMPERSONATE === "1";
 
 // The signed-in user (Clerk, or the dev impersonation stand-in) plus their role from /api/me.
-export function useViewer(): { user: ViewerUser | null; role: string | null; impersonated: boolean } {
+export function useViewer(): { user: ViewerUser | null; role: string | null; adminAccess: boolean; impersonated: boolean } {
   const { user: clerkUser } = useUser();
   const [me, setMe] = useState<Me | null>(null);
   useEffect(() => {
@@ -74,15 +75,15 @@ export function useViewer(): { user: ViewerUser | null; role: string | null; imp
       fullName: [stand.firstName, stand.lastName].filter(Boolean).join(" ") || null,
       primaryEmailAddress: { emailAddress: stand.email },
     });
-  return { user, role: me?.role ?? null, impersonated: !!stand };
+  return { user, role: me?.role ?? null, adminAccess: !!me?.adminAccess, impersonated: !!stand };
 }
 
 export function NavList({ collapsed = false }: { collapsed?: boolean }) {
   const pathname = usePathname();
   const t = useTranslations("nav");
-  const { user, role } = useViewer();
+  const { user, adminAccess } = useViewer();
 
-  const canAdmin = role === "ADMIN" || role === "MANAGER";
+  const canAdmin = adminAccess;
   const groups: { label?: string; items: Item[] }[] = user
     ? [
         { label: t("groupModules"), items: [home, ...modules] },

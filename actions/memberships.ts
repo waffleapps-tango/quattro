@@ -10,7 +10,7 @@ import {
   removeMembership,
 } from "@/domain/memberships";
 import { UnauthorizedError, NotFoundError, TenantMismatchError, ValidationError } from "@/domain/errors";
-import { ALREADY_REGISTERED, inviteIfPending, sendInvite } from "@/domain/memberships/invites";
+import { ALREADY_REGISTERED, inviteIfPending, inviteToApartment, sendInvite, setReceptionCanInvite } from "@/domain/memberships/invites";
 import { addResidency, removeResidency } from "@/domain/residencies";
 import { ResidencyKind, Role } from "@/lib/generated/prisma";
 
@@ -165,5 +165,55 @@ export async function removeResidencyAction(residencyId: string): Promise<Action
     }
     console.error(error);
     return { message: t("removeFailed"), success: false };
+  }
+}
+
+const inviteToApartmentSchema = z.object({
+  communityId: z.string().min(1),
+  apartmentId: z.string().min(1),
+  email: z.string().trim().toLowerCase().email(),
+  kind: z.nativeEnum(ResidencyKind),
+});
+
+export async function inviteToApartmentAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const t = await getTranslations("admin.apartments");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  const parsed = inviteToApartmentSchema.safeParse({
+    communityId: formData.get("communityId"),
+    apartmentId: formData.get("apartmentId"),
+    email: formData.get("email"),
+    kind: formData.get("kind"),
+  });
+  if (!parsed.success) return { message: te("invalidForm"), success: false };
+
+  try {
+    const result = await inviteToApartment(actor, parsed.data);
+    revalidatePath("/admin/apartments");
+    return { message: t(result.sent ? "invited" : "linkedNoEmail"), success: true };
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return { message: te("forbidden"), success: false };
+    if (error instanceof TenantMismatchError || error instanceof NotFoundError) return { message: t("notFound"), success: false };
+    if (error instanceof ValidationError) return { message: t("alreadyLinked"), success: false };
+    console.error(error);
+    return { message: t("failed"), success: false };
+  }
+}
+
+export async function setReceptionCanInviteAction(communityId: string, value: boolean): Promise<ActionState> {
+  const t = await getTranslations("admin.communitySettings");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+  try {
+    await setReceptionCanInvite(actor, z.string().min(1).max(64).parse(communityId), z.boolean().parse(value));
+    revalidatePath("/admin", "layout");
+    return { message: t("saved"), success: true };
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return { message: t("noPermission"), success: false };
+    console.error(error);
+    return { message: t("failed"), success: false };
   }
 }

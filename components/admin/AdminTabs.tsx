@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 const hrefs = {
   users: "/admin/users",
+  apartments: "/admin/apartments",
   requests: "/admin/requests",
   notifications: "/admin/notifications",
   community: "/admin/community",
