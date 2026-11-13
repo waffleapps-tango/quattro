@@ -21,10 +21,12 @@ import { User, Settings, LogOut } from "lucide-react";
 import { useClerk } from "@clerk/nextjs";
 import { useTranslations } from "next-intl";
 import { useViewer } from "@/components/NavList";
+import { useAppName } from "@/components/AppName";
 
 export function TopBar() {
   const t = useTranslations("nav");
   const tc = useTranslations("common");
+  const appName = useAppName();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, impersonated } = useViewer();
   const { signOut } = useClerk();
@@ -47,7 +49,7 @@ export function TopBar() {
               <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
                 <Building2 className="h-4 w-4" />
               </span>
-              Quattro
+              {appName}
             </SheetTitle>
             <MobileNavigation />
           </SheetContent>

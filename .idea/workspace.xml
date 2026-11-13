@@ -5,37 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e96b2cc-8021-43af-b62a-38c0bafc9864" name="Changes" comment="chore: code clear">
-      <change afterPath="$PROJECT_DIR$/.claude/worktrees/reports" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/palettes.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/settings/ThemePicker.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/settings/useThemeSwitch.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ideas/quattro/idea.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ideas/quattro/pitch.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ideas/quattro/plan.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ideas/quattro/roast.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/palettes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/001-button-transition-and-press.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/002-theme-toggle-no-scale-zero.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/003-global-ease-out-token.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/004-reduced-motion.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/005-sheet-easing-duration.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/006-sidebar-collapse.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/007-switch-scoped-transition.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/008-gate-card-hover.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plans/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/packages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/packages.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/MainNavigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/MainNavigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ThemeToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ThemeToggle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/packages/CreatePackageForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/packages/CreatePackageForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/settings/SettingsForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/settings/SettingsForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/sheet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/sheet.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/switch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/switch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/system/StatusScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/system/StatusScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/system/WaitingScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/system/WaitingScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/icons/2/urgent.webp" beforeDir="false" afterPath="$PROJECT_DIR$/public/icons/2/urgent.webp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,26 +36,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "js.debugger.nextJs.config.created.client": "true",
-    "last_opened_file_path": "/Users/maciek/Documents/development/quattro",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/maciek/Documents/development/quattro/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/maciek/Documents/development/quattro&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/maciek/Documents/development/quattro/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="npm.dev">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />

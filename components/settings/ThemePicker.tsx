@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { PALETTES, applyPalette, getPalette, type PaletteId } from "@/lib/palettes";
+import { useAppName } from "@/components/AppName";
 import { centerOf, useThemeSwitch } from "./useThemeSwitch";
 
 const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
@@ -16,10 +17,11 @@ const RADIUS = 124;
 
 function MiniApp() {
   const t = useTranslations("settings.mini");
+  const appName = useAppName();
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <div className="font-semibold">Quattro</div>
+        <div className="font-semibold">{appName}</div>
         <Badge>{t("badge")}</Badge>
       </div>
       <div className="rounded-lg border bg-card p-3 text-card-foreground">

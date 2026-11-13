@@ -11,6 +11,9 @@ import { enUS, plPL } from "@clerk/localizations";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
+import { getCurrentUser } from "@/auth/session";
+import { getAppName } from "@/domain/communities/name";
+import { AppNameProvider } from "@/components/AppName";
 import { IllustrationProvider } from "@/components/system/Illustration";
 import { ILLUSTRATIONS_COOKIE, parseIllustrationPref } from "@/components/system/illustration-prefs";
 
@@ -19,8 +22,9 @@ const geist = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-geist" 
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
+  const appName = await getAppName();
   return {
-    title: { default: "Quattro", template: "%s | Quattro" },
+    title: { default: appName, template: `%s | ${appName}` },
     description: t("description"),
   };
 }
@@ -31,6 +35,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
+  const [appName, user] = await Promise.all([getAppName(), getCurrentUser()]);
   const illustrations = parseIllustrationPref((await cookies()).get(ILLUSTRATIONS_COOKIE)?.value);
   return (
     <ClerkProvider localization={locale === "pl" ? plPL : enUS}>
@@ -55,17 +60,23 @@ export default async function RootLayout({
             <NextIntlClientProvider>
               <IllustrationProvider value={illustrations}>
               <MotionProvider>
-                <div className="flex h-screen">
-                  <MainNavigation />
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <TopBar />
-                    <main className="flex-1 overflow-y-auto">
-                      <div className="mx-auto max-w-[1380px] p-4 sm:p-6 lg:p-8">
-                        {children}
+                <AppNameProvider value={appName}>
+                  {user ? (
+                    <div className="flex h-screen">
+                      <MainNavigation />
+                      <div className="flex min-w-0 flex-1 flex-col">
+                        <TopBar />
+                        <main className="flex-1 overflow-y-auto">
+                          <div className="mx-auto max-w-[1380px] p-4 sm:p-6 lg:p-8">
+                            {children}
+                          </div>
+                        </main>
                       </div>
-                    </main>
-                  </div>
-                </div>
+                    </div>
+                  ) : (
+                    <main className="min-h-screen">{children}</main>
+                  )}
+                </AppNameProvider>
                 <Toaster />
               </MotionProvider>
               </IllustrationProvider>

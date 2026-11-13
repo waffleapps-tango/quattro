@@ -31,7 +31,7 @@
     "metaDescription": "Manage app settings",
     "appearance": {
       "title": "Appearance",
-      "description": "Customize how Quattro looks on your device",
+      "description": "Customize how the app looks on your device",
       "theme": "Theme",
       "themePlaceholder": "Choose a theme"
     },
@@ -130,8 +130,8 @@
     }
   },
   "dashboard": {
-    "welcome": "Welcome to Quattro",
-    "tagline": "Packages and reports for your neighborhood, all in one place.",
+    "welcome": "Welcome",
+    "tagline": "Sign in to continue.",
     "greeting": "Good day, {name}",
     "waitingForPickup": "Packages waiting for pickup",
     "newReports": "New reports",
@@ -774,7 +774,18 @@
     "tabs": {
       "users": "Users",
       "requests": "Requests",
-      "notifications": "Notifications"
+      "notifications": "Notifications",
+      "community": "Community"
+    },
+    "communitySettings": {
+      "title": "Community name",
+      "description": "Shown on the home page and in the navigation.",
+      "name": "Name",
+      "save": "Save",
+      "saved": "Community name saved",
+      "noPermission": "Only managers can change this.",
+      "invalid": "Enter a name of up to 60 characters.",
+      "failed": "Could not save the name. Try again."
     },
     "reminderSettings": {
       "title": "Automatic reminder",

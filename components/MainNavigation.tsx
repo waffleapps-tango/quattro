@@ -8,12 +8,14 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { NavList, useViewer } from "@/components/NavList";
+import { useAppName } from "@/components/AppName";
 
 export function MainNavigation() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user, role } = useViewer();
   const tAdmin = useTranslations("admin");
   const tNav = useTranslations("nav");
+  const appName = useAppName();
 
   return (
     <div
@@ -34,7 +36,7 @@ export function MainNavigation() {
               isCollapsed && "w-0 opacity-0",
             )}
           >
-            Quattro
+            {appName}
           </span>
         </div>
         <Button

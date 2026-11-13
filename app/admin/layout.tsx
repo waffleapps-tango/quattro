@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   let tabs: AdminTab[] | null = null;
   if (user && membership) {
     if (membership.role === Role.ADMIN || membership.role === Role.MANAGER) {
-      tabs = ["users", "requests", "notifications"];
+      tabs = ["users", "requests", "notifications", "community"];
     } else if (membership.role === Role.RECEPTIONIST) {
       try {
         await requireApprover(user, membership.communityId);

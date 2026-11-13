@@ -31,7 +31,7 @@
     "metaDescription": "Zarządzaj ustawieniami aplikacji",
     "appearance": {
       "title": "Wygląd",
-      "description": "Dostosuj wygląd Quattro na swoim urządzeniu",
+      "description": "Dostosuj wygląd aplikacji na swoim urządzeniu",
       "theme": "Motyw",
       "themePlaceholder": "Wybierz motyw"
     },
@@ -130,8 +130,8 @@
     }
   },
   "dashboard": {
-    "welcome": "Witaj w Quattro",
-    "tagline": "Paczki i zgłoszenia dla Twojego osiedla w jednym miejscu.",
+    "welcome": "Witaj",
+    "tagline": "Zaloguj się, aby kontynuować.",
     "greeting": "Dzień dobry, {name}",
     "waitingForPickup": "Paczki czekające na wydanie",
     "newReports": "Nowe zgłoszenia",
@@ -774,7 +774,18 @@
     "tabs": {
       "users": "Użytkownicy",
       "requests": "Prośby",
-      "notifications": "Powiadomienia"
+      "notifications": "Powiadomienia",
+      "community": "Wspólnota"
+    },
+    "communitySettings": {
+      "title": "Nazwa wspólnoty",
+      "description": "Wyświetlana na stronie głównej i w nawigacji.",
+      "name": "Nazwa",
+      "save": "Zapisz",
+      "saved": "Zapisano nazwę wspólnoty",
+      "noPermission": "Tylko zarządcy mogą to zmienić.",
+      "invalid": "Podaj nazwę do 60 znaków.",
+      "failed": "Nie udało się zapisać nazwy. Spróbuj ponownie."
     },
     "reminderSettings": {
       "title": "Automatyczne przypomnienie",

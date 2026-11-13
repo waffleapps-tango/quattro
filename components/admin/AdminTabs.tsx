@@ -9,6 +9,7 @@ const hrefs = {
   users: "/admin/users",
   requests: "/admin/requests",
   notifications: "/admin/notifications",
+  community: "/admin/community",
 } as const;
 
 export type AdminTab = keyof typeof hrefs;

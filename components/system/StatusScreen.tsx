@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Building2 } from "lucide-react";
+import { useAppName } from "@/components/AppName";
 import { HeroIllustration, type IllustrationName } from "./Illustration";
 
 export type StatusVariant = "not-found" | "error" | "forbidden" | "waiting";
@@ -38,17 +39,18 @@ export function StatusScreen({
   children?: ReactNode;
 }) {
   const t = useTranslations("system");
+  const appName = useAppName();
   const k = KEY[variant];
   const code = variant === "error" ? t("error.code") : CODE[variant];
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background px-6 py-10 text-center">
-      <div className="flex items-center gap-3">
+    <div className="fixed inset-0 z-50 flex flex-col items-center gap-8 overflow-y-auto bg-background px-6 py-10 text-center">
+      <div className="mt-auto flex items-center gap-3">
         <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary text-primary-foreground">
           <Building2 className="h-5 w-5" aria-hidden="true" />
         </span>
-        <span className="font-heading text-lg font-semibold uppercase tracking-wide">Quattro</span>
+        <span className="font-heading text-lg font-semibold uppercase tracking-wide">{appName}</span>
       </div>
-      <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-card px-8 py-10 shadow-[0_1px_2px_rgb(9_20_38/0.04),0_8px_32px_rgb(9_20_38/0.06)]">
+      <div className="mb-auto flex w-full max-w-md flex-col items-center rounded-2xl bg-card px-8 py-10 shadow-[0_1px_2px_rgb(9_20_38/0.04),0_8px_32px_rgb(9_20_38/0.06)]">
         <HeroIllustration name={ART[variant]} priority />
         {code && (
           <p className="mt-2 font-heading text-6xl font-semibold leading-none tracking-tight">{code}</p>

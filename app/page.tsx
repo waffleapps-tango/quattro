@@ -4,6 +4,7 @@ import { ArrowRight, Plus } from "lucide-react";
 import { getCurrentUser } from "@/auth/session";
 import { listPackagesForViewer } from "@/domain/packages";
 import { listReports } from "@/domain/reports";
+import { getAppName } from "@/domain/communities/name";
 import { getProfile } from "@/domain/profile";
 import { summarizeDashboard } from "@/domain/dashboard/summary";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
@@ -27,13 +28,13 @@ export default async function Home() {
   const user = await getCurrentUser();
 
   if (!user) {
+    const appName = await getAppName();
     return (
-      <div className="flex flex-col items-center gap-4 py-16 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 py-10 text-center">
         <HeroIllustration name="building" priority />
-        <h1 className="text-2xl font-bold sm:text-3xl">{t("welcome")}</h1>
-        <p className="text-muted-foreground">
-          {t("tagline")}
-        </p>
+        <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">{t("welcome")}</p>
+        <h1 className="font-heading text-3xl font-semibold sm:text-4xl">{appName}</h1>
+        <p className="text-muted-foreground">{t("tagline")}</p>
         <div className="flex gap-2">
           <Button asChild>
             <Link href="/sign-in">{tc("signIn")}</Link>
