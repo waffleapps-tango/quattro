@@ -26,24 +26,27 @@ import { Plus } from "lucide-react";
 import { HeroIllustration } from "@/components/system/Illustration";
 import { createMembershipAction } from "@/actions/memberships";
 import { useTranslations } from "next-intl";
-import { ResidencyKind, Role, type Building, type Apartment } from "@/lib/generated/prisma";
+import { ResidencyKind, Role, type Building } from "@/lib/generated/prisma";
+import { getBuildingApartmentsAction } from "@/actions/apartments";
+import type { ApartmentOption } from "@/domain/residencies/overview";
+import { useFloorLabel } from "./useFloorLabel";
 
 type ActionState = { message: string; success: boolean };
 
 export function CreateMembershipForm({
   communityId,
   buildings,
-  apartmentsByBuilding,
   defaultEmail,
   defaultOpen = false,
 }: {
   communityId: string;
   buildings: Building[];
-  apartmentsByBuilding: Record<string, Apartment[]>;
   defaultEmail?: string;
   defaultOpen?: boolean;
 }) {
   const t = useTranslations("admin");
+  const floorLabel = useFloorLabel();
+  const [apartments, setApartments] = useState<ApartmentOption[]>([]);
   const [open, setOpen] = useState(defaultOpen);
   const [buildingId, setBuildingId] = useState<string>("");
   const [apartmentId, setApartmentId] = useState("");
@@ -60,9 +63,16 @@ export function CreateMembershipForm({
 
   useEffect(() => {
     setApartmentId("");
-  }, [buildingId]);
-
-  const apartments = buildingId ? apartmentsByBuilding[buildingId] ?? [] : [];
+    setApartments([]);
+    if (!buildingId) return;
+    let cancelled = false;
+    getBuildingApartmentsAction(communityId, buildingId).then((res) => {
+      if (!cancelled && res.ok) setApartments(res.data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [buildingId, communityId]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -129,6 +139,7 @@ export function CreateMembershipForm({
                     {apartments.map((apartment) => (
                       <SelectItem key={apartment.id} value={apartment.id}>
                         {apartment.number}
+                        {apartment.floor !== null && ` · ${floorLabel(apartment.floor)}`}
                       </SelectItem>
                     ))}
                   </SelectContent>

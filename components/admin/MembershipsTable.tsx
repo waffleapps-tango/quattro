@@ -1,14 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -45,7 +38,7 @@ import type { listMembershipsForCommunity } from "@/domain/memberships";
 
 type MembershipRow = Awaited<ReturnType<typeof listMembershipsForCommunity>>[number];
 
-export function MembershipsTable({ memberships }: { memberships: MembershipRow[] }) {
+export function MembershipsTable({ memberships, filtered = false }: { memberships: MembershipRow[]; filtered?: boolean }) {
   const t = useTranslations("admin");
   const [pendingId, setPendingId] = useState<string | null>(null);
 
@@ -85,8 +78,8 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
     return (
       <EmptyState
         illustration="residents"
-        title={t("empty")}
-        description={t("emptyHint")}
+        title={filtered ? t("emptyFiltered") : t("empty")}
+        description={filtered ? undefined : t("emptyHint")}
       />
     );
   }
@@ -179,62 +172,30 @@ export function MembershipsTable({ memberships }: { memberships: MembershipRow[]
   );
 
   return (
-    <>
-      {/* Below xl the five columns do not fit next to the sidebar, so members render as cards. */}
-      <ul className="divide-y rounded-md border xl:hidden">
-        {memberships.map((membership) => (
-          <li key={membership.id} className="space-y-3 p-4">
-            <div className="min-w-0">
-              <p className="break-all font-medium">
-                {membership.user.email}
-                {pendingBadge(membership)}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {t("colBuilding")}: {membership.building?.name ?? "—"}
-              </p>
-            </div>
-            <div className="text-sm">{apartments(membership)}</div>
-            <div className="flex flex-wrap items-center gap-2">
-              {roleSelect(membership, "w-[180px]")}
-              {resendButton(membership)}
-              {removeButton(membership)}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="hidden rounded-md border xl:block">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t("colEmail")}</TableHead>
-              <TableHead>{t("colBuilding")}</TableHead>
-              <TableHead>{t("colApartment")}</TableHead>
-              <TableHead>{t("colRole")}</TableHead>
-              <TableHead>{t("colActions")}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {memberships.map((membership) => (
-              <TableRow key={membership.id}>
-                <TableCell>
+    <ul className="space-y-3">
+      {memberships.map((membership) => (
+        <li key={membership.id}>
+          <Card>
+            <CardContent className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center lg:justify-between">
+              <div className="min-w-0 space-y-2">
+                <p className="break-all font-medium">
                   {membership.user.email}
                   {pendingBadge(membership)}
-                </TableCell>
-                <TableCell>{membership.building?.name ?? "—"}</TableCell>
-                <TableCell>{apartments(membership)}</TableCell>
-                <TableCell>{roleSelect(membership, "w-[180px]")}</TableCell>
-                <TableCell>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {resendButton(membership)}
-                    {removeButton(membership)}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {t("colBuilding")}: {membership.building?.name ?? "—"}
+                </p>
+                <div className="text-sm">{apartments(membership)}</div>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {roleSelect(membership, "w-[180px]")}
+                {resendButton(membership)}
+                {removeButton(membership)}
+              </div>
+            </CardContent>
+          </Card>
+        </li>
+      ))}
+    </ul>
   );
 }

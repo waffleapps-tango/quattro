@@ -4,10 +4,11 @@ import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { AccessDenied } from "@/components/system/AccessDenied";
 import { getCurrentUser, requireMembership } from "@/auth/session";
 import { listMembershipsForCommunity } from "@/domain/memberships";
-import { listBuildingsForCommunity, listApartmentsForBuilding } from "@/domain/communities/queries";
+import { listBuildingsForCommunity } from "@/domain/communities/queries";
 import { MembershipsTable } from "@/components/admin/MembershipsTable";
+import { MembershipsFilter } from "@/components/admin/MembershipsFilter";
 import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
-import { Role, type Apartment } from "@/lib/generated/prisma";
+import { Role } from "@/lib/generated/prisma";
 import { UnauthorizedError } from "@/domain/errors";
 
 export async function generateMetadata() {
@@ -33,22 +34,20 @@ export default async function AdminPage({
     throw error;
   }
 
+  const params = await searchParams;
+  const text = (v: string | string[] | undefined, max: number) =>
+    typeof v === "string" && v.length <= max ? v : undefined;
   // "Przypisz" on the requests tab lands here with the person's email to prefill the add dialog.
-  const { invite } = await searchParams;
-  const defaultEmail = typeof invite === "string" && invite.length <= 254 && invite.includes("@") ? invite : undefined;
+  const invite = text(params.invite, 254);
+  const defaultEmail = invite?.includes("@") ? invite : undefined;
+  const filters = {
+    buildingId: text(params.building, 64),
+    apartmentId: text(params.apartment, 64),
+    q: text(params.q, 100)?.trim() || undefined,
+  };
 
-  const memberships = await listMembershipsForCommunity(user, membership.communityId);
+  const memberships = await listMembershipsForCommunity(user, membership.communityId, filters);
   const buildings = await listBuildingsForCommunity(membership.communityId);
-  const apartmentLists = await Promise.all(
-    buildings.map((building) => listApartmentsForBuilding(building.id)),
-  );
-  const apartmentsByBuilding = buildings.reduce<Record<string, Apartment[]>>(
-    (acc, building, i) => {
-      acc[building.id] = apartmentLists[i];
-      return acc;
-    },
-    {},
-  );
 
   return (
     <div>
@@ -59,10 +58,14 @@ export default async function AdminPage({
           defaultOpen={Boolean(defaultEmail)}
           communityId={membership.communityId}
           buildings={buildings}
-          apartmentsByBuilding={apartmentsByBuilding}
         />
       </div>
-      <MembershipsTable memberships={memberships} />
+      <MembershipsFilter
+        communityId={membership.communityId}
+        buildings={buildings.map(({ id, name }) => ({ id, name }))}
+        {...filters}
+      />
+      <MembershipsTable memberships={memberships} filtered={Object.values(filters).some(Boolean)} />
     </div>
   );
 }
