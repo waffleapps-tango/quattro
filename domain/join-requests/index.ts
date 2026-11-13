@@ -17,6 +17,8 @@ import {
 
 const MANAGERS: Role[] = [Role.MANAGER, Role.ADMIN];
 const MAX_TEXT = 500;
+export const TOO_MANY_JOIN_REQUESTS = "too many join requests";
+const MAX_REQUESTS_PER_HOUR = 3;
 
 export function canDecideJoinRequests(
   membership: Pick<Membership, "role">,
@@ -115,6 +117,11 @@ export async function createJoinRequest(
   if (!apartment || apartment.buildingId !== input.buildingId || apartment.building.communityId !== input.communityId) {
     throw new TenantMismatchError(`Apartment ${input.apartmentId} is not in building ${input.buildingId}`);
   }
+  // Any status counts, so create -> cancel loops cannot spam approvers with notifications.
+  const recent = await prisma.joinRequest.count({
+    where: { userId: actor.id, communityId: input.communityId, createdAt: { gte: new Date(Date.now() - 60 * 60 * 1000) } },
+  });
+  if (recent >= MAX_REQUESTS_PER_HOUR) throw new ValidationError(TOO_MANY_JOIN_REQUESTS);
   try {
     return await prisma.$transaction(async (tx) => {
       const open = await tx.joinRequest.findFirst({ where: { userId: actor.id, communityId: input.communityId, status: JoinRequestStatus.PENDING } });
@@ -203,6 +210,14 @@ export async function listJoinRequests(actor: SessionUser, communityId: string) 
     }),
   ]);
   return { pending: pending.map(toView), decided: decided.map(toView) };
+}
+
+// An admin adding the person directly makes their open request moot; call inside the transaction that created the membership.
+export function closePendingJoinRequests(tx: Prisma.TransactionClient, userId: string, communityId: string) {
+  return tx.joinRequest.updateMany({
+    where: { userId, communityId, status: JoinRequestStatus.PENDING },
+    data: { status: JoinRequestStatus.CANCELLED },
+  });
 }
 
 // Badge on the admin "Prośby" tab; callers have already checked the viewer may see it.

@@ -7,6 +7,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from "@/domain/errors";
+import { closePendingJoinRequests } from "@/domain/join-requests";
 import { Role, type Prisma, type ResidencyKind } from "@/lib/generated/prisma";
 import { canManageApartment, isApartmentOwner, isCommunityManager, MANAGE_ROLES } from "./access";
 
@@ -53,6 +54,7 @@ async function linkResident(
         role: Role.RESIDENT,
       },
     });
+    await closePendingJoinRequests(tx, user.id, p.communityId);
   }
 
   const existing = await tx.apartmentResidency.findUnique({

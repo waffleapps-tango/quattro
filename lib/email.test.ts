@@ -30,4 +30,10 @@ describe("sendEmail", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("bad", { status: 422 })));
     expect(await sendEmail({ to: "a@b.pl", subject: "S", text: "T" })).toMatchObject({ ok: false, retry: false });
   });
+
+  it("truncates a long error body", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("x".repeat(500), { status: 502 })));
+    const res = await sendEmail({ to: "a@b.pl", subject: "S", text: "T" });
+    expect(res).toMatchObject({ ok: false, error: `Resend 502: ${"x".repeat(200)}` });
+  });
 });

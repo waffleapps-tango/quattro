@@ -4,6 +4,7 @@ import { writeAuditLog } from "@/domain/audit/log";
 import { NotFoundError, TenantMismatchError } from "@/domain/errors";
 import { Role } from "@/lib/generated/prisma";
 import { isPendingUser } from "@/domain/memberships/invites";
+import { closePendingJoinRequests } from "@/domain/join-requests";
 
 export async function listMembershipsForCommunity(
   actor: SessionUser,
@@ -80,6 +81,7 @@ export async function createMembership(
         role: input.role,
       },
     });
+    await closePendingJoinRequests(tx, user.id, input.communityId);
 
     await writeAuditLog(tx, {
       communityId: input.communityId,

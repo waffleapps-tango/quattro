@@ -10,10 +10,13 @@ import {
   createUserWithMembership,
 } from "@/domain/__test-helpers__/fixtures";
 import { sendEmail } from "@/lib/email";
+import { createMembership } from "@/domain/memberships";
+import { addResidency } from "@/domain/residencies";
 import { decisionEmail, inviteEmail } from "@/domain/join-requests/emails";
 import {
   approveJoinRequest,
   cancelJoinRequest,
+  TOO_MANY_JOIN_REQUESTS,
   countPendingJoinRequests,
   createJoinRequest,
   getJoinOptions,
@@ -102,10 +105,60 @@ describe("createJoinRequest", () => {
     expect(await prisma.joinRequest.count({ where: { userId: me.id, status: "PENDING" } })).toBe(1);
   });
 
+  it("allows three requests per hour per user and community, whatever their status", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    for (let i = 0; i < 3; i++) await cancelJoinRequest(me, (await createJoinRequest(me, s.input)).id);
+    const err = await createJoinRequest(me, s.input).catch((e) => e);
+    expect(err).toBeInstanceOf(ValidationError);
+    expect(err.message).toBe(TOO_MANY_JOIN_REQUESTS);
+    expect(await prisma.joinRequest.count({ where: { userId: me.id } })).toBe(3);
+    // limit is per user
+    await expect(createJoinRequest(await newcomer(), s.input)).resolves.toMatchObject({ status: "PENDING" });
+  });
+
+  it("stops counting requests older than an hour", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    for (let i = 0; i < 3; i++) await cancelJoinRequest(me, (await createJoinRequest(me, s.input)).id);
+    await prisma.joinRequest.updateMany({ where: { userId: me.id }, data: { createdAt: new Date(Date.now() - 61 * 60 * 1000) } });
+    await expect(createJoinRequest(me, s.input)).resolves.toMatchObject({ status: "PENDING" });
+  });
+
   it("writes one audit row per request", async () => {
     const s = await setup();
     await createJoinRequest(await newcomer(), s.input);
     expect(await prisma.auditLog.count({ where: { action: "JOIN_REQUEST_CREATED" } })).toBe(1);
+  });
+});
+
+describe("adding the person directly", () => {
+  it("cancels their pending request when an admin creates the membership", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    expect(await countPendingJoinRequests(s.community.id)).toBe(1);
+    await createMembership(s.manager, { communityId: s.community.id, email: me.email, role: Role.RECEPTIONIST });
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("CANCELLED");
+    expect(await countPendingJoinRequests(s.community.id)).toBe(0);
+  });
+
+  it("cancels their pending request when an admin adds them as a resident", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await addResidency(s.manager, { ...s.input, email: me.email });
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("CANCELLED");
+    expect(await countPendingJoinRequests(s.community.id)).toBe(0);
+  });
+
+  it("leaves the request alone when no membership is created", async () => {
+    const s = await setup();
+    const me = await newcomer();
+    const req = await createJoinRequest(me, s.input);
+    await prisma.membership.create({ data: { userId: me.id, communityId: s.community.id, role: Role.RESIDENT } });
+    await addResidency(s.manager, { ...s.input, email: me.email });
+    expect((await prisma.joinRequest.findUniqueOrThrow({ where: { id: req.id } })).status).toBe("PENDING");
   });
 });
 

@@ -798,7 +798,7 @@
     },
     "add": "Add member",
     "dialogTitle": "Add community member",
-    "dialogDescription": "Manual role assignment (no email/QR invitation yet — next stage).",
+    "dialogDescription": "Add a person to the community. If they have no account yet, we email them an invitation.",
     "email": "Email",
     "roleLabel": "Role",
     "building": "Building (optional)",
@@ -1105,7 +1105,8 @@
     "errors": {
       "invalid": "Check the request details",
       "notFound": "This request is no longer open",
-      "generic": "Could not save. Please try again."
+      "generic": "Could not save. Please try again.",
+      "tooMany": "Too many requests. Try again in an hour."
     }
   }
 }

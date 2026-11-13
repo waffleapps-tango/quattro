@@ -81,8 +81,11 @@ export async function resendInviteAction(membershipId: string): Promise<ActionSt
   const actor = await getCurrentUser();
   if (!actor) return { message: te("notSignedIn"), success: false };
 
+  const parsed = z.string().min(1).max(64).safeParse(membershipId);
+  if (!parsed.success) return { message: t("inviteFailed"), success: false };
+
   try {
-    await sendInvite(actor, membershipId);
+    await sendInvite(actor, parsed.data);
     revalidatePath("/admin/users");
     return { message: t("inviteSent"), success: true };
   } catch (error) {

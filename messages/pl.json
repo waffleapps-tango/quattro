@@ -798,7 +798,7 @@
     },
     "add": "Dodaj członka",
     "dialogTitle": "Dodaj członka wspólnoty",
-    "dialogDescription": "Ręczne przypisanie roli (bez zaproszenia e-mail/QR — etap kolejny).",
+    "dialogDescription": "Dodaj osobę do wspólnoty. Jeśli nie ma jeszcze konta, wyślemy zaproszenie e-mailem.",
     "email": "Email",
     "roleLabel": "Rola",
     "building": "Budynek (opcjonalnie)",
@@ -1105,7 +1105,8 @@
     "errors": {
       "invalid": "Sprawdź dane prośby",
       "notFound": "Prośba nie jest już aktualna",
-      "generic": "Nie udało się zapisać. Spróbuj ponownie."
+      "generic": "Nie udało się zapisać. Spróbuj ponownie.",
+      "tooMany": "Wysłano zbyt wiele próśb. Spróbuj ponownie za godzinę."
     }
   }
 }

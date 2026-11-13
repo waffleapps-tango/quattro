@@ -6,6 +6,7 @@ import { after } from "next/server";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser, type SessionUser } from "@/auth/session";
 import {
+  TOO_MANY_JOIN_REQUESTS,
   approveJoinRequest,
   cancelJoinRequest,
   createJoinRequest,
@@ -48,6 +49,9 @@ async function perform(
     await work(actor);
   } catch (error) {
     if (error instanceof UnauthorizedError) return { message: te("forbidden"), success: false };
+    if (error instanceof ValidationError && error.message === TOO_MANY_JOIN_REQUESTS) {
+      return { message: t("errors.tooMany"), success: false };
+    }
     if (error instanceof z.ZodError || error instanceof ValidationError || error instanceof TenantMismatchError) {
       return { message: t("errors.invalid"), success: false };
     }

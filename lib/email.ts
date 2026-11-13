@@ -15,7 +15,7 @@ export async function sendEmail(input: {
       body: JSON.stringify({ from, to: [input.to], subject: input.subject, text: input.text }),
     });
     if (res.ok) return { ok: true };
-    return { ok: false, error: `Resend ${res.status}: ${await res.text()}`, retry: res.status >= 500 || res.status === 429 };
+    return { ok: false, error: `Resend ${res.status}: ${(await res.text()).slice(0, 200)}`, retry: res.status >= 500 || res.status === 429 };
   } catch (error) {
     return { ok: false, error: String(error), retry: true };
   }
