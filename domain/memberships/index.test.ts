@@ -149,3 +149,41 @@ describe("listMembershipsForCommunity", () => {
     expect(JSON.stringify(rows)).not.toContain("clerkUserId");
   });
 });
+
+describe("listMembershipsForCommunity filters", () => {
+  async function setup() {
+    const s = await createCommunityWithBuildingAndApartment();
+    const second = await prisma.apartment.create({ data: { buildingId: s.building.id, number: "102" } });
+    const otherBuilding = await prisma.building.create({ data: { communityId: s.community.id, name: "Building B" } });
+    const inB = await prisma.apartment.create({ data: { buildingId: otherBuilding.id, number: "1" } });
+    const admin = await createUserWithMembership({ communityId: s.community.id, role: Role.ADMIN });
+    const a = await createUserWithMembership({ communityId: s.community.id, apartmentId: s.apartment.id, role: Role.RESIDENT, email: "anna@example.com" });
+    const b = await createUserWithMembership({ communityId: s.community.id, apartmentId: second.id, role: Role.RESIDENT, email: "bob@example.com" });
+    const c = await createUserWithMembership({ communityId: s.community.id, apartmentId: inB.id, role: Role.RESIDENT, email: "cecil@example.com" });
+    return { s, second, otherBuilding, admin, a, b, c };
+  }
+  const emails = (rows: { user: { email: string } }[]) => rows.map((r) => r.user.email).sort();
+
+  it("filters by apartment", async () => {
+    const { s, second, admin } = await setup();
+    const rows = await listMembershipsForCommunity(admin, s.community.id, { apartmentId: second.id });
+    expect(emails(rows)).toEqual(["bob@example.com"]);
+  });
+
+  it("filters by building", async () => {
+    const { s, admin } = await setup();
+    const rows = await listMembershipsForCommunity(admin, s.community.id, { buildingId: s.building.id });
+    expect(emails(rows)).toEqual(["anna@example.com", "bob@example.com"]);
+  });
+
+  it("filters by email substring, case-insensitive, and combines filters", async () => {
+    const { s, admin } = await setup();
+    expect(emails(await listMembershipsForCommunity(admin, s.community.id, { q: "CEC" }))).toEqual(["cecil@example.com"]);
+    expect(await listMembershipsForCommunity(admin, s.community.id, { buildingId: s.building.id, q: "cecil" })).toEqual([]);
+  });
+
+  it("returns everyone without filters", async () => {
+    const { s, admin } = await setup();
+    expect(await listMembershipsForCommunity(admin, s.community.id)).toHaveLength(4);
+  });
+});

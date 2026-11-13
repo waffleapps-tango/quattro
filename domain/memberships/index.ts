@@ -6,14 +6,25 @@ import { Role } from "@/lib/generated/prisma";
 import { isPendingUser } from "@/domain/memberships/invites";
 import { closePendingJoinRequests } from "@/domain/join-requests";
 
+export type MembershipFilters = { buildingId?: string; apartmentId?: string; q?: string };
+
 export async function listMembershipsForCommunity(
   actor: SessionUser,
   communityId: string,
+  filters: MembershipFilters = {},
 ) {
   requireMembership(actor, communityId, [Role.ADMIN, Role.MANAGER]);
+  const { buildingId, apartmentId, q } = filters;
 
   const rows = await prisma.membership.findMany({
-    where: { communityId },
+    where: {
+      communityId,
+      ...(q ? { user: { email: { contains: q, mode: "insensitive" } } } : {}),
+      AND: [
+        ...(apartmentId ? [{ user: { residencies: { some: { communityId, apartmentId } } } }] : []),
+        ...(buildingId ? [{ user: { residencies: { some: { communityId, apartment: { buildingId } } } } }] : []),
+      ],
+    },
     include: {
       building: true,
       // Narrow select: this goes to a client component, so no names. clerkUserId is only
