@@ -4,7 +4,7 @@ import { WaitingScreen } from "@/components/system/WaitingScreen";
 import { AccessDenied } from "@/components/system/AccessDenied";
 import { getCurrentUser } from "@/auth/session";
 import { requireInviter } from "@/domain/memberships/invites";
-import { listApartmentOverview } from "@/domain/residencies/overview";
+import { listBuildingFloors } from "@/domain/residencies/overview";
 import { ApartmentsOverview } from "@/components/admin/ApartmentsOverview";
 import { UnauthorizedError } from "@/domain/errors";
 
@@ -30,7 +30,7 @@ export default async function AdminApartmentsPage() {
   return (
     <ApartmentsOverview
       communityId={membership.communityId}
-      buildings={await listApartmentOverview(user, membership.communityId)}
+      buildings={await listBuildingFloors(user, membership.communityId)}
     />
   );
 }

@@ -25,10 +25,12 @@ export function InviteToApartmentDialog({
   communityId,
   apartmentId,
   place,
+  onInvited,
 }: {
   communityId: string;
   apartmentId: string;
   place: string;
+  onInvited?: () => void;
 }) {
   const t = useTranslations("admin.apartments");
   const [open, setOpen] = useState(false);
@@ -40,7 +42,10 @@ export function InviteToApartmentDialog({
     if (state.success) {
       toast.success(state.message);
       setOpen(false);
+      onInvited?.();
     } else toast.error(state.message);
+    // onInvited is an inline callback from the parent; depending on it would re-fire the toast on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (
