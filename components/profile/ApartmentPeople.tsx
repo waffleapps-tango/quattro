@@ -3,13 +3,22 @@
 import { useActionState, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { TriangleAlert, X } from "lucide-react";
 import { Illustration } from "@/components/system/Illustration";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { removeResidencyAction } from "@/actions/memberships";
 import {
   addTenantAction,
@@ -56,6 +65,7 @@ export function ApartmentPeople({
   const t = useTranslations("profile.people");
   const isOwner = myLink.kind === "OWNER";
   const [busy, setBusy] = useState<string | null>(null);
+  const [toRemove, setToRemove] = useState<PersonView | null>(null);
   const [state, formAction, adding] = useActionState<ActionState, FormData>(addTenantAction, {
     message: "",
     success: false,
@@ -115,7 +125,7 @@ export function ApartmentPeople({
                 size="icon"
                 aria-label={t("removeTenant", { name: p.name ?? t("unnamed") })}
                 disabled={busy !== null}
-                onClick={() => run(`remove-${p.residencyId}`, () => removeResidencyAction(p.residencyId))}
+                onClick={() => setToRemove(p)}
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -143,9 +153,9 @@ export function ApartmentPeople({
           <input type="hidden" name="apartmentId" value={apartmentId} />
           <div className="space-y-1 max-sm:w-full">
             <Label htmlFor={`tenant-email-${apartmentId}`}>{t("tenantEmail")}</Label>
-            <Input id={`tenant-email-${apartmentId}`} name="email" type="email" required className="w-full sm:w-64" />
+            <Input id={`tenant-email-${apartmentId}`} name="email" type="email" required maxLength={254} className="w-full sm:w-64" />
           </div>
-          <Button type="submit" disabled={adding}>
+          <Button type="submit" loading={adding}>
             {t("addTenant")}
           </Button>
         </form>
@@ -191,6 +201,34 @@ export function ApartmentPeople({
           </div>
         )}
       </div>
+
+      <AlertDialog open={toRemove !== null} onOpenChange={(open) => !open && busy === null && setToRemove(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader className="items-center sm:text-center">
+            <span className="grid size-12 place-items-center rounded-full bg-destructive/10 text-destructive">
+              <TriangleAlert className="size-6" aria-hidden="true" />
+            </span>
+            <AlertDialogTitle>{t("removeTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("removeDescription", { name: toRemove?.name ?? t("unnamed") })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center">
+            <AlertDialogCancel disabled={busy !== null}>{t("removeCancel")}</AlertDialogCancel>
+            <Button
+              variant="destructive"
+              loading={busy !== null && busy.startsWith("remove-")}
+              onClick={async () => {
+                if (!toRemove) return;
+                await run(`remove-${toRemove.residencyId}`, () => removeResidencyAction(toRemove.residencyId));
+                setToRemove(null);
+              }}
+            >
+              {t("removeConfirm")}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

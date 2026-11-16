@@ -7,6 +7,8 @@ import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNavTransition } from "@/components/system/nav-pending";
+import { Loader2 } from "lucide-react";
 import { getBuildingApartmentsAction } from "@/actions/apartments";
 import type { ApartmentOption } from "@/domain/residencies/overview";
 import { useFloorLabel } from "./useFloorLabel";
@@ -32,6 +34,7 @@ export function MembershipsFilter({
   const router = useRouter();
   const pathname = usePathname();
   const [apartments, setApartments] = useState<ApartmentOption[]>([]);
+  const [start, navigating] = useNavTransition();
   const [query, setQuery] = useState(q ?? "");
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export function MembershipsFilter({
     const params = new URLSearchParams();
     for (const [key, value] of Object.entries(values)) if (value) params.set(key, value);
     const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname);
+    start(() => router.replace(qs ? `${pathname}?${qs}` : pathname));
   };
 
   const active = Boolean(buildingId || apartmentId || q);
@@ -111,6 +114,7 @@ export function MembershipsFilter({
           <Search className="h-4 w-4" />
         </Button>
       </form>
+      {navigating && <Loader2 className="size-4 animate-spin self-center text-muted-foreground" aria-hidden="true" />}
       {active && (
         <Button
           type="button"
@@ -118,7 +122,7 @@ export function MembershipsFilter({
           size="sm"
           onClick={() => {
             setQuery("");
-            router.replace(pathname);
+            start(() => router.replace(pathname));
           }}
         >
           <X className="mr-1 h-4 w-4" />

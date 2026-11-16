@@ -6,6 +6,7 @@ import { PackageRow, type PackageWithRelations } from "./PackageRow";
 import { PackagesPagination } from "./PackagesPagination";
 import { PackagesToolbar } from "./PackagesToolbar";
 import { usePackageParams } from "./use-package-params";
+import { NavPending } from "@/components/system/nav-pending";
 import { EmptyState } from "@/components/system/EmptyState";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -76,6 +77,7 @@ export function PackagesList({
       </p>
       <PackagesToolbar query={query} isStaff={isStaff} buildings={buildings} />
 
+      <NavPending>
       {packages.length === 0 ? (
         query.q || (isStaff && (query.building || query.apartment || query.recipient)) ? (
           <EmptyState illustration="search-empty" title={t("noResults")} description={t("noResultsHint")} />
@@ -111,6 +113,7 @@ export function PackagesList({
           <PackagesPagination page={page} pageSize={pageSize} total={total} />
         </>
       )}
+      </NavPending>
     </div>
   );
 }

@@ -322,6 +322,7 @@ model Notification {
   payload         Json
   dedupeKey       String?
   readAt          DateTime?
+  archivedAt      DateTime?
   createdAt       DateTime  @default(now())
 
   community  Community              @relation(fields: [communityId], references: [id])

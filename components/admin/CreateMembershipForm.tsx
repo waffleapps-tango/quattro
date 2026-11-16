@@ -95,7 +95,7 @@ export function CreateMembershipForm({
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="email">{t("email")}</Label>
-              <Input id="email" name="email" type="email" defaultValue={defaultEmail} required />
+              <Input id="email" name="email" type="email" defaultValue={defaultEmail} required maxLength={254} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="role">{t("roleLabel")}</Label>

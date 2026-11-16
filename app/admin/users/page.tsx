@@ -6,6 +6,7 @@ import { getCurrentUser, requireMembership } from "@/auth/session";
 import { listMembershipsForCommunity } from "@/domain/memberships";
 import { listBuildingsForCommunity } from "@/domain/communities/queries";
 import { MembershipsTable } from "@/components/admin/MembershipsTable";
+import { NavPending } from "@/components/system/nav-pending";
 import { MembershipsFilter } from "@/components/admin/MembershipsFilter";
 import { CreateMembershipForm } from "@/components/admin/CreateMembershipForm";
 import { Role } from "@/lib/generated/prisma";
@@ -65,7 +66,9 @@ export default async function AdminPage({
         buildings={buildings.map(({ id, name }) => ({ id, name }))}
         {...filters}
       />
-      <MembershipsTable memberships={memberships} filtered={Object.values(filters).some(Boolean)} />
+      <NavPending>
+        <MembershipsTable memberships={memberships} filtered={Object.values(filters).some(Boolean)} />
+      </NavPending>
     </div>
   );
 }

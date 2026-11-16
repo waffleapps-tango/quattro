@@ -16,7 +16,7 @@ import { ResidencyKind, Role } from "@/lib/generated/prisma";
 
 const createMembershipSchema = z.object({
   communityId: z.string().min(1),
-  email: z.string().trim().toLowerCase().email(),
+  email: z.string().trim().toLowerCase().max(254).email(),
   buildingId: z.string().optional(),
   apartmentId: z.string().optional(),
   role: z.nativeEnum(Role),
@@ -171,7 +171,7 @@ export async function removeResidencyAction(residencyId: string): Promise<Action
 const inviteToApartmentSchema = z.object({
   communityId: z.string().min(1),
   apartmentId: z.string().min(1),
-  email: z.string().trim().toLowerCase().email(),
+  email: z.string().trim().toLowerCase().max(254).email(),
   kind: z.nativeEnum(ResidencyKind),
 });
 

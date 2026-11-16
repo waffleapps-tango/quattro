@@ -19,7 +19,7 @@ export function AdminTabs({ tabs, pendingCount = 0 }: { tabs: AdminTab[]; pendin
   const t = useTranslations("admin.tabs");
   const pathname = usePathname();
   return (
-    <nav className="mb-6 flex gap-1 overflow-x-auto border-b" aria-label="Admin">
+    <nav className="mb-6 flex gap-1 overflow-x-auto overflow-y-hidden border-b max-md:pr-6 max-md:[mask-image:linear-gradient(to_right,black_calc(100%-1.5rem),transparent)]" aria-label="Admin">
       {tabs.map((key) => {
         const href = hrefs[key];
         const active = pathname.startsWith(href);

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell } from "lucide-react";
+import { Bell, X } from "lucide-react";
 import { Illustration } from "@/components/system/Illustration";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { markAllNotificationsReadAction, markNotificationReadAction } from "@/actions/notifications";
+import { archiveNotificationAction, markAllNotificationsReadAction, markNotificationReadAction } from "@/actions/notifications";
 import type { NotificationType } from "@/domain/notifications/types";
 
 type Item = {
@@ -72,6 +72,18 @@ export function NotificationBell() {
     void load();
   };
 
+  // Optimistic: drop the row now, resync from the server afterwards (restores it if the call failed).
+  const dismiss = async (item: Item) => {
+    setItems((prev) => prev.filter((i) => i.id !== item.id));
+    if (!item.readAt) setUnread((n) => Math.max(0, n - 1));
+    try {
+      await archiveNotificationAction(item.id);
+    } catch (error) {
+      console.error(error);
+    }
+    await load();
+  };
+
   const markAll = async () => {
     try {
       await markAllNotificationsReadAction();
@@ -117,7 +129,7 @@ export function NotificationBell() {
             <DropdownMenuItem
               key={item.id}
               onSelect={() => openItem(item)}
-              className="flex flex-col items-start gap-0.5"
+              className="group relative flex flex-col items-start gap-0.5 pr-9"
             >
               <span className={item.readAt ? "text-sm" : "text-sm font-semibold"}>
                 {t(`types.${item.type}.title`, item.payload)}
@@ -128,6 +140,18 @@ export function NotificationBell() {
               <span className="text-xs text-muted-foreground">
                 {format.relativeTime(new Date(item.createdAt), now)}
               </span>
+              <button
+                type="button"
+                aria-label={t("dismiss")}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  void dismiss(item);
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+                className="absolute right-1.5 top-1.5 grid size-7 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
+                <X className="size-4" />
+              </button>
             </DropdownMenuItem>
           ))
         )}

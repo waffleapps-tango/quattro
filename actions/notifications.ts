@@ -4,7 +4,7 @@ import { z } from "zod";
 import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/auth/session";
-import { markAllRead, markRead } from "@/domain/notifications/queries";
+import { archive, markAllRead, markRead } from "@/domain/notifications/queries";
 import { updatePreferences } from "@/domain/notifications/preferences";
 import { updateReminderAfterDays } from "@/domain/notifications/settings";
 import { UnauthorizedError, ValidationError } from "@/domain/errors";
@@ -15,6 +15,12 @@ export async function markNotificationReadAction(id: string): Promise<void> {
   const user = await getCurrentUser();
   if (!user) return;
   await markRead(user, id);
+}
+
+export async function archiveNotificationAction(id: string): Promise<void> {
+  const user = await getCurrentUser();
+  if (!user) return;
+  await archive(user, id);
 }
 
 export async function markAllNotificationsReadAction(): Promise<void> {

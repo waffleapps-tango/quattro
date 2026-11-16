@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Info } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 
 export function PostFields({
@@ -56,7 +57,7 @@ export function PostFields({
       {selectedKind === "ANNOUNCEMENT" && (
         <div className="space-y-2">
           <label htmlFor="pinnedUntil" className="text-sm font-medium">{t("pinnedUntilLabel")}</label>
-          <Input id="pinnedUntil" name="pinnedUntil" type="date" defaultValue={pinnedDefault} className="w-48" aria-describedby="pinnedUntil-hint" />
+          <DatePicker id="pinnedUntil" name="pinnedUntil" defaultValue={pinnedDefault} aria-describedby="pinnedUntil-hint" />
           <p id="pinnedUntil-hint" className="text-xs text-muted-foreground">{t("pinnedUntilHint")}</p>
         </div>
       )}

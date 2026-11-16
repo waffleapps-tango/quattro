@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ReportCard } from "./ReportCard";
 import { CreateReportForm } from "./CreateReportForm";
+import { NavPending, useNavTransition } from "@/components/system/nav-pending";
 import { EmptyState } from "@/components/system/EmptyState";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { Button } from "@/components/ui/button";
@@ -48,13 +49,14 @@ export function ReportsList({
   const t = useTranslations("reports");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [start] = useNavTransition();
   const view = searchParams.get("view") === "mine" ? "mine" : "board";
 
   const setParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
     if (value === ALL) params.delete(key);
     else params.set(key, value);
-    router.push(`/reports?${params.toString()}`);
+    start(() => router.push(`/reports?${params.toString()}`));
   };
 
   const filterSelect = (
@@ -124,6 +126,7 @@ export function ReportsList({
         </div>
       )}
 
+      <NavPending>
       {reports.length === 0 ? (
         <EmptyState
           illustration={
@@ -155,6 +158,7 @@ export function ReportsList({
           ))}
         </AnimatedList>
       )}
+      </NavPending>
     </div>
   );
 }

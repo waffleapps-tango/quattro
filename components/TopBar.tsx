@@ -16,12 +16,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { initials } from "@/lib/initials";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Settings, LogOut } from "lucide-react";
 import { useClerk } from "@clerk/nextjs";
 import { useTranslations } from "next-intl";
 import { useViewer } from "@/components/NavList";
-import { useAppName } from "@/components/AppName";
+import { brandNameClass, useAppName } from "@/components/AppName";
 
 export function TopBar() {
   const t = useTranslations("nav");
@@ -45,11 +46,11 @@ export function TopBar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0">
-            <SheetTitle className="flex items-center gap-3 p-4 font-heading font-semibold uppercase tracking-wide">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
+            <SheetTitle className="flex items-center gap-3 p-4 pr-12 font-heading font-semibold">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground">
                 <Building2 className="h-4 w-4" />
               </span>
-              {appName}
+              <span className={`min-w-0 break-words ${brandNameClass(appName)}`} title={appName}>{appName}</span>
             </SheetTitle>
             <MobileNavigation />
           </SheetContent>
@@ -69,8 +70,7 @@ export function TopBar() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.imageUrl} alt={user.fullName || ""} />
                     <AvatarFallback>
-                      {user.firstName?.[0]}
-                      {user.lastName?.[0]}
+                      {initials(user.firstName, user.lastName)}
                     </AvatarFallback>
                   </Avatar>
                 </Button>

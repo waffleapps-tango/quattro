@@ -5,6 +5,7 @@ import { SignOutButton } from "@clerk/nextjs";
 import { useViewer } from "@/components/NavList";
 import { LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { initials } from "@/lib/initials";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
@@ -19,8 +20,7 @@ export function WaitingScreenAccount({ children }: { children: ReactNode }) {
         <div className="flex items-center gap-4 rounded-xl p-1">
           <Avatar className="h-14 w-14">
             <AvatarFallback className="bg-primary text-base text-primary-foreground">
-              {user.firstName?.[0]}
-              {user.lastName?.[0]}
+              {initials(user.firstName, user.lastName)}
             </AvatarFallback>
           </Avatar>
           <div className="min-w-0">

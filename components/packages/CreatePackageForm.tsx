@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { HeroIllustration } from "@/components/system/Illustration";
 import { createPackageAction, getPackageRecipientOptionsAction } from "@/actions/packages";
 import type { PackageRecipientOptions } from "@/domain/residencies/recipients";
@@ -46,6 +46,7 @@ export function CreatePackageForm({
   const [buildingId, setBuildingId] = useState(buildings[0]?.id ?? "");
   const [apartmentId, setApartmentId] = useState("");
   const [recipient, setRecipient] = useState("DEFAULT");
+  const [recipientsLoading, setRecipientsLoading] = useState(false);
   const [recipientOptions, setRecipientOptions] = useState<PackageRecipientOptions | null>(null);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     createPackageAction,
@@ -66,11 +67,17 @@ export function CreatePackageForm({
   useEffect(() => {
     setRecipient("DEFAULT");
     setRecipientOptions(null);
-    if (!apartmentId) return;
+    if (!apartmentId) {
+      setRecipientsLoading(false);
+      return;
+    }
     let cancelled = false;
+    setRecipientsLoading(true);
     getPackageRecipientOptionsAction(communityId, apartmentId).then((result) => {
       if (!cancelled && result.ok) setRecipientOptions(result.data);
-    }).catch(() => {});
+    }).catch(() => {}).finally(() => {
+      if (!cancelled) setRecipientsLoading(false);
+    });
     return () => {
       cancelled = true;
     };
@@ -145,9 +152,17 @@ export function CreatePackageForm({
             </div>
             <Collapse show={Boolean(apartmentId)} className="-mx-1 -mt-1 mb-0!">
               <div className="space-y-2 px-1 pt-1 pb-4">
-                <Label htmlFor="recipient">{t("recipient")}</Label>
-                <Select value={recipient} onValueChange={setRecipient}>
-                  <SelectTrigger id="recipient">
+                <Label htmlFor="recipient" className="gap-2">
+                  {t("recipient")}
+                  {recipientsLoading && (
+                    <span role="status" className="flex items-center gap-1.5 text-xs font-normal text-muted-foreground">
+                      <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
+                      {t("recipientLoading")}
+                    </span>
+                  )}
+                </Label>
+                <Select value={recipient} onValueChange={setRecipient} disabled={recipientsLoading}>
+                  <SelectTrigger id="recipient" aria-busy={recipientsLoading}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -191,7 +206,7 @@ export function CreatePackageForm({
             <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
               {t("cancel")}
             </Button>
-            <Button type="submit" disabled={pending}>
+            <Button type="submit" loading={pending} disabled={recipientsLoading}>
               {pending ? t("saving") : t("save")}
             </Button>
           </DialogFooter>
