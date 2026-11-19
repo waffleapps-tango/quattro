@@ -8,6 +8,7 @@ import { CreateReportForm } from "./CreateReportForm";
 import { NavPending, useNavTransition } from "@/components/system/nav-pending";
 import { EmptyState } from "@/components/system/EmptyState";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
+import { FadeIn } from "@/components/motion/FadeIn";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -81,10 +82,16 @@ export function ReportsList({
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p className="text-muted-foreground">
-          {isStaff ? t("subtitleStaff") : t("subtitleResident")}
-        </p>
+      <FadeIn className="mb-2 flex flex-wrap items-end justify-between gap-4">
+        <div className="space-y-1">
+          <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+            {t("eyebrow")}
+          </p>
+          <h1 className="font-heading text-2xl font-semibold sm:text-3xl">{t("title")}</h1>
+          <p className="text-sm text-muted-foreground">
+            {isStaff ? t("subtitleStaff") : t("subtitleResident")}
+          </p>
+        </div>
         <CreateReportForm
           communityId={communityId}
           canFilePrivate={canFilePrivate}
@@ -92,7 +99,7 @@ export function ReportsList({
           parkingSpaces={parkingSpaces}
           storageUnits={storageUnits}
         />
-      </div>
+      </FadeIn>
 
       {isStaff ? (
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">

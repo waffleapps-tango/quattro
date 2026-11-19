@@ -322,6 +322,7 @@
   },
   "reports": {
     "title": "Reports",
+    "eyebrow": "Community",
     "subtitleStaff": "All community reports.",
     "subtitleResident": "Report defects, questions and ideas.",
     "new": "New report",

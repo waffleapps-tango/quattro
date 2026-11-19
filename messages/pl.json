@@ -322,6 +322,7 @@
   },
   "reports": {
     "title": "Zgłoszenia",
+    "eyebrow": "Moduł społeczności",
     "subtitleStaff": "Wszystkie zgłoszenia wspólnoty.",
     "subtitleResident": "Zgłaszaj usterki, pytania i pomysły.",
     "new": "Nowe zgłoszenie",

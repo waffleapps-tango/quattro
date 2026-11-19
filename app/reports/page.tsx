@@ -72,7 +72,6 @@ export default async function ReportsPage({
 
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="text-2xl font-bold mb-6 sm:text-3xl">{t("title")}</h1>
       <ReportsList
         reports={reports}
         engagement={engagement}
