@@ -62,11 +62,11 @@ export default async function RootLayout({
               <MotionProvider>
                 <AppNameProvider value={appName}>
                   {user ? (
-                    <div className="flex h-screen">
+                    <div className="flex min-h-dvh">
                       <MainNavigation />
                       <div className="flex min-w-0 flex-1 flex-col">
                         <TopBar />
-                        <main className="flex-1 overflow-y-auto">
+                        <main className="flex-1">
                           <div className="mx-auto max-w-[1380px] p-4 sm:p-6 lg:p-8">
                             {children}
                           </div>

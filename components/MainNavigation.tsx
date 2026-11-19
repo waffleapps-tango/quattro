@@ -21,7 +21,7 @@ export function MainNavigation() {
   return (
     <div
       className={cn(
-        "hidden lg:flex flex-col h-full border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-(--ease-in-out)",
+        "hidden lg:flex flex-col sticky top-0 h-dvh shrink-0 border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-(--ease-in-out)",
         isCollapsed ? "w-[72px]" : "w-64",
       )}
     >

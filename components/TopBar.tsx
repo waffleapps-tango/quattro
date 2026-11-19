@@ -37,7 +37,7 @@ export function TopBar() {
   useEffect(() => setIsMobileMenuOpen(false), [pathname]);
 
   return (
-    <div className="flex h-16 items-center lg:h-[86px] justify-between border-b bg-background px-4">
+    <div className="sticky top-0 z-30 flex h-16 items-center lg:h-[86px] justify-between border-b bg-background/90 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/75">
       <div className="flex items-center gap-4">
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
