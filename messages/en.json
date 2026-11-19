@@ -773,7 +773,23 @@
     "filterAll": "All",
     "filterAnnouncements": "Announcements",
     "filterNeighbors": "Neighbors",
-    "emptyNeighbors": "No messages from neighbors yet. Write the first one: ask, offer, share."
+    "emptyNeighbors": "No messages from neighbors yet. Write the first one: ask, offer, share.",
+    "filterSurveys": "Surveys",
+    "kindOption": {
+      "ANNOUNCEMENT": "Board announcement",
+      "NEIGHBOR": "Message to neighbors",
+      "SURVEY": "Survey"
+    },
+    "survey": {
+      "optionsLabel": "Answer options (2-8)",
+      "optionPlaceholder": "Option {n}",
+      "addOption": "Add option",
+      "removeOption": "Remove option",
+      "label": "Survey options",
+      "hint": "Vote to see the results. You can change your vote later.",
+      "total": "{count, plural, one {# vote} other {# votes}}. You can change your vote.",
+      "voteFailed": "Could not save your vote"
+    }
   },
   "admin": {
     "tabs": {

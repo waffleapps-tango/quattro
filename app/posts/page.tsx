@@ -11,6 +11,7 @@ import { Engagement } from "@/components/feed/Engagement";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth/session";
+import { getSurveyResults } from "@/domain/surveys";
 import { canPostAnnouncement, listPosts } from "@/domain/posts";
 import { EMPTY_ENGAGEMENT, engagementSummary } from "@/domain/engagement";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
@@ -33,15 +34,19 @@ export default async function PostsPage({
 
   const { kind: kindParam } = await searchParams;
   const kind =
-    kindParam === "announcement" ? PostKind.ANNOUNCEMENT : kindParam === "neighbor" ? PostKind.NEIGHBOR : undefined;
+    kindParam === "announcement" ? PostKind.ANNOUNCEMENT : kindParam === "neighbor" ? PostKind.NEIGHBOR : kindParam === "survey" ? PostKind.SURVEY : undefined;
   const posts = await listPosts(user, membership.communityId, { kind });
   const summaries = await engagementSummary(user, membership.communityId, posts.map((p) => ({ type: "post" as const, id: p.id })));
+  const surveys = Object.fromEntries(
+    await Promise.all(posts.filter((p) => p.kind === PostKind.SURVEY).map(async (p) => [p.id, await getSurveyResults(user, p.id)] as const)),
+  );
   const canAnnounce = canPostAnnouncement(membership);
   const emptyDescription = !kind || (kind === PostKind.ANNOUNCEMENT && canAnnounce) ? t("emptyHint") : undefined;
   const chips = [
     { href: "/posts", label: t("filterAll"), active: !kind },
     { href: "/posts?kind=announcement", label: t("filterAnnouncements"), active: kind === PostKind.ANNOUNCEMENT },
     { href: "/posts?kind=neighbor", label: t("filterNeighbors"), active: kind === PostKind.NEIGHBOR },
+    { href: "/posts?kind=survey", label: t("filterSurveys"), active: kind === PostKind.SURVEY },
   ];
 
   return (
@@ -79,6 +84,7 @@ export default async function PostsPage({
             <PostCard
               post={post}
               clamp
+              survey={surveys[post.id]}
               href={`/posts/${post.slug}`}
               footer={
                 <Engagement

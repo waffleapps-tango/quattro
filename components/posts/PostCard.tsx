@@ -3,10 +3,12 @@ import { UserRound } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { FeedCard } from "@/components/feed/FeedCard";
+import { SurveyBlock } from "@/components/feed/SurveyBlock";
+import type { SurveyResults } from "@/domain/surveys";
 import { cn } from "@/lib/utils";
 import type { PostView } from "@/domain/posts";
 
-type PostCardPost = Pick<PostView, "title" | "content" | "createdAt" | "kind" | "pinned" | "pinnedUntil" | "author">;
+type PostCardPost = Pick<PostView, "title" | "content" | "createdAt" | "kind" | "pinned" | "pinnedUntil" | "author"> & { id?: string };
 
 export function PostCard({
   post,
@@ -14,18 +16,20 @@ export function PostCard({
   href,
   className,
   footer,
+  survey,
 }: {
   post: PostCardPost;
   clamp?: boolean;
   href?: string;
   className?: string;
   footer?: React.ReactNode;
+  survey?: SurveyResults;
 }) {
   const t = useTranslations("posts");
   const format = useFormatter();
   const a = post.author;
   const authorName =
-    post.kind === "ANNOUNCEMENT"
+    post.kind === "ANNOUNCEMENT" || post.kind === "SURVEY"
       ? t("boardAuthor")
       : (a && ([a.firstName, a.lastName].filter(Boolean).join(" ") || a.email)) || t("neighborFallback");
   return (
@@ -54,6 +58,7 @@ export function PostCard({
       footer={footer}
     >
       <p className={cn("whitespace-pre-line text-base leading-relaxed", clamp && "line-clamp-6")}>{post.content}</p>
+      {survey && post.id && <SurveyBlock postId={post.id} results={survey} />}
     </FeedCard>
   );
 }

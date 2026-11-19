@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth/session";
+import { getSurveyResults } from "@/domain/surveys";
 import { canDeletePost, canEditPost, getPostBySlug } from "@/domain/posts";
 import { NotFoundError } from "@/domain/errors";
 import { WaitingScreen } from "@/components/system/WaitingScreen";
@@ -49,6 +50,7 @@ export default async function PostPage({ params }: PostPageParams) {
   }
   const canEdit = canEditPost(user, post);
   const canDelete = canDeletePost(user, post);
+  const survey = post.kind === "SURVEY" ? await getSurveyResults(user, post.id) : undefined;
   const summaries = await engagementSummary(user, post.communityId, [{ type: "post", id: post.id }]);
 
   return (
@@ -70,6 +72,7 @@ export default async function PostPage({ params }: PostPageParams) {
 
       <PostCard
         post={post}
+        survey={survey}
         footer={
           <Engagement
             target={{ type: "post", id: post.id }}

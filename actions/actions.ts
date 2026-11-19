@@ -47,7 +47,11 @@ export async function createPost(_prev: State, formData: FormData): Promise<Stat
   });
   if (!parsed.success) return { message: te("invalidForm"), success: false };
   try {
-    await posts.createPost(actor, communityId, { ...parsed.data, pinnedUntil: endOfPinDay(parsed.data.pinnedUntil) });
+    await posts.createPost(actor, communityId, {
+      ...parsed.data,
+      pinnedUntil: endOfPinDay(parsed.data.pinnedUntil),
+      options: formData.getAll("option").filter((o): o is string => typeof o === "string"),
+    });
     revalidatePath("/posts");
     after(() => dispatchPending().catch(console.error));
     return { message: t("created"), success: true };

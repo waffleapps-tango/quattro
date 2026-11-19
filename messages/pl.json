@@ -773,7 +773,23 @@
     "filterAll": "Wszystko",
     "filterAnnouncements": "Ogłoszenia",
     "filterNeighbors": "Sąsiedzi",
-    "emptyNeighbors": "Brak wiadomości od sąsiadów. Napisz pierwszą: zapytaj, zaproponuj, podziel się."
+    "emptyNeighbors": "Brak wiadomości od sąsiadów. Napisz pierwszą: zapytaj, zaproponuj, podziel się.",
+    "filterSurveys": "Ankiety",
+    "kindOption": {
+      "ANNOUNCEMENT": "Ogłoszenie zarządu",
+      "NEIGHBOR": "Wiadomość do sąsiadów",
+      "SURVEY": "Ankieta"
+    },
+    "survey": {
+      "optionsLabel": "Opcje odpowiedzi (2-8)",
+      "optionPlaceholder": "Opcja {n}",
+      "addOption": "Dodaj opcję",
+      "removeOption": "Usuń opcję",
+      "label": "Opcje ankiety",
+      "hint": "Zagłosuj, aby zobaczyć wyniki. Głos możesz później zmienić.",
+      "total": "{count, plural, one {# głos} few {# głosy} many {# głosów} other {# głosu}}. Możesz zmienić swój głos.",
+      "voteFailed": "Nie udało się zapisać głosu"
+    }
   },
   "admin": {
     "tabs": {

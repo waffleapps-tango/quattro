@@ -97,16 +97,30 @@ function cleanText(input: { title: string; content: string }) {
   return { title, content };
 }
 
+const MIN_OPTIONS = 2;
+const MAX_OPTIONS = 8;
+const MAX_OPTION = 120;
+
+function cleanOptions(raw: string[] = []) {
+  const options = raw.map((o) => o.trim()).filter(Boolean);
+  if (options.length < MIN_OPTIONS || options.length > MAX_OPTIONS) {
+    throw new ValidationError(`a survey needs ${MIN_OPTIONS}-${MAX_OPTIONS} options`);
+  }
+  if (options.some((o) => o.length > MAX_OPTION)) throw new ValidationError(`an option is longer than ${MAX_OPTION} characters`);
+  return options;
+}
+
 export async function createPost(
   actor: SessionUser,
   communityId: string,
-  input: { kind: PostKind; title: string; content: string; pinnedUntil?: Date | null },
+  input: { kind: PostKind; title: string; content: string; pinnedUntil?: Date | null; options?: string[] },
 ): Promise<Post> {
   const m = requireMember(actor, communityId);
-  if (input.kind === PostKind.ANNOUNCEMENT && !canPostAnnouncement(m)) {
-    throw new UnauthorizedError(`User ${actor.id} cannot post announcements`);
+  if ((input.kind === PostKind.ANNOUNCEMENT || input.kind === PostKind.SURVEY) && !canPostAnnouncement(m)) {
+    throw new UnauthorizedError(`User ${actor.id} cannot post ${input.kind}`);
   }
   const { title, content } = cleanText(input);
+  const options = input.kind === PostKind.SURVEY ? cleanOptions(input.options) : [];
 
   return prisma.$transaction(async (tx) => {
     const post = await tx.post.create({
@@ -117,6 +131,7 @@ export async function createPost(
         title,
         content,
         published: true,
+        surveyOptions: { create: options.map((label, position) => ({ label, position })) },
         pinnedUntil: input.kind === PostKind.ANNOUNCEMENT ? (input.pinnedUntil ?? null) : null,
         // Suffix keeps slugs unique and non-empty (titles of only Polish letters, same titles).
         slug: [slugify(title).slice(0, MAX_SLUG_BASE).replace(/-+$/, ""), Date.now().toString(36) + Math.random().toString(36).slice(2, 6)]

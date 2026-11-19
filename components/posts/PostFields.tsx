@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Info } from "lucide-react";
+import { Info, Plus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,6 +28,7 @@ export function PostFields({
   const [selectedKind, setSelectedKind] = useState<"ANNOUNCEMENT" | "NEIGHBOR" | "SURVEY">(
     kind ?? (canAnnounce ? "ANNOUNCEMENT" : "NEIGHBOR"),
   );
+  const [options, setOptions] = useState(["", ""]);
   const pinnedDefault = defaultPinnedUntil ? new Date(defaultPinnedUntil).toISOString().slice(0, 10) : "";
 
   return (
@@ -36,7 +38,7 @@ export function PostFields({
           <fieldset className="space-y-2">
             <legend className="text-sm font-medium">{t("kindLabel")}</legend>
             <div className="flex flex-wrap gap-4 text-sm">
-              {(["ANNOUNCEMENT", "NEIGHBOR"] as const).map((k) => (
+              {(["ANNOUNCEMENT", "NEIGHBOR", "SURVEY"] as const).map((k) => (
                 <label key={k} className="flex items-center gap-2">
                   <input
                     type="radio"
@@ -45,7 +47,7 @@ export function PostFields({
                     checked={selectedKind === k}
                     onChange={() => setSelectedKind(k)}
                   />
-                  {k === "ANNOUNCEMENT" ? t("kindAnnouncementOption") : t("kindNeighborOption")}
+                  {t(`kindOption.${k}`)}
                 </label>
               ))}
             </div>
@@ -60,6 +62,36 @@ export function PostFields({
           <DatePicker id="pinnedUntil" name="pinnedUntil" defaultValue={pinnedDefault} aria-describedby="pinnedUntil-hint" />
           <p id="pinnedUntil-hint" className="text-xs text-muted-foreground">{t("pinnedUntilHint")}</p>
         </div>
+      )}
+      {!kind && selectedKind === "SURVEY" && (
+        <fieldset className="space-y-2">
+          <legend className="text-sm font-medium">{t("survey.optionsLabel")}</legend>
+          {options.map((o, i) => (
+            <div key={i} className="flex gap-2">
+              <Input
+                name="option"
+                value={o}
+                onChange={(e) => setOptions(options.map((x, j) => (j === i ? e.target.value : x)))}
+                placeholder={t("survey.optionPlaceholder", { n: i + 1 })}
+                aria-label={t("survey.optionPlaceholder", { n: i + 1 })}
+                required
+                maxLength={120}
+              />
+              {options.length > 2 && (
+                <Button type="button" variant="ghost" size="icon" aria-label={t("survey.removeOption")}
+                  onClick={() => setOptions(options.filter((_, j) => j !== i))}>
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          ))}
+          {options.length < 8 && (
+            <Button type="button" variant="outline" size="sm" onClick={() => setOptions([...options, ""])}>
+              <Plus className="mr-2 h-4 w-4" />
+              {t("survey.addOption")}
+            </Button>
+          )}
+        </fieldset>
       )}
       <div className="space-y-2">
         <div className="flex items-baseline justify-between">
