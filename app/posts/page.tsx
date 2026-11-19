@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 
+import { PostKindTabs } from "@/components/posts/PostKindTabs";
+import { NavPending } from "@/components/system/nav-pending";
 import { PostCard } from "@/components/posts/PostCard";
 import { EmptyState } from "@/components/system/EmptyState";
-import { Button } from "@/components/ui/button";
 import { PostKind } from "@/lib/generated/prisma";
 import { CreatePostForm } from "@/components/posts/CreatePostForm";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
@@ -64,16 +64,9 @@ export default async function PostsPage({
         <CreatePostForm canAnnounce={canAnnounce} />
       </FadeIn>
 
-      <nav aria-label={t("kindLabel")} className="mb-4 inline-flex max-w-full gap-1 overflow-x-auto rounded-xl bg-muted p-1">
-        {chips.map((c) => (
-          <Button key={c.href} asChild size="sm" variant={c.active ? "default" : "ghost"}>
-            <Link href={c.href} aria-current={c.active ? "page" : undefined}>
-              {c.label}
-            </Link>
-          </Button>
-        ))}
-      </nav>
+      <PostKindTabs label={t("kindLabel")} chips={chips} />
 
+      <NavPending>
       {posts.length === 0 && (
         <EmptyState illustration="bulletin" title={kind === PostKind.NEIGHBOR ? t("emptyNeighbors") : t("empty")}
           description={emptyDescription} />
@@ -96,6 +89,7 @@ export default async function PostsPage({
           </AnimatedItem>
         ))}
       </AnimatedList>
+      </NavPending>
     </div>
   );
 }
