@@ -66,6 +66,7 @@ export function ApartmentPeople({
   const isOwner = myLink.kind === "OWNER";
   const [busy, setBusy] = useState<string | null>(null);
   const [toRemove, setToRemove] = useState<PersonView | null>(null);
+  const [removedIds, setRemovedIds] = useState<Set<string>>(new Set());
   const [state, formAction, adding] = useActionState<ActionState, FormData>(addTenantAction, {
     message: "",
     success: false,
@@ -86,7 +87,8 @@ export function ApartmentPeople({
     }
   };
 
-  const hasPrimary = people.some((p) => p.isPrimary);
+  const visible = people.filter((p) => !removedIds.has(p.residencyId));
+  const hasPrimary = visible.some((p) => p.isPrimary);
 
   return (
     <div className="mt-4 space-y-4 border-t pt-4">
@@ -97,9 +99,9 @@ export function ApartmentPeople({
 
       <div role="radiogroup" aria-label={t("primary")} className="space-y-4">
       <ul className="space-y-2">
-        {people.map((p) => (
-          <li key={p.residencyId} className="flex flex-wrap items-center justify-between gap-2">
-            <span className="flex flex-wrap items-center gap-2">
+        {visible.map((p) => (
+          <li key={p.residencyId} className="flex items-center justify-between gap-2">
+            <span className="flex min-w-0 flex-wrap items-center gap-2">
               {isOwner && (
                 <input
                   type="radio"
@@ -115,7 +117,7 @@ export function ApartmentPeople({
               <Badge variant="secondary">{t(`kind.${p.kind}`)}</Badge>
               {p.isPrimary && <Badge>{t("primary")}</Badge>}
               {p.email && p.name !== p.email && (
-                <span className="text-sm text-muted-foreground">{p.email}</span>
+                <span className="min-w-0 max-w-full break-all text-sm text-muted-foreground">{p.email}</span>
               )}
             </span>
             {isOwner && p.kind === "TENANT" && (
@@ -123,6 +125,7 @@ export function ApartmentPeople({
                 type="button"
                 variant="ghost"
                 size="icon"
+                className="shrink-0"
                 aria-label={t("removeTenant", { name: p.name ?? t("unnamed") })}
                 disabled={busy !== null}
                 onClick={() => setToRemove(p)}
@@ -220,8 +223,26 @@ export function ApartmentPeople({
               loading={busy !== null && busy.startsWith("remove-")}
               onClick={async () => {
                 if (!toRemove) return;
-                await run(`remove-${toRemove.residencyId}`, () => removeResidencyAction(toRemove.residencyId));
+                const id = toRemove.residencyId;
+                setRemovedIds((s) => new Set(s).add(id));
                 setToRemove(null);
+                setBusy(`remove-${id}`);
+                const restore = () =>
+                  setRemovedIds((s) => {
+                    const n = new Set(s);
+                    n.delete(id);
+                    return n;
+                  });
+                try {
+                  const result = await removeResidencyAction(id);
+                  report(result);
+                  if (!result.success) restore();
+                } catch {
+                  toast.error(t("actionFailed"));
+                  restore();
+                } finally {
+                  setBusy(null);
+                }
               }}
             >
               {t("removeConfirm")}
