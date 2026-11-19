@@ -7,6 +7,7 @@ import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CollapsibleFilters } from "@/components/ui/collapsible-filters";
 import { useNavTransition } from "@/components/system/nav-pending";
 import { Loader2 } from "lucide-react";
 import { getBuildingApartmentsAction } from "@/actions/apartments";
@@ -60,7 +61,8 @@ export function MembershipsFilter({
   const active = Boolean(buildingId || apartmentId || q);
 
   return (
-    <div className="mb-6 flex flex-wrap items-end gap-3">
+    <CollapsibleFilters className="mb-6" activeCount={[buildingId, apartmentId, q].filter(Boolean).length}>
+    <div className="flex flex-wrap items-end gap-3">
       <Select
         value={buildingId ?? ALL}
         onValueChange={(v) => go({ building: v === ALL ? "" : v, apartment: "" })}
@@ -130,5 +132,6 @@ export function MembershipsFilter({
         </Button>
       )}
     </div>
+    </CollapsibleFilters>
   );
 }

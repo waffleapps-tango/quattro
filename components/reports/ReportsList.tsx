@@ -9,6 +9,7 @@ import { NavPending, useNavTransition } from "@/components/system/nav-pending";
 import { EmptyState } from "@/components/system/EmptyState";
 import { AnimatedList, AnimatedItem } from "@/components/motion/AnimatedList";
 import { FadeIn } from "@/components/motion/FadeIn";
+import { CollapsibleFilters } from "@/components/ui/collapsible-filters";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -102,6 +103,7 @@ export function ReportsList({
       </FadeIn>
 
       {isStaff ? (
+        <CollapsibleFilters activeCount={["visibility", "status", "category", "urgent"].filter((k) => searchParams.has(k)).length}>
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           {filterSelect("visibility", t("filterVisibility"), [
             { value: "PUBLIC", label: t("filterPublic") },
@@ -122,6 +124,7 @@ export function ReportsList({
           )}
           {filterSelect("urgent", t("filterUrgent"), [{ value: "1", label: t("filterUrgentOnly") }])}
         </div>
+        </CollapsibleFilters>
       ) : (
         <div className="inline-flex w-fit gap-1 rounded-xl bg-muted p-1">
           <Button asChild variant={view === "board" ? "default" : "ghost"} size="sm">

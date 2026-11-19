@@ -1,6 +1,7 @@
 {
   "common": {
     "pickDate": "Pick a date",
+    "filters": "Filters",
     "clearDate": "Clear date",
     "appName": "Quattro",
     "loading": "Loading…",

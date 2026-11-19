@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CollapsibleFilters } from "@/components/ui/collapsible-filters";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -36,7 +37,10 @@ export function PackagesToolbar({
     });
   };
 
+  const activeCount = [query.q, isStaff && query.building, isStaff && query.apartment, isStaff && query.recipient, query.status === "all"].filter(Boolean).length;
+
   return (
+    <CollapsibleFilters activeCount={activeCount} className="space-y-3">
     <div className="space-y-3">
       <form
         // Remount when the URL changes the text values (e.g. "clear filters").
@@ -133,5 +137,6 @@ export function PackagesToolbar({
         </div>
       </div>
     </div>
+    </CollapsibleFilters>
   );
 }
