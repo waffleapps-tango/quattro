@@ -64,7 +64,7 @@ export default async function PostsPage({
         <CreatePostForm canAnnounce={canAnnounce} />
       </FadeIn>
 
-      <nav aria-label={t("kindLabel")} className="mb-4 inline-flex gap-1 rounded-xl bg-muted p-1">
+      <nav aria-label={t("kindLabel")} className="mb-4 inline-flex max-w-full gap-1 overflow-x-auto rounded-xl bg-muted p-1">
         {chips.map((c) => (
           <Button key={c.href} asChild size="sm" variant={c.active ? "default" : "ghost"}>
             <Link href={c.href} aria-current={c.active ? "page" : undefined}>

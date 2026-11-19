@@ -33,18 +33,18 @@ export function InfoSectionCard({
       </CardHeader>
       <CardContent className="border-t pt-6">
         {section.kind === "TEXT" ? (
-          <p className="whitespace-pre-line text-base leading-relaxed">{section.body}</p>
+          <p className="whitespace-pre-line break-words [overflow-wrap:anywhere] text-base leading-relaxed">{section.body}</p>
         ) : (
           <ul className="divide-y">
             {section.contacts.map((c) => (
-              <li key={c.id} className="flex items-baseline justify-between gap-4 py-3 text-base first:pt-0 last:pb-0">
-                <span>
+              <li key={c.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3 text-base first:pt-0 last:pb-0">
+                <span className="min-w-0 break-words [overflow-wrap:anywhere]">
                   {c.name}
                   {c.note && <span className="block text-sm text-muted-foreground">{c.note}</span>}
                 </span>
                 <a
                   href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}
-                  className="shrink-0 font-medium text-primary underline-offset-2 hover:underline"
+                  className="min-w-0 max-w-full break-words [overflow-wrap:anywhere] font-medium text-primary underline-offset-2 hover:underline"
                 >
                   {c.phone}
                 </a>

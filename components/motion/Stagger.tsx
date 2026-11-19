@@ -36,7 +36,7 @@ export function StaggerItem({
   className?: string;
 }) {
   return (
-    <m.div className={className} variants={item} custom={index}>
+    <m.div className={`min-w-0 ${className ?? ""}`} variants={item} custom={index}>
       {children}
     </m.div>
   );
