@@ -815,7 +815,18 @@
       "saved": "Zapisano nazwę wspólnoty",
       "noPermission": "Tylko zarządcy mogą to zmienić.",
       "invalid": "Podaj nazwę do 60 znaków.",
-      "failed": "Nie udało się zapisać nazwy. Spróbuj ponownie."
+      "failed": "Nie udało się zapisać nazwy. Spróbuj ponownie.",
+      "unregisteredDaysTitle": "Okno niezarejestrowanych",
+      "unregisteredDaysDescription": "Przez ile dni od rejestracji osoba bez prośby jest widoczna w zakładce Prośby.",
+      "unregisteredDays": "Dni",
+      "unregisteredDaysSaved": "Zapisano okno",
+      "unregisteredDaysInvalid": "Podaj liczbę całkowitą dni od 1 do 365.",
+      "moderationTitle": "Moderacja komentarzy",
+      "moderationDescription": "Wybierz, kto może ukrywać komentarze. Administrator zawsze może je ukrywać.",
+      "receptionCanHide": "Recepcja może ukrywać komentarze",
+      "managerCanHide": "Zarządcy mogą ukrywać komentarze",
+      "managerFlagAdminOnly": "Tylko administrator może to zmienić.",
+      "moderationSaved": "Zapisano"
     },
     "reminderSettings": {
       "title": "Automatyczne przypomnienie",
@@ -863,7 +874,11 @@
     "searchLabel": "Szukaj",
     "clearFilters": "Wyczyść filtry",
     "emptyFiltered": "Brak członków dla wybranych filtrów",
-    "floor": { "none": "Bez piętra", "ground": "Parter", "level": "Piętro {n}" },
+    "floor": {
+      "none": "Bez piętra",
+      "ground": "Parter",
+      "level": "Piętro {n}"
+    },
     "colRole": "Rola",
     "colActions": "Akcje",
     "remove": "Usuń",
@@ -911,7 +926,7 @@
       },
       "reason": "Powód: {reason}",
       "withoutRequest": "Zarejestrowani bez prośby",
-      "withoutRequestHint": "Mają konto, ale nie poprosili o dostęp. Możesz ich przypisać ręcznie.",
+      "withoutRequestHint": "Mają konto, ale nie poprosili o dostęp (ostatnie {days} dni). Możesz przypisać ich ręcznie.",
       "withoutRequestNone": "Brak.",
       "signedUp": "Rejestracja: {date}",
       "assign": "Przypisz"

@@ -226,16 +226,18 @@ export function countPendingJoinRequests(communityId: string): Promise<number> {
 }
 
 export async function listUsersWithoutRequest(actor: SessionUser, communityId: string) {
-  await requireApprover(actor, communityId);
+  const { community } = await requireApprover(actor, communityId);
+  const since = new Date(Date.now() - community.unregisteredDays * 86_400_000);
   return prisma.user.findMany({
     where: {
+      createdAt: { gte: since },
       memberships: { none: {} },
       joinRequests: { none: { status: JoinRequestStatus.PENDING } },
       NOT: { clerkUserId: { startsWith: "pending:" } },
     },
     select: { id: true, email: true, createdAt: true },
     orderBy: { createdAt: "desc" },
-    take: 50,
+    take: 200,
   });
 }
 

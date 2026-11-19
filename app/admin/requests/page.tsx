@@ -62,7 +62,7 @@ export default async function AdminRequestsPage() {
       <Card>
         <CardHeader>
           <CardTitle>{t("withoutRequest")}</CardTitle>
-          <CardDescription>{t("withoutRequestHint")}</CardDescription>
+          <CardDescription>{t("withoutRequestHint", { days: community.unregisteredDays })}</CardDescription>
         </CardHeader>
         <CardContent>
           {withoutRequest.length === 0 ? (

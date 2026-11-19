@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/auth/session";
 import { MAX_NAME_LENGTH, updateCommunityName } from "@/domain/communities/name";
+import { MAX_UNREGISTERED_DAYS, updateCommentModeration, updateUnregisteredDays } from "@/domain/communities/settings";
 import { UnauthorizedError, ValidationError } from "@/domain/errors";
 
 type ActionState = { message: string; success: boolean };
@@ -27,6 +28,59 @@ export async function updateCommunityNameAction(_prev: ActionState, formData: Fo
   } catch (error) {
     if (error instanceof UnauthorizedError) return { message: t("noPermission"), success: false };
     if (error instanceof ValidationError) return { message: t("invalid"), success: false };
+    console.error(error);
+    return { message: t("failed"), success: false };
+  }
+}
+
+const daysSchema = z.object({
+  communityId: z.string().min(1),
+  days: z.coerce.number().int().min(1).max(MAX_UNREGISTERED_DAYS),
+});
+
+export async function updateUnregisteredDaysAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const t = await getTranslations("admin.communitySettings");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  const parsed = daysSchema.safeParse({ communityId: formData.get("communityId"), days: formData.get("days") });
+  if (!parsed.success) return { message: t("unregisteredDaysInvalid"), success: false };
+
+  try {
+    await updateUnregisteredDays(actor, parsed.data.communityId, parsed.data.days);
+    revalidatePath("/admin", "layout");
+    return { message: t("unregisteredDaysSaved"), success: true };
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return { message: t("noPermission"), success: false };
+    if (error instanceof ValidationError) return { message: t("unregisteredDaysInvalid"), success: false };
+    console.error(error);
+    return { message: t("failed"), success: false };
+  }
+}
+
+const moderationSchema = z.object({
+  communityId: z.string().min(1),
+  receptionCanHideComments: z.boolean().optional(),
+  managerCanHideComments: z.boolean().optional(),
+});
+
+export async function updateCommentModerationAction(input: z.input<typeof moderationSchema>): Promise<ActionState> {
+  const t = await getTranslations("admin.communitySettings");
+  const te = await getTranslations("errors");
+  const actor = await getCurrentUser();
+  if (!actor) return { message: te("notSignedIn"), success: false };
+
+  const parsed = moderationSchema.safeParse(input);
+  if (!parsed.success) return { message: t("failed"), success: false };
+  const { communityId, ...flags } = parsed.data;
+
+  try {
+    await updateCommentModeration(actor, communityId, flags);
+    revalidatePath("/admin", "layout");
+    return { message: t("moderationSaved"), success: true };
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return { message: t("noPermission"), success: false };
     console.error(error);
     return { message: t("failed"), success: false };
   }

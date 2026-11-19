@@ -815,7 +815,18 @@
       "saved": "Community name saved",
       "noPermission": "Only managers can change this.",
       "invalid": "Enter a name of up to 60 characters.",
-      "failed": "Could not save the name. Try again."
+      "failed": "Could not save the name. Try again.",
+      "unregisteredDaysTitle": "Unregistered users window",
+      "unregisteredDaysDescription": "How many days after signing up a person without a request still shows on the Requests tab.",
+      "unregisteredDays": "Days",
+      "unregisteredDaysSaved": "Window saved",
+      "unregisteredDaysInvalid": "Enter a whole number of days from 1 to 365.",
+      "moderationTitle": "Comment moderation",
+      "moderationDescription": "Choose who can hide comments. Admins can always hide them.",
+      "receptionCanHide": "Reception can hide comments",
+      "managerCanHide": "Managers can hide comments",
+      "managerFlagAdminOnly": "Only an admin can change this.",
+      "moderationSaved": "Saved"
     },
     "reminderSettings": {
       "title": "Automatic reminder",
@@ -863,7 +874,11 @@
     "searchLabel": "Search",
     "clearFilters": "Clear filters",
     "emptyFiltered": "No members match these filters",
-    "floor": { "none": "No floor", "ground": "Ground floor", "level": "Floor {n}" },
+    "floor": {
+      "none": "No floor",
+      "ground": "Ground floor",
+      "level": "Floor {n}"
+    },
     "colRole": "Role",
     "colActions": "Actions",
     "remove": "Remove",
@@ -911,7 +926,7 @@
       },
       "reason": "Reason: {reason}",
       "withoutRequest": "Signed up without a request",
-      "withoutRequestHint": "They have an account but have not asked for access. You can assign them manually.",
+      "withoutRequestHint": "They have an account but have not asked for access, from the last {days} days. You can assign them manually.",
       "withoutRequestNone": "None.",
       "signedUp": "Signed up: {date}",
       "assign": "Assign"

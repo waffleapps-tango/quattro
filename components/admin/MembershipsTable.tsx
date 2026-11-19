@@ -22,7 +22,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { EmptyState } from "@/components/system/EmptyState";
 import { HeroIllustration } from "@/components/system/Illustration";
 import { toast } from "sonner";
@@ -36,9 +36,17 @@ import { useTranslations } from "next-intl";
 import { Role } from "@/lib/generated/prisma";
 import type { listMembershipsForCommunity } from "@/domain/memberships";
 
-type MembershipRow = Awaited<ReturnType<typeof listMembershipsForCommunity>>[number];
+type MembershipRow = Awaited<
+  ReturnType<typeof listMembershipsForCommunity>
+>[number];
 
-export function MembershipsTable({ memberships, filtered = false }: { memberships: MembershipRow[]; filtered?: boolean }) {
+export function MembershipsTable({
+  memberships,
+  filtered = false,
+}: {
+  memberships: MembershipRow[];
+  filtered?: boolean;
+}) {
   const t = useTranslations("admin");
   const [pendingId, setPendingId] = useState<string | null>(null);
 
@@ -92,7 +100,10 @@ export function MembershipsTable({ memberships, filtered = false }: { membership
         {membership.user.residencies.map((r) => {
           const name = `${r.apartment.building.name} / ${r.apartment.number}`;
           return (
-            <span key={r.id} className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-sm">
+            <span
+              key={r.id}
+              className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-sm"
+            >
               {name} · {t(`kind.${r.kind}`)}
               <button
                 type="button"
@@ -110,21 +121,33 @@ export function MembershipsTable({ memberships, filtered = false }: { membership
     );
 
   const roleSelect = (membership: MembershipRow, className: string) => (
-    <Select
-      value={membership.role}
-      onValueChange={(value) => handleRoleChange(membership.id, value as Role)}
-      disabled={pendingId === membership.id}
-    >
-      <SelectTrigger className={className} aria-label={t("roleLabel")}>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value={Role.RESIDENT}>{t("role.RESIDENT")}</SelectItem>
-        <SelectItem value={Role.RECEPTIONIST}>{t("role.RECEPTIONIST")}</SelectItem>
-        <SelectItem value={Role.MANAGER}>{t("role.MANAGER")}</SelectItem>
-        <SelectItem value={Role.ADMIN}>{t("role.ADMIN")}</SelectItem>
-      </SelectContent>
-    </Select>
+    <div className="flex items-center gap-2">
+      <Select
+        value={membership.role}
+        onValueChange={(value) =>
+          handleRoleChange(membership.id, value as Role)
+        }
+        disabled={pendingId === membership.id}
+      >
+        <SelectTrigger className={className} aria-label={t("roleLabel")}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value={Role.RESIDENT}>{t("role.RESIDENT")}</SelectItem>
+          <SelectItem value={Role.RECEPTIONIST}>
+            {t("role.RECEPTIONIST")}
+          </SelectItem>
+          <SelectItem value={Role.MANAGER}>{t("role.MANAGER")}</SelectItem>
+          <SelectItem value={Role.ADMIN}>{t("role.ADMIN")}</SelectItem>
+        </SelectContent>
+      </Select>
+      {pendingId === membership.id && (
+        <Loader2
+          className="h-4 w-4 animate-spin text-muted-foreground"
+          aria-hidden
+        />
+      )}
+    </div>
   );
 
   // Placeholder accounts that never signed in: show it, and let the admin (re)send the invite email.
@@ -137,7 +160,12 @@ export function MembershipsTable({ memberships, filtered = false }: { membership
 
   const resendButton = (membership: MembershipRow) =>
     membership.pending && (
-      <Button variant="outline" size="sm" disabled={pendingId === membership.id} onClick={() => handleResend(membership.id)}>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={pendingId === membership.id}
+        onClick={() => handleResend(membership.id)}
+      >
         {membership.inviteSentAt ? t("resendInvite") : t("sendInvite")}
       </Button>
     );
@@ -146,7 +174,11 @@ export function MembershipsTable({ memberships, filtered = false }: { membership
   const removeButton = (membership: MembershipRow) => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="sm" disabled={pendingId === membership.id}>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={pendingId === membership.id}
+        >
           {t("remove")}
         </Button>
       </AlertDialogTrigger>

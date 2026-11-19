@@ -216,6 +216,20 @@ describe("listing", () => {
     expect(emails).not.toContain("placeholder@example.com");
   });
 
+  it("only lists users created within the community's unregistered-days window", async () => {
+    const s = await setup();
+    const recent = await newcomer("recent@example.com");
+    const old = await newcomer("old@example.com");
+    await prisma.user.update({ where: { id: old.id }, data: { createdAt: new Date(Date.now() - 10 * 86_400_000) } });
+    let emails = (await listUsersWithoutRequest(s.manager, s.community.id)).map((u) => u.email);
+    expect(emails).toContain(recent.email);
+    expect(emails).not.toContain(old.email);
+
+    await prisma.community.update({ where: { id: s.community.id }, data: { unregisteredDays: 30 } });
+    emails = (await listUsersWithoutRequest(s.manager, s.community.id)).map((u) => u.email);
+    expect(emails).toContain(old.email);
+  });
+
   it("refuses a manager of a different community", async () => {
     const s = await setup();
     const otherBase = await createCommunityWithBuildingAndApartment();
