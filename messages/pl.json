@@ -759,7 +759,8 @@
     "publishedOn": "Opublikowano {date}",
     "kind": {
       "ANNOUNCEMENT": "Ogłoszenie",
-      "NEIGHBOR": "Sąsiedzi"
+      "NEIGHBOR": "Sąsiedzi",
+      "SURVEY": "Ankieta"
     },
     "kindLabel": "Rodzaj",
     "kindNeighborOption": "Wiadomość do sąsiadów",

@@ -759,7 +759,8 @@
     "publishedOn": "Published {date}",
     "kind": {
       "ANNOUNCEMENT": "Announcement",
-      "NEIGHBOR": "Neighbors"
+      "NEIGHBOR": "Neighbors",
+      "SURVEY": "Survey"
     },
     "kindLabel": "Type",
     "kindNeighborOption": "Message to neighbors",

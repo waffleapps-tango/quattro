@@ -30,7 +30,7 @@ type EditPostFormProps = {
     title: string;
     content: string;
     createdAt: Date;
-    kind: "ANNOUNCEMENT" | "NEIGHBOR";
+    kind: "ANNOUNCEMENT" | "NEIGHBOR" | "SURVEY";
     pinnedUntil: Date | null;
   };
 };

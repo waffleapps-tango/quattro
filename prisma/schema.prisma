@@ -15,6 +15,7 @@ datasource db {
 enum PostKind {
   ANNOUNCEMENT
   NEIGHBOR
+  SURVEY
 }
 
 model Post {
@@ -35,6 +36,9 @@ model Post {
 
   reactions Reaction[]
   comments  Comment[]
+
+  surveyOptions SurveyOption[]
+  surveyVotes   SurveyVote[]
 
   @@index([communityId, kind, createdAt])
 }
@@ -74,6 +78,8 @@ model User {
   notificationPreference NotificationPreference?
   reactions              Reaction[]
   comments               Comment[]
+  hiddenComments         Comment[]               @relation("CommentHiddenBy")
+  surveyVotes            SurveyVote[]
   joinRequests           JoinRequest[]           @relation("JoinRequestUser")
   decidedJoinRequests    JoinRequest[]           @relation("JoinRequestDecidedBy")
 }
@@ -86,6 +92,9 @@ model Community {
   reminderAfterDays               Int?
   receptionCanApproveJoinRequests Boolean  @default(false)
   receptionCanInvite              Boolean  @default(false)
+  unregisteredDays                Int      @default(7)
+  receptionCanHideComments        Boolean  @default(false)
+  managerCanHideComments          Boolean  @default(false)
   createdAt                       DateTime @default(now())
   updatedAt                       DateTime @updatedAt
 
@@ -448,21 +457,24 @@ model Reaction {
 }
 
 model Comment {
-  id        String    @id @default(cuid())
-  authorId  String
-  postId    String?
-  reportId  String?
-  parentId  String?
-  body      String
-  createdAt DateTime  @default(now())
-  editedAt  DateTime?
-  deletedAt DateTime?
+  id         String    @id @default(cuid())
+  authorId   String
+  postId     String?
+  reportId   String?
+  parentId   String?
+  body       String
+  createdAt  DateTime  @default(now())
+  editedAt   DateTime?
+  deletedAt  DateTime?
+  hiddenAt   DateTime?
+  hiddenById String?
 
-  author  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  post    Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  report  Report?   @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies Comment[] @relation("CommentReplies")
+  hiddenBy User?     @relation("CommentHiddenBy", fields: [hiddenById], references: [id], onDelete: SetNull)
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post     Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  report   Report?   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  Comment[] @relation("CommentReplies")
 
   @@index([postId, createdAt])
   @@index([reportId, createdAt])
@@ -498,4 +510,30 @@ model JoinRequest {
 
   @@index([communityId, status, createdAt])
   @@index([userId])
+}
+
+model SurveyOption {
+  id       String @id @default(cuid())
+  postId   String
+  label    String
+  position Int
+
+  post  Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  votes SurveyVote[]
+
+  @@index([postId, position])
+}
+
+model SurveyVote {
+  id        String   @id @default(cuid())
+  postId    String
+  optionId  String
+  userId    String
+  createdAt DateTime @default(now())
+
+  post   Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  option SurveyOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
 }

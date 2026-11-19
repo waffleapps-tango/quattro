@@ -19,12 +19,12 @@ export function PostFields({
   /** Create form for staff: show the kind choice. */
   canAnnounce?: boolean;
   /** Edit form: the fixed kind of the post (no choice). */
-  kind?: "ANNOUNCEMENT" | "NEIGHBOR";
+  kind?: "ANNOUNCEMENT" | "NEIGHBOR" | "SURVEY";
   defaultPinnedUntil?: Date | null;
 }) {
   const t = useTranslations("posts");
   const [length, setLength] = useState(defaultContent.length);
-  const [selectedKind, setSelectedKind] = useState<"ANNOUNCEMENT" | "NEIGHBOR">(
+  const [selectedKind, setSelectedKind] = useState<"ANNOUNCEMENT" | "NEIGHBOR" | "SURVEY">(
     kind ?? (canAnnounce ? "ANNOUNCEMENT" : "NEIGHBOR"),
   );
   const pinnedDefault = defaultPinnedUntil ? new Date(defaultPinnedUntil).toISOString().slice(0, 10) : "";
