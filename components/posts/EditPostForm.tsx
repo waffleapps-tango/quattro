@@ -57,7 +57,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
           {t("edit")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto">
+      <DialogContent>
         <DialogHeader className="sm:text-center">
           <DialogTitle>{t("editTitle")}</DialogTitle>
           <DialogDescription>

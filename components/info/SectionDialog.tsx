@@ -257,7 +257,7 @@ export function SectionDialog({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto">
+      <DialogContent>
         <DialogHeader className="sm:text-center">
           <DialogTitle>
             {section ? t("dialogEditTitle") : t("dialogAddTitle")}
