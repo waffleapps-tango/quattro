@@ -1127,6 +1127,11 @@
     "edited": "(edytowano)",
     "reporter": "Zgłaszający",
     "neighbor": "Sąsiad",
+    "loadMore": "Załaduj więcej komentarzy",
+    "hide": "Ukryj",
+    "unhide": "Pokaż",
+    "hiddenBadge": "Ukryty przed mieszkańcami",
+    "hiddenPlaceholder": "Ten komentarz został ukryty przez moderatora",
     "privateThread": "Rozmowa widoczna tylko dla Ciebie i administracji."
   },
   "emails": {

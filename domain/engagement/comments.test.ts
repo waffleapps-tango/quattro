@@ -9,7 +9,14 @@ import {
 } from "@/domain/__test-helpers__/fixtures";
 import { createPost } from "@/domain/posts";
 import { createReport } from "@/domain/reports";
-import { addComment, editComment, deleteComment, listComments, engagementSummary } from "@/domain/engagement";
+import * as eng from "@/domain/engagement";
+import { engagementSummary, hideComment, viewerCanHide } from "@/domain/engagement";
+
+// Most tests only care about the items; paging has its own describe below.
+const addComment = async (...a: Parameters<typeof eng.addComment>) => (await eng.addComment(...a)).items;
+const editComment = async (...a: Parameters<typeof eng.editComment>) => (await eng.editComment(...a)).items;
+const deleteComment = async (...a: Parameters<typeof eng.deleteComment>) => (await eng.deleteComment(...a)).items;
+const listComments = async (...a: Parameters<typeof eng.listComments>) => (await eng.listComments(...a)).items;
 
 afterEach(async () => {
   await cleanupDatabase();
@@ -213,5 +220,101 @@ describe("comments", () => {
     expect((await deleteComment(s.author, t, reply.id))[0].replies).toHaveLength(0);
     expect((await listComments(s.neighbor, t))[0].replies).toHaveLength(0);
     await expect(editComment(s.author, t, reply.id, "x")).rejects.toThrow(ValidationError);
+  });
+});
+
+describe("comment paging", () => {
+  it("pages top-level comments with a stable cursor and keeps replies attached", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    for (let i = 1; i <= 7; i++) await eng.addComment(s.neighbor, t, { body: `c${i}` });
+    const first = (await eng.listComments(s.author, t)).items[0];
+    await eng.addComment(s.author, t, { body: "odp", parentId: first.id });
+
+    const p1 = await eng.listComments(s.author, t);
+    expect(p1.items.map((c) => c.body)).toEqual(["c1", "c2", "c3", "c4", "c5"]);
+    expect(p1.items[0].replies).toHaveLength(1);
+    expect(p1.nextCursor).toBe(p1.items[4].id);
+    // a comment added meanwhile does not shift the next page
+    await eng.addComment(s.neighbor, t, { body: "c8" });
+    const p2 = await eng.listComments(s.author, t, { cursor: p1.nextCursor! });
+    expect(p2.items.map((c) => c.body)).toEqual(["c6", "c7", "c8"]);
+    expect(p2.nextCursor).toBeNull();
+    expect((await eng.listComments(s.author, t, { take: 2 })).nextCursor).not.toBeNull();
+  });
+
+  it("mutations refresh the loaded window; a new top-level comment is included", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    for (let i = 1; i <= 7; i++) await eng.addComment(s.neighbor, t, { body: `c${i}` });
+    const [c1] = (await eng.listComments(s.author, t)).items;
+    const edited = await eng.editComment(s.neighbor, t, c1.id, "c1!", 5);
+    expect(edited.items).toHaveLength(5);
+    expect(edited.nextCursor).not.toBeNull();
+    const added = await eng.addComment(s.author, t, { body: "nowy", loaded: 5 });
+    expect(added.items.at(-1)?.body).toBe("nowy");
+    expect(added.nextCursor).toBeNull();
+  });
+});
+
+describe("hiding comments", () => {
+  const setHide = (communityId: string, data: { receptionCanHideComments?: boolean; managerCanHideComments?: boolean }) =>
+    prisma.community.update({ where: { id: communityId }, data });
+
+  it("exposes the permission matrix through viewerCanHide", () => {
+    const off = { receptionCanHideComments: false, managerCanHideComments: false };
+    const on = { receptionCanHideComments: true, managerCanHideComments: true };
+    expect(viewerCanHide(Role.RESIDENT, on)).toBe(false);
+    expect(viewerCanHide(Role.RECEPTIONIST, off)).toBe(false);
+    expect(viewerCanHide(Role.RECEPTIONIST, on)).toBe(true);
+    expect(viewerCanHide(Role.MANAGER, off)).toBe(false);
+    expect(viewerCanHide(Role.MANAGER, on)).toBe(true);
+    expect(viewerCanHide(Role.ADMIN, off)).toBe(true);
+    expect(viewerCanHide(undefined, on)).toBe(false);
+  });
+
+  it("enforces who may hide, per community settings", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    const manager = await createUserWithMembership({ communityId: s.community.id, role: Role.MANAGER });
+    const admin = await createUserWithMembership({ communityId: s.community.id, role: Role.ADMIN });
+    const [c] = (await eng.addComment(s.neighbor, t, { body: "zły" })).items;
+
+    await expect(hideComment(s.author, t, c.id, true)).rejects.toThrow(UnauthorizedError);
+    await expect(hideComment(s.receptionist, t, c.id, true)).rejects.toThrow(UnauthorizedError);
+    await expect(hideComment(manager, t, c.id, true)).rejects.toThrow(UnauthorizedError);
+    await setHide(s.community.id, { receptionCanHideComments: true });
+    await expect(hideComment(s.receptionist, t, c.id, true)).resolves.toBeTruthy();
+    await hideComment(s.receptionist, t, c.id, false);
+    await expect(hideComment(manager, t, c.id, true)).rejects.toThrow(UnauthorizedError);
+    await setHide(s.community.id, { managerCanHideComments: true });
+    await expect(hideComment(manager, t, c.id, true)).resolves.toBeTruthy();
+    await hideComment(manager, t, c.id, false);
+    await setHide(s.community.id, { receptionCanHideComments: false, managerCanHideComments: false });
+    await expect(hideComment(admin, t, c.id, true)).resolves.toBeTruthy();
+  });
+
+  it("masks hidden bodies for everyone but moderators, in threads and previews, and audits", async () => {
+    const s = await setup();
+    const t = postT(s.post.id);
+    const admin = await createUserWithMembership({ communityId: s.community.id, role: Role.ADMIN });
+    const [c] = (await eng.addComment(s.neighbor, t, { body: "zły" })).items;
+    const hidden = await hideComment(admin, t, c.id, true);
+    expect(hidden.items[0]).toMatchObject({ hidden: true, body: "zły", canHide: true });
+
+    for (const v of [s.neighbor, s.author]) {
+      const [view] = await listComments(v, t);
+      expect(view).toMatchObject({ hidden: true, body: "", canHide: false, canEdit: false });
+    }
+    await expect(eng.editComment(s.neighbor, t, c.id, "x")).rejects.toThrow(UnauthorizedError);
+    const key = `post:${s.post.id}`;
+    expect((await engagementSummary(s.author, s.community.id, [t]))[key].preview[0]).toMatchObject({ hidden: true, body: "" });
+    expect((await engagementSummary(admin, s.community.id, [t]))[key].preview[0]).toMatchObject({ hidden: true, body: "zły" });
+
+    await hideComment(admin, t, c.id, true); // idempotent: no second audit row
+    await hideComment(admin, t, c.id, false);
+    expect((await listComments(s.neighbor, t))[0]).toMatchObject({ hidden: false, body: "zły" });
+    const actions = (await prisma.auditLog.findMany({ orderBy: { createdAt: "asc" } })).map((a) => a.action);
+    expect(actions.filter((a) => a.startsWith("COMMENT_"))).toEqual(["COMMENT_HIDDEN", "COMMENT_UNHIDDEN"]);
   });
 });

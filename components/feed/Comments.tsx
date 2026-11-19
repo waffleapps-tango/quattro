@@ -9,14 +9,18 @@ import {
   addCommentAction,
   deleteCommentAction,
   editCommentAction,
+  hideCommentAction,
   listCommentsAction,
 } from "@/actions/engagement";
-import type { CommentView, Target } from "@/domain/engagement";
+import type { CommentPage, CommentView, Target } from "@/domain/engagement";
 
-type Res = { ok: true; data: CommentView[] } | { ok: false; message: string };
+type Res = { ok: true; data: CommentPage } | { ok: false; message: string };
 
 const visibleCount = (list: CommentView[]) =>
   list.reduce((n, c) => n + (c.deleted ? 0 : 1) + c.replies.length, 0);
+
+// Merge a later page into what is shown (ids unique, order kept).
+const append = (list: CommentView[], more: CommentView[]) => [...list, ...more.filter((m) => !list.some((c) => c.id === m.id))];
 
 export function Comments({
   target,
@@ -37,6 +41,7 @@ export function Comments({
 }) {
   const t = useTranslations("engagement");
   const [thread, setThread] = useState<CommentView[] | null>(null);
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
   const run = async (call: () => Promise<Res>): Promise<Res> => {
@@ -52,9 +57,25 @@ export function Comments({
       toast.error(res.message);
       return;
     }
-    setThread(res.data);
-    onCountChange(visibleCount(res.data));
+    setThread(res.data.items);
+    setNextCursor(res.data.nextCursor);
+    // Total comes from the server-side count until every page is loaded.
+    if (res.data.nextCursor === null) onCountChange(visibleCount(res.data.items));
   };
+
+  const loaded = thread?.length;
+  const loadMore = () =>
+    startTransition(async () => {
+      const res = await run(() => listCommentsAction(target, nextCursor));
+      if (!res.ok) {
+        toast.error(res.message);
+        return;
+      }
+      const items = append(thread ?? [], res.data.items);
+      setThread(items);
+      setNextCursor(res.data.nextCursor);
+      if (res.data.nextCursor === null) onCountChange(visibleCount(items));
+    });
 
   useEffect(() => {
     if (expanded && thread === null) startTransition(async () => apply(await run(() => listCommentsAction(target))));
@@ -64,7 +85,7 @@ export function Comments({
   const send = (body: string, parentId?: string) =>
     new Promise<boolean>((resolve) =>
       startTransition(async () => {
-        const res = await run(() => addCommentAction(target, body, parentId));
+        const res = await run(() => addCommentAction(target, body, parentId, loaded));
         apply(res);
         if (res.ok) onExpand();
         resolve(res.ok);
@@ -87,12 +108,18 @@ export function Comments({
             comment={c}
             busy={pending}
             onReply={(body) => send(body, c.id)}
-            onEdit={(id, body) => startTransition(async () => apply(await run(() => editCommentAction(target, id, body))))}
-            onDelete={(id) => startTransition(async () => apply(await run(() => deleteCommentAction(target, id))))}
+            onEdit={(id, body) => startTransition(async () => apply(await run(() => editCommentAction(target, id, body, loaded))))}
+            onHide={(id, hidden) => startTransition(async () => apply(await run(() => hideCommentAction(target, id, hidden, loaded))))}
+            onDelete={(id) => startTransition(async () => apply(await run(() => deleteCommentAction(target, id, loaded))))}
             canReply={expanded && thread !== null}
           />
         ))}
       </ul>
+      {expanded && nextCursor && (
+        <Button type="button" variant="ghost" size="sm" loading={pending} onClick={loadMore}>
+          {t("loadMore")}
+        </Button>
+      )}
       <Composer
         placeholder={t("placeholder")}
         busy={pending}
@@ -155,6 +182,7 @@ function CommentItem({
   onReply,
   onEdit,
   onDelete,
+  onHide,
   canReply,
   isReply = false,
 }: {
@@ -163,6 +191,7 @@ function CommentItem({
   onReply: (body: string) => Promise<boolean>;
   onEdit: (id: string, body: string) => void;
   onDelete: (id: string) => void;
+  onHide: (id: string, hidden: boolean) => void;
   canReply: boolean;
   isReply?: boolean;
 }) {
@@ -181,6 +210,7 @@ function CommentItem({
           <p className="italic text-muted-foreground">{t("deleted")}</p>
         ) : (
           <>
+            {comment.hidden && <p className="text-xs italic text-muted-foreground">{t("hiddenBadge")}</p>}
             <p className="font-medium">{comment.author.reporter ? t("reporter") : (comment.author.name ?? t("neighbor"))}</p>
             {editing ? (
               <form
@@ -197,6 +227,8 @@ function CommentItem({
                   <Button type="button" size="sm" variant="ghost" onClick={() => setEditing(false)}>{t("cancel")}</Button>
                 </div>
               </form>
+            ) : comment.hidden && !comment.body ? (
+              <p className="italic text-muted-foreground">{t("hiddenPlaceholder")}</p>
             ) : (
               <p className="whitespace-pre-line break-words [overflow-wrap:anywhere]">{comment.body}</p>
             )}
@@ -218,6 +250,11 @@ function CommentItem({
             {t("edit")}
           </button>
         )}
+        {comment.canHide && (
+          <button type="button" className="font-medium hover:underline" disabled={busy} onClick={() => onHide(comment.id, !comment.hidden)}>
+            {comment.hidden ? t("unhide") : t("hide")}
+          </button>
+        )}
         {comment.canDelete &&
           (confirming ? (
             <button type="button" className="font-medium text-destructive hover:underline" onClick={() => onDelete(comment.id)}>
@@ -235,7 +272,7 @@ function CommentItem({
       {comment.replies.length > 0 && (
         <ul className="mt-2 space-y-2">
           {comment.replies.map((r) => (
-            <CommentItem key={r.id} comment={r} busy={busy} onReply={onReply} onEdit={onEdit} onDelete={onDelete} canReply={false} isReply />
+            <CommentItem key={r.id} comment={r} busy={busy} onReply={onReply} onEdit={onEdit} onDelete={onDelete} onHide={onHide} canReply={false} isReply />
           ))}
         </ul>
       )}

@@ -38,28 +38,37 @@ export async function setReactionAction(target: unknown, kind: unknown): Promise
   return run(target, (actor, t) => engagement.setReaction(actor, t, k), true, "invalidReaction");
 }
 
-export async function listCommentsAction(target: unknown) {
-  return run(target, (actor, t) => engagement.listComments(actor, t), false);
+const loadedSchema = z.number().int().min(0).max(1000).optional().catch(undefined);
+const cursorSchema = idSchema.optional().catch(undefined);
+
+export async function listCommentsAction(target: unknown, cursor?: unknown) {
+  return run(target, (actor, t) => engagement.listComments(actor, t, { cursor: cursorSchema.parse(cursor ?? undefined) }), false);
+}
+
+export async function hideCommentAction(target: unknown, commentId: unknown, hidden: unknown, loaded?: unknown) {
+  const id = idSchema.safeParse(commentId);
+  if (!id.success || typeof hidden !== "boolean") return { ok: false as const, message: (await getTranslations("engagement.errors"))("notFound") };
+  return run(target, (actor, t) => engagement.hideComment(actor, t, id.data, hidden, loadedSchema.parse(loaded ?? undefined)));
 }
 
 const text = (v: unknown) => (typeof v === "string" ? v : "");
 
-export async function addCommentAction(target: unknown, body: unknown, parentId?: unknown) {
+export async function addCommentAction(target: unknown, body: unknown, parentId?: unknown, loaded?: unknown) {
   const parent = idSchema.optional().safeParse(parentId ?? undefined);
   if (!parent.success) return { ok: false as const, message: (await getTranslations("engagement.errors"))("invalidRequest") };
-  const res = await run(target, (actor, t) => engagement.addComment(actor, t, { body: text(body), parentId: parent.data }));
+  const res = await run(target, (actor, t) => engagement.addComment(actor, t, { body: text(body), parentId: parent.data, loaded: loadedSchema.parse(loaded ?? undefined) }));
   if (res.ok) after(() => dispatchPending().catch(console.error));
   return res;
 }
 
-export async function editCommentAction(target: unknown, commentId: unknown, body: unknown) {
+export async function editCommentAction(target: unknown, commentId: unknown, body: unknown, loaded?: unknown) {
   const id = idSchema.safeParse(commentId);
   if (!id.success) return { ok: false as const, message: (await getTranslations("engagement.errors"))("notFound") };
-  return run(target, (actor, t) => engagement.editComment(actor, t, id.data, text(body)));
+  return run(target, (actor, t) => engagement.editComment(actor, t, id.data, text(body), loadedSchema.parse(loaded ?? undefined)));
 }
 
-export async function deleteCommentAction(target: unknown, commentId: unknown) {
+export async function deleteCommentAction(target: unknown, commentId: unknown, loaded?: unknown) {
   const id = idSchema.safeParse(commentId);
   if (!id.success) return { ok: false as const, message: (await getTranslations("engagement.errors"))("notFound") };
-  return run(target, (actor, t) => engagement.deleteComment(actor, t, id.data));
+  return run(target, (actor, t) => engagement.deleteComment(actor, t, id.data, loadedSchema.parse(loaded ?? undefined)));
 }

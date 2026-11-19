@@ -58,7 +58,7 @@ it("summarises reactions, comment counts and previews for many targets in one ca
   await addComment(s.neighbor, postT(s.post.id), { body: "1" });
   await addComment(s.neighbor, postT(s.post.id), { body: "2" });
   const thread = await addComment(s.neighbor, postT(s.post.id), { body: "3" });
-  await deleteComment(s.neighbor, postT(s.post.id), thread[0].id); // "1" deleted, no replies
+  await deleteComment(s.neighbor, postT(s.post.id), thread.items[0].id); // "1" deleted, no replies
 
   const map = await engagementSummary(s.author, s.community.id, [postT(s.post.id), postT(second.id)]);
   expect(map[`post:${s.post.id}`]).toMatchObject({
@@ -89,7 +89,7 @@ it("covers reports and lists replies flat in the preview", async () => {
   const rt = { type: "report" as const, id: report.id };
   await setReaction(s.neighbor, rt, "WOW");
   await addComment(s.neighbor, rt, { body: "top" });
-  const [top] = await addComment(s.neighbor, postT(s.post.id), { body: "root" });
+  const [top] = (await addComment(s.neighbor, postT(s.post.id), { body: "root" })).items;
   await addComment(s.author, postT(s.post.id), { body: "reply", parentId: top.id });
 
   const map = await engagementSummary(s.author, s.community.id, [rt, postT(s.post.id)]);

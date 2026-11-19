@@ -1127,6 +1127,11 @@
     "edited": "(edited)",
     "reporter": "Reporter",
     "neighbor": "Neighbor",
+    "loadMore": "Load more comments",
+    "hide": "Hide",
+    "unhide": "Unhide",
+    "hiddenBadge": "Hidden from residents",
+    "hiddenPlaceholder": "This comment was hidden by a moderator",
     "privateThread": "Only you and the management can see this conversation."
   },
   "emails": {

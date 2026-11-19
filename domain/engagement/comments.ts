@@ -5,8 +5,8 @@ import { NotFoundError, UnauthorizedError, ValidationError } from "@/domain/erro
 import { notify } from "@/domain/notifications";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import { maskPerson } from "@/domain/privacy/person";
-import type { Prisma } from "@/lib/generated/prisma";
-import { resolveTarget, targetWhere, type Target } from "./targets";
+import { Role, type Prisma } from "@/lib/generated/prisma";
+import { resolveTarget, targetWhere, type ResolvedTarget, type Target } from "./targets";
 
 export const MAX_COMMENT_LENGTH = 2000;
 
@@ -23,6 +23,8 @@ export type CommentView = {
   parentId: string | null;
   body: string;
   deleted: boolean;
+  hidden: boolean;
+  canHide: boolean;
   createdAt: Date;
   editedAt: Date | null;
   author: { name: string | null; own: boolean; reporter?: boolean };
@@ -30,6 +32,29 @@ export type CommentView = {
   canDelete: boolean;
   replies: CommentView[];
 };
+export type CommentPage = { items: CommentView[]; nextCursor: string | null };
+
+export const DEFAULT_COMMENT_PAGE = 5;
+const MAX_COMMENT_PAGE = 50;
+
+type HideSettings = { receptionCanHideComments: boolean; managerCanHideComments: boolean };
+
+export function viewerCanHide(role: Role | undefined, community: HideSettings): boolean {
+  if (role === Role.ADMIN) return true;
+  if (role === Role.MANAGER) return community.managerCanHideComments;
+  if (role === Role.RECEPTIONIST) return community.receptionCanHideComments;
+  return false;
+}
+
+export async function actorCanHide(actor: SessionUser, communityId: string): Promise<boolean> {
+  const role = actor.memberships.find((m) => m.communityId === communityId)?.role;
+  if (!role || role === Role.RESIDENT) return false;
+  const community = await prisma.community.findUnique({
+    where: { id: communityId },
+    select: { receptionCanHideComments: true, managerCanHideComments: true },
+  });
+  return !!community && viewerCanHide(role, community);
+}
 
 type CommentRow = Prisma.CommentGetPayload<{ include: { author: { select: typeof commentAuthorSelect } } }>;
 
@@ -37,17 +62,21 @@ export function toCommentView(
   c: CommentRow,
   actor: SessionUser,
   viewerIsStaff: boolean,
-  ctx: { maskAsReporterId?: string | null } = {},
+  ctx: { maskAsReporterId?: string | null; canHide?: boolean } = {},
 ): CommentView {
   const p = maskPerson(c.author, actor.id);
   const full = [p.firstName, p.lastName].filter(Boolean).join(" ");
   const own = c.authorId === actor.id;
   const deleted = c.deletedAt !== null;
+  const hidden = c.hiddenAt !== null;
+  const canHide = !!ctx.canHide;
   return {
     id: c.id,
     parentId: c.parentId,
-    body: deleted ? "" : c.body,
+    body: deleted || (hidden && !canHide) ? "" : c.body,
     deleted,
+    hidden: hidden && !deleted,
+    canHide: canHide && !deleted,
     createdAt: c.createdAt,
     editedAt: c.editedAt,
     author: deleted
@@ -55,7 +84,7 @@ export function toCommentView(
       : ctx.maskAsReporterId && c.authorId === ctx.maskAsReporterId && !own && !viewerIsStaff
         ? { name: null, own: false, reporter: true }
         : { name: full || (viewerIsStaff || own ? p.email || null : null), own },
-    canEdit: own && !deleted,
+    canEdit: own && !deleted && !hidden,
     canDelete: !deleted && (own || viewerIsStaff),
     replies: [],
   };
@@ -70,30 +99,55 @@ function cleanBody(body: string) {
 const sameTarget = (c: { postId: string | null; reportId: string | null }, t: Target) =>
   t.type === "post" ? c.postId === t.id : c.reportId === t.id;
 
-export async function listComments(actor: SessionUser, t: Target): Promise<CommentView[]> {
+export async function listComments(
+  actor: SessionUser,
+  t: Target,
+  opts: { cursor?: string; take?: number } = {},
+): Promise<CommentPage> {
   const target = await resolveTarget(actor, t);
-  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
+  return loadThread(actor, t, target, opts);
 }
 
-async function loadThread(actor: SessionUser, t: Target, viewerIsStaff: boolean, reporterId: string | null): Promise<CommentView[]> {
+// ponytail: loads the whole target's comments and pages in memory; move to a keyset query if threads reach thousands.
+async function loadThread(
+  actor: SessionUser,
+  t: Target,
+  target: ResolvedTarget,
+  opts: { cursor?: string; take?: number } = {},
+): Promise<CommentPage> {
+  const reporterId = t.type === "report" ? target.authorId : null;
+  const canHide = await actorCanHide(actor, target.communityId);
   const rows = await prisma.comment.findMany({
     where: targetWhere(t),
     include: { author: { select: commentAuthorSelect } },
     orderBy: [{ createdAt: "asc" }, { id: "asc" }],
   });
+  const ctx = { maskAsReporterId: reporterId, canHide };
   const tops = new Map<string, CommentView>();
-  for (const r of rows) if (!r.parentId) tops.set(r.id, toCommentView(r, actor, viewerIsStaff, { maskAsReporterId: reporterId }));
+  for (const r of rows) if (!r.parentId) tops.set(r.id, toCommentView(r, actor, target.viewerIsStaff, ctx));
   for (const r of rows) {
-    if (r.parentId && !r.deletedAt) tops.get(r.parentId)?.replies.push(toCommentView(r, actor, viewerIsStaff, { maskAsReporterId: reporterId }));
+    if (r.parentId && !r.deletedAt) tops.get(r.parentId)?.replies.push(toCommentView(r, actor, target.viewerIsStaff, ctx));
   }
-  return [...tops.values()].filter((c) => !c.deleted || c.replies.length > 0);
+  let all = [...tops.values()];
+  if (opts.cursor) {
+    const i = all.findIndex((c) => c.id === opts.cursor);
+    all = i < 0 ? [] : all.slice(i + 1);
+  }
+  const visible = all.filter((c) => !c.deleted || c.replies.length > 0);
+  const take = Math.min(Math.max(opts.take ?? DEFAULT_COMMENT_PAGE, 1), MAX_COMMENT_PAGE);
+  const items = visible.slice(0, take);
+  return { items, nextCursor: visible.length > take ? items[items.length - 1].id : null };
 }
+
+// After a mutation the client already shows `loaded` top-level comments; refresh exactly those.
+const refreshed = (actor: SessionUser, t: Target, target: ResolvedTarget, loaded?: number) =>
+  loadThread(actor, t, target, { take: loaded });
 
 export async function addComment(
   actor: SessionUser,
   t: Target,
-  input: { body: string; parentId?: string },
-): Promise<CommentView[]> {
+  input: { body: string; parentId?: string; loaded?: number },
+): Promise<CommentPage> {
   const target = await resolveTarget(actor, t);
   const body = cleanBody(input.body);
   let parent: { authorId: string } | null = null;
@@ -132,7 +186,8 @@ export async function addComment(
       });
     }
   });
-  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
+  // A new top-level comment is the newest, so load everything up to it; replies keep the loaded window.
+  return input.parentId ? refreshed(actor, t, target, input.loaded) : loadThread(actor, t, target, { take: MAX_COMMENT_PAGE });
 }
 
 async function loadComment(t: Target, commentId: string) {
@@ -141,16 +196,17 @@ async function loadComment(t: Target, commentId: string) {
   return c;
 }
 
-export async function editComment(actor: SessionUser, t: Target, commentId: string, body: string) {
+export async function editComment(actor: SessionUser, t: Target, commentId: string, body: string, loaded?: number) {
   const target = await resolveTarget(actor, t);
   const c = await loadComment(t, commentId);
   if (c.authorId !== actor.id) throw new UnauthorizedError(`User ${actor.id} cannot edit comment ${commentId}`);
   if (c.deletedAt) throw new ValidationError("comment was deleted");
+  if (c.hiddenAt) throw new UnauthorizedError(`Comment ${commentId} is hidden`);
   await prisma.comment.update({ where: { id: c.id }, data: { body: cleanBody(body), editedAt: new Date() } });
-  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
+  return refreshed(actor, t, target, loaded);
 }
 
-export async function deleteComment(actor: SessionUser, t: Target, commentId: string) {
+export async function deleteComment(actor: SessionUser, t: Target, commentId: string, loaded?: number) {
   const target = await resolveTarget(actor, t);
   const c = await loadComment(t, commentId);
   const own = c.authorId === actor.id;
@@ -170,5 +226,31 @@ export async function deleteComment(actor: SessionUser, t: Target, commentId: st
       }
     });
   }
-  return loadThread(actor, t, target.viewerIsStaff, t.type === "report" ? target.authorId : null);
+  return refreshed(actor, t, target, loaded);
+}
+
+export async function hideComment(actor: SessionUser, t: Target, commentId: string, hidden: boolean, loaded?: number) {
+  const target = await resolveTarget(actor, t);
+  if (!(await actorCanHide(actor, target.communityId))) {
+    throw new UnauthorizedError(`User ${actor.id} cannot hide comments`);
+  }
+  const c = await loadComment(t, commentId);
+  if (c.deletedAt) throw new ValidationError("comment was deleted");
+  if ((c.hiddenAt !== null) !== hidden) {
+    await prisma.$transaction(async (tx) => {
+      await tx.comment.update({
+        where: { id: c.id },
+        data: hidden ? { hiddenAt: new Date(), hiddenById: actor.id } : { hiddenAt: null, hiddenById: null },
+      });
+      await writeAuditLog(tx, {
+        communityId: target.communityId,
+        userId: actor.id,
+        action: hidden ? "COMMENT_HIDDEN" : "COMMENT_UNHIDDEN",
+        entity: "Comment",
+        entityId: c.id,
+        metadata: { authorId: c.authorId, target: `${t.type}:${t.id}` },
+      });
+    });
+  }
+  return refreshed(actor, t, target, loaded);
 }

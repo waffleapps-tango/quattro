@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import type { SessionUser } from "@/auth/session";
 import { STAFF_ROLES } from "@/domain/packages/roles";
 import type { ReactionSummary } from "@/lib/engagement";
-import { commentAuthorSelect, toCommentView, type CommentView } from "./comments";
+import { actorCanHide, commentAuthorSelect, toCommentView, type CommentView } from "./comments";
 import { targetKey, type Target } from "./targets";
 
 export type EngagementSummary = ReactionSummary & { commentCount: number; preview: CommentView[] };
@@ -40,6 +40,7 @@ export async function engagementSummary(
   const has = (roles: string[]) => !!role && roles.includes(role);
   const postStaff = has(["MANAGER", "ADMIN"]);
   const reportStaff = has(STAFF_ROLES);
+  const canHide = await actorCanHide(actor, communityId);
   const keyOf = (r: { postId: string | null; reportId: string | null }) =>
     r.postId ? `post:${r.postId}` : `report:${r.reportId}`;
 
@@ -56,7 +57,8 @@ export async function engagementSummary(
     s.commentCount++;
     s.preview.push({ ...toCommentView(c, actor, c.postId ? postStaff : reportStaff, {
         maskAsReporterId: c.reportId ? reporterOf.get(c.reportId) : null,
-      }), canEdit: false, canDelete: false });
+        canHide,
+      }), canEdit: false, canDelete: false, canHide: false });
     if (s.preview.length > 2) s.preview.shift();
   }
   return out;
